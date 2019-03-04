@@ -1,0 +1,17 @@
+/Users/Huppert/Projects/SNIRF/SNIRF/bin/Debug/pts1020.xml
+/Users/Huppert/Projects/SNIRF/SNIRF/bin/Debug/DefaultConfig.xml
+/Users/Huppert/Projects/SNIRF/SNIRF/bin/Debug/SNIRF.dll
+/Users/Huppert/Projects/SNIRF/SNIRF/bin/Debug/SNIRF.pdb
+/Users/Huppert/Projects/SNIRF/SNIRF/bin/Debug/CSMatIO.dll
+/Users/Huppert/Projects/SNIRF/SNIRF/bin/Debug/HDF5DotNet.dll
+/Users/Huppert/Projects/SNIRF/SNIRF/bin/Debug/MathNet.Numerics.dll
+/Users/Huppert/Projects/SNIRF/SNIRF/bin/Debug/MonoGame.Framework.dll
+/Users/Huppert/Projects/SNIRF/SNIRF/bin/Debug/zlib.net.dll
+/Users/Huppert/Projects/SNIRF/SNIRF/bin/Debug/CSMatIO.pdb
+/Users/Huppert/Projects/SNIRF/SNIRF/bin/Debug/CSMatIO.xml
+/Users/Huppert/Projects/SNIRF/SNIRF/bin/Debug/MathNet.Numerics.xml
+/Users/Huppert/Projects/SNIRF/SNIRF/bin/Debug/MonoGame.Framework.xml
+/Users/Huppert/Projects/SNIRF/SNIRF/obj/Debug/SNIRF.csproj.CoreCompileInputs.cache
+/Users/Huppert/Projects/SNIRF/SNIRF/obj/Debug/SNIRF.csproj.CopyComplete
+/Users/Huppert/Projects/SNIRF/SNIRF/obj/Debug/SNIRF.dll
+/Users/Huppert/Projects/SNIRF/SNIRF/obj/Debug/SNIRF.pdb

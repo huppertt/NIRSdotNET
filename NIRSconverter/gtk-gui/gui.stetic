@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<stetic-interface>
+  <configuration>
+    <images-root-path>..</images-root-path>
+  </configuration>
+  <import>
+    <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <widget-library name="../../SNIRF/bin/Debug/SNIRF.dll" />
+    <widget-library name="../bin/Debug/NIRSconverter.exe" internal="true" />
+  </import>
+  <widget class="Gtk.Window" id="MainWindow" design-size="609 492">
+    <action-group name="Default">
+      <action id="FileAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">File</property>
+        <property name="ShortLabel" translatable="yes">File</property>
+      </action>
+      <action id="LoadDataAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Load Data</property>
+        <property name="ShortLabel" translatable="yes">Load Data</property>
+      </action>
+      <action id="LoadNirsAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Load *.nirs</property>
+        <property name="ShortLabel" translatable="yes">Load *.nirs</property>
+        <signal name="Activated" handler="LoadDOTNIRS" />
+      </action>
+      <action id="LoadSnirfAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Load *.snirf</property>
+        <property name="ShortLabel" translatable="yes">Load *.snirf</property>
+        <signal name="Activated" handler="LoadSNIRF" />
+      </action>
+      <action id="SaveDataAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Save Data</property>
+        <property name="ShortLabel" translatable="yes">Save Data</property>
+      </action>
+      <action id="SaveNirsAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Save *.nirs</property>
+        <property name="ShortLabel" translatable="yes">Save *.nirs</property>
+        <signal name="Activated" handler="SaveDOTnirs" />
+      </action>
+      <action id="SaveSnirfAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Save *.snirf</property>
+        <property name="ShortLabel" translatable="yes">Save *.snirf</property>
+        <signal name="Activated" handler="SaveSNIRF" />
+      </action>
+      <action id="ExitAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Exit</property>
+        <property name="ShortLabel" translatable="yes">Exit</property>
+        <signal name="Activated" handler="Exit" />
+      </action>
+      <action id="LoadNIRxAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Load NIRx</property>
+        <property name="ShortLabel" translatable="yes">Load NIRx</property>
+        <signal name="Activated" handler="LoadNIRx" />
+      </action>
+    </action-group>
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">NIRS Type Converter</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <property name="BorderWidth">4</property>
+    <signal name="DeleteEvent" handler="OnDeleteEvent" />
+    <child>
+      <widget class="Gtk.VBox" id="vbox3">
+        <property name="MemberName" />
+        <property name="Spacing">6</property>
+        <child>
+          <widget class="Gtk.MenuBar" id="menubar1">
+            <property name="MemberName" />
+            <node name="menubar1" type="Menubar">
+              <node type="Menu" action="FileAction">
+                <node type="Menu" action="LoadDataAction">
+                  <node type="Menuitem" action="LoadNirsAction" />
+                  <node type="Menuitem" action="LoadSnirfAction" />
+                  <node type="Menuitem" action="LoadNIRxAction" />
+                </node>
+                <node type="Menu" action="SaveDataAction">
+                  <node type="Menuitem" action="SaveNirsAction" />
+                  <node type="Menuitem" action="SaveSnirfAction" />
+                </node>
+                <node type="Menuitem" action="ExitAction" />
+              </node>
+            </node>
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.HBox" id="hbox1">
+            <property name="MemberName" />
+            <property name="Spacing">6</property>
+            <child>
+              <widget class="Gtk.DrawingArea" id="drawingarea_main">
+                <property name="MemberName" />
+                <property name="WidthRequest">197</property>
+              </widget>
+              <packing>
+                <property name="Position">0</property>
+                <property name="AutoSize">True</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.VSeparator" id="vseparator1">
+                <property name="MemberName" />
+              </widget>
+              <packing>
+                <property name="Position">1</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.VBox" id="vbox1">
+                <property name="MemberName" />
+                <property name="Spacing">6</property>
+                <child>
+                  <widget class="Gtk.DrawingArea" id="drawingareaSDG">
+                    <property name="MemberName" />
+                    <property name="WidthRequest">225</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">0</property>
+                    <property name="AutoSize">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.HSeparator" id="hseparator1">
+                    <property name="MemberName" />
+                  </widget>
+                  <packing>
+                    <property name="Position">1</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.ComboBox" id="combobox1">
+                    <property name="MemberName" />
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes" />
+                    <signal name="Changed" handler="ChangeData" />
+                  </widget>
+                  <packing>
+                    <property name="Position">2</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Notebook" id="notebook1">
+                    <property name="MemberName" />
+                    <property name="CanFocus">True</property>
+                    <property name="CurrentPage">0</property>
+                    <child>
+                      <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
+                        <property name="MemberName" />
+                        <property name="ShadowType">In</property>
+                        <child>
+                          <widget class="Gtk.TextView" id="textFileInfo">
+                            <property name="MemberName" />
+                            <property name="CanFocus">True</property>
+                            <property name="ShowScrollbars">True</property>
+                            <property name="Text" translatable="yes" />
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Label" id="label1">
+                        <property name="MemberName" />
+                        <property name="LabelProp" translatable="yes">File Info</property>
+                      </widget>
+                      <packing>
+                        <property name="type">tab</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow1">
+                        <property name="MemberName" />
+                        <property name="ShadowType">In</property>
+                        <child>
+                          <widget class="Gtk.TextView" id="textEventInfo">
+                            <property name="MemberName" />
+                            <property name="CanFocus">True</property>
+                            <property name="ShowScrollbars">True</property>
+                            <property name="Text" translatable="yes" />
+                          </widget>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="Position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Label" id="label3">
+                        <property name="MemberName" />
+                        <property name="LabelProp" translatable="yes">Events</property>
+                      </widget>
+                      <packing>
+                        <property name="type">tab</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="Position">3</property>
+                    <property name="AutoSize">True</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="Position">2</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">1</property>
+            <property name="AutoSize">True</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+</stetic-interface>

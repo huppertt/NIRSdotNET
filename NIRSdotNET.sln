@@ -1,0 +1,76 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIRSdotNET", "SNIRF\NIRSdotNET.csproj", "{66CEE40B-4A70-4432-A819-AA5C63994685}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIRSconverter", "NIRSconverter\NIRSconverter.csproj", "{19F6F3CF-461E-4693-A268-1202C7BF7043}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HDF.PInvoke", "..\..\Desktop\HDF.PInvoke-master\HDF.PInvoke.csproj", "{4450F800-93E2-4D4A-B224-966E2338CDED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		HDF5 1.8 Debug|Any CPU = HDF5 1.8 Debug|Any CPU
+		HDF5 1.8 Release|Any CPU = HDF5 1.8 Release|Any CPU
+		HDF5 1.10 Debug|Any CPU = HDF5 1.10 Debug|Any CPU
+		HDF5 1.10 Release|Any CPU = HDF5 1.10 Release|Any CPU
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{66CEE40B-4A70-4432-A819-AA5C63994685}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66CEE40B-4A70-4432-A819-AA5C63994685}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66CEE40B-4A70-4432-A819-AA5C63994685}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66CEE40B-4A70-4432-A819-AA5C63994685}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66CEE40B-4A70-4432-A819-AA5C63994685}.HDF5 1.8 Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66CEE40B-4A70-4432-A819-AA5C63994685}.HDF5 1.8 Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66CEE40B-4A70-4432-A819-AA5C63994685}.HDF5 1.8 Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{66CEE40B-4A70-4432-A819-AA5C63994685}.HDF5 1.8 Release|Any CPU.Build.0 = Debug|Any CPU
+		{66CEE40B-4A70-4432-A819-AA5C63994685}.HDF5 1.10 Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66CEE40B-4A70-4432-A819-AA5C63994685}.HDF5 1.10 Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66CEE40B-4A70-4432-A819-AA5C63994685}.HDF5 1.10 Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{66CEE40B-4A70-4432-A819-AA5C63994685}.HDF5 1.10 Release|Any CPU.Build.0 = Debug|Any CPU
+		{66CEE40B-4A70-4432-A819-AA5C63994685}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{66CEE40B-4A70-4432-A819-AA5C63994685}.Debug|x64.Build.0 = Debug|Any CPU
+		{66CEE40B-4A70-4432-A819-AA5C63994685}.Release|x64.ActiveCfg = Release|Any CPU
+		{66CEE40B-4A70-4432-A819-AA5C63994685}.Release|x64.Build.0 = Release|Any CPU
+		{19F6F3CF-461E-4693-A268-1202C7BF7043}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19F6F3CF-461E-4693-A268-1202C7BF7043}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19F6F3CF-461E-4693-A268-1202C7BF7043}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19F6F3CF-461E-4693-A268-1202C7BF7043}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19F6F3CF-461E-4693-A268-1202C7BF7043}.HDF5 1.8 Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19F6F3CF-461E-4693-A268-1202C7BF7043}.HDF5 1.8 Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19F6F3CF-461E-4693-A268-1202C7BF7043}.HDF5 1.8 Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{19F6F3CF-461E-4693-A268-1202C7BF7043}.HDF5 1.8 Release|Any CPU.Build.0 = Debug|Any CPU
+		{19F6F3CF-461E-4693-A268-1202C7BF7043}.HDF5 1.10 Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19F6F3CF-461E-4693-A268-1202C7BF7043}.HDF5 1.10 Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19F6F3CF-461E-4693-A268-1202C7BF7043}.HDF5 1.10 Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{19F6F3CF-461E-4693-A268-1202C7BF7043}.HDF5 1.10 Release|Any CPU.Build.0 = Debug|Any CPU
+		{19F6F3CF-461E-4693-A268-1202C7BF7043}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{19F6F3CF-461E-4693-A268-1202C7BF7043}.Debug|x64.Build.0 = Debug|Any CPU
+		{19F6F3CF-461E-4693-A268-1202C7BF7043}.Release|x64.ActiveCfg = Release|Any CPU
+		{19F6F3CF-461E-4693-A268-1202C7BF7043}.Release|x64.Build.0 = Release|Any CPU
+		{4450F800-93E2-4D4A-B224-966E2338CDED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4450F800-93E2-4D4A-B224-966E2338CDED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4450F800-93E2-4D4A-B224-966E2338CDED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4450F800-93E2-4D4A-B224-966E2338CDED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4450F800-93E2-4D4A-B224-966E2338CDED}.HDF5 1.8 Debug|Any CPU.ActiveCfg = HDF5 1.8 Debug|Any CPU
+		{4450F800-93E2-4D4A-B224-966E2338CDED}.HDF5 1.8 Debug|Any CPU.Build.0 = HDF5 1.8 Debug|Any CPU
+		{4450F800-93E2-4D4A-B224-966E2338CDED}.HDF5 1.8 Release|Any CPU.ActiveCfg = HDF5 1.8 Release|Any CPU
+		{4450F800-93E2-4D4A-B224-966E2338CDED}.HDF5 1.8 Release|Any CPU.Build.0 = HDF5 1.8 Release|Any CPU
+		{4450F800-93E2-4D4A-B224-966E2338CDED}.HDF5 1.10 Debug|Any CPU.ActiveCfg = HDF5 1.10 Debug|Any CPU
+		{4450F800-93E2-4D4A-B224-966E2338CDED}.HDF5 1.10 Debug|Any CPU.Build.0 = HDF5 1.10 Debug|Any CPU
+		{4450F800-93E2-4D4A-B224-966E2338CDED}.HDF5 1.10 Release|Any CPU.ActiveCfg = HDF5 1.10 Release|Any CPU
+		{4450F800-93E2-4D4A-B224-966E2338CDED}.HDF5 1.10 Release|Any CPU.Build.0 = HDF5 1.10 Release|Any CPU
+		{4450F800-93E2-4D4A-B224-966E2338CDED}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4450F800-93E2-4D4A-B224-966E2338CDED}.Debug|x64.Build.0 = Debug|Any CPU
+		{4450F800-93E2-4D4A-B224-966E2338CDED}.Release|x64.ActiveCfg = Release|Any CPU
+		{4450F800-93E2-4D4A-B224-966E2338CDED}.Release|x64.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.StandardHeader = $1
+		$0.VersionControlPolicy = $2
+	EndGlobalSection
+EndGlobal
