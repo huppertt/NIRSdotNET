@@ -24,7 +24,6 @@
 /Users/Huppert/Projects/NIRSdotNET/NIRSconverter/bin/Debug/csmatio.dll
 /Users/Huppert/Projects/NIRSdotNET/NIRSconverter/bin/Debug/SNIRF.pdb
 /Users/Huppert/Projects/NIRSdotNET/NIRSconverter/bin/Debug/HDF.PInvoke.pdb
-/Users/Huppert/Projects/NIRSdotNET/NIRSconverter/bin/Debug/HDF.PInvoke.xml
 /Users/Huppert/Projects/NIRSdotNET/NIRSconverter/bin/Debug/HDF.PInvoke.dll.config
 /Users/Huppert/Projects/NIRSdotNET/NIRSconverter/obj/Debug/NIRSconverter.csprojAssemblyReference.cache
 /Users/Huppert/Projects/NIRSdotNET/NIRSconverter/obj/Debug/NIRSconverter.csproj.CoreCompileInputs.cache

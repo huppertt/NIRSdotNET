@@ -21,7 +21,7 @@ namespace nirs
         {
             core.Data data = new core.Data();
 
-            filename = filename.Substring(0, filename.IndexOf(".wl1"));
+            filename = filename.Substring(0, filename.IndexOf(".wl1", StringComparison.Ordinal));
 
             // Read the header file
             List<string> hdrFields = new List<string>();
@@ -31,7 +31,7 @@ namespace nirs
             while ((line = file.ReadLine()) != null)
             {
                 if(line.Contains("=")){
-                    int found = line.IndexOf("=");
+                    int found = line.IndexOf("=", StringComparison.Ordinal);
                     hdrFields.Add(line.Substring(0, found));
                     string value = line.Substring(found + 1);
                     if(value.Contains("#")){
@@ -70,14 +70,21 @@ namespace nirs
 
             MLDouble coords_s2 = (probes["coords_s2"] as MLDouble);
             MLDouble coords_d2 = (probes["coords_d2"] as MLDouble);
+            MLDouble coords_c2 = (probes["coords_c2"] as MLDouble);
+
             double[][] srcpos = coords_s2.GetArray();
             double[][] detpos = coords_d2.GetArray();
+            double[][] landpos = coords_c2.GetArray();
 
             // TODO read all the 3D stuff too
             MLDouble coords_s3 = (probes["coords_s3"] as MLDouble);
             MLDouble coords_d3 = (probes["coords_d3"] as MLDouble);
+            MLDouble coords_c3 = (probes["coords_c3"] as MLDouble);
+
             double[][] srcpos3D = coords_s3.GetArray();
             double[][] detpos3D = coords_d3.GetArray();
+            double[][] landpos3D = coords_c3.GetArray();
+
 
             data.probe.numSrc = srcpos.Length;
             data.probe.numDet = detpos.Length;
@@ -103,6 +110,16 @@ namespace nirs
                 data.probe.SourceLabels[i] = string.Format("Source-{0}", i + 1);
                 }
 
+            data.probe.LandmarkPos = new double[landpos.Length, 3];
+            data.probe.LandmarkLabels = new string[landpos.Length];
+            for (int i = 0; i < landpos.Length; i++)
+            {
+                data.probe.LandmarkPos[i, 0] = (float)landpos[i][0];
+                data.probe.LandmarkPos[i, 1] = (float)landpos[i][1];
+                data.probe.LandmarkPos[i, 2] = 0;
+                data.probe.LandmarkLabels[i] = string.Format("Landmark(temp)-{0}", i + 1);
+            }
+
 
             data.probe.DetPos3D = new double[detpos3D.Length, 3];
             for (int i = 0; i < detpos3D.Length; i++)
@@ -121,6 +138,16 @@ namespace nirs
                 data.probe.SrcPos3D[i, 2] = (double)srcpos3D[i][2];
 
             }
+            data.probe.LandmarkPos3D = new double[landpos.Length, 3];
+            for (int i = 0; i < landpos.Length; i++)
+            {
+                data.probe.LandmarkPos3D[i, 0] = (float)landpos3D[i][0];
+                data.probe.LandmarkPos3D[i, 1] = (float)landpos3D[i][1];
+                data.probe.LandmarkPos3D[i, 2] = (float)landpos3D[i][2];
+            }
+            data.probe.isregistered = true;
+
+
 
             int LambdaIdx = hdrFields.IndexOf("Wavelengths");
             string[] lam = hdrValues[LambdaIdx].Split('\t');
@@ -238,11 +265,67 @@ namespace nirs
             for (int i = 0; i < data.numsamples; i++){
                 data.time[i] = i/fs;
             }
-           
+
 
             // TODO add stimulus information
-            // TODO add demographics info
-            // TODO add landmark points
+            int EventIdx = hdrFields.IndexOf("Events");
+            string[] eventline = hdrValues[EventIdx].Split('\r');
+            double[,] events = new double[eventline.Length-1,3];
+
+            for (int i = 1; i < eventline.Length; i++)
+            {
+                string[] eventline2 = eventline[i].Split('\t');
+                for (int j = 0; j < 2; j++){
+                    events[i-1, j] = Convert.ToDouble(eventline2[j]);
+                }
+            }
+            List<double> uniqEvents = new List<double>();
+            int[] uniqEventCount = new int[events.GetLength(0)];
+            for (int i = 0; i < events.GetLength(0); i++){
+                uniqEventCount[i] = 0;
+                if (!uniqEvents.Contains(events[i,1])){
+                    uniqEvents.Add(events[i, 1]);
+                   
+                }
+                int ii = uniqEvents.IndexOf(events[i, 1]);
+                uniqEventCount[ii]++;
+            }
+
+            data.stimulus = new Stimulus[uniqEvents.Count];
+            for (int i = 0; i < uniqEvents.Count; i++){
+                data.stimulus[i] = new Stimulus();
+                data.stimulus[i].name = String.Format("Event-{0}", uniqEvents[i]);
+                data.stimulus[i].onsets = new double[uniqEventCount[i]];
+                data.stimulus[i].duration = new double[uniqEventCount[i]];
+                data.stimulus[i].amplitude = new double[uniqEventCount[i],1];
+
+                int n = 0;
+                for (int j = 0; j < events.GetLength(0); j++){
+                    if(Math.Abs(events[j,1]-uniqEvents[i])<0.0001){
+                        data.stimulus[i].onsets[n] = events[j, 0];
+                        data.stimulus[i].duration[n] = 1;
+                        data.stimulus[i].amplitude[n,0] = 1;
+                        n++;
+                    }
+                }
+
+
+            }
+
+
+
+
+            //add demographics info
+            List<string> Fields = new List<string>(){
+            "Subject","notes","FileName","Date","Device","Source",
+                "Mod","APD","NIRStar","Mod Amp"};
+
+            for (int i = 0; i < Fields.Count; i++){
+                int idx = hdrFields.IndexOf(Fields[i]);
+                if(idx>-1){
+                    data.demographics.set(Fields[i], hdrValues[idx]);
+                }
+            }
 
 
             data.description = targetDirectory;

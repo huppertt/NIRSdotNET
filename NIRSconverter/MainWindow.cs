@@ -3,6 +3,7 @@ using Gtk;
 using nirs;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Linq;
 
 /*
  * This is a simple file type conversion program.  This loads NIRS data using my 
@@ -75,10 +76,37 @@ public partial class MainWindow : Gtk.Window
                                        data.description,
                                        data.numsamples,
                                        data.probe.numChannels);
+        fileInfo = fileInfo + "\n-----------------------------\nDemographics:";
+        for (int i = 0; i < data.demographics.length(); i++)
+        {
+            fileInfo = fileInfo + String.Format("\n{0} : {1}", data.demographics.Keys[i],
+                                                data.demographics.get(data.demographics.Keys[i]));
+        }
+
+
+
+
         this.textFileInfo.Buffer.Text = fileInfo;
 
-        string eventInfo = "No events implimented";
+        string eventInfo = "Stimulus information";
+        for (int i = 0; i < data.stimulus.Length; i++){
+            eventInfo = eventInfo + String.Format("\n{0}:\n\t {1} events\n\t {2}-{3}s",
+                                                data.stimulus[i].name, data.stimulus[i].onsets.Length,
+                                                data.stimulus[i].onsets.Min(), data.stimulus[i].onsets.Max());
+
+        }
+
         this.textEventInfo.Buffer.Text = eventInfo;
+
+        if(data.probe.isregistered){
+            this.ViewAction.Visible = true;
+        }else{
+            this.ViewAction.Visible = false;
+            this.TwoDimensionalAction.Active = true;
+            this.TenTwentyViewAction.Active = false;
+
+        }
+
 
         return;
     }
@@ -91,6 +119,12 @@ public partial class MainWindow : Gtk.Window
         if (data.data == null)
         {
             return;
+        }
+
+        if(this.TwoDimensionalAction.Active){
+            data.probe.default_display = probedisplay.TwoDimensional;
+        }else{
+            data.probe.default_display = probedisplay.TenTwenty;
         }
 
         data.probe.draw(this.drawingareaSDG.GdkWindow);
@@ -316,5 +350,24 @@ public partial class MainWindow : Gtk.Window
         return;
     }
 
-   
+    protected void changeview(object o, ChangedArgs args)
+    {
+        if (data.data == null)
+        {
+            return;
+        }
+
+        if (this.TwoDimensionalAction.Active)
+        {
+            data.probe.default_display = probedisplay.TwoDimensional;
+        }
+        else
+        {
+            data.probe.default_display = probedisplay.TenTwenty;
+        }
+
+        data.probe.draw(this.drawingareaSDG.GdkWindow);
+        this.drawingareaSDG.QueueDraw();
+        return;
+    }
 }

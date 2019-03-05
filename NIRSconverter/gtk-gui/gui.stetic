@@ -61,6 +61,31 @@
         <property name="ShortLabel" translatable="yes">Load NIRx</property>
         <signal name="Activated" handler="LoadNIRx" />
       </action>
+      <action id="ViewAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">View</property>
+        <property name="ShortLabel" translatable="yes">View</property>
+      </action>
+      <action id="TwoDimensionalAction">
+        <property name="Type">Radio</property>
+        <property name="Label" translatable="yes">Two-dimensional</property>
+        <property name="ShortLabel" translatable="yes">Two-dimensional</property>
+        <property name="DrawAsRadio">False</property>
+        <property name="Active">True</property>
+        <property name="Value">0</property>
+        <property name="Group">group1</property>
+        <signal name="Changed" handler="changeview" />
+      </action>
+      <action id="TenTwentyViewAction">
+        <property name="Type">Radio</property>
+        <property name="Label" translatable="yes">10-20 view</property>
+        <property name="ShortLabel" translatable="yes">10-20 view</property>
+        <property name="DrawAsRadio">False</property>
+        <property name="Active">False</property>
+        <property name="Value">0</property>
+        <property name="Group">group1</property>
+        <signal name="Changed" handler="changeview" />
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">NIRS Type Converter</property>
@@ -86,6 +111,10 @@
                   <node type="Menuitem" action="SaveSnirfAction" />
                 </node>
                 <node type="Menuitem" action="ExitAction" />
+              </node>
+              <node type="Menu" action="ViewAction">
+                <node type="Menuitem" action="TwoDimensionalAction" />
+                <node type="Menuitem" action="TenTwentyViewAction" />
               </node>
             </node>
           </widget>

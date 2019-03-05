@@ -23,6 +23,12 @@ public partial class MainWindow
 
 	private global::Gtk.Action LoadNIRxAction;
 
+	private global::Gtk.Action ViewAction;
+
+	private global::Gtk.RadioAction TwoDimensionalAction;
+
+	private global::Gtk.RadioAction TenTwentyViewAction;
+
 	private global::Gtk.VBox vbox3;
 
 	private global::Gtk.MenuBar menubar1;
@@ -88,6 +94,17 @@ public partial class MainWindow
 		this.LoadNIRxAction = new global::Gtk.Action("LoadNIRxAction", global::Mono.Unix.Catalog.GetString("Load NIRx"), null, null);
 		this.LoadNIRxAction.ShortLabel = global::Mono.Unix.Catalog.GetString("Load NIRx");
 		w1.Add(this.LoadNIRxAction, null);
+		this.ViewAction = new global::Gtk.Action("ViewAction", global::Mono.Unix.Catalog.GetString("View"), null, null);
+		this.ViewAction.ShortLabel = global::Mono.Unix.Catalog.GetString("View");
+		w1.Add(this.ViewAction, null);
+		this.TwoDimensionalAction = new global::Gtk.RadioAction("TwoDimensionalAction", global::Mono.Unix.Catalog.GetString("Two-dimensional"), null, null, 0);
+		this.TwoDimensionalAction.Group = new global::GLib.SList(global::System.IntPtr.Zero);
+		this.TwoDimensionalAction.ShortLabel = global::Mono.Unix.Catalog.GetString("Two-dimensional");
+		w1.Add(this.TwoDimensionalAction, null);
+		this.TenTwentyViewAction = new global::Gtk.RadioAction("TenTwentyViewAction", global::Mono.Unix.Catalog.GetString("10-20 view"), null, null, 0);
+		this.TenTwentyViewAction.Group = this.TwoDimensionalAction.Group;
+		this.TenTwentyViewAction.ShortLabel = global::Mono.Unix.Catalog.GetString("10-20 view");
+		w1.Add(this.TenTwentyViewAction, null);
 		this.UIManager.InsertActionGroup(w1, 0);
 		this.AddAccelGroup(this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
@@ -99,7 +116,7 @@ public partial class MainWindow
 		this.vbox3.Name = "vbox3";
 		this.vbox3.Spacing = 6;
 		// Container child vbox3.Gtk.Box+BoxChild
-		this.UIManager.AddUiFromString(@"<ui><menubar name='menubar1'><menu name='FileAction' action='FileAction'><menu name='LoadDataAction' action='LoadDataAction'><menuitem name='LoadNirsAction' action='LoadNirsAction'/><menuitem name='LoadSnirfAction' action='LoadSnirfAction'/><menuitem name='LoadNIRxAction' action='LoadNIRxAction'/></menu><menu name='SaveDataAction' action='SaveDataAction'><menuitem name='SaveNirsAction' action='SaveNirsAction'/><menuitem name='SaveSnirfAction' action='SaveSnirfAction'/></menu><menuitem name='ExitAction' action='ExitAction'/></menu></menubar></ui>");
+		this.UIManager.AddUiFromString(@"<ui><menubar name='menubar1'><menu name='FileAction' action='FileAction'><menu name='LoadDataAction' action='LoadDataAction'><menuitem name='LoadNirsAction' action='LoadNirsAction'/><menuitem name='LoadSnirfAction' action='LoadSnirfAction'/><menuitem name='LoadNIRxAction' action='LoadNIRxAction'/></menu><menu name='SaveDataAction' action='SaveDataAction'><menuitem name='SaveNirsAction' action='SaveNirsAction'/><menuitem name='SaveSnirfAction' action='SaveSnirfAction'/></menu><menuitem name='ExitAction' action='ExitAction'/></menu><menu name='ViewAction' action='ViewAction'><menuitem name='TwoDimensionalAction' action='TwoDimensionalAction'/><menuitem name='TenTwentyViewAction' action='TenTwentyViewAction'/></menu></menubar></ui>");
 		this.menubar1 = ((global::Gtk.MenuBar)(this.UIManager.GetWidget("/menubar1")));
 		this.menubar1.Name = "menubar1";
 		this.vbox3.Add(this.menubar1);
@@ -218,6 +235,8 @@ public partial class MainWindow
 		this.SaveSnirfAction.Activated += new global::System.EventHandler(this.SaveSNIRF);
 		this.ExitAction.Activated += new global::System.EventHandler(this.Exit);
 		this.LoadNIRxAction.Activated += new global::System.EventHandler(this.LoadNIRx);
+		this.TwoDimensionalAction.Changed += new global::Gtk.ChangedHandler(this.changeview);
+		this.TenTwentyViewAction.Changed += new global::Gtk.ChangedHandler(this.changeview);
 		this.combobox1.Changed += new global::System.EventHandler(this.ChangeData);
 	}
 }

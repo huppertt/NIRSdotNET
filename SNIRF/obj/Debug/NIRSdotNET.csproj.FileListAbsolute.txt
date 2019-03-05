@@ -52,7 +52,6 @@
 /Users/Huppert/Projects/NIRSdotNET/SNIRF/bin/Debug/MonoGame.Framework.dll
 /Users/Huppert/Projects/NIRSdotNET/SNIRF/bin/Debug/zlib.net.dll
 /Users/Huppert/Projects/NIRSdotNET/SNIRF/bin/Debug/HDF.PInvoke.pdb
-/Users/Huppert/Projects/NIRSdotNET/SNIRF/bin/Debug/HDF.PInvoke.xml
 /Users/Huppert/Projects/NIRSdotNET/SNIRF/bin/Debug/HDF.PInvoke.dll.config
 /Users/Huppert/Projects/NIRSdotNET/SNIRF/bin/Debug/MathNet.Numerics.xml
 /Users/Huppert/Projects/NIRSdotNET/SNIRF/bin/Debug/MonoGame.Framework.xml

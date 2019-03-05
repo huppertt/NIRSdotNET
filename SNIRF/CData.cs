@@ -153,6 +153,9 @@ namespace nirs
                         if (stimulus[j].amplitude[k,0] > 0 & stimulus[j].onsets[k] +stimulus[j].duration[k] >= this.time[startIdx])
                         {
                             area.Width = (int)(stimulus[j].duration[k] / rangeX * width);
+                            if(area.Width==0){
+                                area.Width = 1;
+                            }
                             area.Height = height;
                             area.X = (int)(xoffset + Math.Max((stimulus[j].onsets[k]- this.time[startIdx]), 0) / rangeX * width);
                             area.Y = yoffset;
