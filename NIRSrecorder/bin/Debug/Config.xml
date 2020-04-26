@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+    
+    <debug> true </debug>
+    
+    <default_folders>
+        <datadir>/Users/theodorehuppert/Desktop/NIRSRecordIR/Data</datadir>
+        <probedir>/Users/theodorehuppert/Desktop/NIRSRecordIR/Probe</probedir>
+    </default_folders>
+    
+    <systemtype> Simulator </systemtype>
+    
+</config>
+
+
+        
+            

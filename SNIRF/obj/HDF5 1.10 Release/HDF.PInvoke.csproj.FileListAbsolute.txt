@@ -1,0 +1,1 @@
+/Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/obj/HDF5 1.10 Release/HDF.PInvoke.csproj.CoreCompileInputs.cache

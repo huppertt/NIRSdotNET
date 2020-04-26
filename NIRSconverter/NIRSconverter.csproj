@@ -64,10 +64,6 @@
       <Project>{66CEE40B-4A70-4432-A819-AA5C63994685}</Project>
       <Name>NIRSdotNET</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Desktop\HDF.PInvoke-master\HDF.PInvoke.csproj">
-      <Project>{4450F800-93E2-4D4A-B224-966E2338CDED}</Project>
-      <Name>HDF.PInvoke</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

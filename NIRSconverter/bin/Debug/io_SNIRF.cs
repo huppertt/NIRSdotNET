@@ -1,11 +1,13 @@
 ﻿#define HDF5_VER1_10
 using System;
 using HDF.PInvoke;
+
+
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 
 #if HDF5_VER1_10
-using hid_t = System.Int64;
+    using hid_t = System.Int64;
 #else
     using hid_t = System.Int32;
 #endif
@@ -19,24 +21,42 @@ namespace nirs
 {
     public static partial class io
     {  // methods devoted to file I/O
-        public static void writeSNIRF(core.Data data, string filename)
+
+        public static void writeSNIRF(core.Data[] data, string filename, int nirs_index = -1)
         {
-            int data_index = 0;
+
+            for(int i=0; i<data.Length; i++)
+            {
+                writeSNIRF(data[i],filename, nirs_index, i);
+            }
+
+        }
+
+
+        public static void writeSNIRF(core.Data data, string filename,int nirs_index=-1, int data_index=0)
+        {
             hid_t tmp;
             hid_t fileId = H5F.create(filename, H5F.ACC_TRUNC);
+            hid_t IDnirs;
 
-
-            hid_t IDnirs = H5G.create(fileId, "/nirs");
+            if (nirs_index == -1)
+            {
+               IDnirs = H5G.create(fileId, "/nirs");
+            }else
+            {
+               IDnirs = H5G.create(fileId, String.Format("/nirs{0}",nirs_index));
+            }
            
             // formatVersion-  [string] = "1.0"
             tmp = nirs.io.AddDataString(IDnirs,"formatVersion","1.0");
 
-            tmp = nirs.io.AddDataValue(IDnirs, "dataCount", 1);
+            tmp = nirs.io.AddDataValue(IDnirs, "dataCount", data_index+1);
             hid_t IDdata = H5G.create(IDnirs, String.Format("data{0}",data_index));
 
             tmp = nirs.io.AddDataArray(IDdata, "dataTimeSeries", data.data);
             // data_#/time [numeric]  time x 1
             tmp = nirs.io.AddDataVector(IDdata, "time", data.time);
+
 
             List<double> lambda = new List<double>();
             for (int i = 0; i < data.probe.numChannels; i++){
@@ -48,10 +68,10 @@ namespace nirs
 
 
             hid_t[] IDmeas = new hid_t[data.probe.numChannels];
-            tmp = nirs.io.AddDataValue(IDdata, "measurementListCount", data.probe.numChannels);
+            tmp = nirs.io.AddDataValue(IDnirs, "measurementListCount", data.probe.numChannels);
             for (int ch = 0; ch < data.probe.numChannels; ch++)
             {
-                IDmeas[ch] = H5G.create(IDdata, String.Format("measurementList{0}",ch));
+                IDmeas[ch] = H5G.create(IDnirs, String.Format("measurementList{0}",ch));
                 //data_#/measurementList_#/sourceIndex [int; index from 1]
                 tmp = nirs.io.AddDataValue(IDmeas[ch],"sourceIndex",data.probe.ChannelMap[ch].sourceindex + 1);
                 //data_#/measurementList_#detectorIndex [int; index from 1]
@@ -113,7 +133,7 @@ namespace nirs
             }
 
 
-            hid_t probeIdx = H5G.create(IDdata, "probe");
+            hid_t probeIdx = H5G.create(IDnirs, "probe"); // used to be IDdata
 
             double[] wav = new double[lambda.Count];
             for (int i = 0; i < lambda.Count; i++){
@@ -183,10 +203,10 @@ namespace nirs
 
 
             // misc string pairs
-            tmp = nirs.io.AddDataValue(IDdata, "metaDataTagCount", data.demographics.Keys.Count);
+            tmp = nirs.io.AddDataValue(IDnirs, "metaDataTagCount", data.demographics.Keys.Count);
             for (int i = 0; i < data.demographics.Keys.Count; i++){
 
-                hid_t metaIdx = H5G.create(IDdata, String.Format("metaDataTags{0}",i));
+                hid_t metaIdx = H5G.create(IDnirs, String.Format("metaDataTags{0}",i));
                 tmp = nirs.io.AddDataString(metaIdx, "name",
                                          data.demographics.Keys[i]);
                 tmp = nirs.io.AddDataString(metaIdx, "value",
@@ -304,7 +324,7 @@ namespace nirs
             H5D.write(dataSetId, type, H5S.ALL, H5S.ALL, H5P.DEFAULT, hnd.AddrOfPinnedObject());
             hnd.Free();
             H5D.close(dataSetId);
-
+            
             return dataSetId;
         }
 
@@ -316,8 +336,8 @@ namespace nirs
             hsize_t[] dims = new hsize_t[1];
             dims[0] = (hsize_t)thisstr.Length*2;
 
-            hid_t type = H5T.NATIVE_CHAR;
-
+            //hid_t type = H5T.NATIVE_CHAR;
+            hid_t type = H5T.C_S1;
             hid_t spaceId = H5S.create_simple(1, dims, null);
             hid_t dataSetId = H5D.create(parentLoc, name, type, spaceId);
 

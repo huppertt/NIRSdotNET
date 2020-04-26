@@ -1,0 +1,28 @@
+﻿<Properties StartupConfiguration="{1B6462A9-7434-490C-B65C-91498B6FFA3F}|Default">
+  <MonoDevelop.Ide.ItemProperties.NIRSrecorder PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/MainWindow.cs">
+    <Files>
+      <File FileName="NIRSrecorder/RegisterSubject.cs" Line="28" Column="73" />
+      <File FileName="NIRSrecorder/MainWindow.cs" Line="611" Column="36" />
+      <File FileName="NIRSrecorder/gtk-gui/MainWindow.cs" Line="1266" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="NIRSdotNET" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.NIRSconverter PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <DisabledProjects>
+    <String>../HDF.PInvoke/HDF.PInvoke.csproj</String>
+  </DisabledProjects>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="HDF5 1.10 Release" />
+  <MonoDevelop.Ide.ItemProperties.PhotonViewer PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

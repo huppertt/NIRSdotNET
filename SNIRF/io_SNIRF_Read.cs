@@ -22,94 +22,121 @@ namespace nirs
 
         public static core.Data[] readSNIRF(string filename)
         {
-          
+
+
 
             hid_t fileId = H5F.open(filename, H5F.ACC_RDONLY);
+            core.Data[] data = new core.Data[0];
 
-            string formatVersion = nirs.io.ReadDataString(fileId, "/nirs/formatVersion");
-            int dataCount = (int)nirs.io.ReadDataValue(fileId, "/nirs/dataCount");
+            string nirsfld = "/nirs";
 
-            core.Data[] data = new core.Data[dataCount];
-
-
-            for (int i = 0; i < dataCount; i++)
+            int idx = 0;
+            while (true)
             {
-                data[i] = new core.Data();
-                data[i].time = nirs.io.ReadDataVector(fileId, String.Format("/nirs/data{0}/time", i));
+                if (idx == 0) { nirsfld = "/nirs"; }
+                else { nirsfld = String.Format("/nirs{0}", idx); }
 
-                data[i].data = nirs.io.ReadDataArray(fileId, String.Format("/nirs/data{0}/dataTimeSeries", i));
-               
-                double[] wav = nirs.io.ReadDataVector(fileId, String.Format("/nirs/data{0}/probe/wavelengths", i));
-
-
-                int mlCount = (int)nirs.io.ReadDataValue(fileId, String.Format("/nirs/data{0}/measurementListCount", i));
-                data[i].probe.numChannels = mlCount;
-                data[i].numsamples = data[i].time.Length;
-
-                data[i].probe.ChannelMap = new ChannelMap[mlCount];
-                for (int j = 0; j < mlCount; j++)
+                if (nirs.io.groupexists(fileId, String.Format("{0}/formatVersion", nirsfld)))
                 {
-                    data[i].probe.ChannelMap[j] = new ChannelMap();
 
-                    data[i].probe.ChannelMap[j].sourceindex = (int)nirs.io.ReadDataValue(fileId,
-                                                                                         String.Format("/nirs/data{0}/measurementList{1}/sourceIndex", i, j)) - 1;
-                    data[i].probe.ChannelMap[j].detectorindex = (int)nirs.io.ReadDataValue(fileId,
-                                                                     String.Format("/nirs/data{0}/measurementList{1}/detectorIndex", i, j)) - 1;
-                    data[i].probe.ChannelMap[j].wavelength = wav[(int)nirs.io.ReadDataValue(fileId,
-                                                                                            String.Format("/nirs/data{0}/measurementList{1}/wavelengthIndex", i, j)) - 1];
-
-                    int datatypeIdx = (int)nirs.io.ReadDataValue(fileId, String.Format("/nirs/data{0}/measurementList{1}/dataType", i, j));
-
-
-                    data[i].probe.ChannelMap[j].datatype = (datatype)Enum.ToObject(typeof(datatype), datatypeIdx);
-
-                    data[i].probe.ChannelMap[j].datasubtype = String.Format("{0}nm", data[i].probe.ChannelMap[j].wavelength);
-                    data[i].probe.ChannelMap[j].channelname = String.Format("Src{0}-Det{1}", data[i].probe.ChannelMap[j].sourceindex + 1,
-                                                                            data[i].probe.ChannelMap[j].detectorindex + 1);
-
-                    //{optional}
-                    //data_#/measurementList_#/sourcePower [int]
-                    //data_#/measurementList_#/detectorGain [int]
-                    //data_#/measurementList_#/moduleIndex [int]
-
-                }
-
-                data[i].probe.numSrc = (int)nirs.io.ReadDataValue(fileId, String.Format("/nirs/data{0}/probe/sourceCount", i));
-                data[i].probe.numDet = (int)nirs.io.ReadDataValue(fileId, String.Format("/nirs/data{0}/probe/detectorCount", i));
-                data[i].probe.SrcPos = nirs.io.ReadDataArray(fileId, String.Format("/nirs/data{0}/probe/sourcePos", i));
-                data[i].probe.DetPos = nirs.io.ReadDataArray(fileId, String.Format("/nirs/data{0}/probe/detectorPos", i));
+                    string formatVersion = nirs.io.ReadDataString(fileId, String.Format("{0}/formatVersion", nirsfld));
+                    int dataCount = (int)nirs.io.ReadDataValue(fileId, String.Format("{0}/dataCount", nirsfld));
+                    core.Data[] dataT = new core.Data[data.Length + dataCount];
+                    for (int i = 0; i < data.Length; i++)
+                    {
+                        dataT[i] = data[i];
+                    }
+                    data = dataT;
 
 
-                if (nirs.io.groupexists(fileId, String.Format("/nirs/data{0}/probe/sourcePos3D", i)))
-                {
-                    data[i].probe.SrcPos3D = nirs.io.ReadDataArray(fileId, String.Format("/nirs/data{0}/probe/sourcePos3D", i));
-                }
-                if (nirs.io.groupexists(fileId, String.Format("/nirs/data{0}/probe/detectorPos3D", i)))
-                {
-                    data[i].probe.DetPos3D = nirs.io.ReadDataArray(fileId, String.Format("/nirs/data{0}/probe/detectorPos3D", i));
-                }
+                    for (int i = 0; i < dataCount; i++)
+                    {
+                        data[i] = new core.Data();
+                        data[i].time = nirs.io.ReadDataVector(fileId, String.Format("{0}/data{1}/time", nirsfld, i));
 
-                // data#/probe/sourceLabels [string] 
-                // data#/probe/detectorLabels [string]
+                        data[i].data = nirs.io.ReadDataArray(fileId, String.Format("{0}/data{1}/dataTimeSeries", nirsfld, i));
 
 
-                // data#/probe/landmark [numeric array]
-                // data#/probe/landmarkLabels [string]
-                // data#/probe/useLocalIndex [int] = 0
+                        double[] wav = nirs.io.ReadDataVector(fileId, String.Format("{0}/probe/wavelengths", nirsfld));
 
-                if(nirs.io.groupexists(fileId, String.Format("/nirs/data{0}/metaDataTagCount",i))){
-                    int metaCount = (int)nirs.io.ReadDataValue(fileId, String.Format("/nirs/data{0}/metaDataTagCount", i));
-                    data[i].demographics = new Dictionary();
-                    for (int j = 0; j < metaCount; j++){
-                        string name = nirs.io.ReadDataString(fileId, String.Format("/nirs/data{0}/metaDataTag{1}/name", i, j));
-                        string val  = nirs.io.ReadDataString(fileId, String.Format("/nirs/data{0}/metaDataTag{1}/value", i, j));
-                        data[i].demographics.set(name, val);
+
+                        int mlCount = (int)nirs.io.ReadDataValue(fileId, String.Format("{0}/measurementListCount", nirsfld));
+                        data[i].probe.numChannels = mlCount;
+                        data[i].numsamples = data[i].time.Length;
+
+                        data[i].probe.ChannelMap = new ChannelMap[mlCount];
+                        for (int j = 0; j < mlCount; j++)
+                        {
+                            data[i].probe.ChannelMap[j] = new ChannelMap();
+
+                            data[i].probe.ChannelMap[j].sourceindex = (int)nirs.io.ReadDataValue(fileId,
+                                                                        String.Format("{0}/measurementList{1}/sourceIndex", nirsfld, j)) - 1;
+                            data[i].probe.ChannelMap[j].detectorindex = (int)nirs.io.ReadDataValue(fileId,
+                                                                        String.Format("{0}/measurementList{1}/detectorIndex", nirsfld, j)) - 1;
+                            data[i].probe.ChannelMap[j].wavelength = wav[(int)nirs.io.ReadDataValue(fileId,
+                                                                        String.Format("{0}/measurementList{1}/wavelengthIndex", nirsfld, j)) - 1];
+
+                            int datatypeIdx = (int)nirs.io.ReadDataValue(fileId, String.Format("{0}/measurementList{1}/dataType", nirsfld, j));
+
+
+                            data[i].probe.ChannelMap[j].datatype = (datatype)Enum.ToObject(typeof(datatype), datatypeIdx);
+
+                            data[i].probe.ChannelMap[j].datasubtype = String.Format("{0}nm", data[i].probe.ChannelMap[j].wavelength);
+                            data[i].probe.ChannelMap[j].channelname = String.Format("Src{0}-Det{1}", data[i].probe.ChannelMap[j].sourceindex + 1,
+                                                                                    data[i].probe.ChannelMap[j].detectorindex + 1);
+
+                            //{optional}
+                            //data_#/measurementList_#/sourcePower [int]
+                            //data_#/measurementList_#/detectorGain [int]
+                            //data_#/measurementList_#/moduleIndex [int]
+
+                        }
+
+                        data[i].probe.numSrc = (int)nirs.io.ReadDataValue(fileId, String.Format("{0}/probe/sourceCount", nirsfld));
+                        data[i].probe.numDet = (int)nirs.io.ReadDataValue(fileId, String.Format("{0}/probe/detectorCount", nirsfld));
+                        data[i].probe.SrcPos = nirs.io.ReadDataArray(fileId, String.Format("{0}/probe/sourcePos", nirsfld));
+                        data[i].probe.DetPos = nirs.io.ReadDataArray(fileId, String.Format("{0}/probe/detectorPos", nirsfld));
+
+
+                        if (nirs.io.groupexists(fileId, String.Format("{0}/probe/sourcePos3D", nirsfld)))
+                        {
+                            data[i].probe.SrcPos3D = nirs.io.ReadDataArray(fileId, String.Format("{0}/probe/sourcePos3D", nirsfld));
+                        }
+                        if (nirs.io.groupexists(fileId, String.Format("{0}/probe/detectorPos3D", nirsfld)))
+                        {
+                            data[i].probe.DetPos3D = nirs.io.ReadDataArray(fileId, String.Format("{0}/probe/detectorPos3D", nirsfld));
+                        }
+
+                        // data#/probe/sourceLabels [string] 
+                        // data#/probe/detectorLabels [string]
+
+
+                        // data#/probe/landmark [numeric array]
+                        // data#/probe/landmarkLabels [string]
+                        // data#/probe/useLocalIndex [int] = 0
+
+                        if (nirs.io.groupexists(fileId, String.Format("{0}/metaDataTagCount", nirsfld)))
+                        {
+                            int metaCount = (int)nirs.io.ReadDataValue(fileId, String.Format("{0}/metaDataTagCount", nirsfld));
+                            data[i].demographics = new Dictionary();
+                            for (int j = 0; j < metaCount; j++)
+                            {
+                                string name = nirs.io.ReadDataString(fileId, String.Format("{0}/metaDataTag{1}/name", nirsfld, j));
+                                string val = nirs.io.ReadDataString(fileId, String.Format("{0}//metaDataTag{1}/value", nirsfld, j));
+                                data[i].demographics.set(name, val);
+                            }
+                        }
+
+
+
+
                     }
                 }
-                            
-
-
-
+                else
+                {
+                    break;
+                }
+                idx++;
             }
             return data;
         }

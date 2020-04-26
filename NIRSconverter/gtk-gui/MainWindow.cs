@@ -61,6 +61,8 @@ public partial class MainWindow
 
 	private global::Gtk.Label label3;
 
+	private global::Gtk.Label label2;
+
 	protected virtual void Build()
 	{
 		global::Stetic.Gui.Initialize(this);
@@ -174,7 +176,7 @@ public partial class MainWindow
 		this.notebook1 = new global::Gtk.Notebook();
 		this.notebook1.CanFocus = true;
 		this.notebook1.Name = "notebook1";
-		this.notebook1.CurrentPage = 0;
+		this.notebook1.CurrentPage = 2;
 		// Container child notebook1.Gtk.Notebook+NotebookChild
 		this.GtkScrolledWindow = new global::Gtk.ScrolledWindow();
 		this.GtkScrolledWindow.Name = "GtkScrolledWindow";
@@ -209,17 +211,26 @@ public partial class MainWindow
 		this.label3.LabelProp = global::Mono.Unix.Catalog.GetString("Events");
 		this.notebook1.SetTabLabel(this.GtkScrolledWindow1, this.label3);
 		this.label3.ShowAll();
+		// Notebook tab
+		global::Gtk.Label w12 = new global::Gtk.Label();
+		w12.Visible = true;
+		this.notebook1.Add(w12);
+		this.label2 = new global::Gtk.Label();
+		this.label2.Name = "label2";
+		this.label2.LabelProp = global::Mono.Unix.Catalog.GetString("MetaData");
+		this.notebook1.SetTabLabel(w12, this.label2);
+		this.label2.ShowAll();
 		this.vbox1.Add(this.notebook1);
-		global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.notebook1]));
-		w12.Position = 3;
+		global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.notebook1]));
+		w13.Position = 3;
 		this.hbox1.Add(this.vbox1);
-		global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.vbox1]));
-		w13.Position = 2;
-		w13.Expand = false;
-		w13.Fill = false;
+		global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.vbox1]));
+		w14.Position = 2;
+		w14.Expand = false;
+		w14.Fill = false;
 		this.vbox3.Add(this.hbox1);
-		global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.vbox3[this.hbox1]));
-		w14.Position = 1;
+		global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vbox3[this.hbox1]));
+		w15.Position = 1;
 		this.Add(this.vbox3);
 		if ((this.Child != null))
 		{
