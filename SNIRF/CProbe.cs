@@ -10,7 +10,7 @@ namespace nirs
 {
     public partial class core
     {
-        public class Probe : ICloneable
+        public class Probe
         {
             public double[,] SrcPos;
             public double[,] DetPos;
@@ -39,6 +39,8 @@ namespace nirs
             // This specifies the colors used for the probe and comes from the DefaultConfig.xml file
             public Gdk.Color[] colormap;
             public Gdk.Color[] colormapstats;
+
+
 
             public Probe()
             {
@@ -92,11 +94,44 @@ namespace nirs
 
             }
 
-            public object Clone(){
-                return this.MemberwiseClone();
-            }
+            public nirs.core.Probe Clone(){
+                nirs.core.Probe other = new Probe();
 
-            public void draw(Gdk.Drawable da)
+                other.numDet = this.numDet;
+                other.numSrc = this.numSrc;
+                other.numChannels = this.numChannels;
+
+                other.SrcPos = this.SrcPos;
+                other.DetPos = this.DetPos;
+                other.SrcPos3D = this.SrcPos3D;
+                other.DetPos3D = this.DetPos3D;
+                other.LandmarkPos = this.LandmarkPos;
+                other.LandmarkPos3D = this.LandmarkPos3D;
+                other.default_display = this.default_display;
+                other.ChannelMap = new ChannelMap[this.ChannelMap.Length];
+                for(int i=0; i<this.ChannelMap.Length; i++)
+                {
+                    other.ChannelMap[i] = this.ChannelMap[i];
+                }
+                other.distances = this.distances;
+                other.isregistered = this.isregistered;
+                other.measlistAct = new bool[this.measlistAct.Length];
+                for(int i=0; i< this.measlistAct.Length; i++)
+                {
+                    other.measlistAct[i] = this.measlistAct[i];
+                }
+                other.SourceLabels = this.SourceLabels;
+                other.DetectorLabels = this.DetectorLabels;
+                other.LandmarkLabels = this.LandmarkLabels;
+                other.uselocalIndex = this.uselocalIndex;
+                other.colormap = this.colormap;
+                other.colormapstats = this.colormapstats;
+
+                return other;
+
+        }
+
+        public void draw(Gdk.Drawable da)
             {
                 if (SrcPos == null)
                 {

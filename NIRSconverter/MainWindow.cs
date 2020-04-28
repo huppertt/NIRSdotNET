@@ -89,9 +89,9 @@ public partial class MainWindow : Gtk.Window
         this.textFileInfo.Buffer.Text = fileInfo;
 
         string eventInfo = "Stimulus information";
-        for (int i = 0; i < data.stimulus.Length; i++){
+        for (int i = 0; i < data.stimulus.Count; i++){
             eventInfo = eventInfo + String.Format("\n{0}:\n\t {1} events\n\t {2}-{3}s",
-                                                data.stimulus[i].name, data.stimulus[i].onsets.Length,
+                                                data.stimulus[i].name, data.stimulus[i].onsets.Count,
                                                 data.stimulus[i].onsets.Min(), data.stimulus[i].onsets.Max());
 
         }

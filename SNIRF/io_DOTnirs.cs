@@ -21,14 +21,21 @@ namespace nirs
             {
                 double[][] d = mlD.GetArray();
 
+                double[] dd = d[0];
+                data.data = new List<double>[dd.Length];
+                for (int i=0; i<dd.Length; i++)
+                {
+                    data.data[i] = new List<double>();
+                }
 
-                data.data = new double[d[0].Length,d.Length];
+                
                 for (int i = 0; i < d.Length; i++)
                 {
-                    double[] dd = d[i];
-                    for (int j = 0; j < dd.Length; j++)
+                   
+                    double[] dd3 = d[i];
+                    for (int j = 0; j < dd3.Length; j++)
                     {
-                        data.data[j,i] = dd[j];
+                        data.data[j].Add(dd3[j]);
                     }
                 }
             }
@@ -36,13 +43,13 @@ namespace nirs
             if (mlT != null)
             {
                 double[][] t = mlT.GetArray();
-                data.time = new double[t.Length];
+                data.time = new List<double>();
                 for (int i = 0; i < t.Length; i++)
                 {
-                    data.time[i] = t[i][0];
+                    data.time.Add(t[i][0]);
                 }
             }
-            data.numsamples = data.time.Length;
+            data.numsamples = data.time.Count;
 
             double[][] lambda;
             MLStructure SD = (mfr.Content["SD"] as MLStructure);
@@ -179,7 +186,7 @@ namespace nirs
 
                 for (int i = 0; i < numch; i++)
                 {
-                    dloc[i] = data.data[i, j];
+                    dloc[i] = data.data[i][j];
                 }
                 double[] tt = new double[1];
                 tt[0] = data.time[j];
@@ -264,24 +271,25 @@ namespace nirs
             mlList.Add(mlml);
 
 
-            MLStructure mlStim = new MLStructure("StimDesign", new int[] { data.stimulus.Length, 1 });
-            for (int i = 0; i < data.stimulus.Length; i++)
+            MLStructure mlStim = new MLStructure("StimDesign", new int[] { data.stimulus.Count, 1 });
+            for (int i = 0; i < data.stimulus.Count; i++)
             {
                 mlStim["name", i] = new MLChar("", data.stimulus[i].name);
 
 
-                double[] onset = data.stimulus[i].onsets;
-                double[] dur = data.stimulus[i].duration;
-                double[] amp = new double[onset.Length];
-                for (int ii = 0; ii < onset.Length; ii++)
-                {
-                    amp[ii] = data.stimulus[i].amplitude[ii, 0];
-                }
+                double[] onset = new double[data.stimulus[i].onsets.Count];
+                for (int ii = 0; ii < data.stimulus[i].onsets.Count; ii++) { onset[ii]=data.stimulus[i].onsets[ii]; }
+                double[] dur = new double[data.stimulus[i].duration.Count];
+                for (int ii = 0; ii < data.stimulus[i].duration.Count; ii++) {dur[ii]=data.stimulus[i].duration[ii]; }
+                double[] amp = new double[data.stimulus[i].amplitude.Count];
+                for (int ii = 0; ii < data.stimulus[i].amplitude.Count; ii++) {amp[ii]=data.stimulus[i].amplitude[ii]; }
+
+
                 mlStim["onset", i] = new MLDouble("", onset, 1);
                 mlStim["dur", i] = new MLDouble("", dur, 1);
                 mlStim["amp", i] = new MLDouble("", amp, 1);
             }
-            if (data.stimulus.Length > 0)
+            if (data.stimulus.Count > 0)
             {
                 mlList.Add(mlStim);
             }

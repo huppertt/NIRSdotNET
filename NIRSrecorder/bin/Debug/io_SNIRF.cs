@@ -33,6 +33,16 @@ namespace nirs
         }
 
 
+        public static void writeSNIRF(List<core.Data> data, string filename, int nirs_index = -1)
+        {
+
+            for (int i = 0; i < data.Count; i++)
+            {
+                writeSNIRF(data[i], filename, nirs_index, i);
+            }
+
+        }
+
         public static void writeSNIRF(core.Data data, string filename,int nirs_index=-1, int data_index=0)
         {
             hid_t tmp;
@@ -53,9 +63,23 @@ namespace nirs
             tmp = nirs.io.AddDataValue(IDnirs, "dataCount", data_index+1);
             hid_t IDdata = H5G.create(IDnirs, String.Format("data{0}",data_index));
 
-            tmp = nirs.io.AddDataArray(IDdata, "dataTimeSeries", data.data);
+            double[,] d = new double[data.data.Length, data.data[0].Count];
+            for(int i=0;i< data.data.Length; i++)
+            {
+                for(int j=0; j< data.data[i].Count; j++)
+                {
+                    d[i, j] = data.data[i][j];
+                }
+            }
+            tmp = nirs.io.AddDataArray(IDdata, "dataTimeSeries", d);
             // data_#/time [numeric]  time x 1
-            tmp = nirs.io.AddDataVector(IDdata, "time", data.time);
+
+            double[] time = new double[data.time.Count];
+            for(int i=0; i<data.time.Count; i++)
+            {
+                time[i] = data.time[i];
+            }
+            tmp = nirs.io.AddDataVector(IDdata, "time", time);
 
 
             List<double> lambda = new List<double>();
@@ -103,9 +127,9 @@ namespace nirs
                 H5G.close(IDmeas[ch]);
             }
 
-            hid_t[] IDstim = new hid_t[data.stimulus.Length];
-            tmp = nirs.io.AddDataValue(IDdata, "stimCount", data.stimulus.Length);
-            for (int st = 0; st < data.stimulus.Length; st++)
+            hid_t[] IDstim = new hid_t[data.stimulus.Count];
+            tmp = nirs.io.AddDataValue(IDdata, "stimCount", data.stimulus.Count);
+            for (int st = 0; st < data.stimulus.Count; st++)
             {
                 IDstim[st] = H5G.create(IDdata, String.Format("stim{0}", st));
                 // data_#/stim#/name [string]
@@ -115,17 +139,15 @@ namespace nirs
 
                 // data_#/stim#/data [numeric] <#events x 3>  onset,dur,amp
 
-                int k = data.stimulus[st].amplitude.GetLength(1);
-                int n = data.stimulus[st].onsets.Length;
+                int k = data.stimulus[st].amplitude.Count;
+                int n = data.stimulus[st].onsets.Count;
                 double[,] evt = new double[n,2 + k];
 
                 for (int i = 0; i < n; i++){
                     evt[i, 0] = data.stimulus[st].onsets[i];
                     evt[i, 1] = data.stimulus[st].duration[i];
-                    for (int j = 0; j < k; j++){
-                        evt[i, 2 + j] = data.stimulus[st].amplitude[i, j];
-                    }
-
+                    evt[i, 2] = data.stimulus[st].amplitude[i];
+                    
                 }
                 tmp = nirs.io.AddDataArray(IDstim[st], "data", evt);
 

@@ -8,7 +8,7 @@
         <probedir>/Users/theodorehuppert/Desktop/NIRSRecordIR/Probe</probedir>
     </default_folders>
     
-    <systemtype> Simulator </systemtype>
+    <systemtype>SimulatorHyperScan</systemtype>
     
 </config>
 

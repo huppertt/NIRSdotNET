@@ -19,7 +19,7 @@ namespace NIRSDAQ
                 {
                     public String Name = "BTnirs";
                     public String Manufacturer = "TechEn";
-                    public static bool isrunning;
+                    public bool isrunning;
                     public bool isconnected;
 
                     public bool[] laserstates;
@@ -27,21 +27,33 @@ namespace NIRSDAQ
                     public int[] detgains;
 
                     public bool usefilter;
-                    public static int sample_rate;
+                    public int sample_rate;
 
-                    private static SerialPort _serialPort;
-                    private static Queue[] dataqueue;
-                    private static Thread newthread;
+                    private SerialPort _serialPort;
+                    private Queue[] dataqueue;
+                    private Thread newthread;
 
-                    private static int wordsperrecord;
+                    private int wordsperrecord;
 
-                    public static readonly int _nsrcs = 8;
-                    public static readonly int _ndets = 6;
+                    public int _nsrcs = 8;
+                    public int _ndets = 6;
 
                     // num measurements
-                    private static readonly int _nmeas = 24;
+                    private int _nmeas = 24;
 
 
+                    public void Initialize(nirs.core.Probe probe)
+                    {
+                       // TODO
+
+                    }
+
+
+
+                    public int getsamplerate()
+                    {
+                        return sample_rate;
+                    }
 
                     public string portname()
                     {
@@ -279,7 +291,7 @@ namespace NIRSDAQ
 
 
 
-                    public static void adddata()
+                    public void adddata()
                     {
                         // TODO
                         int wait;

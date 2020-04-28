@@ -14,9 +14,9 @@ namespace nirs
         public class Data : ICloneable
         {
             public Probe probe;
-            public Stimulus[] stimulus;
-            public double[] time;
-            public double[,] data;
+            public List<Stimulus> stimulus;
+            public List<double> time;
+            public List<double>[] data;
             public string description;
             public Dictionary demographics;
             public int numsamples;
@@ -26,7 +26,7 @@ namespace nirs
             public Data()
             {
                 probe = new Probe();
-                stimulus = new Stimulus[0];
+                stimulus = new List<Stimulus>();
                 demographics = new Dictionary();
 
                 stimcolor = new Color[12];
@@ -72,6 +72,11 @@ namespace nirs
                     return;
                 }
 
+                if (time.Count < 2)
+                {
+                    return;
+                }
+
                 int width, height;
                 da.GetSize(out width, out height);
 
@@ -96,9 +101,9 @@ namespace nirs
                 {
                     for (int j = startIdx; j < this.numsamples; j++)
                     {
-                        if (this.probe.measlistAct[i] & this.probe.ChannelMap[i].datasubtype.Equals(datasubtype))
+                        if (this.probe.measlistAct[i] & this.probe.ChannelMap[i].datasubtype.ToLower().Equals(datasubtype.ToLower()))
                         {
-                            double d = this.data[i,j]; // TODO
+                            double d = this.data[i][j]; // TODO
                             if (maxY < d)
                                 maxY = d;
                             if (minY > d)
@@ -142,15 +147,15 @@ namespace nirs
 
                 // Draw stim events
 
-                for (int j = 0; j < stimulus.Length; j++)
+                for (int j = 0; j < stimulus.Count; j++)
                 {
                     gc.RgbFgColor = stimcolor[j];
                     Rectangle area = new Rectangle();
 
 
-                    for (int k = 0; k < stimulus[j].onsets.Length; k++)
+                    for (int k = 0; k < stimulus[j].onsets.Count; k++)
                     {
-                        if (stimulus[j].amplitude[k,0] > 0 & stimulus[j].onsets[k] +stimulus[j].duration[k] >= this.time[startIdx])
+                        if (stimulus[j].amplitude[k] > 0 & stimulus[j].onsets[k] +stimulus[j].duration[k] >= this.time[startIdx])
                         {
                             area.Width = (int)(stimulus[j].duration[k] / rangeX * width);
                             if(area.Width==0){
@@ -190,8 +195,8 @@ namespace nirs
                         for (int j = startIdx + 1; j < this.numsamples; j++)
                         {
 
-                            double y2 = (this.data[i, j] - minY) / rangeY * height;
-                            double y1 = (this.data[i, j - 1] - minY) / rangeY * height;
+                            double y2 = (this.data[i][j] - minY) / rangeY * height;
+                            double y1 = (this.data[i][j - 1] - minY) / rangeY * height;
 
                             double x2 = (this.time[j] - this.time[startIdx]) / rangeX * width;
                             double x1 = (this.time[j - 1] - this.time[startIdx]) / rangeX * width;
@@ -202,7 +207,7 @@ namespace nirs
                 }
 
 
-                if (stimulus.Length > 0)
+                if (stimulus.Count > 0)
                 {
                     // add legend to window
                     int w = 0;
@@ -210,7 +215,7 @@ namespace nirs
 
                     int maxw = 0;
 
-                    for (int j = 0; j < stimulus.Length; j++)
+                    for (int j = 0; j < stimulus.Count; j++)
                     {
                         Gtk.Label lab = new Gtk.Label();
                         gc.RgbFgColor = stimcolor[j];
@@ -225,7 +230,7 @@ namespace nirs
                     rarea = new Rectangle();
                     rarea.X = xoffset + 4;
                     rarea.Y = yoffset + 4;
-                    rarea.Height = stimulus.Length * 10 + 12;
+                    rarea.Height = stimulus.Count * 10 + 12;
                     rarea.Width = maxw + 12;
                     da.DrawRectangle(gc, true, rarea);
 
@@ -234,10 +239,10 @@ namespace nirs
                     rarea = new Rectangle();
                     rarea.X = xoffset + 5;
                     rarea.Y = yoffset + 5;
-                    rarea.Height = stimulus.Length * 10 + 10;
+                    rarea.Height = stimulus.Count * 10 + 10;
                     rarea.Width = maxw + 10;
                     da.DrawRectangle(gc, true, rarea);
-                    for (int j = 0; j < stimulus.Length; j++)
+                    for (int j = 0; j < stimulus.Count; j++)
                     {
                         Gtk.Label lab = new Gtk.Label();
                         gc.RgbFgColor = stimcolor[j];

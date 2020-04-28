@@ -54,7 +54,7 @@ namespace NIRSrecorder
 
 		private global::Gtk.Label GtkLabel6;
 
-		private global::Gtk.Frame frame9;
+		private global::Gtk.Frame frame_debug;
 
 		private global::Gtk.Alignment GtkAlignment1;
 
@@ -263,11 +263,11 @@ namespace NIRSrecorder
 			w19.Expand = false;
 			w19.Fill = false;
 			// Container child vbox9.Gtk.Box+BoxChild
-			this.frame9 = new global::Gtk.Frame();
-			this.frame9.Name = "frame9";
-			this.frame9.ShadowType = ((global::Gtk.ShadowType)(0));
-			this.frame9.BorderWidth = ((uint)(13));
-			// Container child frame9.Gtk.Container+ContainerChild
+			this.frame_debug = new global::Gtk.Frame();
+			this.frame_debug.Name = "frame_debug";
+			this.frame_debug.ShadowType = ((global::Gtk.ShadowType)(0));
+			this.frame_debug.BorderWidth = ((uint)(13));
+			// Container child frame_debug.Gtk.Container+ContainerChild
 			this.GtkAlignment1 = new global::Gtk.Alignment(0F, 0F, 1F, 1F);
 			this.GtkAlignment1.Name = "GtkAlignment1";
 			this.GtkAlignment1.LeftPadding = ((uint)(12));
@@ -338,14 +338,14 @@ namespace NIRSrecorder
 			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vbox10[this.GtkScrolledWindow]));
 			w25.Position = 1;
 			this.GtkAlignment1.Add(this.vbox10);
-			this.frame9.Add(this.GtkAlignment1);
+			this.frame_debug.Add(this.GtkAlignment1);
 			this.GtkLabel7 = new global::Gtk.Label();
 			this.GtkLabel7.Name = "GtkLabel7";
 			this.GtkLabel7.LabelProp = global::Mono.Unix.Catalog.GetString("<b>Debugging</b>");
 			this.GtkLabel7.UseMarkup = true;
-			this.frame9.LabelWidget = this.GtkLabel7;
-			this.vbox9.Add(this.frame9);
-			global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.vbox9[this.frame9]));
+			this.frame_debug.LabelWidget = this.GtkLabel7;
+			this.vbox9.Add(this.frame_debug);
+			global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.vbox9[this.frame_debug]));
 			w28.Position = 2;
 			this.GtkAlignment.Add(this.vbox9);
 			this.frame8.Add(this.GtkAlignment);

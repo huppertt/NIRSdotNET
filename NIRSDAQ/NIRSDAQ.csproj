@@ -103,5 +103,11 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SNIRF\NIRSdotNET.csproj">
+      <Project>{66CEE40B-4A70-4432-A819-AA5C63994685}</Project>
+      <Name>NIRSdotNET</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

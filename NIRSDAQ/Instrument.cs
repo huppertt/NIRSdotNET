@@ -21,19 +21,19 @@ namespace NIRSDAQ
 
         public class instrument
         {
-            private readonly int devicetype;
+            private int devicetype;
             public string devicename;
-            private readonly object device;
+            private object device;
 
             public instrument(string type)
             {
-                if (type.Equals("Simulator"))
+                if (type.ToLower().Equals("simulator"))
                 {
                     devicename = "Simulator";
                     devicetype = 0;
                     device = new NIRSDAQ.Instrument.Devices.Simulator();
                 }
-                else if(type.Equals("BTNIRS"))
+                else if(type.ToLower().Equals("btnirs"))
                 {
                     devicename = "BTNIRS";
                     devicetype = 1;
@@ -97,15 +97,17 @@ namespace NIRSDAQ
                 {
                     case 0:
                         ((NIRSDAQ.Instrument.Devices.Simulator)device).Connect(port);
+                        devicename += " " + port;
                         break;
                     case 1:
                         ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).Connect(port);
+                        devicename += " " + port;
                         break;
                 }
 
             }
 
-            public void Start(string port)
+            public void Start()
             {
                 switch (devicetype)
                 {
@@ -235,6 +237,81 @@ namespace NIRSDAQ
                         break;
                 }
 
+            }
+
+            public void Intialize(nirs.core.Probe probe)
+            {
+                switch (devicetype)
+                {
+                    case 0:
+                        ((NIRSDAQ.Instrument.Devices.Simulator)device).Initialize(probe);
+
+                        break;
+                    case 1:
+                        ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).Initialize(probe);
+                        break;
+
+                }
+            }
+
+            public bool isrunning()
+            {
+                bool flag = false;
+                switch (devicetype)
+                {
+                    case 0:
+                        flag=((NIRSDAQ.Instrument.Devices.Simulator)device).isrunning;
+
+                        break;
+                    case 1:
+                        flag=((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).isrunning;
+                        break;
+
+                }
+                return flag;
+            }
+
+
+
+            public nirs.core.Data GetNewData(nirs.core.Data data)
+            {
+                int nsamples = 0;
+                switch (devicetype)
+                {
+                    case 0:
+                        nsamples = ((NIRSDAQ.Instrument.Devices.Simulator)device).SamplesAvaliable();
+                        for (int i = 0; i < nsamples; i++)
+                        {
+                            double[] d =((NIRSDAQ.Instrument.Devices.Simulator)device).Getdata();
+                            for(int j=0; j<d.Length; j++)
+                            {
+                                data.data[j].Add(d[j]);
+                            }
+                            double fs = ((NIRSDAQ.Instrument.Devices.Simulator)device).getsamplerate();
+                            data.time.Add(data.time.Count / fs);
+                            data.numsamples = data.time.Count;
+                        }
+                        break;
+                    case 1:
+                        nsamples = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).SamplesAvaliable();
+                        for (int i = 0; i < nsamples; i++)
+                        {
+                            double[] d = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).Getdata();
+                            for (int j = 0; j < d.Length; j++)
+                            {
+                                data.data[j].Add(d[j]);
+                            }
+                            double fs = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).getsamplerate();
+                            data.time.Add(data.time.Count / fs);
+                            data.numsamples = data.time.Count;
+                        }
+
+                        
+                        break;
+                }
+
+
+                return data;
             }
 
         }

@@ -52,9 +52,24 @@ namespace nirs
                     for (int i = 0; i < dataCount; i++)
                     {
                         data[i] = new core.Data();
-                        data[i].time = nirs.io.ReadDataVector(fileId, String.Format("{0}/data{1}/time", nirsfld, i));
+                        double[] t = nirs.io.ReadDataVector(fileId, String.Format("{0}/data{1}/time", nirsfld, i));
+                        data[i].time = new List<double>();
+                        for(int ii=0; ii<t.Length; ii++)
+                        {
+                            data[i].time.Add(t[ii]);
+                        }
 
-                        data[i].data = nirs.io.ReadDataArray(fileId, String.Format("{0}/data{1}/dataTimeSeries", nirsfld, i));
+                        double[,] d = nirs.io.ReadDataArray(fileId, String.Format("{0}/data{1}/dataTimeSeries", nirsfld, i));
+                        data[i].data = new List<double>[d.Length];
+                        for (int ii=0; ii< d.GetLength(0); ii++)
+                        {
+                            data[i].data[ii] = new List<double>();
+                            for (int jj=0; jj<d.GetLength(1); jj++)
+                            {
+                                data[i].data[ii].Add(d[ii, jj]);
+                            }
+                        }
+                       
 
 
                         double[] wav = nirs.io.ReadDataVector(fileId, String.Format("{0}/probe/wavelengths", nirsfld));
@@ -62,7 +77,7 @@ namespace nirs
 
                         int mlCount = (int)nirs.io.ReadDataValue(fileId, String.Format("{0}/measurementListCount", nirsfld));
                         data[i].probe.numChannels = mlCount;
-                        data[i].numsamples = data[i].time.Length;
+                        data[i].numsamples = data[i].time.Count;
 
                         data[i].probe.ChannelMap = new ChannelMap[mlCount];
                         for (int j = 0; j < mlCount; j++)

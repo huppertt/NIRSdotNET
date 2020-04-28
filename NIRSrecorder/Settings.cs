@@ -19,10 +19,10 @@ namespace NIRSrecorder
     {
 
         // Since C# doesn't allow #DEFINE constants, I'll use the MainClass to hold these
-        public int BUFFER_SIZE = 20 * 60 * 20;  // Buffer size for the data storage array (20min @20Hz)
+        public int BUFFER_SIZE;  // Buffer size for the data storage array (20min @20Hz)
         public bool DEBUG;
         public string SYSTEM;
-        public int UPDATETIME = 500; // How often to update refreshes to the display window 
+        public int UPDATETIME; // How often to update refreshes to the display window 
         public string DATADIR;
         public string PROBEDIR;
 
@@ -30,7 +30,11 @@ namespace NIRSrecorder
 
         public Settings()
         {
-             // Read the Config.xml file
+
+            UPDATETIME = 500;
+            BUFFER_SIZE = 20 * 60 * 20;
+
+            // Read the Config.xml file
             XmlDocument doc = new XmlDocument();
             XmlDocument doc2 = new XmlDocument();
           
@@ -66,7 +70,11 @@ namespace NIRSrecorder
             {
                 doc.Load(@"Simulator_Config.xml");
             }
-            
+            else if (SYSTEM.ToLower().Equals("simulatorhyperscan"))
+            {
+                doc.Load(@"Simulator_Config.xml");
+            }
+
             system_Info = new System_info();
 
             elemList = doc.GetElementsByTagName("numsrc");

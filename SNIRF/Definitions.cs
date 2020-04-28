@@ -34,10 +34,10 @@ namespace nirs
     public struct Stimulus{
         public stimtypes type;
         public string name;
-        public double[] onsets;   // if event, then holds descret start times/ else sample times
-        public double[] duration;  // if not event then duration should be ignored
-        public double[,] amplitude; // if event, then holds descret amp/ else magnitude of time course
-        public string[] metadatalabels;
+        public List<double> onsets;   // if event, then holds descret start times/ else sample times
+        public List<double> duration;  // if not event then duration should be ignored
+        public List<double> amplitude; // if event, then holds descret amp/ else magnitude of time course
+        public List<string> metadatalabels;
     }
 
     public struct auxillary{

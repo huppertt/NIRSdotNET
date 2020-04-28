@@ -11,7 +11,7 @@ namespace NIRSrecorder
      
         public static MainWindow win;
         public static Splash obj_Splash;
-        public static List<NIRSDAQ.Instrument.instrument> devices;
+        public static NIRSDAQ.Instrument.instrument[] devices;
 
 
         public static void Main(string[] args)
@@ -27,10 +27,13 @@ namespace NIRSrecorder
             GLib.Timeout.Add(5000, delegate
             {
                 win = new MainWindow();
+              
                 win.ShowAll();
+                win.IntializeGUI();
                 obj_Splash.Hide();
                 return false;
             });
+       
 
         Application.Run();
         }

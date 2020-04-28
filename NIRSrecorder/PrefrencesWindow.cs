@@ -25,6 +25,11 @@ namespace NIRSrecorder
                 }
                 combobox_selectSerial.Active = 0;
 
+            if (!MainClass.win.settings.DEBUG)
+            {
+                frame_debug.Destroy();
+            }
+
          
         }
 

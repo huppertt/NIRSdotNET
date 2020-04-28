@@ -3,19 +3,25 @@ using System.IO;
 using System.Collections.Generic;
 using Gtk;
 using System.Linq;
+using System.Reflection;
+using System.Xml;
 
 namespace NIRSrecorder
 {
     public partial class RegisterSubject : Gtk.Window
     {
 
-        public static nirs.core.Probe probe;
+        public nirs.core.Probe probe;
+        private nirs.Dictionary[] demo;
+        private int device_previous;
+        private string probefilename;
 
         public RegisterSubject() :
                 base(Gtk.WindowType.Toplevel)
         {
 
             this.Build();
+            device_previous = 0;
             this.drawingarea1.ExposeEvent += sdgdraw;
             probe = new nirs.core.Probe();
 
@@ -33,21 +39,37 @@ namespace NIRSrecorder
                 string[] s2 = s.Split(System.IO.Path.DirectorySeparatorChar);
                 combobox_investigators.AppendText(s2[s2.Length - 1]);
             }
+
             combobox_investigators.Active = 0;
 
-            if (MainClass.devices.Count > 1)
+            demo = new nirs.Dictionary[MainClass.devices.Length];
+            for(int i=0; i<MainClass.devices.Length; i++)
             {
-                this.checkbutton_hyperscan.Active = true;
-                Gtk.ListStore ClearList2 = new Gtk.ListStore(typeof(string));
-                this.combobox_hyperscanning.Model = ClearList2;
-                for(int i=0; i<MainClass.devices.Count; i++)
-                {
-                    this.combobox_hyperscanning.AppendText(MainClass.devices[i].devicename);
-                }
+                demo[i] = new nirs.Dictionary();
+                demo[i].set("SubjID", comboboxentry_subjID.ActiveText);
+                demo[i].set("Investigator", combobox_investigators.ActiveText);
+                demo[i].set("Study", combobox_studies.ActiveText);
+                demo[i].set("Gender", demo_gender.ActiveText);
+                demo[i].set("Group", demo_group.Text);
+                demo[i].set("Age", demo_age.Text);
+                demo[i].set("Instrument", MainClass.win.settings.SYSTEM);
+                demo[i].set("head_circumference", demo_headsize.Text);
+                demo[i].set("Technician", demo_tecnician.Text);
+                demo[i].set("comments", demo_comments.Buffer.Text);
             }
-            else
+
+            
+
+            Gtk.ListStore ClearList2 = new Gtk.ListStore(typeof(string));
+            this.combobox_hyperscanning.Model = ClearList2;
+            for (int i = 0; i < MainClass.devices.Length; i++)
             {
-                this.checkbutton_hyperscan.Destroy();
+                this.combobox_hyperscanning.AppendText(MainClass.devices[i].devicename);
+            }
+            this.combobox_hyperscanning.Active = 0;
+
+            if (MainClass.devices.Length == 1)
+            {
                 this.combobox_hyperscanning.Destroy();
                 this.label_hypersacan.Destroy();
                 this.combobox_hyperscanning.Destroy();
@@ -133,13 +155,14 @@ namespace NIRSrecorder
                     if (System.IO.File.Exists(probefile))
                     {
                         probe = nirs.io.LoadProbe(probefile);
+                        probefilename = probefile;
                         sdgdraw(sender, e);
                     }
                     else
                     {
                         probe = new nirs.core.Probe();
                     }
-
+                    
                 }
 
             }
@@ -171,7 +194,7 @@ namespace NIRSrecorder
                 probe = nirs.io.LoadProbe(fcd.Filename);
                 sdgdraw(sender, e);
             }
-
+            probefilename = fcd.Filename;
             fcd.Destroy();
 
 
@@ -181,37 +204,76 @@ namespace NIRSrecorder
         protected void RegisterAccept(object sender, EventArgs e)
         {
 
-            nirs.core.Data data = new nirs.core.Data();
-            data.demographics.set("SubjID", comboboxentry_subjID.ActiveText);
-            data.demographics.set("Investigator", combobox_investigators.ActiveText);
-            data.demographics.set("Study", combobox_studies.ActiveText);
-            data.demographics.set("Gender", demo_gender.ActiveText);
-            data.demographics.set("Age", demo_age.Text);
-            data.demographics.set("Instrument", MainClass.win.settings.SYSTEM);
-            data.demographics.set("head_circumference", demo_headsize.Text);
-            data.demographics.set("Technician", demo_tecnician.Text);
-            data.demographics.set("comments", demo_comments.Buffer.Text);
-            DateTime now = DateTime.Now;
-            data.demographics.set("scan_date",now.ToString("F"));
-            data.probe = probe;
+            int i = combobox_hyperscanning.Active;
 
-            Gtk.ListStore ClearList = new Gtk.ListStore(typeof(string));
-            MainClass.win._handles.whichdata.Model =ClearList;
+            demo[i].set("SubjID", comboboxentry_subjID.ActiveText);
+            demo[i].set("Investigator", combobox_investigators.ActiveText);
+            demo[i].set("Study", combobox_studies.ActiveText);
+            demo[i].set("Gender", demo_gender.ActiveText);
+            demo[i].set("Group", demo_group.Text);
+            demo[i].set("Age", demo_age.Text);
+            demo[i].set("Instrument", MainClass.win.settings.SYSTEM);
+            demo[i].set("head_circumference", demo_headsize.Text);
+            demo[i].set("Technician", demo_tecnician.Text);
+            demo[i].set("comments", demo_comments.Buffer.Text);
 
-            List<string> datatypes = new List<string>();
-            for(int i=0; i<data.probe.ChannelMap.Length; i++) { 
-                datatypes.Add(data.probe.ChannelMap[i].datasubtype);
-            }
-            datatypes= datatypes.Distinct().ToList();
 
-            foreach (string s in datatypes)
+
+            for (int dId = 0; dId < MainClass.devices.Length; dId++)
             {
-                MainClass.win._handles.whichdata.AppendText(s);
+
+
+
+                nirs.core.Data data = new nirs.core.Data();
+                data.demographics = demo[dId];
+                data.demographics.set("Investigator", combobox_investigators.ActiveText);
+                data.demographics.set("Study", combobox_studies.ActiveText);
+                data.demographics.set("Instrument", MainClass.win.settings.SYSTEM);
+                DateTime now = DateTime.Now;
+                data.demographics.set("scan_date", now.ToString("F"));
+                data.probe = probe.Clone();
+
+
+                Gtk.ListStore ClearList = new Gtk.ListStore(typeof(string));
+                MainClass.win._handles.whichdata.Model = ClearList;
+
+                List<string> datatypes = new List<string>();
+                for (int ii = 0; ii < data.probe.ChannelMap.Length; ii++)
+                {
+                    datatypes.Add(data.probe.ChannelMap[ii].datasubtype);
+                }
+                datatypes = datatypes.Distinct().ToList();
+
+                foreach (string s in datatypes)
+                {
+                    MainClass.win._handles.whichdata.AppendText(s);
+                }
+
+                MainClass.win._handles.whichdata.Active = 0;
+
+                MainClass.win.nirsdata.Add(data);
+            
+            }
+            // Save the tmp file for quick reload
+            string path = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            path = System.IO.Path.Combine(path, "LastSettings.xml");
+
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+            settings.IndentChars = ("    ");
+            settings.CloseOutput = true;
+            settings.OmitXmlDeclaration = true;
+            using (XmlWriter writer = XmlWriter.Create(path, settings))
+            {
+                writer.WriteStartElement("settings");
+                writer.WriteElementString("probefile", probefilename);
+                writer.WriteElementString("Investigator", (string)demo[i].get("Investigator"));
+                writer.WriteElementString("Study", (string)demo[i].get("Study"));
+                writer.WriteEndElement();
+                writer.Flush();
             }
 
-            MainClass.win._handles.whichdata.Active = 0;
 
-            MainClass.win.nirsdata.Add(data);
             MainClass.win._handles.SDGplot.QueueDraw();
             Destroy();
         }
@@ -220,5 +282,81 @@ namespace NIRSrecorder
         {
             Destroy();
         }
+
+        protected void SelectDevice(object sender, EventArgs e)
+        {
+
+            int i = device_previous;
+
+            demo[i].set("SubjID", comboboxentry_subjID.ActiveText);
+            demo[i].set("Investigator", combobox_investigators.ActiveText);
+            demo[i].set("Study", combobox_studies.ActiveText);
+            demo[i].set("Gender", demo_gender.ActiveText);
+            demo[i].set("Age", demo_age.Text);
+            demo[i].set("Instrument", MainClass.win.settings.SYSTEM);
+            demo[i].set("head_circumference", demo_headsize.Text);
+            demo[i].set("Technician", demo_tecnician.Text);
+            demo[i].set("comments", demo_comments.Buffer.Text);
+            demo[i].set("Group", demo_group.Text);
+
+            i = combobox_hyperscanning.Active;
+            device_previous = i;
+            string subjid= (string)demo[i].get("SubjID");
+            string gender = (string)demo[i].get("Gender");
+
+
+            var store = (ListStore)comboboxentry_subjID.Model;
+            int index = 0;
+            bool found = false;
+            foreach (object[] row in store)
+            {
+                // Check for match
+                if (subjid == row[0].ToString())
+                {
+                    comboboxentry_subjID.Active = index;
+                    found = true;
+                    break;
+                }
+                // Increment the index so we can reference it for the active.
+                index++;
+            }
+            if (!found)
+            {
+                comboboxentry_subjID.AppendText(subjid);
+                comboboxentry_subjID.Active = index;
+            }
+
+
+            store = (ListStore)demo_gender.Model;
+           index = 0;
+           found = false;
+            foreach (object[] row in store)
+            {
+                // Check for match
+                if (gender == row[0].ToString())
+                {
+                    demo_gender.Active = index;
+                    found = true;
+                    break;
+                }
+                // Increment the index so we can reference it for the active.
+                index++;
+            }
+            if (!found)
+            {
+                demo_gender.AppendText(gender);
+                demo_gender.Active = index;
+            }
+
+
+
+            demo_age.Text= (string)demo[i].get("Age");
+            demo_headsize.Text=(string)demo[i].get("head_circumference");
+            demo_tecnician.Text= (string)demo[i].get("Technician");
+            demo_comments.Buffer.Text=(string)demo[i].get("comments");
+            demo_group.Text=(string)demo[i].get("Group");
+        }
+
+       
     }
 }

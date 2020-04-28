@@ -19,23 +19,39 @@ namespace NIRSDAQ
                 public String Name = "Simulator";
                 public String Manufacturer = "Simulator";
 
-                public static bool isrunning;
+                public bool isrunning;
 
                 public bool[] laserstates;
                 public int[] laserpower;
-                public static int[] detgains;
+                public  int[] detgains;
 
                 public bool usefilter;
-                public static int sample_rate;
+                public int sample_rate;
 
-                private static Queue[] dataqueue;
-                private static Thread newthread;
+                private Queue[] dataqueue;
+                private Thread newthread;
 
-                public static readonly int _nsrcs = 32;
-                public static readonly int _ndets = 32;
+                public int _nsrcs = 32;
+                public int _ndets = 32;
 
                 // num measurements
-                private static readonly int _nmeas = 24;
+                private int _nmeas = 24;
+
+                public void Initialize(nirs.core.Probe probe)
+                {
+                    _nmeas = probe.numChannels;
+                    dataqueue = new Queue[_nmeas];
+                    for (int i = 0; i < _nmeas; i++)
+                    {
+                        dataqueue[i] = new Queue();
+                    }
+
+                }
+
+                public int getsamplerate()
+                {
+                    return sample_rate;
+                }
 
                 public string portname()
                 {
@@ -66,6 +82,8 @@ namespace NIRSDAQ
                     isrunning = false;
                     laserstates = new bool[_nsrcs];
                     laserpower = new int[_nsrcs];
+
+                    newthread = new Thread(adddata);
 
                     SetFilter(false);
                     SetSampleRate(20);
@@ -105,7 +123,7 @@ namespace NIRSDAQ
                 public void Start()
                 {
                     isrunning = true;
-                    newthread = new Thread(adddata);
+                   
                     newthread.Start();
                 }
 
@@ -196,6 +214,10 @@ namespace NIRSDAQ
                         {
                             thisdata[i] = (double)dataqueue[i].Dequeue();
                         }
+                        else
+                        {
+                            thisdata[i] = 999;
+                        }
                     }
                     return thisdata;
                 }
@@ -223,7 +245,7 @@ namespace NIRSDAQ
 
 
 
-                public static void adddata()
+                public void adddata()
                 {
                     // TODO
                     int wait;
