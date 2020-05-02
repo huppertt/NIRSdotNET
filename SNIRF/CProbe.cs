@@ -22,6 +22,7 @@ namespace nirs
             public int numSrc;
             public int numDet;
             public int numChannels;
+            public int numWavelengths;
             public probedisplay default_display;
             public ChannelMap[] ChannelMap;
 
@@ -100,6 +101,7 @@ namespace nirs
                 other.numDet = this.numDet;
                 other.numSrc = this.numSrc;
                 other.numChannels = this.numChannels;
+                other.numWavelengths = this.numWavelengths;
 
                 other.SrcPos = this.SrcPos;
                 other.DetPos = this.DetPos;
@@ -491,14 +493,14 @@ namespace nirs
 
                 if (reset)
                 {
-                    for (int j = 0; j < this.numChannels; j++)
+                    for (int j = 0; j < this.ChannelMap.Length; j++)
                     {
                         this.measlistAct[j] = false;
                     }
                 }
 
                 // Do lines
-                for (int i = 0; i < this.numChannels; i++)
+                for (int i = 0; i < this.ChannelMap.Length; i++)
                 {
                     int si = this.ChannelMap[i].sourceindex;
                     int di = this.ChannelMap[i].detectorindex;
@@ -534,12 +536,12 @@ namespace nirs
                         // Selected this detector
                         if (reset)
                         {
-                            for (int j = 0; j < this.numChannels; j++)
+                            for (int j = 0; j < this.ChannelMap.Length; j++)
                             {
                                 this.measlistAct[j] = false;
                             }
                         }
-                        for (int j = 0; j < this.numChannels; j++)
+                        for (int j = 0; j < this.ChannelMap.Length; j++)
                         {
                             if (this.ChannelMap[j].detectorindex == i)
                             {
@@ -559,13 +561,13 @@ namespace nirs
                     {
                         if (reset)
                         {
-                            for (int j = 0; j < this.numChannels; j++)
+                            for (int j = 0; j < this.ChannelMap.Length; j++)
                             {
                                 this.measlistAct[j] = false;
                             }
                         }
                         // Selected this detector
-                        for (int j = 0; j < this.numChannels; j++)
+                        for (int j = 0; j < this.ChannelMap.Length; j++)
                         {
                             if (this.ChannelMap[j].sourceindex == i)
                             {

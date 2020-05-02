@@ -37,6 +37,7 @@ namespace nirs
 			{
 				lambda[i] = Convert.ToInt32(elemList[i].InnerXml);
 			}
+			probe.numWavelengths = lambda.Length;
 
 				// Source-positions
 				elemList = doc.GetElementsByTagName("srcpos");

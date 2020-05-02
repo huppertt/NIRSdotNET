@@ -35,12 +35,14 @@ namespace NIRSrecorder
 			this.BorderWidth = ((uint)(2));
 			this.Resizable = false;
 			this.AllowGrow = false;
-			this.DefaultWidth = 350;
-			this.DefaultHeight = 350;
+			this.DefaultWidth = 450;
+			this.DefaultHeight = 450;
 			this.DestroyWithParent = true;
 			this.Gravity = ((global::Gdk.Gravity)(5));
 			// Container child NIRSrecorder.HelpDLG.Gtk.Container+ContainerChild
 			this.vbox1 = new global::Gtk.VBox();
+			this.vbox1.WidthRequest = 400;
+			this.vbox1.HeightRequest = 300;
 			this.vbox1.Name = "vbox1";
 			this.vbox1.Spacing = 6;
 			// Container child vbox1.Gtk.Box+BoxChild

@@ -1,14 +1,20 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <config>
     
+<!-- The debug flag adds extra messaging and instrument control to the GUI --> 
     <debug> true </debug>
     
+<!-- These folders need to reflect where the data is stored on yor computer -->
     <default_folders>
         <datadir>/Users/theodorehuppert/Desktop/NIRSRecordIR/Data</datadir>
         <probedir>/Users/theodorehuppert/Desktop/NIRSRecordIR/Probe</probedir>
     </default_folders>
     
-    <systemtype>SimulatorHyperScan</systemtype>
+<!-- UNCOMMENT one of the instrument types {BTNIRS,CW6,Simulator,SimulatorHyperScan} -->
+    <!-- <systemtype>BTNIRS</systemtype> -->
+    <!-- <systemtype>CW6</systemtype> -->
+    <systemtype>SimulatorHyperScan</systemtype> 
+    <!--  <systemtype>Simulator</systemtype> -->
     
 </config>
 

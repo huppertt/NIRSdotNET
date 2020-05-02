@@ -1,20 +1,18 @@
 ﻿<Properties StartupConfiguration="{1B6462A9-7434-490C-B65C-91498B6FFA3F}|Default">
   <MonoDevelop.Ide.ItemProperties.NIRSrecorder PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../photonviewer/PhotonViewer/RealtimePanel.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/MainWindow_Controls.cs">
     <Files>
-      <File FileName="NIRSrecorder/RegisterSubject.cs" Line="219" Column="1" />
-      <File FileName="NIRSrecorder/MainWindow.cs" Line="783" Column="1" />
-      <File FileName="../photonviewer/PhotonViewer/RealtimePanel.cs" Line="39" Column="4" />
+      <File FileName="NIRSrecorder/RegisterSubject.cs" Line="313" Column="13" />
+      <File FileName="NIRSrecorder/MainWindow.cs" Line="345" Column="1" />
+      <File FileName="NIRSrecorder/MainWindow_Controls.cs" Line="227" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="NIRSdotNET" expanded="True">
-            <Node name="NIRSconverter" expanded="True" />
-            <Node name="NIRSdotNET" expanded="True" />
-            <Node name="NIRSrecorder" expanded="True" />
-            <Node name="PhotonViewer" expanded="True">
-              <Node name="RealtimePanel.cs" selected="True" />
+            <Node name="NIRSDAQ" expanded="True" />
+            <Node name="NIRSrecorder" expanded="True">
+              <Node name="MainWindow_Controls.cs" selected="True" />
             </Node>
           </Node>
         </State>
@@ -27,9 +25,17 @@
     <String>../HDF.PInvoke/HDF.PInvoke.csproj</String>
   </DisabledProjects>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="HDF5 1.10 Release" />
+  <Debugger.DebugSourceFolders />
   <MonoDevelop.Ide.ItemProperties.PhotonViewer PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/MainWindow.cs" relfile="NIRSrecorder/MainWindow.cs" line="358" column="1" />
+      <Breakpoint file="/Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/BTNIRS.cs" relfile="NIRSDAQ/BTNIRS.cs" line="472" column="1" />
+      <Breakpoint file="/Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/BTNIRS.cs" relfile="NIRSDAQ/BTNIRS.cs" line="334" column="1" />
+      <Breakpoint file="/Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/BTNIRS.cs" relfile="NIRSDAQ/BTNIRS.cs" line="141" column="1" />
+      <Breakpoint file="/Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/RegisterSubject.cs" relfile="NIRSrecorder/RegisterSubject.cs" line="313" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
+  <AuthorInfo Name="Theodore Huppert" Email="HUPPERT1@pitt.edu" Copyright="2020" Company="University of Pittsburgh" Trademark="" />
 </Properties>

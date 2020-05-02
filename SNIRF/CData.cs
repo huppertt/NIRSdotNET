@@ -52,7 +52,8 @@ namespace nirs
             }
 
             //-------------------------------------------------------------
-            public void draw(Gdk.Drawable da){
+            public void draw(Gdk.Drawable da,bool autoscale= false, double tMin = 0)
+            {
 
                 if (data == null)
                 {
@@ -60,12 +61,12 @@ namespace nirs
                 }
 
                 string datasubtype = this.probe.ChannelMap[0].datasubtype;
-                draw(da,datasubtype);
+                draw(da,datasubtype,autoscale,tMin);
             }
 
 
 
-            public void draw(Gdk.Drawable da,string datasubtype)
+            public void draw(Gdk.Drawable da,string datasubtype,bool autoscale=false,double tMin=0)
             {
                if (data == null)
                 {
@@ -83,7 +84,16 @@ namespace nirs
                 double maxY, minY;
                 minY = 99999; maxY = -99999;
 
+
                 int startIdx = 0;
+                for(int sIdx=0; sIdx<this.time.Count; sIdx++)
+                {
+                    if (this.time[sIdx] <= tMin)
+                    {
+                        startIdx = sIdx;
+                    }
+                }
+
 
                 if (this.probe.measlistAct == null)
                 {
@@ -97,21 +107,30 @@ namespace nirs
 
 
 
-                for (int i = 0; i < this.probe.numChannels; i++)
+                for (int i = 0; i < this.probe.ChannelMap.Length; i++)
                 {
-                    for (int j = startIdx; j < this.numsamples; j++)
+                    for (int j = startIdx; j < this.data[i].Count; j++)
                     {
-                        if (this.probe.measlistAct[i] & this.probe.ChannelMap[i].datasubtype.ToLower().Equals(datasubtype.ToLower()))
+                        if (this.probe.ChannelMap[i].datasubtype.ToLower().Equals(datasubtype.ToLower()))
                         {
-                            double d = this.data[i][j]; // TODO
-                            if (maxY < d)
-                                maxY = d;
-                            if (minY > d)
-                                minY = d;
+                            if (this.probe.measlistAct[i])
+                            {
+                                double d = this.data[i][j]; // Only shown data will define the scale
+                                if (maxY < d)
+                                    maxY = d;
+                                if (minY > d)
+                                    minY = d;
+                            }else if (!autoscale) // This will include all the data in defining the scale
+                            {
+                                double d = this.data[i][j];
+                                if (maxY < d)
+                                    maxY = d;
+                                if (minY > d)
+                                    minY = d;
+                            } 
                         }
                     }
                 }
-
 
 
                 double rangeY = maxY - minY;
@@ -176,12 +195,12 @@ namespace nirs
 
 
                 gc.SetLineAttributes(1, LineStyle.Solid, CapStyle.Projecting, JoinStyle.Round);
-                for (int i = 0; i < this.probe.numChannels; i++)
+                for (int i = 0; i < this.probe.ChannelMap.Length; i++)
                 {
                     if (this.probe.measlistAct[i] & this.probe.ChannelMap[i].datasubtype.Equals(datasubtype))
                     {
                         gc.RgbFgColor = this.probe.colormap[i];
-                        for (int j = 0; j < this.probe.numChannels; j++)
+                        for (int j = 0; j < this.probe.ChannelMap.Length; j++)
                         {
                             if (this.probe.ChannelMap[i].sourceindex == this.probe.ChannelMap[j].sourceindex &
                                this.probe.ChannelMap[i].detectorindex == this.probe.ChannelMap[j].detectorindex &
@@ -192,7 +211,7 @@ namespace nirs
                             }
                         }
 
-                        for (int j = startIdx + 1; j < this.numsamples; j++)
+                        for (int j = startIdx + 1; j < this.data[i].Count; j++)
                         {
 
                             double y2 = (this.data[i][j] - minY) / rangeY * height;

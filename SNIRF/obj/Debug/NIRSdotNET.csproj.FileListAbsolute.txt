@@ -62,7 +62,9 @@
 /Users/Huppert/Projects/NIRSdotNET/SNIRF/obj/Debug/SNIRF.pdb
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/pts1020.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/DefaultConfig.xml
+/Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/HemoglobinSpectrum.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/io_SNIRF.cs
+/Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/GetSpectrum.cs
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/SNIRF.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/SNIRF.pdb
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/System.Data.Common.dll
@@ -85,8 +87,8 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/MathNet.Numerics.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/MonoGame.Framework.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/HDF.PInvoke.xml
-/Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/obj/Debug/NIRSdotNET.csprojAssemblyReference.cache
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/obj/Debug/NIRSdotNET.csproj.CoreCompileInputs.cache
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/obj/Debug/NIRSdotNET.csproj.CopyComplete
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/obj/Debug/SNIRF.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/obj/Debug/SNIRF.pdb
+/Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/obj/Debug/NIRSdotNET.csprojAssemblyReference.cache

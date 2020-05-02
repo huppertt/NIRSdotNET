@@ -130,5 +130,7 @@ Global
 		Policies = $0
 		$0.StandardHeader = $1
 		$0.VersionControlPolicy = $2
+		$0.DotNetNamingPolicy = $3
+		$3.DirectoryNamespaceAssociation = PrefixedHierarchical
 	EndGlobalSection
 EndGlobal

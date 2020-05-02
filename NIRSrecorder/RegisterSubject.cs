@@ -22,7 +22,7 @@ namespace NIRSrecorder
 
             this.Build();
             device_previous = 0;
-            this.drawingarea1.ExposeEvent += sdgdraw;
+            this.drawingarea1.ExposeEvent += Sdgdraw;
             probe = new nirs.core.Probe();
 
             //this.previewSDG.ExposeEvent += sdgdraw;
@@ -79,7 +79,7 @@ namespace NIRSrecorder
             ShowAll();
         }
 
-        protected void sdgdraw(object sender, EventArgs e)
+        protected void Sdgdraw(object sender, EventArgs e)
         {
             if (probe.isregistered)
             {
@@ -156,7 +156,7 @@ namespace NIRSrecorder
                     {
                         probe = nirs.io.LoadProbe(probefile);
                         probefilename = probefile;
-                        sdgdraw(sender, e);
+                        Sdgdraw(sender, e);
                     }
                     else
                     {
@@ -178,8 +178,10 @@ namespace NIRSrecorder
             fcd.DefaultResponse = Gtk.ResponseType.Ok;
             fcd.SelectMultiple = false;
 
-            Gtk.FileFilter filter = new Gtk.FileFilter();
-            filter.Name = "NIRS probe";
+            Gtk.FileFilter filter = new FileFilter
+            {
+                Name = "NIRS probe"
+            };
             filter.AddMimeType("XML");
             filter.AddMimeType("Matlab");
             filter.AddPattern("*.SD");
@@ -192,7 +194,7 @@ namespace NIRSrecorder
             if (response == Gtk.ResponseType.Ok)
             {
                 probe = nirs.io.LoadProbe(fcd.Filename);
-                sdgdraw(sender, e);
+                Sdgdraw(sender, e);
             }
             probefilename = fcd.Filename;
             fcd.Destroy();
@@ -217,12 +219,34 @@ namespace NIRSrecorder
             demo[i].set("Technician", demo_tecnician.Text);
             demo[i].set("comments", demo_comments.Buffer.Text);
 
+            // Add channels for Optical Density, HbO2, and HbR
+
+            int cnt = probe.ChannelMap.Length;
+            nirs.ChannelMap[] ChannelMap = new nirs.ChannelMap[cnt*2+ 2*cnt / probe.numWavelengths];
+            for(int ii=0; ii < cnt; ii++)
+            {
+                ChannelMap[ii] = probe.ChannelMap[ii];
+            }
+            for (int ii = 0; ii < cnt; ii++)
+            {
+                ChannelMap[ii+cnt] = probe.ChannelMap[ii];
+                ChannelMap[ii+cnt].datasubtype = String.Format("ΔOD {0}nm", ChannelMap[ii].wavelength);
+            }
+            for (int ii = 0; ii < cnt/probe.numWavelengths; ii++)
+            {
+                ChannelMap[ii+2*cnt] = probe.ChannelMap[ii];
+                ChannelMap[ii+2*cnt].datasubtype = "HbO2";
+            }
+            for (int ii = cnt / probe.numWavelengths; ii < cnt; ii++)
+            {
+                ChannelMap[ii + 2 * cnt] = probe.ChannelMap[ii];
+                ChannelMap[ii + 2 * cnt].datasubtype = "Hb";
+            }
+            probe.ChannelMap = ChannelMap;
 
 
             for (int dId = 0; dId < MainClass.devices.Length; dId++)
             {
-
-
 
                 nirs.core.Data data = new nirs.core.Data();
                 data.demographics = demo[dId];
@@ -233,6 +257,19 @@ namespace NIRSrecorder
                 data.demographics.set("scan_date", now.ToString("F"));
                 data.probe = probe.Clone();
 
+                data.probe.measlistAct = new bool[data.probe.ChannelMap.Length];
+                for (int ii = 0; ii < data.probe.ChannelMap.Length; ii++)
+                {
+                    data.probe.measlistAct[ii] = true;
+                }
+
+                Gdk.Color[] cmap = new Gdk.Color[data.probe.ChannelMap.Length];
+                for (int ii = 0; ii < data.probe.numChannels; ii++) {
+                    cmap[ii]= data.probe.colormap[ii];
+                    cmap[data.probe.numChannels + ii] = data.probe.colormap[ii];
+                    cmap[data.probe.numChannels*2+ii] = data.probe.colormap[ii];
+                }
+                data.probe.colormap = cmap;
 
                 Gtk.ListStore ClearList = new Gtk.ListStore(typeof(string));
                 MainClass.win._handles.whichdata.Model = ClearList;
@@ -273,7 +310,8 @@ namespace NIRSrecorder
                 writer.Flush();
             }
 
-
+            MainClass.win.EnableControls(true);
+            MainClass.win.ShowAll();
             MainClass.win._handles.SDGplot.QueueDraw();
             Destroy();
         }

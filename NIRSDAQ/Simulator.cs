@@ -48,6 +48,11 @@ namespace NIRSDAQ
 
                 }
 
+                public string GetBatteryInfo()
+                {
+                    return "-----";
+                }
+
                 public int getsamplerate()
                 {
                     return sample_rate;
@@ -117,13 +122,14 @@ namespace NIRSDAQ
                     return foundports;
                 }
 
-                
+
 
 
                 public void Start()
                 {
+                    newthread = new Thread(adddata);
                     isrunning = true;
-                   
+             
                     newthread.Start();
                 }
 

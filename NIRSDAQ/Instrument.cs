@@ -13,6 +13,7 @@ namespace NIRSDAQ
         public int numMeas;
         public int numwavelengths;
         public int[] wavelengths;
+        public int sample_rate;
     }
 
 
@@ -73,6 +74,7 @@ namespace NIRSDAQ
                         _info.wavelengths = new int[2];
                         _info.wavelengths[0] = 690;
                         _info.wavelengths[1] = 830;
+                        _info.sample_rate = ((NIRSDAQ.Instrument.Devices.Simulator)device).sample_rate;
                         break;
                     case 1:
                         _info.numDet = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).ndets();
@@ -83,7 +85,7 @@ namespace NIRSDAQ
                         _info.wavelengths = new int[2];
                         _info.wavelengths[0] = 690;
                         _info.wavelengths[1] = 830;
-
+                        _info.sample_rate = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).sample_rate;
                         break;
                 }
 
@@ -104,6 +106,7 @@ namespace NIRSDAQ
                         devicename += " " + port;
                         break;
                 }
+                AllOff();
 
             }
 
@@ -134,6 +137,22 @@ namespace NIRSDAQ
                 }
 
             }
+
+            public string GetBatteryInfo()
+            {
+                string battery = "--------";
+                switch (devicetype)
+                {
+                    case 0:
+                        battery = ((NIRSDAQ.Instrument.Devices.Simulator)device).GetBatteryInfo();
+                        break;
+                    case 1:
+                        battery=((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).GetBatteryInfo();
+                        break;
+                }
+                return battery;
+            }
+
 
 
             public void AllOn()

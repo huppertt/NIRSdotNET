@@ -2,12 +2,12 @@
 using Gtk;
 namespace NIRSrecorder
 {
-    public partial class HelpDLG : Gtk.Window
+    public partial class HelpDLG : Window
     {
         public HelpDLG() :
-                base(Gtk.WindowType.Toplevel)
+                base(WindowType.Toplevel)
         {
-            this.Build();
+            Build();
 
         }
 
@@ -18,8 +18,8 @@ namespace NIRSrecorder
 
         protected void CloseDLG(object sender, EventArgs e)
         {
-            this.Dispose();
-            
+            Dispose();
+            Destroy();
         }
     }
 }
