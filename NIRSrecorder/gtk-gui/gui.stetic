@@ -10,7 +10,7 @@
     <widget-library name="../../SNIRF/bin/Debug/SNIRF.dll" />
     <widget-library name="../bin/Debug/NIRSrecorder.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="2000 900">
+  <widget class="Gtk.Window" id="MainWindow" design-size="2030 1147">
     <action-group name="Default">
       <action id="FileAction">
         <property name="Type">Action</property>
@@ -25,7 +25,9 @@
       <action id="AnalysisAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Analysis</property>
+        <property name="Sensitive">False</property>
         <property name="ShortLabel" translatable="yes">Help</property>
+        <property name="Visible">False</property>
       </action>
       <action id="AboutAction">
         <property name="Type">Action</property>
@@ -49,7 +51,6 @@
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Preferences</property>
         <property name="ShortLabel" translatable="yes">Preferences</property>
-        <signal name="Activated" handler="ClickedMenuPrefrences" />
       </action>
       <action id="LoadPreviousAction">
         <property name="Type">Action</property>
@@ -78,15 +79,13 @@
       <action id="DataQualityReportAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Data Quality Report</property>
+        <property name="Sensitive">False</property>
         <property name="ShortLabel" translatable="yes">Data Quality Report</property>
       </action>
-      <action id="HyperscanningViewAction">
-        <property name="Type">Toggle</property>
-        <property name="Label" translatable="yes">Hyperscanning view</property>
-        <property name="ShortLabel" translatable="yes">Hyperscanning view</property>
-        <property name="DrawAsRadio">False</property>
-        <property name="Active">False</property>
-        <signal name="Toggled" handler="SetHyperscanningView" />
+      <action id="MultipleDevicesAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Multiple Devices</property>
+        <property name="ShortLabel" translatable="yes">Multiple Devices</property>
       </action>
       <action id="ShowSystemMessagingAction">
         <property name="Type">Toggle</property>
@@ -99,12 +98,87 @@
       <action id="RegisterProbeAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Register Probe</property>
+        <property name="Sensitive">False</property>
         <property name="ShortLabel" translatable="yes">Register Probe</property>
       </action>
       <action id="RunGLMAnalysisAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Run GLM Analysis</property>
+        <property name="Sensitive">False</property>
         <property name="ShortLabel" translatable="yes">Run GLM Analysis</property>
+      </action>
+      <action id="SaveNirsFormatAction">
+        <property name="Type">Toggle</property>
+        <property name="Label" translatable="yes">Save *.nirs format</property>
+        <property name="ShortLabel" translatable="yes">Save *.nirs format</property>
+        <property name="DrawAsRadio">True</property>
+        <property name="Active">True</property>
+      </action>
+      <action id="SaveSnirfFormatAction">
+        <property name="Type">Toggle</property>
+        <property name="Label" translatable="yes">Save *.snirf format</property>
+        <property name="ShortLabel" translatable="yes">Save *.snirf format</property>
+        <property name="DrawAsRadio">True</property>
+        <property name="Active">True</property>
+      </action>
+      <action id="ConnectMultipleDevicesAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Connect Multiple Devices</property>
+        <property name="ShortLabel" translatable="yes">Connect Multiple Devices</property>
+      </action>
+      <action id="DeviceSettingsAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Device Settings</property>
+        <property name="Sensitive">False</property>
+        <property name="ShortLabel" translatable="yes">Device Settings</property>
+      </action>
+      <action id="DataSettingsAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Data Settings</property>
+        <property name="Sensitive">False</property>
+        <property name="ShortLabel" translatable="yes">Data Settings</property>
+      </action>
+      <action id="DeviceDebuggingAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Device Debugging</property>
+        <property name="ShortLabel" translatable="yes">Device Debugging</property>
+        <signal name="Activated" handler="ClickedMenuPrefrences" />
+      </action>
+      <action id="DevicesInUseAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Devices In Use</property>
+        <property name="ShortLabel" translatable="yes">Devices In Use</property>
+      </action>
+      <action id="SimulatorAction">
+        <property name="Type">Toggle</property>
+        <property name="Label" translatable="yes">Simulator</property>
+        <property name="ShortLabel" translatable="yes">Simulator</property>
+        <property name="DrawAsRadio">True</property>
+        <property name="Active">False</property>
+      </action>
+      <action id="DeviceOptionsAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Device Options</property>
+        <property name="ShortLabel" translatable="yes">Device Options</property>
+      </action>
+      <action id="SingleViewAction">
+        <property name="Type">Radio</property>
+        <property name="Label" translatable="yes">Single View</property>
+        <property name="ShortLabel" translatable="yes">Single View</property>
+        <property name="DrawAsRadio">True</property>
+        <property name="Active">True</property>
+        <property name="Value">0</property>
+        <property name="Group">group1</property>
+        <signal name="Toggled" handler="SetHyperscanningView" />
+      </action>
+      <action id="DualViewAction">
+        <property name="Type">Radio</property>
+        <property name="Label" translatable="yes">Dual View</property>
+        <property name="ShortLabel" translatable="yes">Dual View</property>
+        <property name="DrawAsRadio">True</property>
+        <property name="Active">False</property>
+        <property name="Value">0</property>
+        <property name="Group">group1</property>
       </action>
     </action-group>
     <property name="MemberName" />
@@ -132,17 +206,29 @@
               <node type="Menu" action="FileAction">
                 <node type="Menuitem" action="NewSubjectAction" />
                 <node type="Menuitem" action="QuickStartAction" />
-                <node type="Menuitem" action="PreferencesAction" />
+                <node type="Menu" action="PreferencesAction">
+                  <node type="Menuitem" action="DataSettingsAction" />
+                  <node type="Menuitem" action="SaveNirsFormatAction" />
+                  <node type="Menuitem" action="SaveSnirfFormatAction" />
+                  <node type="Separator" />
+                  <node type="Menuitem" action="DeviceSettingsAction" />
+                  <node type="Menuitem" action="ConnectMultipleDevicesAction" />
+                  <node type="Menu" action="DevicesInUseAction" />
+                  <node type="Menuitem" action="DeviceOptionsAction" />
+                  <node type="Menuitem" action="DeviceDebuggingAction" />
+                </node>
                 <node type="Menuitem" action="LoadPreviousAction" />
                 <node type="Menuitem" action="ExitAction" />
               </node>
               <node type="Menu" action="ViewAction">
                 <node type="Menuitem" action="DataQualityReportAction" />
-                <node type="Menuitem" action="HyperscanningViewAction" />
-                <node type="Menuitem" action="ShowSystemMessagingAction" />
+                <node type="Menu" action="MultipleDevicesAction">
+                  <node type="Menuitem" action="SingleViewAction" />
+                  <node type="Menuitem" action="DualViewAction" />
+                </node>
               </node>
               <node type="Menu" action="AnalysisAction">
-                <node type="Menu" action="RegisterProbeAction" />
+                <node type="Menuitem" action="RegisterProbeAction" />
                 <node type="Menuitem" action="RunGLMAnalysisAction" />
               </node>
               <node type="Menu" action="AboutAction">
@@ -851,7 +937,7 @@ Type 4</property>
                             <property name="WidthRequest">524</property>
                             <property name="HeightRequest">200</property>
                             <property name="CanFocus">True</property>
-                            <property name="CurrentPage">3</property>
+                            <property name="CurrentPage">4</property>
                             <property name="TabPos">Left</property>
                             <property name="BorderWidth">6</property>
                             <child>
@@ -1358,15 +1444,18 @@ Type 4</property>
                                                         <property name="MemberName" />
                                                         <property name="Spacing">6</property>
                                                         <child>
-                                                          <widget class="Gtk.Label" id="label52">
+                                                          <widget class="Gtk.CheckButton" id="checkbutton_hpf">
                                                             <property name="MemberName" />
-                                                            <property name="LabelProp" translatable="yes">HPF</property>
+                                                            <property name="CanFocus">True</property>
+                                                            <property name="Label" translatable="yes">High Pass Filter</property>
+                                                            <property name="DrawIndicator">True</property>
+                                                            <property name="HasLabel">True</property>
+                                                            <property name="UseUnderline">True</property>
+                                                            <signal name="Clicked" handler="ChangeBPF" />
                                                           </widget>
                                                           <packing>
                                                             <property name="Position">0</property>
                                                             <property name="AutoSize">True</property>
-                                                            <property name="Expand">False</property>
-                                                            <property name="Fill">False</property>
                                                           </packing>
                                                         </child>
                                                         <child>
@@ -1383,21 +1472,6 @@ Type 4</property>
                                                             <property name="AutoSize">True</property>
                                                           </packing>
                                                         </child>
-                                                        <child>
-                                                          <widget class="Gtk.CheckButton" id="checkbutton_hpf">
-                                                            <property name="MemberName" />
-                                                            <property name="CanFocus">True</property>
-                                                            <property name="Label" translatable="yes" />
-                                                            <property name="DrawIndicator">True</property>
-                                                            <property name="HasLabel">True</property>
-                                                            <property name="UseUnderline">True</property>
-                                                            <signal name="Clicked" handler="ChangeBPF" />
-                                                          </widget>
-                                                          <packing>
-                                                            <property name="Position">2</property>
-                                                            <property name="AutoSize">True</property>
-                                                          </packing>
-                                                        </child>
                                                       </widget>
                                                       <packing>
                                                         <property name="Position">0</property>
@@ -1411,15 +1485,18 @@ Type 4</property>
                                                         <property name="MemberName" />
                                                         <property name="Spacing">6</property>
                                                         <child>
-                                                          <widget class="Gtk.Label" id="label53">
+                                                          <widget class="Gtk.CheckButton" id="checkbutton_lpf">
                                                             <property name="MemberName" />
-                                                            <property name="LabelProp" translatable="yes">LPF</property>
+                                                            <property name="CanFocus">True</property>
+                                                            <property name="Label" translatable="yes">Low Pass Filter </property>
+                                                            <property name="DrawIndicator">True</property>
+                                                            <property name="HasLabel">True</property>
+                                                            <property name="UseUnderline">True</property>
+                                                            <signal name="Clicked" handler="ChangeBPF" />
                                                           </widget>
                                                           <packing>
                                                             <property name="Position">0</property>
                                                             <property name="AutoSize">True</property>
-                                                            <property name="Expand">False</property>
-                                                            <property name="Fill">False</property>
                                                           </packing>
                                                         </child>
                                                         <child>
@@ -1433,21 +1510,6 @@ Type 4</property>
                                                           </widget>
                                                           <packing>
                                                             <property name="Position">1</property>
-                                                            <property name="AutoSize">True</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="Gtk.CheckButton" id="checkbutton_lpf">
-                                                            <property name="MemberName" />
-                                                            <property name="CanFocus">True</property>
-                                                            <property name="Label" translatable="yes" />
-                                                            <property name="DrawIndicator">True</property>
-                                                            <property name="HasLabel">True</property>
-                                                            <property name="UseUnderline">True</property>
-                                                            <signal name="Clicked" handler="ChangeBPF" />
-                                                          </widget>
-                                                          <packing>
-                                                            <property name="Position">2</property>
                                                             <property name="AutoSize">True</property>
                                                           </packing>
                                                         </child>
@@ -1511,6 +1573,7 @@ Type 4</property>
                                         <child>
                                           <widget class="Gtk.Frame" id="frame24">
                                             <property name="MemberName" />
+                                            <property name="Sensitive">False</property>
                                             <property name="BorderWidth">6</property>
                                             <child>
                                               <widget class="Gtk.Alignment" id="GtkAlignment23">
@@ -1761,7 +1824,7 @@ Type 4</property>
                             <child>
                               <widget class="Gtk.Label" id="label11">
                                 <property name="MemberName" />
-                                <property name="LabelProp" translatable="yes">Debug</property>
+                                <property name="LabelProp" translatable="yes">System</property>
                               </widget>
                               <packing>
                                 <property name="type">tab</property>

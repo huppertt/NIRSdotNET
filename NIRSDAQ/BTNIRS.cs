@@ -36,15 +36,49 @@ namespace NIRSDAQ
                     private int wordsperrecord;
 
                     public int _nsrcs = 8;
-                    public int _ndets = 6;
+                    public int _ndets = 8;
 
                     // num measurements
-                    private int _nmeas = 24;
+                    private int _nmeas = 32;
+                    private string battery;
+
+                    private List<int> MLorder;
 
 
                     public void Initialize(nirs.core.Probe probe)
                     {
-                       // TODO
+                        // Sets the mapping between data and the probe.
+
+                        int[] wavelengths = new int[] { 735, 850 };
+                        int[] DetIdx = new int[] { 1, 5, 1, 5, 1, 5, 1, 5, 2, 6, 2, 6, 2, 6, 2, 6, 3, 7, 3, 7, 3, 7, 3, 7, 4, 8, 4, 8, 4, 8, 4, 8 };
+                        int[] SrcIdx = new int[] { 1, 3, 1, 3, 2, 4, 2, 4, 1, 3, 1, 3, 2, 4, 2, 4, 1, 3, 1, 3, 2, 4, 2, 4, 1, 3, 1, 3, 2, 4, 2, 4 };
+                        int[] TypIdx = new int[] { 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2 };
+
+                        _nmeas = probe.numChannels;
+
+                        MLorder = new List<int>();
+                        for(int i=0; i<probe.numChannels; i++)
+                        {
+                            int found = -1;
+                            for (int j=0; j < DetIdx.Length; j++)
+                            {
+                                if(probe.ChannelMap[i].sourceindex==SrcIdx[j]-1 &
+                                   probe.ChannelMap[i].detectorindex==DetIdx[j]-1 &
+                                   probe.ChannelMap[i].wavelength == wavelengths[TypIdx[j] - 1])
+                                {
+                                    found = j;
+                                    break;
+                                }
+                            }
+                            if (found > -1)
+                            {
+                                MLorder.Add(found);
+                            }
+
+                        }
+
+
+
 
                     }
 
@@ -87,20 +121,7 @@ namespace NIRSDAQ
                         laserstates = new bool[_nsrcs];
                         laserpower = new int[_nsrcs];
 
-                        SetFilter(false);
-                        SetSampleRate(20);
-
-                        for (int i = 0; i < _nsrcs; i++)
-                        {
-                            SetLaserState(i, false);
-                            SetLaserPower(i, 0);
-                        }
-                        detgains = new int[_ndets];
-                        for (int i = 0; i < _ndets; i++)
-                        {
-                            SetDetGain(i, 0);
-                        }
-
+                     
                         dataqueue = new Queue[_nmeas];
                         for (int i = 0; i < _nmeas; i++)
                         {
@@ -136,8 +157,10 @@ namespace NIRSDAQ
 
                         // flush the Serial buffer
                         FlushBuffer();
-
+                        FlushBuffer();
                         isrunning = SendCommMsg("RUN");
+                        int i=_serialPort.BytesToRead;
+                        Thread.Sleep(100);
                         newthread.Start();
                         return;
                     }
@@ -157,9 +180,13 @@ namespace NIRSDAQ
                         }
 
                         sample_rate = fs;
-                        SendCommMsg(String.Format("SSR {0}", fs));
+                        SendCommMsg(String.Format("SSR {0}", fs/10));
 
                         wordsperrecord = 5 + 64 * fs / 10 + 11;
+
+                        SendCommMsg("GSR");
+                        string msg = ReadCommMsg();
+
                     }
 
                     public void SetFilter(bool flag)
@@ -197,17 +224,43 @@ namespace NIRSDAQ
 
                     public string GetBatteryInfo()
                     {
+                        if (!isrunning)
+                        {
+                            
+                            SendCommMsg("BAT");
+                            string msg = ReadCommMsg();
 
-                        SendCommMsg("BAT");
-                        string msg =ReadCommMsg();
-
-                        byte bat = Convert.ToByte(msg[0]);
-
-                        bat = (byte)(bat >> 4);
-                        return string.Format("{0}%", 10 * Convert.ToInt16(bat));
+                            if (msg == null)
+                            {
+                                return battery;
+                            }
+                            byte bat = Convert.ToByte(msg[6]);
+                            byte bat2 = Convert.ToByte(msg[7]);
+                            battery = BatteryString(bat);
+                        }
+                        return battery;
                     }
 
+                    private string BatteryString(byte msg)
+                    {
+                        int stim = (int)(msg & 0b11110000 );
+                       int bat = (int)(msg & 0b00001111 );
 
+                        string b = "";
+                        if (bat == 0b1010) { b = "100%"; }
+                        if (bat == 0b1001) { b = "90%"; }
+                        if (bat == 0b1000) { b = "80%"; }
+                        if (bat == 0b0111) { b = "70%"; }
+                        if (bat == 0b0110) { b = "60%"; }
+                        if (bat == 0b0101) { b = "50%"; }
+                        if (bat == 0b0100) { b = "40%"; }
+                        if (bat == 0b0011) { b = "30%"; }
+                        if (bat == 0b0010) { b = "20%"; }
+                        if (bat == 0b0001) { b = "10%"; }
+                        if (bat == 0b0000) { b = "CHARGE BATTERY"; }
+
+                        return b;
+                    }
 
                     public void SetLaserState(int sIdx, bool state)
                     {
@@ -253,6 +306,13 @@ namespace NIRSDAQ
                         while (_serialPort.BytesToRead > 0)
                         {
                             _serialPort.DiscardInBuffer();
+                            _serialPort.DiscardOutBuffer();
+
+                            Thread.Sleep(50);
+                            if (_serialPort.BytesToRead > 0)
+                            {
+                                _ = _serialPort.ReadExisting();
+                            }
                         }
 
                     }
@@ -261,12 +321,20 @@ namespace NIRSDAQ
                     // Get Data from the instrument and place in data queue
                     public double[] Getdata()
                     {
+
+                        int cnt = 9999;
+                        for (int i=0; i<dataqueue.Length; i++)
+                        {
+                            if(cnt> dataqueue[i].Count) { cnt = dataqueue[i].Count; }
+                        }
+                       
+
                         double[] thisdata = new double[_nmeas];
                         for (int i = 0; i < _nmeas; i++)
                         {
-                            if (dataqueue[i].Count > 0)
+                            if (cnt > 0)
                             {
-                                thisdata[i] = (double)dataqueue[i].Dequeue();
+                                thisdata[i] = (double)dataqueue[MLorder[i]].Dequeue();
                             }
                         }
                         return thisdata;
@@ -303,109 +371,63 @@ namespace NIRSDAQ
                         // TODO
                         int wait;
                         wait = 500 / sample_rate;
-                        int cnt = 0;
-
-                        int npack = sample_rate / 10;
-
-
-
-                        while (isrunning)
+                     
+                                           while (isrunning)
                         {
                             if (_serialPort.BytesToRead > wordsperrecord)
                             {
-                                char[] data = new char[wordsperrecord];
-                                int c = _serialPort.Read(data, 0, wordsperrecord);
+                                uint startPack1 = new uint();
+                                uint startPack2 = 0;
+                                while (startPack1!=160 | startPack2 != 162)
+                                {
+                                    startPack1 = startPack2;  // should be 160 = 0xA0
+                                    startPack2 = (uint)_serialPort.ReadByte(); // should be 162 = 0xA2
+                                }
 
+                                uint seqnum = (uint)_serialPort.ReadByte();
+                                uint lenPack = 256 * (uint)_serialPort.ReadByte() + (uint)_serialPort.ReadByte();
+                                uint nsamp = (lenPack - 16) / 64;
+                                //int nsamp = sample_rate / 10;
 
+                                byte[] data = new byte[64*nsamp+11];
+                                _ = _serialPort.Read(data, 0, data.Length);
 
-                                char[] hdr = new char[4];
-                                hdr[0] = data[0];
-                                hdr[1] = data[1];
-                                hdr[2] = data[2];
-                                hdr[3] = data[3];
-
-                                // byte1 =[6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56 58 60 62 64 66 68]';
-                                //byte2 =[7 9 11 13 15 17 19 21 23 25 27 29 31 33 35 37 39 41 43 45 47 49 51 53 55 57 59 61 63 65 67 69]';
-                                // detector =  [1 5 1 5 1 5 1 5 2 6 2 6 2 6 2 6 3 7 3 7 3 7 3 7 4 8 4 8 4 8 4 8]';
-                                // source =[1 3 1 3 2 4 2 4 1 3 1 3 2 4 2 4 1 3 1 3 2 4 2 4 1 3 1 3 2 4 2 4]';
-                                //type =      [1 1 2 2 1 1 2 2 1 1 2 2 1 1 2 2 1 1 2 2 1 1 2 2 1 1 2 2 1 1 2 2]';
-                                //type(type == 1) = 735; type(type == 2) = 850;
-
-                                int count = 4;
-                                for (int pack = 0; pack < npack; pack++)
+                                int count = 0;
+                                for (int pack = 0; pack < nsamp; pack++)
                                 {
                                     for (int i = 0; i < _nmeas; i++)
                                     {
-                                        double value = char2val(data[count]) + 256 * char2val(data[count + 1]);
+                                        double value = data[count]* 256 + data[count + 1];
                                         dataqueue[i].Enqueue(value);
                                         count += 2;
 
                                     }
                                 }
-                                byte bat = Convert.ToByte(data[cnt]);
-                                bat = (byte)(bat >> 4);
-                                cnt++;
-                                //PERC = flipdim([100 95 90 85 80 75 70 65 60 55 50 40 30 20 10 0],2);
+                                //uint bat = (uint)data[64 * nsamp];
+                                battery = BatteryString(data[64 * nsamp]);
+                                int temp = (int)data[64 * nsamp+1];
+                                uint reserve1 = (uint)data[64 * nsamp+2]; 
+                                uint reserve2 = (uint)data[64 * nsamp+3];
 
-                                // aux.stim(i, 1) = 1 * strcmp(bat(5), '1');
-                                // aux.stim(i, 2) = 1 * strcmp(bat(6), '1');
-                                // aux.stim(i, 3) = 1 * strcmp(bat(7), '1');
-                                // aux.stim(i, 4) = 1 * strcmp(bat(8), '1');
-                                cnt++;
-                                char temp = data[cnt];
-                                char[] acc = new char[3];
-                                acc[0] = data[cnt]; cnt++;
-                                acc[1] = data[cnt]; cnt++;
-                                acc[2] = data[cnt]; cnt++;
+                                uint ACCX = (uint)data[64 * nsamp+4];
+                                uint ACCY = (uint)data[64 * nsamp+5];
+                                uint ACCZ = (uint)data[64 * nsamp+6];
+
+                                uint CRC1 = (uint)data[64 * nsamp+7];
+                                uint CRC2 = (uint)data[64 * nsamp+8];
+
+                                int endPack1 = data[64 * nsamp+9]; // should be 176 = 0xB0
+                                int endPack2 = data[64 * nsamp+10]; // should be 179 = 0xB3
+
+
                             }
-                            
+
                             Thread.Sleep(wait);
                         }
                       
                     }
 
-                    // helper function
-                    static double char2val(char a)
-                    {
-                        switch (a.ToString())
-                        {
-                            case "0":
-                                return 0;
-                            case "1":
-                                return 1;
-                            case "2":
-                                return 2;
-                            case "3":
-                                return 3;
-                            case "4":
-                                return 4;
-                            case "5":
-                                return 5;
-                            case "6":
-                                return 6;
-                            case "7":
-                                return 7;
-                            case "8":
-                                return 8;
-                            case "9":
-                                return 9;
-                            case "A":
-                                return 10;
-                            case "B":
-                                return 11;
-                            case "C":
-                                return 12;
-                            case "D":
-                                return 13;
-                            case "E":
-                                return 14;
-                            case "F":
-                                return 15;
-                            default:
-                                return 0;
-                        }
-
-                    }
+               
 
 
                     // Connect to device
@@ -434,9 +456,14 @@ namespace NIRSDAQ
                                 {
                                     _serialPort = new SerialPort(port, 115200, Parity.None, 8);
                                     _serialPort.StopBits = StopBits.One;
-                                    _serialPort.Handshake = Handshake.None;
+                                    _serialPort.Handshake = Handshake.RequestToSend;
+                                    _serialPort.ReadBufferSize = 1024 * 1024;
+                                    _serialPort.ReadTimeout = 10;
+                                    _serialPort.NewLine = string.Format("{0}", (char)13);
                                     _serialPort.Open();
 
+                                    SendCommMsg("STP");
+                                    Thread.Sleep(250);
                                     SendCommMsg("PID");
 
                                     if (_serialPort.BytesToRead > 0)
@@ -447,6 +474,23 @@ namespace NIRSDAQ
 
                                     FlushBuffer();
                                     isconnected = flag;
+
+
+                                    SetFilter(false);
+                                    SetSampleRate(10);
+
+                                    for (int i = 0; i < _nsrcs; i++)
+                                    {
+                                        SetLaserState(i, false);
+                                        SetLaserPower(i, 0);
+                                    }
+                                    detgains = new int[_ndets];
+                                    for (int i = 0; i < _ndets; i++)
+                                    {
+                                        SetDetGain(i, 0);
+                                    }
+
+
                                     return flag;
 
                                 }
@@ -485,7 +529,7 @@ namespace NIRSDAQ
                         {
                             
                             _serialPort.Write(bytes, 0, bytes.Length);
-                            Thread.Sleep(200);
+                            Thread.Sleep(40);
                          
                             flag = true;
                         }
@@ -503,21 +547,26 @@ namespace NIRSDAQ
                     public string ReadCommMsg()
                     {
                         string msg = null;
-                        
-                        if (!_serialPort.IsOpen | !isconnected)
+
+                        if (!_serialPort.IsOpen)
                         {
                             return msg;
                         }
 
+                        Thread.Sleep(200);
                         try
                         {
+
+
                             if (_serialPort.BytesToRead > 0)
                             {
-                                msg = _serialPort.ReadLine();
+                                msg = _serialPort.ReadExisting();
+
                             }
                             else
                             {
                                 Console.WriteLine("Read Failed: No bytes avalaiable/n");
+
                             }
                         }
                         catch (Exception)
@@ -525,7 +574,7 @@ namespace NIRSDAQ
                             // handle the exception
                             Console.WriteLine("Failed Serial Read/n");
                         }
-                        
+
                         return msg;
                     }
 

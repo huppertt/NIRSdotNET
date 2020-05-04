@@ -99,11 +99,11 @@ namespace NIRSDAQ
                 {
                     case 0:
                         ((NIRSDAQ.Instrument.Devices.Simulator)device).Connect(port);
-                        devicename += " " + port;
+                        //devicename += " " + port;
                         break;
                     case 1:
                         ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).Connect(port);
-                        devicename += " " + port;
+                      //  devicename += " " + port;
                         break;
                 }
                 AllOff();

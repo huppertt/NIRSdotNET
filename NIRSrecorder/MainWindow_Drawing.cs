@@ -34,7 +34,7 @@ public partial class MainWindow : Window
 
         nirsdata[combobox_device1.Active].probe.draw(drawingarea_SDG.GdkWindow);
         drawingarea_SDG.QueueDraw();
-        if (HyperscanningViewAction.Active)
+        if (DualViewAction.Active)
         {
             if (combobox_selectview.ActiveText.Equals("Flat View"))
             {
@@ -97,7 +97,7 @@ public partial class MainWindow : Window
         {
             return;
         }
-        if (!HyperscanningViewAction.Active)
+        if (!DualViewAction.Active)
         {
             return;
         }
@@ -151,7 +151,7 @@ public partial class MainWindow : Window
 
         // This is evoked on exposure of the main data window to update the drawing
         nirsdata[combobox_device1.Active].draw(drawingarea_Data.GdkWindow, combobox_whichdata.ActiveText, autoscale, tMin);
-        if (HyperscanningViewAction.Active)
+        if (DualViewAction.Active)
         {
             nirsdata[combobox_device2.Active].draw(drawingarea_Data2.GdkWindow, combobox_whichdata.ActiveText, autoscale, tMin);
             drawingarea_Data2.QueueDraw();

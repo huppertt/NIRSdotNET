@@ -5,8 +5,7 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Xml;
-using MathNet.Filtering;
-using System.Linq;
+
 
 
 public partial class MainWindow : Window
@@ -117,10 +116,14 @@ public partial class MainWindow : Window
             colorbutton3.Color = new Gdk.Color(128, 255, 128);
             DebugMessage(string.Format("Connected to device {0}", i + 1));
 
+            MainClass.devices[i].devicename= string.Format("{0}-{1}", MainClass.devices[i].devicename, i + 1);
             NIRSDAQ.info _info = MainClass.devices[i].GetInfo();
+            
             _info.numDet = settings.system_Info.numdet;
             _info.numSrc = settings.system_Info.numsrc;
 
+
+            //DevicesInUseAction
 
             HBox hBox = new HBox(true, 0);
             Label label = new Label();
@@ -300,10 +303,12 @@ public partial class MainWindow : Window
             fixed_device2.Hide();
             combobox_device1.Hide();
             combobox_device2.Hide();
-            HyperscanningViewAction.Sensitive = false;
+            MultipleDevicesAction.Sensitive = false;
             drawingarea_Data2.Hide();
             drawingarea_SDG2.Hide();
             combobox_device1.Active = 0;
+            DualViewAction.Sensitive = false;
+            SingleViewAction.Sensitive = false;
         }
         else
         {
@@ -315,8 +320,8 @@ public partial class MainWindow : Window
 
          //   combobox_device1.Hide();
             combobox_device2.Hide();
-            HyperscanningViewAction.Sensitive = true;
-            HyperscanningViewAction.Active = false;
+            MultipleDevicesAction.Sensitive = true;
+            SingleViewAction.Active = false;
             drawingarea_Data2.Hide();
             drawingarea_SDG2.Hide();
         }
@@ -342,7 +347,7 @@ public partial class MainWindow : Window
         button_markevent.Sensitive = flag;
         button_autoadjust.Sensitive = flag;
         entry_timeWindow.Sensitive = flag;
-
+        MultipleDevicesAction.Sensitive = flag;
 
 
 

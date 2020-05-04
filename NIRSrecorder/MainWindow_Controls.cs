@@ -5,7 +5,6 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Xml;
-using MathNet.Filtering;
 using System.Linq;
 
 
@@ -13,12 +12,12 @@ public partial class MainWindow : Window
 {
 
 
-
+    // This is called by the timer thread to check the battery every few seconds
     private void CheckBatteryWrapper()
     {
         while (true)
         {
-            Thread.Sleep(batterychecktime);  // update every 20s
+            Thread.Sleep(batterychecktime);  // update every 20s - Set in Main_Parameters.cs
             CheckBattery();
 
         }
@@ -27,11 +26,16 @@ public partial class MainWindow : Window
 
 
 
-
-
-
+    // GUI close function.     
     protected void OnDeleteEvent(object sender, DeleteEventArgs a)
     {
+        for (int i = 0; i < MainClass.devices.Length; i++)
+        {
+            MainClass.devices[i].Stop();
+            MainClass.devices[i].AllOff();
+            MainClass.devices[i].FlushBuffer();
+        }
+        Destroy();
         Application.Quit();
         a.RetVal = true;
     }
@@ -49,16 +53,16 @@ public partial class MainWindow : Window
 
 
 
-
+    // Sub GUI to register a new subject
     protected void RegisterSubject(object sender, EventArgs e)
     {
         RegisterSubject registerSubject = new RegisterSubject();
         registerSubject.Show();
         Application.Run();
 
-
     }
 
+    // Menu item to close program
     protected void ExitGUI(object sender, EventArgs e)
     {
         for (int i = 0; i < MainClass.devices.Length; i++)
@@ -72,6 +76,7 @@ public partial class MainWindow : Window
 
     }
 
+    // Menu item for About menu info
     protected void AboutDLG(object sender, EventArgs e)
     {
         HelpDLG dlg = new HelpDLG();
@@ -79,6 +84,8 @@ public partial class MainWindow : Window
         Application.Run();
     }
 
+
+    // Menu item for help- points to code WIKI papge
     protected void HelpDLG(object sender, EventArgs e)
     {
         _ = System.Diagnostics.Process.Start("https://bitbucket.org/huppertt/");
@@ -90,7 +97,7 @@ public partial class MainWindow : Window
     protected void Changeprobe_view(object sender, EventArgs e)
     {
         drawingarea_SDG.QueueDraw();
-        if (HyperscanningViewAction.Active)
+        if (DualViewAction.Active)
         {
             drawingarea_SDG2.QueueDraw();
         }
@@ -99,7 +106,7 @@ public partial class MainWindow : Window
 
     protected void SetHyperscanningView(object sender, EventArgs e)
     {
-        if (HyperscanningViewAction.Active)
+        if (DualViewAction.Active)
         {
             fixed_device1.Visible = true;
             fixed_device2.Visible = true;
@@ -117,16 +124,13 @@ public partial class MainWindow : Window
         }
         else
         {
-            //  fixed_device1.Visible = false;
+            // Single view.  Turn off the visibility of the second plot
             fixed_device2.Visible = false;
-            // combobox_device1.Visible = false;
             combobox_device2.Visible = false;
             drawingarea_Data2.Visible = false;
             drawingarea_SDG2.Visible = false;
 
-            // fixed_device1.Hide();
             fixed_device2.Hide();
-            // combobox_device1.Hide();
             combobox_device2.Hide();
             drawingarea_Data2.Hide();
             drawingarea_SDG2.Hide();
@@ -134,12 +138,14 @@ public partial class MainWindow : Window
 
     }
 
+
     protected void SetShowSystemMsg(object sender, EventArgs e)
     {
         MainClass.win.settings.DEBUG = ShowSystemMessagingAction.Active;
     }
 
 
+    // This restores the last Study/probe used
     protected void RegisterQuickStart(object sender, EventArgs e)
     {
 
