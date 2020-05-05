@@ -399,6 +399,83 @@ public partial class MainWindow : Window
         Gtk.CellRendererText cellRenderer = (Gtk.CellRendererText)sender;
         MyTreeNode nodeStore = nodeview_stim.NodeStore.GetNode(new TreePath(args.Path)) as MyTreeNode;
         //args.Path
+
+        if (nodeStore.Name == nodeStore.condname)
+        { // changed onset, amp, or duration
+            int idx = nodeStore.index;
+            for (int i = 0; i < nirsdata[0].stimulus.Count; i++)
+            {
+                if (nirsdata[0].stimulus[i].name.Equals(nodeStore.condname))
+                {
+                    nirs.Stimulus ev = nirsdata[0].stimulus[i];
+                    ev.onsets[idx] = nodeStore.onset;
+                    ev.amplitude[idx] = nodeStore.amp;
+                    ev.duration[idx] = nodeStore.duration;
+
+                    for (int j = 0; j < nirsdata.Count; j++)
+                    {
+                        nirsdata[j].stimulus[i] = ev;
+                    }
+
+                }
+
+            }
+        }
+        else
+        {
+            int idx = nodeStore.index;
+            for (int i = 0; i < nirsdata[0].stimulus.Count; i++)
+            {
+                if (nirsdata[0].stimulus[i].name.Equals(nodeStore.condname))
+                {
+                    nirs.Stimulus ev = nirsdata[0].stimulus[i];
+                    ev.onsets.RemoveAt(idx);
+                    ev.amplitude.RemoveAt(idx);
+                    ev.duration.RemoveAt(idx);
+
+                   nirsdata[0].stimulus[i] = ev;
+                   
+
+                }
+
+            }
+
+            bool found = false;
+            for (int i = 0; i < nirsdata[0].stimulus.Count; i++)
+            {
+                if (nirsdata[0].stimulus[i].name.Equals(nodeStore.Name))
+                {
+                    nirs.Stimulus ev = nirsdata[0].stimulus[i];
+                    ev.onsets.Add(nodeStore.onset);
+                    ev.amplitude.Add(nodeStore.amp);
+                    ev.duration.Add(nodeStore.duration);
+                    found = true;
+                    nirsdata[0].stimulus[i] = ev;
+                }
+
+            }
+            if (!found)
+            {
+                nirs.Stimulus ev = new nirs.Stimulus();
+
+                ev.onsets = new List<double>();
+                ev.duration = new List<double>();
+                ev.amplitude = new List<double>();
+                ev.name = nodeStore.Name;
+                ev.onsets.Add(nodeStore.onset);
+                ev.amplitude.Add(nodeStore.amp);
+                ev.duration.Add(nodeStore.duration);
+                nirsdata[0].stimulus.Add(ev);
+                
+            }
+
+        }
+
+
+
+        drawingarea_Data.QueueDraw();
+        drawingarea_Data2.QueueDraw();
+
         return;
         //   editableCell.Edited += (object o, Gtk.EditedArgs args) => {
         //       var node = store.GetNode(new Gtk.TreePath(args.Path)) as MyTreeNode;

@@ -159,7 +159,7 @@ public partial class MainWindow : Window
                     Value = det.gain,
                     ValuePos = PositionType.Bottom,
                     Inverted = true,
-                    HeightRequest = 100,
+                    HeightRequest = 200,
                     Name = string.Format("{0}", _handles.detectors.Count)
                 };
                 det.vScale.ValueChanged += DetChanged;
@@ -256,6 +256,11 @@ public partial class MainWindow : Window
         drawingarea_SDG2.AddEvents((int)Gdk.EventMask.ButtonPressMask);
         drawingarea_SDG2.AddEvents((int)Gdk.EventMask.ButtonReleaseMask);
         drawingarea_SDG2.ButtonReleaseEvent += ClickSDG2;
+
+
+        nodeview_stim.AddEvents((int)Gdk.EventMask.ButtonPressMask);
+        nodeview_stim.AddEvents((int)Gdk.EventMask.ButtonReleaseMask);
+        nodeview_stim.ButtonPressEvent += StimNode_Clicked;
 
         combobox_device1.Model = new ListStore(typeof(string));
         combobox_device2.Model = new ListStore(typeof(string));
@@ -369,17 +374,21 @@ public partial class MainWindow : Window
     {
     }
 
+    [GLib.ConnectBeforeAttribute]
     protected void StimNode_Clicked(object o, ButtonPressEventArgs args)
     {
-        Gtk.Menu popup_menu = new Gtk.Menu();
-        Gtk.RadioMenuItem grp = new Gtk.RadioMenuItem("Test");
-        Gtk.RadioMenuItem gr2 = new Gtk.RadioMenuItem("Test2");
-        popup_menu.Insert(grp, -1);
-        popup_menu.Insert(grp,-1);
+        if (args.Event.Button == 3)
+        { /* right click */
+            Gtk.Menu popup_menu = new Gtk.Menu();
 
-        popup_menu.ShowAll();
-        popup_menu.Popup();
+            MenuItem deleteItem = new MenuItem("Remove Event");
+            MenuItem deleteItem2 = new MenuItem("Rename Event");
 
+            popup_menu.Add(deleteItem);
+            popup_menu.Add(deleteItem2);
+            popup_menu.ShowAll();
+            popup_menu.Popup();
+        }
     }
 }
 
