@@ -81,6 +81,12 @@
     <Compile Include="MainWindow_Detectors.cs" />
     <Compile Include="MainWindow_Threading.cs" />
     <Compile Include="MainWindow_Drawing.cs" />
+    <Compile Include="ConnectDevices.cs" />
+    <Compile Include="gtk-gui\NIRSrecorder.ConnectDevices.cs" />
+    <Compile Include="AboutDialog.cs" />
+    <Compile Include="gtk-gui\NIRSrecorder.AboutDialog.cs" />
+    <Compile Include="RegisterSubjectDialog.cs" />
+    <Compile Include="gtk-gui\NIRSrecorder.RegisterSubjectDialog.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NIRSDAQ\NIRSDAQ.csproj">

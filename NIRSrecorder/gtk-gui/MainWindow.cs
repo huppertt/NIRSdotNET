@@ -417,6 +417,7 @@ public partial class MainWindow
 		this.AboutAction1.ShortLabel = global::Mono.Unix.Catalog.GetString("About");
 		w1.Add(this.AboutAction1, null);
 		this.DataQualityReportAction = new global::Gtk.Action("DataQualityReportAction", global::Mono.Unix.Catalog.GetString("Data Quality Report"), null, null);
+		this.DataQualityReportAction.Sensitive = false;
 		this.DataQualityReportAction.ShortLabel = global::Mono.Unix.Catalog.GetString("Data Quality Report");
 		w1.Add(this.DataQualityReportAction, null);
 		this.MultipleDevicesAction = new global::Gtk.Action("MultipleDevicesAction", global::Mono.Unix.Catalog.GetString("Multiple Devices"), null, null);
@@ -455,6 +456,7 @@ public partial class MainWindow
 		this.DataSettingsAction.ShortLabel = global::Mono.Unix.Catalog.GetString("Data Settings");
 		w1.Add(this.DataSettingsAction, null);
 		this.DeviceDebuggingAction = new global::Gtk.Action("DeviceDebuggingAction", global::Mono.Unix.Catalog.GetString("Device Debugging"), null, null);
+		this.DeviceDebuggingAction.Sensitive = false;
 		this.DeviceDebuggingAction.ShortLabel = global::Mono.Unix.Catalog.GetString("Device Debugging");
 		w1.Add(this.DeviceDebuggingAction, null);
 		this.DevicesInUseAction = new global::Gtk.Action("DevicesInUseAction", global::Mono.Unix.Catalog.GetString("Devices In Use"), null, null);
@@ -481,13 +483,14 @@ public partial class MainWindow
 		this.HeightRequest = 800;
 		this.CanFocus = true;
 		this.Name = "MainWindow";
-		this.Title = global::Mono.Unix.Catalog.GetString("NIRSRecordIR");
+		this.Title = global::Mono.Unix.Catalog.GetString("NIRS RecordIR");
 		this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 		this.Modal = true;
 		this.BorderWidth = ((uint)(6));
 		this.AllowShrink = true;
 		this.DefaultWidth = 1400;
 		this.DefaultHeight = 800;
+		this.Decorated = false;
 		this.DestroyWithParent = true;
 		this.Gravity = ((global::Gdk.Gravity)(5));
 		// Container child MainWindow.Gtk.Container+ContainerChild
@@ -503,20 +506,19 @@ public partial class MainWindow
 				"=\'SaveSnirfFormatAction\' action=\'SaveSnirfFormatAction\'/><separator/><menuitem n" +
 				"ame=\'DeviceSettingsAction\' action=\'DeviceSettingsAction\'/><menuitem name=\'Connec" +
 				"tMultipleDevicesAction\' action=\'ConnectMultipleDevicesAction\'/><menu name=\'Devic" +
-				"esInUseAction\' action=\'DevicesInUseAction\'><menuitem name=\'SimulatorAction\' acti" +
-				"on=\'SimulatorAction\'/></menu><menuitem name=\'DeviceOptionsAction\' action=\'Device" +
-				"OptionsAction\'/><menuitem name=\'DeviceDebuggingAction\' action=\'DeviceDebuggingAc" +
-				"tion\'/></menu><menuitem name=\'LoadPreviousAction\' action=\'LoadPreviousAction\'/><" +
-				"menuitem name=\'ExitAction\' action=\'ExitAction\'/></menu><menu name=\'ViewAction\' a" +
-				"ction=\'ViewAction\'><menuitem name=\'DataQualityReportAction\' action=\'DataQualityR" +
-				"eportAction\'/><menu name=\'MultipleDevicesAction\' action=\'MultipleDevicesAction\'>" +
-				"<menuitem name=\'SingleViewAction\' action=\'SingleViewAction\'/><menuitem name=\'Dua" +
-				"lViewAction\' action=\'DualViewAction\'/></menu></menu><menu name=\'AnalysisAction\' " +
-				"action=\'AnalysisAction\'><menuitem name=\'RegisterProbeAction\' action=\'RegisterPro" +
-				"beAction\'/><menuitem name=\'RunGLMAnalysisAction\' action=\'RunGLMAnalysisAction\'/>" +
-				"</menu><menu name=\'AboutAction\' action=\'AboutAction\'><menuitem name=\'HelpAction1" +
-				"\' action=\'HelpAction1\'/><menuitem name=\'AboutAction1\' action=\'AboutAction1\'/></m" +
-				"enu></menubar></ui>");
+				"esInUseAction\' action=\'DevicesInUseAction\'/><menuitem name=\'DeviceOptionsAction\'" +
+				" action=\'DeviceOptionsAction\'/><menuitem name=\'DeviceDebuggingAction\' action=\'De" +
+				"viceDebuggingAction\'/></menu><menuitem name=\'LoadPreviousAction\' action=\'LoadPre" +
+				"viousAction\'/><menuitem name=\'ExitAction\' action=\'ExitAction\'/></menu><menu name" +
+				"=\'ViewAction\' action=\'ViewAction\'><menuitem name=\'DataQualityReportAction\' actio" +
+				"n=\'DataQualityReportAction\'/><menu name=\'MultipleDevicesAction\' action=\'Multiple" +
+				"DevicesAction\'><menuitem name=\'SingleViewAction\' action=\'SingleViewAction\'/><men" +
+				"uitem name=\'DualViewAction\' action=\'DualViewAction\'/></menu></menu><menu name=\'A" +
+				"nalysisAction\' action=\'AnalysisAction\'><menuitem name=\'RegisterProbeAction\' acti" +
+				"on=\'RegisterProbeAction\'/><menuitem name=\'RunGLMAnalysisAction\' action=\'RunGLMAn" +
+				"alysisAction\'/></menu><menu name=\'AboutAction\' action=\'AboutAction\'><menuitem na" +
+				"me=\'HelpAction1\' action=\'HelpAction1\'/><menuitem name=\'AboutAction1\' action=\'Abo" +
+				"utAction1\'/></menu></menubar></ui>");
 		this.menubar1 = ((global::Gtk.MenuBar)(this.UIManager.GetWidget("/menubar1")));
 		this.menubar1.Name = "menubar1";
 		this.vbox5.Add(this.menubar1);
@@ -1023,7 +1025,7 @@ public partial class MainWindow
 		this.notebook1.HeightRequest = 200;
 		this.notebook1.CanFocus = true;
 		this.notebook1.Name = "notebook1";
-		this.notebook1.CurrentPage = 4;
+		this.notebook1.CurrentPage = 2;
 		this.notebook1.TabPos = ((global::Gtk.PositionType)(0));
 		this.notebook1.BorderWidth = ((uint)(6));
 		// Container child notebook1.Gtk.Notebook+NotebookChild
@@ -1741,7 +1743,9 @@ public partial class MainWindow
 		this.HelpAction1.Activated += new global::System.EventHandler(this.HelpDLG);
 		this.AboutAction1.Activated += new global::System.EventHandler(this.AboutDLG);
 		this.ShowSystemMessagingAction.Toggled += new global::System.EventHandler(this.SetShowSystemMsg);
-		this.DeviceDebuggingAction.Activated += new global::System.EventHandler(this.ClickedMenuPrefrences);
+		this.ConnectMultipleDevicesAction.Activated += new global::System.EventHandler(this.ConnectDevices);
+		this.DeviceDebuggingAction.Activated += new global::System.EventHandler(this.DeviceDebugging);
+		this.DeviceOptionsAction.Activated += new global::System.EventHandler(this.DeviceOptions);
 		this.SingleViewAction.Toggled += new global::System.EventHandler(this.SetHyperscanningView);
 		this.combobox_whichdata.Changed += new global::System.EventHandler(this.ChangeViewDisplay);
 		this.combobox_selectview.Changed += new global::System.EventHandler(this.Change_probeview);
@@ -1751,6 +1755,7 @@ public partial class MainWindow
 		this.button_srcOnOff.Clicked += new global::System.EventHandler(this.LasersAllOnOff);
 		this.spinbutton1.ValueChanged += new global::System.EventHandler(this.DetGain_SetAll);
 		this.spinbutton3.ValueChanged += new global::System.EventHandler(this.SourcePower_SetAll);
+		this.nodeview_stim.ButtonPressEvent += new global::Gtk.ButtonPressEventHandler(this.StimNode_Clicked);
 		this.checkbutton_hpf.Clicked += new global::System.EventHandler(this.ChangeBPF);
 		this.entry_hpf.Changed += new global::System.EventHandler(this.ChangeBPF);
 		this.checkbutton_lpf.Clicked += new global::System.EventHandler(this.ChangeBPF);

@@ -353,6 +353,34 @@ public partial class MainWindow : Window
 
     }
 
+    protected void ConnectDevices(object sender, EventArgs e)
+    {
+        NIRSrecorder.ConnectDevices connectDevices = new ConnectDevices();
+        connectDevices.Run();
+
+    }
+
+    protected void DeviceOptions(object sender, EventArgs e)
+    {
+    }
+
+
+    protected void DeviceDebugging(object sender, EventArgs e)
+    {
+    }
+
+    protected void StimNode_Clicked(object o, ButtonPressEventArgs args)
+    {
+        Gtk.Menu popup_menu = new Gtk.Menu();
+        Gtk.RadioMenuItem grp = new Gtk.RadioMenuItem("Test");
+        Gtk.RadioMenuItem gr2 = new Gtk.RadioMenuItem("Test2");
+        popup_menu.Insert(grp, -1);
+        popup_menu.Insert(grp,-1);
+
+        popup_menu.ShowAll();
+        popup_menu.Popup();
+
+    }
 }
 
 

@@ -56,9 +56,11 @@ public partial class MainWindow : Window
     // Sub GUI to register a new subject
     protected void RegisterSubject(object sender, EventArgs e)
     {
-        RegisterSubject registerSubject = new RegisterSubject();
-        registerSubject.Show();
-        Application.Run();
+        NIRSrecorder.RegisterSubjectDialog registerSubjectDialog = new RegisterSubjectDialog();
+        registerSubjectDialog.Run();
+    //    RegisterSubject registerSubject = new RegisterSubject();
+    //    registerSubject.Show();
+     //   Application.Run();
 
     }
 
@@ -79,9 +81,11 @@ public partial class MainWindow : Window
     // Menu item for About menu info
     protected void AboutDLG(object sender, EventArgs e)
     {
-        HelpDLG dlg = new HelpDLG();
-        dlg.Show();
-        Application.Run();
+        NIRSrecorder.AboutDialog aboutDialog = new NIRSrecorder.AboutDialog();
+        aboutDialog.Run();
+        // HelpDLG dlg = new HelpDLG();
+       // dlg.Show();
+       // Application.Run();
     }
 
 
