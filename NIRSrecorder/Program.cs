@@ -19,11 +19,12 @@ namespace NIRSrecorder
             Application.Init();
 
             obj_Splash = new Splash();
-            obj_Splash.Show();
+            
             obj_Splash.Opacity = 8;
             obj_Splash.Decorated = false;
+            obj_Splash.label.Text = "Loading GUI";
+            obj_Splash.Show();
 
-            
             GLib.Timeout.Add(5000, delegate
             {
                 win = new MainWindow();

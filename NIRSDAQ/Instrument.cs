@@ -153,6 +153,20 @@ namespace NIRSDAQ
                 return battery;
             }
 
+            public int GetSampleRate()
+            {
+                int fs=0;
+                switch (devicetype)
+                {
+                    case 0:
+                        fs= ((NIRSDAQ.Instrument.Devices.Simulator)device).sample_rate;
+                        break;
+                    case 1:
+                        fs = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).sample_rate;
+                        break;
+                }
+                return fs;
+            }
 
 
             public void AllOn()

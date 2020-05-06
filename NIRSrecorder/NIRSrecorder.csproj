@@ -52,6 +52,7 @@
     <Reference Include="MathNet.Filtering.Kalman">
       <HintPath>..\packages\MathNet.Filtering.Kalman.0.6.0\lib\net461\MathNet.Filtering.Kalman.dll</HintPath>
     </Reference>
+    <Reference Include="System.Management" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -97,6 +98,10 @@
       <Project>{66CEE40B-4A70-4432-A819-AA5C63994685}</Project>
       <Name>NIRSdotNET</Name>
     </ProjectReference>
+    <ProjectReference Include="..\myLSLlibrary\myLSLlibrary.csproj">
+      <Project>{F8D3FE64-31F7-4934-BD69-4942DE6F5850}</Project>
+      <Name>myLSLlibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Config.xml">
@@ -111,6 +116,9 @@
     <None Include="packages.config" />
     <None Include="HemoglobinSpectrum.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="liblsl64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

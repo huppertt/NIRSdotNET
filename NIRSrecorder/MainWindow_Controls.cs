@@ -250,6 +250,20 @@ public partial class MainWindow : Window
             MainClass.win._handles.whichdata.AppendText(s);
         }
 
+
+
+        MainClass.win.dataLSL = new LSL.liblsl.StreamOutlet[MainClass.devices.Length];
+        for (int ii = 0; ii < MainClass.devices.Length; ii++)
+        {
+            int fs = MainClass.devices[ii].GetSampleRate();
+            string name = string.Format("NIRSRecordIRData_{0}", ii + 1);
+            LSL.liblsl.StreamInfo info = new LSL.liblsl.StreamInfo(name, "NIRS", MainClass.win.nirsdata[ii].probe.numChannels,
+                (double)fs, LSL.liblsl.channel_format_t.cf_int32);
+            MainClass.win.dataLSL[ii] = new LSL.liblsl.StreamOutlet(info);
+        }
+
+
+
         MainClass.win._handles.whichdata.Active = 0;
 
         MainClass.win.EnableControls(true);
@@ -271,6 +285,15 @@ public partial class MainWindow : Window
 
         double time = nirsdata[0].time[nirsdata[0].time.Count - 1];
         string condname = comboboxentry_stimtype.ActiveText;
+
+        if (checkbutton_LSLStimOutlet.Active)
+        {
+            string[] stim = new string[2];
+            stim[0] = string.Format("{0}:{1}", condname, "Event");
+            stim[1] = string.Format("{0}", time);
+
+            stimulusLSL.push_sample(stim);
+        }
 
         int index = 0;
         bool found = false;
@@ -306,8 +329,8 @@ public partial class MainWindow : Window
         }
 
 
-        MyTreeNode myTreeNode = new MyTreeNode(condname, ev.duration[ev.duration.Count - 1],
-            ev.onsets[ev.onsets.Count - 1], ev.amplitude[ev.amplitude.Count - 1], index);
+        MyTreeNode myTreeNode = new MyTreeNode(condname, ev.onsets[ev.onsets.Count - 1],
+            ev.duration[ev.duration.Count - 1], ev.amplitude[ev.amplitude.Count - 1], index);
         nodeview_stim.NodeStore.AddNode(myTreeNode);
 
         label_numstim.Text = string.Format("Marks: {0}", ev.amplitude.Count);
@@ -354,15 +377,36 @@ public partial class MainWindow : Window
                     ev.amplitude.Add(1);
                     ev.duration.Add(999);
 
+
+                    if (checkbutton_LSLStimOutlet.Active)
+                    {
+                        string[] stim = new string[2];
+                        stim[0] = string.Format("{0}:{1}", condname, "Toggle-On");
+                        stim[1] = string.Format("{0}", time);
+
+                        stimulusLSL.push_sample(stim);
+                    }
+
                     label_numstim.Text = string.Format("Marks: {0}", ev.amplitude.Count);
                 }
                 else
                 {
                     ev.duration[ev.duration.Count - 1] = time - ev.onsets[ev.onsets.Count - 1];
                     int index = ev.duration.Count - 1;
-                    MyTreeNode myTreeNode = new MyTreeNode(condname, ev.duration[ev.duration.Count - 1],
-                        ev.onsets[ev.onsets.Count - 1], ev.amplitude[ev.amplitude.Count - 1], index);
+                    MyTreeNode myTreeNode = new MyTreeNode(condname, ev.onsets[ev.onsets.Count - 1],
+                         ev.duration[ev.duration.Count - 1], ev.amplitude[ev.amplitude.Count - 1], index);
                     nodeview_stim.NodeStore.AddNode(myTreeNode);
+
+                    if (checkbutton_LSLStimOutlet.Active)
+                    {
+                        string[] stim = new string[2];
+                        stim[0] = string.Format("{0}:{1}", condname, "Toggle-Off");
+                        stim[1] = string.Format("{0}", time);
+
+                        stimulusLSL.push_sample(stim);
+                    }
+
+
                 }
                 nirsdata[0].stimulus[i] = ev;
 
@@ -394,88 +438,131 @@ public partial class MainWindow : Window
 
     }
 
-    private void EditStimTable(object sender, Gtk.EditedArgs args)
+
+    private void EditStimTableName(object sender, Gtk.EditedArgs args)
     {
-        Gtk.CellRendererText cellRenderer = (Gtk.CellRendererText)sender;
-        MyTreeNode nodeStore = nodeview_stim.NodeStore.GetNode(new TreePath(args.Path)) as MyTreeNode;
-        //args.Path
+        EditStimTable(sender,args,"name");
+    }
+    private void EditStimTableOnset(object sender, Gtk.EditedArgs args)
+    {
+        EditStimTable(sender, args, "onset");
+    }
+    private void EditStimTableDur(object sender, Gtk.EditedArgs args)
+    {
+        EditStimTable(sender, args, "dur");
+    }
+    private void EditStimTableAmp(object sender, Gtk.EditedArgs args)
+    {
+        EditStimTable(sender, args, "amp");
+    }
 
-        if (nodeStore.Name == nodeStore.condname)
-        { // changed onset, amp, or duration
-            int idx = nodeStore.index;
-            for (int i = 0; i < nirsdata[0].stimulus.Count; i++)
+    private void EditStimTable(object sender, Gtk.EditedArgs args,string type)
+    {
+        try
+        {
+
+            Gtk.CellRendererText cellRenderer = (Gtk.CellRendererText)sender;
+            MyTreeNode nodeStore = nodeview_stim.NodeStore.GetNode(new TreePath(args.Path)) as MyTreeNode;
+            //args.Path
+
+            if (type.Equals("name"))
             {
-                if (nirsdata[0].stimulus[i].name.Equals(nodeStore.condname))
-                {
-                    nirs.Stimulus ev = nirsdata[0].stimulus[i];
-                    ev.onsets[idx] = nodeStore.onset;
-                    ev.amplitude[idx] = nodeStore.amp;
-                    ev.duration[idx] = nodeStore.duration;
+                nodeStore.Name = args.NewText;
+            }
+            else if (type.Equals("onset"))
+            {
+                nodeStore.onset = Convert.ToInt32(args.NewText);
+            }
+            else if (type.Equals("dur"))
+            {
+                nodeStore.duration = Convert.ToInt32(args.NewText);
+            }
+            else if (type.Equals("amp"))
+            {
+                nodeStore.amp = Convert.ToInt32(args.NewText);
+            }
 
-                    for (int j = 0; j < nirsdata.Count; j++)
+
+
+            if (!type.Equals("name"))
+            { // changed onset, amp, or duration
+                int idx = nodeStore.index;
+                for (int i = 0; i < nirsdata[0].stimulus.Count; i++)
+                {
+                    if (nirsdata[0].stimulus[i].name.Equals(nodeStore.condname))
                     {
-                        nirsdata[j].stimulus[i] = ev;
+                        nirs.Stimulus ev = nirsdata[0].stimulus[i];
+                        ev.onsets[idx] = nodeStore.onset;
+                        ev.amplitude[idx] = nodeStore.amp;
+                        ev.duration[idx] = nodeStore.duration;
+
+                        for (int j = 0; j < nirsdata.Count; j++)
+                        {
+                            nirsdata[j].stimulus[i] = ev;
+                        }
+
+                    }
+
+                }
+            }
+            else
+            {
+                int idx = nodeStore.index;
+                for (int i = 0; i < nirsdata[0].stimulus.Count; i++)
+                {
+                    if (nirsdata[0].stimulus[i].name.Equals(nodeStore.condname))
+                    {
+                        nirs.Stimulus ev = nirsdata[0].stimulus[i];
+                        ev.onsets.RemoveAt(idx);
+                        ev.amplitude.RemoveAt(idx);
+                        ev.duration.RemoveAt(idx);
+
+                        nirsdata[0].stimulus[i] = ev;
+
+
                     }
 
                 }
 
-            }
-        }
-        else
-        {
-            int idx = nodeStore.index;
-            for (int i = 0; i < nirsdata[0].stimulus.Count; i++)
-            {
-                if (nirsdata[0].stimulus[i].name.Equals(nodeStore.condname))
+                bool found = false;
+                for (int i = 0; i < nirsdata[0].stimulus.Count; i++)
                 {
-                    nirs.Stimulus ev = nirsdata[0].stimulus[i];
-                    ev.onsets.RemoveAt(idx);
-                    ev.amplitude.RemoveAt(idx);
-                    ev.duration.RemoveAt(idx);
-
-                   nirsdata[0].stimulus[i] = ev;
-                   
+                    if (nirsdata[0].stimulus[i].name.Equals(nodeStore.Name))
+                    {
+                        nirs.Stimulus ev = nirsdata[0].stimulus[i];
+                        ev.onsets.Add(nodeStore.onset);
+                        ev.amplitude.Add(nodeStore.amp);
+                        ev.duration.Add(nodeStore.duration);
+                        found = true;
+                        nirsdata[0].stimulus[i] = ev;
+                    }
 
                 }
-
-            }
-
-            bool found = false;
-            for (int i = 0; i < nirsdata[0].stimulus.Count; i++)
-            {
-                if (nirsdata[0].stimulus[i].name.Equals(nodeStore.Name))
+                if (!found)
                 {
-                    nirs.Stimulus ev = nirsdata[0].stimulus[i];
+                    nirs.Stimulus ev = new nirs.Stimulus();
+
+                    ev.onsets = new List<double>();
+                    ev.duration = new List<double>();
+                    ev.amplitude = new List<double>();
+                    ev.name = nodeStore.Name;
                     ev.onsets.Add(nodeStore.onset);
                     ev.amplitude.Add(nodeStore.amp);
                     ev.duration.Add(nodeStore.duration);
-                    found = true;
-                    nirsdata[0].stimulus[i] = ev;
+                    nirsdata[0].stimulus.Add(ev);
+
                 }
 
             }
-            if (!found)
-            {
-                nirs.Stimulus ev = new nirs.Stimulus();
 
-                ev.onsets = new List<double>();
-                ev.duration = new List<double>();
-                ev.amplitude = new List<double>();
-                ev.name = nodeStore.Name;
-                ev.onsets.Add(nodeStore.onset);
-                ev.amplitude.Add(nodeStore.amp);
-                ev.duration.Add(nodeStore.duration);
-                nirsdata[0].stimulus.Add(ev);
-                
-            }
 
+
+            drawingarea_Data.QueueDraw();
+            drawingarea_Data2.QueueDraw();
         }
-
-
-
-        drawingarea_Data.QueueDraw();
-        drawingarea_Data2.QueueDraw();
-
+        catch {
+            Console.Write("Stim event change failed");
+        }
         return;
         //   editableCell.Edited += (object o, Gtk.EditedArgs args) => {
         //       var node = store.GetNode(new Gtk.TreePath(args.Path)) as MyTreeNode;

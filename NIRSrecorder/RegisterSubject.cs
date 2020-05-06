@@ -310,6 +310,19 @@ namespace NIRSrecorder
                 writer.Flush();
             }
 
+            
+            MainClass.win.dataLSL = new LSL.liblsl.StreamOutlet[MainClass.devices.Length];
+            for (int ii=0; ii < MainClass.devices.Length; ii++)
+            {
+                int fs = MainClass.devices[ii].GetSampleRate();
+                string name = string.Format("NIRSRecordIRData_{0}", ii + 1);
+                LSL.liblsl.StreamInfo info = new LSL.liblsl.StreamInfo(name, "NIRS", MainClass.win.nirsdata[ii].probe.numChannels,
+                    (double)fs,LSL.liblsl.channel_format_t.cf_int32);
+                MainClass.win.dataLSL[ii] = new LSL.liblsl.StreamOutlet(info);
+            }
+
+
+
             MainClass.win.EnableControls(true);
             MainClass.win.ShowAll();
             MainClass.win._handles.SDGplot.QueueDraw();

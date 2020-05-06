@@ -134,15 +134,56 @@ namespace NIRSDAQ
                     // TODO- handle Windows OS names
                     public List<string> ListPorts()
                     {
+                        /*
+    System.Management.ManagementObjectSearcher Searcher = new System.Management.ManagementObjectSearcher("Select * from WIN32_SerialPort");
+    foreach (System.Management.ManagementObject Port in Searcher.Get())
+    {
+        foreach (System.Management.PropertyData Property in Port.Properties)
+        {
+            Console.WriteLine(Property.Name + " " + (Property.Value == null ? null : Property.Value.ToString()));
+        }
+    }
+    */
+
                         string[] ports = SerialPort.GetPortNames();
+                        SerialPort[] _serialPort = new SerialPort[ports.Length];
                         List<string> foundports = new List<string>();
-                        foreach (string s in ports)
+                        for (int i = 0; i < ports.Length; i++)
                         {
-                            if (s.Contains("SerialPort"))
+
+                            if (ports[i].Contains("SerialPort"))
                             {
-                                foundports.Add(s);
+                                try
+                                {
+                                    _serialPort[i] = new SerialPort(ports[i], 115200, Parity.None, 8);
+                                    _serialPort[i].StopBits = StopBits.One;
+                                    _serialPort[i].Handshake = Handshake.None;
+                                    _serialPort[i].ReadTimeout = 10;
+                                    _serialPort[i].WriteTimeout = 10;
+                                    _serialPort[i].NewLine = string.Format("{0}", (char)13);
+                                    
+                                    _serialPort[i].Open();
+                                    //_serialPort[i].Close();
+                                    foundports.Add(ports[i]);
+                                }
+                                catch
+                                {
+                                    // do nothing
+                                }
                             }
                         }
+                        for (int i = 0; i < _serialPort.Length; i++)
+                        {
+                            try
+                            {
+                                if (_serialPort[i].IsOpen)
+                                {
+                                    _serialPort[i].Close();
+                                }
+                            }
+                            catch { }
+                        }
+
                         return foundports;
                     }
 

@@ -5,7 +5,7 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Xml;
-
+using LSL;
 
 
 public partial class MainWindow : Window
@@ -16,7 +16,8 @@ public partial class MainWindow : Window
     {
         Build();
         settings = new NIRSrecorder.Settings();
-      
+        MainClass.obj_Splash.label.Text = "Loading GUI";
+       
     }
 
     public void IntializeGUI()
@@ -24,6 +25,9 @@ public partial class MainWindow : Window
 
         EnableControls(false);
 
+        MainClass.obj_Splash.label.Text = string.Format("Finding Devices: {0}", settings.SYSTEM);
+        MainClass.obj_Splash.QueueDraw();
+        MainClass.obj_Splash.ShowNow();
         // For now
         // This will allow me to handle multiple devices (eventually).  For now, just default to 1
         List<string> ports = new List<string>();
@@ -45,8 +49,24 @@ public partial class MainWindow : Window
         }
         else  //TODO
         {
-            label_deviceConnected.Text = "Connected to TechEn BTNIRS";
-            ports.Add("/dev/tty.Dual-SPP-SerialPort");
+            NIRSDAQ.Instrument.Devices.TechEn.BTnirs bTnirs = new NIRSDAQ.Instrument.Devices.TechEn.BTnirs();
+            ports = bTnirs.ListPorts();
+            MainClass.obj_Splash.label.Text = string.Format("Found {0} devices", ports.Count);
+            MainClass.obj_Splash.ShowNow();
+            if (ports.Count == 0)
+            {
+
+         //       System.Windows.Forms.MessageBox.Show("No TechEn BTNIRS devices detected.  Please check hardware and connect.",
+         //                       "No devices found");
+                label_deviceConnected.Text = "No Devices found";
+                RegisterProbeAction.Sensitive = false;
+                QuickStartAction.Sensitive = false;
+            }
+            else
+            {
+                label_deviceConnected.Text = "Connected to TechEn BTNIRS";
+            }
+            
         }
 
         scancount = 0;
@@ -98,27 +118,158 @@ public partial class MainWindow : Window
             QuickStartAction.Sensitive = false;
         }
 
+        SetupGUI(ports);
 
-            // remove all pages
+
+        batteryCheck = new Thread(CheckBatteryWrapper);
+        batteryCheck.Start();
+
+        ShowSystemMessagingAction.Active = settings.DEBUG;
+
+        drawingarea_SDG.ExposeEvent += Sdgdraw;
+        drawingarea_Data.ExposeEvent += Datadraw;
+        drawingarea_SDG.AddEvents((int)Gdk.EventMask.ButtonPressMask);
+        drawingarea_SDG.AddEvents((int)Gdk.EventMask.ButtonReleaseMask);
+        drawingarea_SDG.ButtonReleaseEvent += ClickSDG;
+        drawingarea_SDG2.ExposeEvent += Sdgdraw;
+        drawingarea_Data2.ExposeEvent += Datadraw;
+        drawingarea_SDG2.AddEvents((int)Gdk.EventMask.ButtonPressMask);
+        drawingarea_SDG2.AddEvents((int)Gdk.EventMask.ButtonReleaseMask);
+        drawingarea_SDG2.ButtonReleaseEvent += ClickSDG2;
+
+
+        nodeview_stim.AddEvents((int)Gdk.EventMask.ButtonPressMask);
+        nodeview_stim.AddEvents((int)Gdk.EventMask.ButtonReleaseMask);
+        nodeview_stim.ButtonPressEvent += StimNode_Clicked;
+
+        combobox_device1.Model = new ListStore(typeof(string));
+        combobox_device2.Model = new ListStore(typeof(string));
+        for (int i = 0; i < MainClass.devices.Length; i++)
+        {
+            combobox_device1.AppendText(MainClass.devices[i].devicename);
+            combobox_device2.AppendText(MainClass.devices[i].devicename);
+        }
+
+
+        nodeview4.AppendColumn("FileName", new CellRendererText(), "text", 0);
+        nodeview4.AppendColumn("Comments", new CellRendererText(), "text", 1);
+        nodeview4.NodeStore = new NodeStore(typeof(MyTreeNodeData));
+
+        CellRendererText cellRenderer = new CellRendererText();
+        cellRenderer.Editable = true;
+        cellRenderer.Edited += EditStimTableName;
+        CellRendererText cellRenderer1 = new CellRendererText();
+        cellRenderer1.Editable = true;
+        cellRenderer1.Edited += EditStimTableOnset;
+        CellRendererText cellRenderer2 = new CellRendererText();
+        cellRenderer2.Editable = true;
+        cellRenderer2.Edited += EditStimTableDur;
+        CellRendererText cellRenderer3 = new CellRendererText();
+        cellRenderer3.Editable = true;
+        cellRenderer3.Edited += EditStimTableAmp;
+
+        nodeview_stim.AppendColumn("Name",cellRenderer, "text", 0);
+        nodeview_stim.AppendColumn("Onset", cellRenderer1, "text", 1);
+        nodeview_stim.AppendColumn("Duration", cellRenderer2, "text", 2);
+        nodeview_stim.AppendColumn("Amplitude", cellRenderer3, "text", 3);
+        nodeview_stim.NodeStore = new NodeStore(typeof(MyTreeNode));
+
+        nodeviewdemo.AppendColumn("SubjID", new CellRendererText(), "text", 0);
+        nodeviewdemo.AppendColumn("Group", new CellRendererText(), "text", 1);
+        nodeviewdemo.AppendColumn("Age", new CellRendererText(), "text", 2);
+        nodeviewdemo.AppendColumn("Gender", new CellRendererText(), "text", 3);
+        nodeviewdemo.AppendColumn("Headsize", new CellRendererText(), "text", 4);
+        nodeviewdemo.NodeStore = new NodeStore(typeof(MyTreeNodeDemo));
+
+        CheckBattery();
+
+        liblsl.StreamInfo inf = new liblsl.StreamInfo("NIRSRecordIREvents", "Markers",2,liblsl.IRREGULAR_RATE,
+                                                      liblsl.channel_format_t.cf_string);
+        stimulusLSL = new liblsl.StreamOutlet(inf);
+
+        liblsl.StreamInfo[] results = liblsl.resolve_streams();
+        if (results.Length > 0)
+        {
+            Gtk.ListStore ClearList = new Gtk.ListStore(typeof(string));
+
+            combobox_selectLSLStimInlet.Model = ClearList;
+            for (int i=0; i<results.Length; i++)
+            {
+                combobox_selectLSLStimInlet.AppendText(string.Format("{0}:{1}",results[i].name(),results[i].hostname()));
+            }
+        }
+        else
+        {
+            combobox_selectLSLStimInlet.Sensitive = false;
+            checkbutton_LSLStimInlet.Active = false;
+        }
+
+
+        ShowAll();
+
+        if (MainClass.devices.Length == 1)
+        {
+            fixed_device1.Visible = false;
+            fixed_device2.Visible = false;
+            combobox_device1.Visible = false;
+            combobox_device2.Visible = false;
+            drawingarea_Data2.Visible = false;
+            drawingarea_SDG2.Visible = false;
+
+            fixed_device1.Hide();
+            fixed_device2.Hide();
+            combobox_device1.Hide();
+            combobox_device2.Hide();
+            MultipleDevicesAction.Sensitive = false;
+            drawingarea_Data2.Hide();
+            drawingarea_SDG2.Hide();
+            combobox_device1.Active = 0;
+            DualViewAction.Sensitive = false;
+            SingleViewAction.Sensitive = false;
+        }
+        else
+        {
+         //   fixed_device1.Hide();
+            fixed_device2.Hide();
+
+            combobox_device1.Active = 0;
+            combobox_device2.Active = 1;
+
+         //   combobox_device1.Hide();
+            combobox_device2.Hide();
+            MultipleDevicesAction.Sensitive = true;
+            SingleViewAction.Active = false;
+            drawingarea_Data2.Hide();
+            drawingarea_SDG2.Hide();
+        }
+
+    }
+
+
+    public void SetupGUI(List<string> ports)
+    {
+
+
+        // remove all pages
         notebook_detectors.RemovePage(0);
         notebook_sources.RemovePage(0);
 
 
-       
+
 
         MainClass.devices = new NIRSDAQ.Instrument.instrument[ports.Count];
         for (int i = 0; i < ports.Count; i++)
         {
-            MainClass.devices[i]= new NIRSDAQ.Instrument.instrument(settings.SYSTEM);
+            MainClass.devices[i] = new NIRSDAQ.Instrument.instrument(settings.SYSTEM);
 
             MainClass.devices[i].Connect(ports[i]);
 
             colorbutton3.Color = new Gdk.Color(128, 255, 128);
             DebugMessage(string.Format("Connected to device {0}", i + 1));
 
-            MainClass.devices[i].devicename= string.Format("{0}-{1}", MainClass.devices[i].devicename, i + 1);
+            MainClass.devices[i].devicename = string.Format("{0}-{1}", MainClass.devices[i].devicename, i + 1);
             NIRSDAQ.info _info = MainClass.devices[i].GetInfo();
-            
+
             _info.numDet = settings.system_Info.numdet;
             _info.numSrc = settings.system_Info.numsrc;
 
@@ -240,99 +391,8 @@ public partial class MainWindow : Window
 
 
         }
-
-        batteryCheck = new Thread(CheckBatteryWrapper);
-        batteryCheck.Start();
-
-        ShowSystemMessagingAction.Active = settings.DEBUG;
-
-        drawingarea_SDG.ExposeEvent += Sdgdraw;
-        drawingarea_Data.ExposeEvent += Datadraw;
-        drawingarea_SDG.AddEvents((int)Gdk.EventMask.ButtonPressMask);
-        drawingarea_SDG.AddEvents((int)Gdk.EventMask.ButtonReleaseMask);
-        drawingarea_SDG.ButtonReleaseEvent += ClickSDG;
-        drawingarea_SDG2.ExposeEvent += Sdgdraw;
-        drawingarea_Data2.ExposeEvent += Datadraw;
-        drawingarea_SDG2.AddEvents((int)Gdk.EventMask.ButtonPressMask);
-        drawingarea_SDG2.AddEvents((int)Gdk.EventMask.ButtonReleaseMask);
-        drawingarea_SDG2.ButtonReleaseEvent += ClickSDG2;
-
-
-        nodeview_stim.AddEvents((int)Gdk.EventMask.ButtonPressMask);
-        nodeview_stim.AddEvents((int)Gdk.EventMask.ButtonReleaseMask);
-        nodeview_stim.ButtonPressEvent += StimNode_Clicked;
-
-        combobox_device1.Model = new ListStore(typeof(string));
-        combobox_device2.Model = new ListStore(typeof(string));
-        for (int i = 0; i < MainClass.devices.Length; i++)
-        {
-            combobox_device1.AppendText(MainClass.devices[i].devicename);
-            combobox_device2.AppendText(MainClass.devices[i].devicename);
-        }
-
-
-        nodeview4.AppendColumn("FileName", new CellRendererText(), "text", 0);
-        nodeview4.AppendColumn("Comments", new CellRendererText(), "text", 1);
-        nodeview4.NodeStore = new NodeStore(typeof(MyTreeNodeData));
-
-        CellRendererText cellRenderer = new CellRendererText();
-        cellRenderer.Editable = true;
-        cellRenderer.Edited += EditStimTable;
-        nodeview_stim.AppendColumn("Name",cellRenderer, "text", 0);
-        nodeview_stim.AppendColumn("Onset", cellRenderer, "text", 1);
-        nodeview_stim.AppendColumn("Duration", cellRenderer, "text", 2);
-        nodeview_stim.AppendColumn("Amplitude", cellRenderer, "text", 3);
-        nodeview_stim.NodeStore = new NodeStore(typeof(MyTreeNode));
-
-        nodeviewdemo.AppendColumn("SubjID", new CellRendererText(), "text", 0);
-        nodeviewdemo.AppendColumn("Group", new CellRendererText(), "text", 1);
-        nodeviewdemo.AppendColumn("Age", new CellRendererText(), "text", 2);
-        nodeviewdemo.AppendColumn("Gender", new CellRendererText(), "text", 3);
-        nodeviewdemo.AppendColumn("Headsize", new CellRendererText(), "text", 4);
-        nodeviewdemo.NodeStore = new NodeStore(typeof(MyTreeNodeDemo));
-
-        CheckBattery();
-
-        ShowAll();
-
-        if (MainClass.devices.Length == 1)
-        {
-            fixed_device1.Visible = false;
-            fixed_device2.Visible = false;
-            combobox_device1.Visible = false;
-            combobox_device2.Visible = false;
-            drawingarea_Data2.Visible = false;
-            drawingarea_SDG2.Visible = false;
-
-            fixed_device1.Hide();
-            fixed_device2.Hide();
-            combobox_device1.Hide();
-            combobox_device2.Hide();
-            MultipleDevicesAction.Sensitive = false;
-            drawingarea_Data2.Hide();
-            drawingarea_SDG2.Hide();
-            combobox_device1.Active = 0;
-            DualViewAction.Sensitive = false;
-            SingleViewAction.Sensitive = false;
-        }
-        else
-        {
-         //   fixed_device1.Hide();
-            fixed_device2.Hide();
-
-            combobox_device1.Active = 0;
-            combobox_device2.Active = 1;
-
-         //   combobox_device1.Hide();
-            combobox_device2.Hide();
-            MultipleDevicesAction.Sensitive = true;
-            SingleViewAction.Active = false;
-            drawingarea_Data2.Hide();
-            drawingarea_SDG2.Hide();
-        }
-
-
     }
+
 
     public void EnableControls(bool flag)
     {
@@ -381,14 +441,65 @@ public partial class MainWindow : Window
         { /* right click */
             Gtk.Menu popup_menu = new Gtk.Menu();
 
-            MenuItem deleteItem = new MenuItem("Remove Event");
-            MenuItem deleteItem2 = new MenuItem("Rename Event");
-
-            popup_menu.Add(deleteItem);
-            popup_menu.Add(deleteItem2);
+            MenuItem removeEvent = new MenuItem("Remove Event");
+            MenuItem addEvent = new MenuItem("Add New Event");
+            removeEvent.ButtonReleaseEvent += RemoveEvent_ButtonReleaseEvent;
+            addEvent.ButtonReleaseEvent += AddEvent_ButtonReleaseEvent;
+            popup_menu.Add(removeEvent);
+            popup_menu.Add(addEvent);
             popup_menu.ShowAll();
             popup_menu.Popup();
         }
+    }
+
+    private void AddEvent_ButtonReleaseEvent(object o, ButtonReleaseEventArgs args)
+    {
+        MyTreeNode myTreeNode = new MyTreeNode("--",-1,1,1,0);
+        nodeview_stim.NodeStore.AddNode(myTreeNode);
+        nodeview_stim.QueueDraw();
+    }
+
+    private void RemoveEvent_ButtonReleaseEvent(object o, ButtonReleaseEventArgs args)
+    {
+       NodeSelection selection = nodeview_stim.NodeSelection;
+       MyTreeNode node = (MyTreeNode)selection.SelectedNode;
+
+        int idx = node.index;
+        for (int i = 0; i < nirsdata[0].stimulus.Count; i++)
+        {
+            if (nirsdata[0].stimulus[i].name.Equals(node.condname))
+            {
+                nirs.Stimulus ev = nirsdata[0].stimulus[i];
+                ev.onsets.RemoveAt(idx);
+                ev.amplitude.RemoveAt(idx);
+                ev.duration.RemoveAt(idx);
+                nirsdata[0].stimulus[i] = ev;
+            }
+
+        }
+
+        nodeview_stim.NodeStore.RemoveNode(node);
+        nodeview_stim.QueueDraw();
+        drawingarea_Data.QueueDraw();
+        drawingarea_Data2.QueueDraw();
+
+
+
+
+    }
+
+    protected void ToggleLSLStimInlet(object sender, EventArgs e)
+    {
+        if (combobox_selectLSLStimInlet.Active < 0)
+        {
+            checkbutton_LSLStimInlet.Active = false;
+            return;
+        }
+        int dIDX = combobox_selectLSLStimInlet.Active;
+        liblsl.StreamInfo[] results = liblsl.resolve_streams();
+        stimulusInLSL = new liblsl.StreamInlet(results[dIDX]);
+
+
     }
 }
 

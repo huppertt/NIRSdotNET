@@ -941,7 +941,7 @@ Type 4</property>
                             <property name="WidthRequest">524</property>
                             <property name="HeightRequest">200</property>
                             <property name="CanFocus">True</property>
-                            <property name="CurrentPage">2</property>
+                            <property name="CurrentPage">4</property>
                             <property name="TabPos">Left</property>
                             <property name="BorderWidth">6</property>
                             <child>
@@ -1207,12 +1207,29 @@ Type 4</property>
                                   </packing>
                                 </child>
                                 <child>
+                                  <widget class="Gtk.CheckButton" id="checkbutton_LSLStimOutlet">
+                                    <property name="MemberName" />
+                                    <property name="CanFocus">True</property>
+                                    <property name="Label" translatable="yes">Send Stimulus Events [OutStream: NIRS_RecordIR_Events]</property>
+                                    <property name="Active">True</property>
+                                    <property name="DrawIndicator">True</property>
+                                    <property name="HasLabel">True</property>
+                                    <property name="UseUnderline">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="Position">1</property>
+                                    <property name="AutoSize">True</property>
+                                    <property name="Expand">False</property>
+                                    <property name="Fill">False</property>
+                                  </packing>
+                                </child>
+                                <child>
                                   <widget class="Gtk.Fixed" id="fixed8">
                                     <property name="MemberName" />
                                     <property name="HasWindow">False</property>
                                   </widget>
                                   <packing>
-                                    <property name="Position">1</property>
+                                    <property name="Position">2</property>
                                     <property name="AutoSize">True</property>
                                     <property name="Expand">False</property>
                                     <property name="Fill">False</property>
@@ -1239,30 +1256,91 @@ Type 4</property>
                                         <child>
                                           <widget class="Gtk.Alignment" id="GtkAlignment7">
                                             <property name="MemberName" />
+                                            <property name="WidthRequest">380</property>
+                                            <property name="HeightRequest">165</property>
                                             <property name="Xalign">0</property>
                                             <property name="Yalign">0</property>
                                             <property name="LeftPadding">12</property>
                                             <child>
-                                              <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow3">
+                                              <widget class="Gtk.VBox" id="vbox15">
                                                 <property name="MemberName" />
-                                                <property name="ShadowType">In</property>
+                                                <property name="Spacing">6</property>
                                                 <child>
-                                                  <widget class="Gtk.TextView" id="textview2">
+                                                  <widget class="Gtk.HBox" id="hbox15">
                                                     <property name="MemberName" />
-                                                    <property name="WidthRequest">239</property>
-                                                    <property name="HeightRequest">116</property>
-                                                    <property name="CanFocus">True</property>
-                                                    <property name="ShowScrollbars">True</property>
-                                                    <property name="Editable">False</property>
-                                                    <property name="Text" translatable="yes" />
+                                                    <property name="Spacing">6</property>
+                                                    <child>
+                                                      <widget class="Gtk.ComboBox" id="combobox_selectLSLStimInlet">
+                                                        <property name="MemberName" />
+                                                        <property name="IsTextCombo">True</property>
+                                                        <property name="Items" translatable="yes">'-----------------------</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="Position">0</property>
+                                                        <property name="AutoSize">True</property>
+                                                        <property name="Expand">False</property>
+                                                        <property name="Fill">False</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="Gtk.Fixed" id="fixed10">
+                                                        <property name="MemberName" />
+                                                        <property name="HasWindow">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="Position">1</property>
+                                                        <property name="AutoSize">True</property>
+                                                      </packing>
+                                                    </child>
                                                   </widget>
+                                                  <packing>
+                                                    <property name="Position">0</property>
+                                                    <property name="AutoSize">True</property>
+                                                    <property name="Expand">False</property>
+                                                    <property name="Fill">False</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="Gtk.CheckButton" id="checkbutton_LSLStimInlet">
+                                                    <property name="MemberName" />
+                                                    <property name="CanFocus">True</property>
+                                                    <property name="Label" translatable="yes">Monitor LSL Events Inlet</property>
+                                                    <property name="DrawIndicator">True</property>
+                                                    <property name="HasLabel">True</property>
+                                                    <property name="UseUnderline">True</property>
+                                                    <signal name="Toggled" handler="ToggleLSLStimInlet" />
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="Position">1</property>
+                                                    <property name="AutoSize">True</property>
+                                                    <property name="Expand">False</property>
+                                                    <property name="Fill">False</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow3">
+                                                    <property name="MemberName" />
+                                                    <property name="ShadowType">In</property>
+                                                    <child>
+                                                      <widget class="Gtk.TextView" id="textview_LSLIn">
+                                                        <property name="MemberName" />
+                                                        <property name="CanFocus">True</property>
+                                                        <property name="ShowScrollbars">True</property>
+                                                        <property name="Text" translatable="yes" />
+                                                      </widget>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="Position">2</property>
+                                                    <property name="AutoSize">True</property>
+                                                  </packing>
                                                 </child>
                                               </widget>
                                             </child>
                                           </widget>
                                         </child>
                                         <child>
-                                          <widget class="Gtk.Label" id="GtkLabel13">
+                                          <widget class="Gtk.Label" id="GtkLabel15">
                                             <property name="MemberName" />
                                             <property name="LabelProp" translatable="yes">&lt;b&gt;LSL Stimulus&lt;/b&gt;</property>
                                             <property name="UseMarkup">True</property>
@@ -1281,7 +1359,7 @@ Type 4</property>
                                     </child>
                                   </widget>
                                   <packing>
-                                    <property name="Position">2</property>
+                                    <property name="Position">3</property>
                                     <property name="AutoSize">True</property>
                                     <property name="Expand">False</property>
                                     <property name="Fill">False</property>
@@ -1333,7 +1411,7 @@ Type 4</property>
                                       </widget>
                                     </child>
                                     <child>
-                                      <widget class="Gtk.Label" id="GtkLabel14">
+                                      <widget class="Gtk.Label" id="GtkLabel16">
                                         <property name="MemberName" />
                                         <property name="LabelProp" translatable="yes">&lt;b&gt;Subject Demographics&lt;/b&gt;</property>
                                         <property name="UseMarkup">True</property>
@@ -1627,7 +1705,54 @@ Type 4</property>
                                                 <property name="Yalign">0</property>
                                                 <property name="LeftPadding">12</property>
                                                 <child>
-                                                  <placeholder />
+                                                  <widget class="Gtk.VBox" id="vbox16">
+                                                    <property name="MemberName" />
+                                                    <property name="Spacing">6</property>
+                                                    <child>
+                                                      <widget class="Gtk.CheckButton" id="checkbutton_LSLdata">
+                                                        <property name="MemberName" />
+                                                        <property name="CanFocus">True</property>
+                                                        <property name="Label" translatable="yes">Stream Data via LSL</property>
+                                                        <property name="DrawIndicator">True</property>
+                                                        <property name="HasLabel">True</property>
+                                                        <property name="UseUnderline">True</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="Position">0</property>
+                                                        <property name="AutoSize">True</property>
+                                                        <property name="Expand">False</property>
+                                                        <property name="Fill">False</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="Gtk.Label" id="label12">
+                                                        <property name="MemberName" />
+                                                        <property name="LabelProp" translatable="yes">LSL OutStream [ "NIRSrecordIRData- (#-device)" ]</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="Position">1</property>
+                                                        <property name="AutoSize">True</property>
+                                                        <property name="Expand">False</property>
+                                                        <property name="Fill">False</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="Gtk.ComboBox" id="combobox_LSLOutType">
+                                                        <property name="MemberName" />
+                                                        <property name="IsTextCombo">True</property>
+                                                        <property name="Items" translatable="yes">Raw Data
+Optical Density (filtered)
+Hemoglobin (filtered)</property>
+                                                        <property name="Active">0</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="Position">2</property>
+                                                        <property name="AutoSize">True</property>
+                                                        <property name="Expand">False</property>
+                                                        <property name="Fill">False</property>
+                                                      </packing>
+                                                    </child>
+                                                  </widget>
                                                 </child>
                                               </widget>
                                             </child>
@@ -1645,6 +1770,8 @@ Type 4</property>
                                           <packing>
                                             <property name="Position">2</property>
                                             <property name="AutoSize">True</property>
+                                            <property name="Expand">False</property>
+                                            <property name="Fill">False</property>
                                           </packing>
                                         </child>
                                       </widget>
@@ -1659,6 +1786,8 @@ Type 4</property>
                                   <packing>
                                     <property name="Position">0</property>
                                     <property name="AutoSize">True</property>
+                                    <property name="Expand">False</property>
+                                    <property name="Fill">False</property>
                                   </packing>
                                 </child>
                               </widget>
@@ -1707,7 +1836,7 @@ Type 4</property>
                                       </widget>
                                     </child>
                                     <child>
-                                      <widget class="Gtk.Label" id="GtkLabel20">
+                                      <widget class="Gtk.Label" id="GtkLabel21">
                                         <property name="MemberName" />
                                         <property name="LabelProp" translatable="yes">&lt;b&gt;Data Files&lt;/b&gt;</property>
                                         <property name="UseMarkup">True</property>
@@ -1812,7 +1941,7 @@ Type 4</property>
                                   </widget>
                                 </child>
                                 <child>
-                                  <widget class="Gtk.Label" id="GtkLabel23">
+                                  <widget class="Gtk.Label" id="GtkLabel24">
                                     <property name="MemberName" />
                                     <property name="LabelProp" translatable="yes">&lt;b&gt;System Messages&lt;/b&gt;</property>
                                     <property name="UseMarkup">True</property>
@@ -2353,16 +2482,43 @@ Laser 4 On
     <property name="TypeHint">Splashscreen</property>
     <property name="WindowPosition">CenterOnParent</property>
     <child>
-      <widget class="Gtk.Fixed" id="fixed6">
+      <widget class="Gtk.VBox" id="vbox2">
         <property name="MemberName" />
-        <property name="HasWindow">False</property>
+        <property name="Spacing">6</property>
         <child>
-          <widget class="Gtk.Image" id="image32">
+          <placeholder />
+        </child>
+        <child>
+          <widget class="Gtk.Fixed" id="fixed6">
             <property name="MemberName" />
+            <property name="HasWindow">False</property>
+            <child>
+              <widget class="Gtk.Image" id="image32">
+                <property name="MemberName" />
+              </widget>
+              <packing>
+                <property name="X">435</property>
+                <property name="Y">1090</property>
+              </packing>
+            </child>
           </widget>
           <packing>
-            <property name="X">435</property>
-            <property name="Y">1090</property>
+            <property name="Position">1</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="label_msg">
+            <property name="MemberName" />
+            <property name="LabelProp" translatable="yes">label3</property>
+          </widget>
+          <packing>
+            <property name="Position">2</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
           </packing>
         </child>
       </widget>
@@ -3401,7 +3557,6 @@ huppert1@pitt.edu
             <property name="Label" translatable="yes">Accept</property>
             <property name="UseUnderline">True</property>
             <property name="ResponseId">-6</property>
-            <signal name="Clicked" handler="CloseDlg" />
           </widget>
           <packing>
             <property name="Expand">False</property>

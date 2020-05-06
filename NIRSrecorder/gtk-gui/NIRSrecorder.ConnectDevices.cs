@@ -233,7 +233,6 @@ namespace NIRSrecorder
 			this.DefaultWidth = 400;
 			this.DefaultHeight = 300;
 			this.Show();
-			this.buttonCancel.Clicked += new global::System.EventHandler(this.CloseDlg);
 		}
 	}
 }

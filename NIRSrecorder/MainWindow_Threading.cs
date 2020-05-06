@@ -125,13 +125,61 @@ protected void CheckBattery()
             Thread.Sleep(MainClass.win.settings.UPDATETIME);  // update rate (default 500ms)
 
             // Get data from the instrument
+            int[] s = new int[MainClass.devices.Length];
             for (int i = 0; i < MainClass.devices.Length; i++)
             {
-
+                s[i] = nirsdata[i].time.Count;
                 nirsdata[i] = MainClass.devices[i].GetNewData(nirsdata[i]);
+               
             }
 
             nirsdata = realtimeEngine.UpdateRTengine(nirsdata);
+
+            if (checkbutton_LSLdata.Active)
+            {
+                for (int i = 0; i < MainClass.devices.Length; i++)
+                {
+
+                    int m = nirsdata[i].probe.numChannels * combobox_LSLOutType.Active;
+                    for (int j = s[i]; j < nirsdata[i].time.Count; j++)
+                    {
+                        double[] d = new double[nirsdata[i].probe.numChannels];
+                        for (int k = 0; k < d.Length; k++)
+                        {
+                            d[k] = nirsdata[i].data[k + m][j];
+                        }
+                        dataLSL[i].push_sample(d, nirsdata[i].time[j]);
+                    }
+                }
+            }
+        
+
+
+            try
+            {
+                if (checkbutton_LSLStimInlet.Active)
+                {
+                    if (stimulusInLSL != null)
+                    {
+                        if (stimulusInLSL.samples_available() > 0)
+                        {
+                            string[] msg = new string[2];
+                            stimulusInLSL.pull_sample(msg);
+                            textview_LSLIn.Buffer.Text += string.Format("{0}LSL Inlet Recieved: {1} : {2} (@{3}s)", (char)10, msg[0], msg[1],
+                                nirsdata[0].time[nirsdata[0].time.Count-1]);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                Console.WriteLine("LSL read failed");
+            }
+
+
+
+
+
 
             drawingarea_Data.QueueDraw();
             drawingarea_Data2.QueueDraw();

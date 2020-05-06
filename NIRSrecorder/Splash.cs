@@ -3,6 +3,8 @@ namespace NIRSrecorder
 {
 	public partial class Splash : Gtk.Window
 	{
+		public Gtk.Label label;
+
 		public Splash() :
 				base(Gtk.WindowType.Toplevel)
 		{
@@ -12,8 +14,7 @@ namespace NIRSrecorder
 		//	splashtext = this.splashlabel;
 
 			this.Show();
-
-		}
+        }
 
         private void Build2()
 		{
@@ -30,13 +31,19 @@ namespace NIRSrecorder
 			h = pixbuf.Height;
 			w = pixbuf.Width;
 
+			Gtk.VBox vBox = new Gtk.VBox();
+
 			Gtk.Fixed fix = new Gtk.Fixed();
 			Gtk.Image im = new Gtk.Image();
 
 			im.SetSizeRequest(w, h);
 			im.Pixbuf = pixbuf;
 			fix.Add(im);
-			this.Add(fix);
+			vBox.Add(fix);
+
+			label = new Gtk.Label();
+			vBox.Add(label);
+			this.Add(vBox);
 
 
 			if ((this.Child != null))
@@ -48,5 +55,6 @@ namespace NIRSrecorder
 			this.Show();
 		}
 
+        
 	}
 }
