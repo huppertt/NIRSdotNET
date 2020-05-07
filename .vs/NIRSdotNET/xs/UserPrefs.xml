@@ -1,34 +1,20 @@
 ﻿<Properties StartupConfiguration="{1B6462A9-7434-490C-B65C-91498B6FFA3F}|Default" NuGet.AddPackagesDialog.IncludePrerelease="True">
   <MonoDevelop.Ide.ItemProperties.NIRSrecorder PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSDAQ/BTNIRS.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/ConnectDevices.cs">
     <Files>
-      <File FileName="NIRSrecorder/MainWindow.cs" Line="68" Column="5" IsPinned="True" />
-      <File FileName="NIRSrecorder/MainWindow_Threading.cs" />
-      <File FileName="NIRSrecorder/MainWindow_Parameters.cs" />
-      <File FileName="NIRSrecorder/RegisterSubject.cs" />
-      <File FileName="NIRSDAQ/Instrument.cs" />
-      <File FileName="NIRSrecorder/MainWindow_Controls.cs" />
-      <File FileName="NIRSrecorder/ConnectDevices.cs" Line="15" Column="1" />
-      <File FileName="NIRSDAQ/BTNIRS.cs" Line="163" Column="53" />
-      <File FileName="NIRSrecorder/Config.xml" Line="14" Column="37" />
-      <File FileName="NIRSrecorder/Splash.cs" Line="43" Column="1" />
-      <File FileName="NIRSrecorder/Program.cs" Line="33" Column="23" />
+      <File FileName="NIRSrecorder/MainWindow.cs" Line="294" Column="57" IsPinned="True" />
+      <File FileName="NIRSrecorder/MainWindow_Threading.cs" Line="113" Column="16" />
+      <File FileName="NIRSrecorder/ConnectDevices.cs" Line="2" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="NIRSdotNET" expanded="True">
-            <Node name="NIRSDAQ" expanded="True">
-              <Node name="BTNIRS.cs" selected="True" />
+            <Node name="NIRSDAQ" expanded="True" />
+            <Node name="NIRSdotNET" expanded="True" />
+            <Node name="NIRSrecorder" expanded="True">
+              <Node name="ConnectDevices.cs" selected="True" />
             </Node>
-            <Node name="NIRSrecorder" expanded="True" />
-          </Node>
-        </State>
-      </Pad>
-      <Pad Id="ClassPad">
-        <State name="__root__">
-          <Node name="NIRSdotNET" expanded="True" selected="True">
-            <Node name="NIRSrecorder" expanded="True" />
           </Node>
         </State>
       </Pad>
@@ -44,12 +30,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="HDF5 1.10 Release" />
   <Debugger.DebugSourceFolders />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/ConnectDevices.cs" relfile="NIRSrecorder/ConnectDevices.cs" line="94" column="1" />
-      <Breakpoint file="/Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/ConnectDevices.cs" relfile="NIRSrecorder/ConnectDevices.cs" line="101" column="1" />
-      <Breakpoint file="/Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/ConnectDevices.cs" relfile="NIRSrecorder/ConnectDevices.cs" line="74" column="1" />
-      <Breakpoint file="/Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/MainWindow.cs" relfile="NIRSrecorder/MainWindow.cs" line="26" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
   <AuthorInfo Name="Theodore Huppert" Email="HUPPERT1@pitt.edu" Copyright="2020" Company="University of Pittsburgh" Trademark="" />

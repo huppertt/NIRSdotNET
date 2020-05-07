@@ -1,5 +1,4 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/pts1020.xml
-/Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/DefaultConfig.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/HemoglobinSpectrum.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/Config.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/BTNIRS_Config.xml
@@ -7,6 +6,7 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/liblsl64.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/io_SNIRF.cs
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/GetSpectrum.cs
+/Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/DefaultConfig.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/liblsl.1.14.0.dylib
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/liblsl.dylib
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/NIRSrecorder.exe

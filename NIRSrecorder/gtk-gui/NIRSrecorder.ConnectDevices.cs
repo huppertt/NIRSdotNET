@@ -12,11 +12,11 @@ namespace NIRSrecorder
 
 		private global::Gtk.HBox hbox14;
 
-		private global::Gtk.ComboBox combobox9;
+		private global::Gtk.ComboBox combobox_avail;
 
-		private global::Gtk.Button button230;
+		private global::Gtk.Button button_connect;
 
-		private global::Gtk.Button button236;
+		private global::Gtk.Button button_ident;
 
 		private global::Gtk.Label GtkLabel2;
 
@@ -26,9 +26,9 @@ namespace NIRSrecorder
 
 		private global::Gtk.HBox hbox13;
 
-		private global::Gtk.ComboBox combobox10;
+		private global::Gtk.ComboBox combobox_connected;
 
-		private global::Gtk.Button button232;
+		private global::Gtk.Button button_discont;
 
 		private global::Gtk.Button button234;
 
@@ -40,7 +40,7 @@ namespace NIRSrecorder
 
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
 
-		private global::Gtk.TextView textview5;
+		private global::Gtk.TextView textview_info;
 
 		private global::Gtk.Label GtkLabel6;
 
@@ -79,34 +79,34 @@ namespace NIRSrecorder
 			this.hbox14.Name = "hbox14";
 			this.hbox14.Spacing = 6;
 			// Container child hbox14.Gtk.Box+BoxChild
-			this.combobox9 = global::Gtk.ComboBox.NewText();
-			this.combobox9.AppendText(global::Mono.Unix.Catalog.GetString("---------------------"));
-			this.combobox9.Name = "combobox9";
-			this.combobox9.Active = 0;
-			this.hbox14.Add(this.combobox9);
-			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.hbox14[this.combobox9]));
+			this.combobox_avail = global::Gtk.ComboBox.NewText();
+			this.combobox_avail.AppendText(global::Mono.Unix.Catalog.GetString("---------------------"));
+			this.combobox_avail.Name = "combobox_avail";
+			this.combobox_avail.Active = 0;
+			this.hbox14.Add(this.combobox_avail);
+			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.hbox14[this.combobox_avail]));
 			w2.Position = 0;
 			w2.Expand = false;
 			w2.Fill = false;
 			// Container child hbox14.Gtk.Box+BoxChild
-			this.button230 = new global::Gtk.Button();
-			this.button230.CanFocus = true;
-			this.button230.Name = "button230";
-			this.button230.UseUnderline = true;
-			this.button230.Label = global::Mono.Unix.Catalog.GetString("Connect");
-			this.hbox14.Add(this.button230);
-			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox14[this.button230]));
+			this.button_connect = new global::Gtk.Button();
+			this.button_connect.CanFocus = true;
+			this.button_connect.Name = "button_connect";
+			this.button_connect.UseUnderline = true;
+			this.button_connect.Label = global::Mono.Unix.Catalog.GetString("Connect");
+			this.hbox14.Add(this.button_connect);
+			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox14[this.button_connect]));
 			w3.Position = 1;
 			w3.Expand = false;
 			w3.Fill = false;
 			// Container child hbox14.Gtk.Box+BoxChild
-			this.button236 = new global::Gtk.Button();
-			this.button236.CanFocus = true;
-			this.button236.Name = "button236";
-			this.button236.UseUnderline = true;
-			this.button236.Label = global::Mono.Unix.Catalog.GetString("Indentify");
-			this.hbox14.Add(this.button236);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox14[this.button236]));
+			this.button_ident = new global::Gtk.Button();
+			this.button_ident.CanFocus = true;
+			this.button_ident.Name = "button_ident";
+			this.button_ident.UseUnderline = true;
+			this.button_ident.Label = global::Mono.Unix.Catalog.GetString("Identify");
+			this.hbox14.Add(this.button_ident);
+			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox14[this.button_ident]));
 			w4.Position = 2;
 			w4.Expand = false;
 			w4.Fill = false;
@@ -135,23 +135,23 @@ namespace NIRSrecorder
 			this.hbox13.Name = "hbox13";
 			this.hbox13.Spacing = 6;
 			// Container child hbox13.Gtk.Box+BoxChild
-			this.combobox10 = global::Gtk.ComboBox.NewText();
-			this.combobox10.AppendText(global::Mono.Unix.Catalog.GetString("---------------------"));
-			this.combobox10.Name = "combobox10";
-			this.combobox10.Active = 0;
-			this.hbox13.Add(this.combobox10);
-			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hbox13[this.combobox10]));
+			this.combobox_connected = global::Gtk.ComboBox.NewText();
+			this.combobox_connected.AppendText(global::Mono.Unix.Catalog.GetString("---------------------"));
+			this.combobox_connected.Name = "combobox_connected";
+			this.combobox_connected.Active = 0;
+			this.hbox13.Add(this.combobox_connected);
+			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hbox13[this.combobox_connected]));
 			w8.Position = 0;
 			w8.Expand = false;
 			w8.Fill = false;
 			// Container child hbox13.Gtk.Box+BoxChild
-			this.button232 = new global::Gtk.Button();
-			this.button232.CanFocus = true;
-			this.button232.Name = "button232";
-			this.button232.UseUnderline = true;
-			this.button232.Label = global::Mono.Unix.Catalog.GetString("Disconnect");
-			this.hbox13.Add(this.button232);
-			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.hbox13[this.button232]));
+			this.button_discont = new global::Gtk.Button();
+			this.button_discont.CanFocus = true;
+			this.button_discont.Name = "button_discont";
+			this.button_discont.UseUnderline = true;
+			this.button_discont.Label = global::Mono.Unix.Catalog.GetString("Disconnect");
+			this.hbox13.Add(this.button_discont);
+			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.hbox13[this.button_discont]));
 			w9.Position = 1;
 			w9.Expand = false;
 			w9.Fill = false;
@@ -191,11 +191,11 @@ namespace NIRSrecorder
 			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
 			this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
-			this.textview5 = new global::Gtk.TextView();
-			this.textview5.CanFocus = true;
-			this.textview5.Name = "textview5";
-			this.textview5.Editable = false;
-			this.GtkScrolledWindow.Add(this.textview5);
+			this.textview_info = new global::Gtk.TextView();
+			this.textview_info.CanFocus = true;
+			this.textview_info.Name = "textview_info";
+			this.textview_info.Editable = false;
+			this.GtkScrolledWindow.Add(this.textview_info);
 			this.GtkAlignment4.Add(this.GtkScrolledWindow);
 			this.frame10.Add(this.GtkAlignment4);
 			this.GtkLabel6 = new global::Gtk.Label();
@@ -233,6 +233,11 @@ namespace NIRSrecorder
 			this.DefaultWidth = 400;
 			this.DefaultHeight = 300;
 			this.Show();
+			this.button_connect.Clicked += new global::System.EventHandler(this.Cont);
+			this.button_ident.Clicked += new global::System.EventHandler(this.IDcont);
+			this.button_discont.Clicked += new global::System.EventHandler(this.Discont);
+			this.button234.Clicked += new global::System.EventHandler(this.IDdiscont);
+			this.buttonCancel.Clicked += new global::System.EventHandler(this.ClickedOK);
 		}
 	}
 }

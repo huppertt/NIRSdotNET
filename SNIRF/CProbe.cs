@@ -62,8 +62,10 @@ namespace nirs
                 elemList = doc.GetElementsByTagName("color");
 
                 colormap = new Gdk.Color[elemList.Count];
+                
                 for (int i = 0; i < elemList.Count; i++)
                 {
+
                     XmlDocument doc2 = new XmlDocument();
                     doc2.LoadXml("<root>" + elemList[i].InnerXml + "</root>");
                     elemListsub = doc2.GetElementsByTagName("R");
@@ -73,8 +75,9 @@ namespace nirs
                     elemListsub = doc2.GetElementsByTagName("B");
                     byte b = Convert.ToByte(elemListsub[0].InnerXml);
                     colormap[i] = new Gdk.Color(r, g, b);
-                }
 
+                }
+                
                 doc = new XmlDocument();
                 doc.LoadXml("<root>" + elemListAll[1].InnerXml + "</root>");
                 elemList = doc.GetElementsByTagName("color");

@@ -3345,7 +3345,7 @@ huppert1@pitt.edu
                         <property name="MemberName" />
                         <property name="Spacing">6</property>
                         <child>
-                          <widget class="Gtk.ComboBox" id="combobox9">
+                          <widget class="Gtk.ComboBox" id="combobox_avail">
                             <property name="MemberName" />
                             <property name="IsTextCombo">True</property>
                             <property name="Items" translatable="yes">---------------------</property>
@@ -3359,12 +3359,13 @@ huppert1@pitt.edu
                           </packing>
                         </child>
                         <child>
-                          <widget class="Gtk.Button" id="button230">
+                          <widget class="Gtk.Button" id="button_connect">
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">Connect</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="Cont" />
                           </widget>
                           <packing>
                             <property name="Position">1</property>
@@ -3374,12 +3375,13 @@ huppert1@pitt.edu
                           </packing>
                         </child>
                         <child>
-                          <widget class="Gtk.Button" id="button236">
+                          <widget class="Gtk.Button" id="button_ident">
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="Type">TextOnly</property>
-                            <property name="Label" translatable="yes">Indentify</property>
+                            <property name="Label" translatable="yes">Identify</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="IDcont" />
                           </widget>
                           <packing>
                             <property name="Position">2</property>
@@ -3425,7 +3427,7 @@ huppert1@pitt.edu
                         <property name="MemberName" />
                         <property name="Spacing">6</property>
                         <child>
-                          <widget class="Gtk.ComboBox" id="combobox10">
+                          <widget class="Gtk.ComboBox" id="combobox_connected">
                             <property name="MemberName" />
                             <property name="IsTextCombo">True</property>
                             <property name="Items" translatable="yes">---------------------</property>
@@ -3439,12 +3441,13 @@ huppert1@pitt.edu
                           </packing>
                         </child>
                         <child>
-                          <widget class="Gtk.Button" id="button232">
+                          <widget class="Gtk.Button" id="button_discont">
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">Disconnect</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="Discont" />
                           </widget>
                           <packing>
                             <property name="Position">1</property>
@@ -3460,6 +3463,7 @@ huppert1@pitt.edu
                             <property name="Type">TextOnly</property>
                             <property name="Label" translatable="yes">Identify</property>
                             <property name="UseUnderline">True</property>
+                            <signal name="Clicked" handler="IDdiscont" />
                           </widget>
                           <packing>
                             <property name="Position">2</property>
@@ -3505,7 +3509,7 @@ huppert1@pitt.edu
                         <property name="MemberName" />
                         <property name="ShadowType">In</property>
                         <child>
-                          <widget class="Gtk.TextView" id="textview5">
+                          <widget class="Gtk.TextView" id="textview_info">
                             <property name="MemberName" />
                             <property name="CanFocus">True</property>
                             <property name="ShowScrollbars">True</property>
@@ -3557,6 +3561,7 @@ huppert1@pitt.edu
             <property name="Label" translatable="yes">Accept</property>
             <property name="UseUnderline">True</property>
             <property name="ResponseId">-6</property>
+            <signal name="Clicked" handler="ClickedOK" />
           </widget>
           <packing>
             <property name="Expand">False</property>

@@ -176,9 +176,12 @@ namespace NIRSDAQ
                         {
                             try
                             {
-                                if (_serialPort[i].IsOpen)
+                                if (_serialPort[i] != null)
                                 {
-                                    _serialPort[i].Close();
+                                    if (_serialPort[i].IsOpen)
+                                    {
+                                        _serialPort[i].Close();
+                                    }
                                 }
                             }
                             catch { }

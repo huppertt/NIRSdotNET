@@ -89,27 +89,29 @@ protected void CheckBattery()
     int id = combobox_statusBattery.Active;
     if (id < 0) { id = 0; }
 
+        try
+        {
+            NIRSDAQ.info[] info = new NIRSDAQ.info[MainClass.devices.Length];
+            string[] battery = new string[MainClass.devices.Length];
 
 
-    NIRSDAQ.info[] info = new NIRSDAQ.info[MainClass.devices.Length];
-    string[] battery = new string[MainClass.devices.Length];
+            for (int i = 0; i < MainClass.devices.Length; i++)
+            {
+                info[i] = MainClass.devices[i].GetInfo();
+                battery[i] = MainClass.devices[i].GetBatteryInfo();
+            }
 
+            Gtk.ListStore ClearList = new Gtk.ListStore(typeof(string));
+            combobox_statusBattery.Model = ClearList;
+            for (int i = 0; i < MainClass.devices.Length; i++)
+            {
+                combobox_statusBattery.AppendText(string.Format("{0} {1}", info[i].PortName, battery[i]));
+            }
+            combobox_statusBattery.Active = id;
 
-    for (int i = 0; i < MainClass.devices.Length; i++)
-    {
-        info[i] = MainClass.devices[i].GetInfo();
-        battery[i] = MainClass.devices[i].GetBatteryInfo();
-    }
-
-    Gtk.ListStore ClearList = new Gtk.ListStore(typeof(string));
-    combobox_statusBattery.Model = ClearList;
-    for (int i = 0; i < MainClass.devices.Length; i++)
-    {
-        combobox_statusBattery.AppendText(string.Format("{0} {1}", info[i].PortName, battery[i]));
-    }
-    combobox_statusBattery.Active = id;
-
-
+        }
+        catch {
+        }
 }
 
 

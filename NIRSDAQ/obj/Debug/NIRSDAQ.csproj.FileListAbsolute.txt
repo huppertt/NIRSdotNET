@@ -1,8 +1,8 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/pts1020.xml
-/Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/DefaultConfig.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/HemoglobinSpectrum.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/io_SNIRF.cs
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/GetSpectrum.cs
+/Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/DefaultConfig.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/NIRSDAQ.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/NIRSDAQ.pdb
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/Microsoft.Win32.Registry.dll

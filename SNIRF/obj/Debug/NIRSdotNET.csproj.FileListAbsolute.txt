@@ -61,10 +61,10 @@
 /Users/Huppert/Projects/NIRSdotNET/SNIRF/obj/Debug/SNIRF.dll
 /Users/Huppert/Projects/NIRSdotNET/SNIRF/obj/Debug/SNIRF.pdb
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/pts1020.xml
-/Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/DefaultConfig.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/HemoglobinSpectrum.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/io_SNIRF.cs
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/GetSpectrum.cs
+/Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/DefaultConfig.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/SNIRF.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/SNIRF.pdb
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/System.Data.Common.dll

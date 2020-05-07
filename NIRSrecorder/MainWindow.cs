@@ -33,6 +33,8 @@ public partial class MainWindow : Window
         List<string> ports = new List<string>();
         if (settings.SYSTEM.Trim().ToLower().Equals("simulator"))
         {
+            ConnectMultipleDevicesAction.Sensitive = false;
+
             ports.Add("simulator");
             label_deviceConnected.Text = "Connected to Simulator";
             //colorbutton3.Color = new Gdk.Color(128, 255, 128);
@@ -40,6 +42,7 @@ public partial class MainWindow : Window
         }
         else if (settings.SYSTEM.Trim().ToLower().Equals("simulatorhyperscan"))
         {
+            ConnectMultipleDevicesAction.Sensitive = false;
             settings.SYSTEM = "Simulator";
             ports.Add("1");
             ports.Add("2");
@@ -59,14 +62,18 @@ public partial class MainWindow : Window
          //       System.Windows.Forms.MessageBox.Show("No TechEn BTNIRS devices detected.  Please check hardware and connect.",
          //                       "No devices found");
                 label_deviceConnected.Text = "No Devices found";
-                RegisterProbeAction.Sensitive = false;
-                QuickStartAction.Sensitive = false;
+                MainClass.devices = new NIRSDAQ.Instrument.instrument[0];
             }
             else
             {
                 label_deviceConnected.Text = "Connected to TechEn BTNIRS";
             }
-            
+            if (ports.Count == 1)
+            {
+                ConnectMultipleDevicesAction.Sensitive = false;
+            }
+
+
         }
 
         scancount = 0;
@@ -91,35 +98,18 @@ public partial class MainWindow : Window
 
         colorbutton1.Color = new Gdk.Color(128, 128, 128);
 
-        string path = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-        path = System.IO.Path.Combine(path, "LastSettings.xml");
-        if (System.IO.File.Exists(path))
+
+
+
+        if (ports.Count == 0)
         {
-            
-
-            QuickStartAction.Sensitive = true;
-            // Read the Config.xml file
-            XmlDocument doc = new XmlDocument();
-
-            doc.Load(path);
-            XmlNodeList elemList;
-
-            elemList = doc.GetElementsByTagName("Investigator");
-            string investigator = elemList[0].InnerXml.Trim();
-            elemList = doc.GetElementsByTagName("Study");
-            string study = elemList[0].InnerXml.Trim();
-            QuickStartAction.Label = "Quick Start: " + investigator + ":" + study;
-
-            DebugMessage("Last Settings Avaliable  " + investigator + " : " + study);
-
+            NewSubjectAction.Sensitive = false;
+            QuickStartAction.Sensitive = false;
         }
         else
         {
-            QuickStartAction.Sensitive = false;
+           SetupGUI(ports);
         }
-
-        SetupGUI(ports);
-
 
         batteryCheck = new Thread(CheckBatteryWrapper);
         batteryCheck.Start();
@@ -141,14 +131,6 @@ public partial class MainWindow : Window
         nodeview_stim.AddEvents((int)Gdk.EventMask.ButtonPressMask);
         nodeview_stim.AddEvents((int)Gdk.EventMask.ButtonReleaseMask);
         nodeview_stim.ButtonPressEvent += StimNode_Clicked;
-
-        combobox_device1.Model = new ListStore(typeof(string));
-        combobox_device2.Model = new ListStore(typeof(string));
-        for (int i = 0; i < MainClass.devices.Length; i++)
-        {
-            combobox_device1.AppendText(MainClass.devices[i].devicename);
-            combobox_device2.AppendText(MainClass.devices[i].devicename);
-        }
 
 
         nodeview4.AppendColumn("FileName", new CellRendererText(), "text", 0);
@@ -207,42 +189,6 @@ public partial class MainWindow : Window
 
         ShowAll();
 
-        if (MainClass.devices.Length == 1)
-        {
-            fixed_device1.Visible = false;
-            fixed_device2.Visible = false;
-            combobox_device1.Visible = false;
-            combobox_device2.Visible = false;
-            drawingarea_Data2.Visible = false;
-            drawingarea_SDG2.Visible = false;
-
-            fixed_device1.Hide();
-            fixed_device2.Hide();
-            combobox_device1.Hide();
-            combobox_device2.Hide();
-            MultipleDevicesAction.Sensitive = false;
-            drawingarea_Data2.Hide();
-            drawingarea_SDG2.Hide();
-            combobox_device1.Active = 0;
-            DualViewAction.Sensitive = false;
-            SingleViewAction.Sensitive = false;
-        }
-        else
-        {
-         //   fixed_device1.Hide();
-            fixed_device2.Hide();
-
-            combobox_device1.Active = 0;
-            combobox_device2.Active = 1;
-
-         //   combobox_device1.Hide();
-            combobox_device2.Hide();
-            MultipleDevicesAction.Sensitive = true;
-            SingleViewAction.Active = false;
-            drawingarea_Data2.Hide();
-            drawingarea_SDG2.Hide();
-        }
-
     }
 
 
@@ -251,8 +197,16 @@ public partial class MainWindow : Window
 
 
         // remove all pages
-        notebook_detectors.RemovePage(0);
-        notebook_sources.RemovePage(0);
+        int n = notebook_detectors.NPages;
+        for (int i = n-1; i >-1; i--)
+        {
+            notebook_detectors.RemovePage(i);
+        }
+        n = notebook_sources.NPages;
+        for (int i = n - 1; i > -1; i--)
+        {
+            notebook_sources.RemovePage(i);
+        }
 
 
 
@@ -391,6 +345,87 @@ public partial class MainWindow : Window
 
 
         }
+
+        string path = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        path = System.IO.Path.Combine(path, "LastSettings.xml");
+        if (System.IO.File.Exists(path))
+        {
+
+
+            QuickStartAction.Sensitive = true;
+            // Read the Config.xml file
+            XmlDocument doc = new XmlDocument();
+
+            doc.Load(path);
+            XmlNodeList elemList;
+
+            elemList = doc.GetElementsByTagName("Investigator");
+            string investigator = elemList[0].InnerXml.Trim();
+            elemList = doc.GetElementsByTagName("Study");
+            string study = elemList[0].InnerXml.Trim();
+            QuickStartAction.Label = "Quick Start: " + investigator + ":" + study;
+
+            DebugMessage("Last Settings Avaliable  " + investigator + " : " + study);
+
+        }
+        else
+        {
+            QuickStartAction.Sensitive = false;
+        }
+
+
+        combobox_device1.Model = new ListStore(typeof(string));
+        combobox_device2.Model = new ListStore(typeof(string));
+        for (int i = 0; i < MainClass.devices.Length; i++)
+        {
+            combobox_device1.AppendText(MainClass.devices[i].devicename);
+            combobox_device2.AppendText(MainClass.devices[i].devicename);
+        }
+
+
+
+        ShowAll();
+
+        if (MainClass.devices.Length == 1)
+        {
+            fixed_device1.Visible = false;
+            fixed_device2.Visible = false;
+            combobox_device1.Visible = false;
+            combobox_device2.Visible = false;
+            drawingarea_Data2.Visible = false;
+            drawingarea_SDG2.Visible = false;
+
+            fixed_device1.Hide();
+            fixed_device2.Hide();
+            combobox_device1.Hide();
+            combobox_device2.Hide();
+            MultipleDevicesAction.Sensitive = false;
+            drawingarea_Data2.Hide();
+            drawingarea_SDG2.Hide();
+            combobox_device1.Active = 0;
+            DualViewAction.Sensitive = false;
+            SingleViewAction.Sensitive = false;
+        }
+        else
+        {
+            //   fixed_device1.Hide();
+            fixed_device2.Hide();
+
+            combobox_device1.Active = 0;
+            combobox_device2.Active = 1;
+
+            //   combobox_device1.Hide();
+            combobox_device2.Hide();
+            MultipleDevicesAction.Sensitive = true;
+            SingleViewAction.Active = false;
+            drawingarea_Data2.Hide();
+            drawingarea_SDG2.Hide();
+        }
+        if (MainClass.devices.Length > 0)
+        {
+            NewSubjectAction.Sensitive = true;
+        }
+        
     }
 
 
