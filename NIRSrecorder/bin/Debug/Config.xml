@@ -11,7 +11,7 @@
     </default_folders>
     
 <!-- UNCOMMENT one of the instrument types {BTNIRS,CW6,Simulator,SimulatorHyperScan} -->
-    <systemtype>BTNIRS</systemtype>
+     <systemtype>BTNIRS</systemtype> 
     <!-- <systemtype>CW6</systemtype> -->
     <!-- <systemtype>SimulatorHyperScan</systemtype> -->
     <!--  <systemtype>Simulator</systemtype> -->

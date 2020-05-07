@@ -60,6 +60,52 @@ namespace NIRSrecorder
             SYSTEM = elemList[0].InnerXml;
             SYSTEM = SYSTEM.Trim();
 
+            LoadSettingsSystem();
+
+        }
+
+        public Settings(string device)
+        {
+
+            UPDATETIME = 500;
+            //    BUFFER_SIZE = 20 * 60 * 20;
+
+            // Read the Config.xml file
+            XmlDocument doc = new XmlDocument();
+            XmlDocument doc2 = new XmlDocument();
+
+            doc.Load(@"Config.xml");
+            XmlNodeList elemList;
+            XmlNodeList elemListsub;
+
+            elemList = doc.GetElementsByTagName("debug");
+            DEBUG = elemList[0].InnerXml.Trim().ToLower().Equals("true");
+
+            // default_folders
+            elemList = doc.GetElementsByTagName("default_folders");
+            doc2.LoadXml("<root>" + elemList[0].InnerXml + "</root>");
+            elemListsub = doc2.GetElementsByTagName("datadir");
+            DATADIR = elemListsub[0].InnerXml;
+            DATADIR = DATADIR.Trim();
+            elemListsub = doc2.GetElementsByTagName("probedir");
+            PROBEDIR = elemListsub[0].InnerXml;
+            PROBEDIR = PROBEDIR.Trim();
+
+            // System info
+            //elemList = doc.GetElementsByTagName("systemtype");
+            //SYSTEM = elemList[0].InnerXml;
+            SYSTEM = device;
+
+            LoadSettingsSystem();
+
+        }
+
+
+        public void LoadSettingsSystem()
+        {
+
+            XmlDocument doc = new XmlDocument();
+            XmlNodeList elemList;
 
             // Load the system specific config file
             if (SYSTEM.ToLower().Equals("btnirs"))
@@ -86,7 +132,7 @@ namespace NIRSrecorder
             elemList = doc.GetElementsByTagName("laseradjustable");
             system_Info.laseradjustable = elemList[0].InnerXml.Trim().ToLower().Equals("true");
             elemList = doc.GetElementsByTagName("maxgain");
-            system_Info.maxgain= Convert.ToInt32(elemList[0].InnerXml);
+            system_Info.maxgain = Convert.ToInt32(elemList[0].InnerXml);
             elemList = doc.GetElementsByTagName("maxpower");
             system_Info.maxpower = Convert.ToInt32(elemList[0].InnerXml);
             elemList = doc.GetElementsByTagName("samplerate");
@@ -94,11 +140,11 @@ namespace NIRSrecorder
 
             elemList = doc.GetElementsByTagName("allowedsamplerates");
             system_Info.allowedsamplerates = new int[elemList.Count];
-            for(int i=0;i<elemList.Count; i++)
+            for (int i = 0; i < elemList.Count; i++)
             {
                 system_Info.allowedsamplerates[i] = Convert.ToInt32(elemList[i].InnerXml);
             }
-
         }
+
     }
 }

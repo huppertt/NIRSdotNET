@@ -86,6 +86,11 @@ protected void ClickedStartDAQ(object sender, EventArgs e)
 protected void CheckBattery()
 {
 
+        if (MainClass.devices == null)
+        {
+            return;
+        }
+
     int id = combobox_statusBattery.Active;
     if (id < 0) { id = 0; }
 

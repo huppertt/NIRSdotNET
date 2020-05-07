@@ -36,6 +36,20 @@ public partial class MainWindow : Window
         drawingarea_SDG.QueueDraw();
         if (DualViewAction.Active)
         {
+            fixed_device1.Visible = true;
+            fixed_device2.Visible = true;
+            combobox_device1.Visible = true;
+            combobox_device2.Visible = true;
+            drawingarea_Data2.Visible = true;
+            drawingarea_SDG2.Visible = true;
+
+            fixed_device1.Show();
+            fixed_device2.Show();
+            combobox_device1.Show();
+            combobox_device2.Show();
+            drawingarea_Data2.Show();
+            drawingarea_SDG2.Show();
+
             if (combobox_selectview.ActiveText.Equals("Flat View"))
             {
                 nirsdata[combobox_device2.Active].probe.default_display = nirs.probedisplay.TwoDimensional;
@@ -47,6 +61,17 @@ public partial class MainWindow : Window
 
             nirsdata[combobox_device2.Active].probe.draw(drawingarea_SDG2.GdkWindow);
             drawingarea_SDG2.QueueDraw();
+        } else
+        {
+            fixed_device2.Visible = false;
+            combobox_device2.Visible = false;
+            drawingarea_Data2.Visible = false;
+            drawingarea_SDG2.Visible = false;
+
+            fixed_device2.Hide();
+            combobox_device2.Hide();
+            drawingarea_Data2.Hide();
+            drawingarea_SDG2.Hide();
         }
 
         return;

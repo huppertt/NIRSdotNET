@@ -193,19 +193,22 @@ namespace NIRSDAQ
                     public void Start()
                     {
 
-                        SetSampleRate(sample_rate);
+                        if (isconnected)
+                        {
+                            SetSampleRate(sample_rate);
 
-                        isrunning = true;
-                        newthread = new Thread(adddata);
-                       
+                            isrunning = true;
+                            newthread = new Thread(adddata);
 
-                        // flush the Serial buffer
-                        FlushBuffer();
-                        FlushBuffer();
-                        isrunning = SendCommMsg("RUN");
-                        int i=_serialPort.BytesToRead;
-                        Thread.Sleep(100);
-                        newthread.Start();
+
+                            // flush the Serial buffer
+                            FlushBuffer();
+                            FlushBuffer();
+                            isrunning = SendCommMsg("RUN");
+                            int i = _serialPort.BytesToRead;
+                            Thread.Sleep(100);
+                            newthread.Start();
+                        }
                         return;
                     }
 
@@ -250,9 +253,12 @@ namespace NIRSDAQ
 
                     public void Stop()
                     {
-                        isrunning = false;
-                        SendCommMsg("STP");
-                        newthread.Abort();
+                        if (isconnected)
+                        {
+                            isrunning = false;
+                            SendCommMsg("STP");
+                            newthread.Abort();
+                        }
                     }
 
 
@@ -268,19 +274,22 @@ namespace NIRSDAQ
 
                     public string GetBatteryInfo()
                     {
-                        if (!isrunning)
+                        if (isconnected)
                         {
-                            
-                            SendCommMsg("BAT");
-                            string msg = ReadCommMsg();
-
-                            if (msg == null)
+                            if (!isrunning)
                             {
-                                return battery;
+
+                                SendCommMsg("BAT");
+                                string msg = ReadCommMsg();
+
+                                if (msg == null)
+                                {
+                                    return battery;
+                                }
+                                byte bat = Convert.ToByte(msg[6]);
+                                byte bat2 = Convert.ToByte(msg[7]);
+                                battery = BatteryString(bat);
                             }
-                            byte bat = Convert.ToByte(msg[6]);
-                            byte bat2 = Convert.ToByte(msg[7]);
-                            battery = BatteryString(bat);
                         }
                         return battery;
                     }
@@ -347,15 +356,18 @@ namespace NIRSDAQ
 
                     public void FlushBuffer()
                     {
-                        while (_serialPort.BytesToRead > 0)
+                        if (isconnected)
                         {
-                            _serialPort.DiscardInBuffer();
-                            _serialPort.DiscardOutBuffer();
-
-                            Thread.Sleep(50);
-                            if (_serialPort.BytesToRead > 0)
+                            while (_serialPort.BytesToRead > 0)
                             {
-                                _ = _serialPort.ReadExisting();
+                                _serialPort.DiscardInBuffer();
+                                _serialPort.DiscardOutBuffer();
+
+                                Thread.Sleep(50);
+                                if (_serialPort.BytesToRead > 0)
+                                {
+                                    _ = _serialPort.ReadExisting();
+                                }
                             }
                         }
 
@@ -401,10 +413,13 @@ namespace NIRSDAQ
                     // deconstructor
                     ~BTnirs()
                     {
-                        Stop();
-                        AllOff();
-                        _serialPort.Close();
-                        _serialPort.Dispose();
+                        if (isconnected)
+                        {
+                            Stop();
+                            AllOff();
+                            _serialPort.Close();
+                            _serialPort.Dispose();
+                        }
 
                     }
 
@@ -412,61 +427,64 @@ namespace NIRSDAQ
 
                     public void adddata()
                     {
-                        // TODO
-                        int wait;
-                        wait = 500 / sample_rate;
-                     
-                                           while (isrunning)
+                        if (isconnected)
                         {
-                            if (_serialPort.BytesToRead > wordsperrecord)
+                            // TODO
+                            int wait;
+                            wait = 500 / sample_rate;
+
+                            while (isrunning)
                             {
-                                uint startPack1 = new uint();
-                                uint startPack2 = 0;
-                                while (startPack1!=160 | startPack2 != 162)
+                                if (_serialPort.BytesToRead > wordsperrecord)
                                 {
-                                    startPack1 = startPack2;  // should be 160 = 0xA0
-                                    startPack2 = (uint)_serialPort.ReadByte(); // should be 162 = 0xA2
-                                }
-
-                                uint seqnum = (uint)_serialPort.ReadByte();
-                                uint lenPack = 256 * (uint)_serialPort.ReadByte() + (uint)_serialPort.ReadByte();
-                                uint nsamp = (lenPack - 16) / 64;
-                                //int nsamp = sample_rate / 10;
-
-                                byte[] data = new byte[64*nsamp+11];
-                                _ = _serialPort.Read(data, 0, data.Length);
-
-                                int count = 0;
-                                for (int pack = 0; pack < nsamp; pack++)
-                                {
-                                    for (int i = 0; i < _nmeas; i++)
+                                    uint startPack1 = new uint();
+                                    uint startPack2 = 0;
+                                    while (startPack1 != 160 | startPack2 != 162)
                                     {
-                                        double value = data[count]* 256 + data[count + 1];
-                                        dataqueue[i].Enqueue(value);
-                                        count += 2;
-
+                                        startPack1 = startPack2;  // should be 160 = 0xA0
+                                        startPack2 = (uint)_serialPort.ReadByte(); // should be 162 = 0xA2
                                     }
+
+                                    uint seqnum = (uint)_serialPort.ReadByte();
+                                    uint lenPack = 256 * (uint)_serialPort.ReadByte() + (uint)_serialPort.ReadByte();
+                                    uint nsamp = (lenPack - 16) / 64;
+                                    //int nsamp = sample_rate / 10;
+
+                                    byte[] data = new byte[64 * nsamp + 11];
+                                    _ = _serialPort.Read(data, 0, data.Length);
+
+                                    int count = 0;
+                                    for (int pack = 0; pack < nsamp; pack++)
+                                    {
+                                        for (int i = 0; i < _nmeas; i++)
+                                        {
+                                            double value = data[count] * 256 + data[count + 1];
+                                            dataqueue[i].Enqueue(value);
+                                            count += 2;
+
+                                        }
+                                    }
+                                    //uint bat = (uint)data[64 * nsamp];
+                                    battery = BatteryString(data[64 * nsamp]);
+                                    int temp = (int)data[64 * nsamp + 1];
+                                    uint reserve1 = (uint)data[64 * nsamp + 2];
+                                    uint reserve2 = (uint)data[64 * nsamp + 3];
+
+                                    uint ACCX = (uint)data[64 * nsamp + 4];
+                                    uint ACCY = (uint)data[64 * nsamp + 5];
+                                    uint ACCZ = (uint)data[64 * nsamp + 6];
+
+                                    uint CRC1 = (uint)data[64 * nsamp + 7];
+                                    uint CRC2 = (uint)data[64 * nsamp + 8];
+
+                                    int endPack1 = data[64 * nsamp + 9]; // should be 176 = 0xB0
+                                    int endPack2 = data[64 * nsamp + 10]; // should be 179 = 0xB3
+
+
                                 }
-                                //uint bat = (uint)data[64 * nsamp];
-                                battery = BatteryString(data[64 * nsamp]);
-                                int temp = (int)data[64 * nsamp+1];
-                                uint reserve1 = (uint)data[64 * nsamp+2]; 
-                                uint reserve2 = (uint)data[64 * nsamp+3];
 
-                                uint ACCX = (uint)data[64 * nsamp+4];
-                                uint ACCY = (uint)data[64 * nsamp+5];
-                                uint ACCZ = (uint)data[64 * nsamp+6];
-
-                                uint CRC1 = (uint)data[64 * nsamp+7];
-                                uint CRC2 = (uint)data[64 * nsamp+8];
-
-                                int endPack1 = data[64 * nsamp+9]; // should be 176 = 0xB0
-                                int endPack2 = data[64 * nsamp+10]; // should be 179 = 0xB3
-
-
+                                Thread.Sleep(wait);
                             }
-
-                            Thread.Sleep(wait);
                         }
                       
                     }
@@ -558,32 +576,33 @@ namespace NIRSDAQ
                     {
                         
                         bool flag = false;
-                        
-                        // Check that the port is open
-                        if (!_serialPort.IsOpen)
+                        if (isconnected)
                         {
-                            return flag;
-                        }
+                            // Check that the port is open
+                            if (!_serialPort.IsOpen)
+                            {
+                                return flag;
+                            }
 
-                        msg = msg + (char)13 + (char)10;
-                        byte[] bytes = Encoding.ASCII.GetBytes(msg);
-                        
+                            msg = msg + (char)13 + (char)10;
+                            byte[] bytes = Encoding.ASCII.GetBytes(msg);
 
-                        try
-                        {
-                            
-                            _serialPort.Write(bytes, 0, bytes.Length);
-                            Thread.Sleep(40);
-                         
-                            flag = true;
+
+                            try
+                            {
+
+                                _serialPort.Write(bytes, 0, bytes.Length);
+                                Thread.Sleep(40);
+
+                                flag = true;
+                            }
+                            catch (Exception)
+                            {
+                                // handle the exception
+                                Console.WriteLine("Failed " + msg + "/n");
+                                flag = false;
+                            }
                         }
-                        catch (Exception)
-                        {
-                            // handle the exception
-                            Console.WriteLine("Failed " + msg + "/n");
-                            flag = false;
-                        }
-                        
                         return flag;
                     }
 
@@ -591,34 +610,37 @@ namespace NIRSDAQ
                     public string ReadCommMsg()
                     {
                         string msg = null;
-
-                        if (!_serialPort.IsOpen)
+                        if (isconnected)
                         {
-                            return msg;
-                        }
-
-                        Thread.Sleep(200);
-                        try
-                        {
-
-
-                            if (_serialPort.BytesToRead > 0)
+                            if (!_serialPort.IsOpen)
                             {
-                                msg = _serialPort.ReadExisting();
-
+                                return msg;
                             }
-                            else
+
+                            Thread.Sleep(200);
+                            try
                             {
-                                Console.WriteLine("Read Failed: No bytes avalaiable/n");
 
+
+                                if (_serialPort.BytesToRead > 0)
+                                {
+                                    msg = _serialPort.ReadExisting();
+
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Read Failed: No bytes avalaiable/n");
+
+                                }
                             }
-                        }
-                        catch (Exception)
-                        {
-                            // handle the exception
-                            Console.WriteLine("Failed Serial Read/n");
-                        }
+                            catch (Exception)
+                            {
+                                // handle the exception
+                                Console.WriteLine("Failed Serial Read/n");
+                            }
 
+                            
+                        }
                         return msg;
                     }
 

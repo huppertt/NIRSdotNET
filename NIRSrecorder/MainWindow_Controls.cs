@@ -150,7 +150,7 @@ public partial class MainWindow : Window
 
 
     // This restores the last Study/probe used
-    protected void RegisterQuickStart(object sender, EventArgs e)
+    public void RegisterQuickStart(object sender, EventArgs e)
     {
 
         string path = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);

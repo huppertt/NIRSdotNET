@@ -13,23 +13,52 @@ namespace NIRSrecorder
         {
             this.Build();
 
+            if (MainClass.win.settings.SYSTEM.Trim().ToLower().Equals("simulator"))
+            {
+                checkbutton_simMode.Active = true;
+                vbox_devices.Sensitive = false;
+                if ( MainClass.devices == null)
+                {
+                    spinbutton_numSimDevices.Value = 1;
+                }
+                else
+                {
+                    spinbutton_numSimDevices.Value = MainClass.devices.Length;
+                }
+            }else if (MainClass.win.settings.SYSTEM.Trim().ToLower().Equals("simulatorhyperscan"))
+            {
+                checkbutton_simMode.Active = true;
+                vbox_devices.Sensitive = false;
+                spinbutton_numSimDevices.Value = 2;
+            }
+            else
+            {
+                checkbutton_simMode.Active = false;
+                vbox_devices.Sensitive = true;
+                spinbutton_numSimDevices.Value = 1;
+            }
+
+
             NIRSDAQ.Instrument.Devices.TechEn.BTnirs bTnirs = new NIRSDAQ.Instrument.Devices.TechEn.BTnirs();
             ports = bTnirs.ListPorts();
 
             connected = new List<string>();
-            for(int i=0;i<MainClass.devices.Length; i++)
+            if (MainClass.devices != null)
             {
+                for (int i = 0; i < MainClass.devices.Length; i++)
+                {
 
-                NIRSDAQ.info info = MainClass.devices[i].GetInfo();
+                    NIRSDAQ.info info = MainClass.devices[i].GetInfo();
 
-                connected.Add(MainClass.devices[i].devicename);
+                    connected.Add(MainClass.devices[i].devicename);
 
-                if (ports.Contains(info.PortName)){
-                    ports.Remove(info.PortName);
+                    if (ports.Contains(info.PortName))
+                    {
+                        ports.Remove(info.PortName);
+                    }
+
                 }
-
             }
-
             Gtk.ListStore ClearList = new Gtk.ListStore(typeof(string));
             combobox_connected.Model=ClearList;
             foreach (string s in connected)
@@ -127,10 +156,45 @@ namespace NIRSrecorder
 
         protected void ClickedOK(object sender, EventArgs e)
         {
-            MainClass.win.SetupGUI(connected);
 
+            if (checkbutton_simMode.Active)
+            {
+
+                List<string> simdev = new List<string>();
+                MainClass.win.settings.SYSTEM = "Simulator";
+                for (int i = 0; i < spinbutton_numSimDevices.Value; i++)
+                {
+                    simdev.Add(string.Format("{0}",i+1));
+                }
+                MainClass.win.SetupGUI(simdev);
+
+            }
+            else
+            {
+                MainClass.win.SetupGUI(connected);
+            }
+
+            if(MainClass.win.nirsdata.Count > 0)
+            {
+                MainClass.win.RegisterQuickStart(sender, e);
+            }
             Dispose();
             Destroy();
+        }
+
+
+
+        protected void ToggleUseSim(object sender, EventArgs e)
+        {
+            if (checkbutton_simMode.Active)
+            {
+                vbox_devices.Sensitive = false;
+            }
+            else
+            {
+                vbox_devices.Sensitive = true;
+            }
+
         }
     }
 }

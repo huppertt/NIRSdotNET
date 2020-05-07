@@ -74,6 +74,7 @@ namespace nirs
                     byte g = Convert.ToByte(elemListsub[0].InnerXml);
                     elemListsub = doc2.GetElementsByTagName("B");
                     byte b = Convert.ToByte(elemListsub[0].InnerXml);
+                 
                     colormap[i] = new Gdk.Color(r, g, b);
 
                 }

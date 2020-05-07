@@ -69,11 +69,7 @@
     <Compile Include="gtk-gui\NIRSrecorder.PrefrencesWindow.cs" />
     <Compile Include="gtk-gui\NIRSrecorder.Splash.cs" />
     <Compile Include="Splash.cs" />
-    <Compile Include="RegisterSubject.cs" />
-    <Compile Include="gtk-gui\NIRSrecorder.RegisterSubject.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="HelpDLG.cs" />
-    <Compile Include="gtk-gui\NIRSrecorder.HelpDLG.cs" />
     <Compile Include="RealTimeControls.cs" />
     <Compile Include="HelperStructs.cs" />
     <Compile Include="MainWindow_Controls.cs" />

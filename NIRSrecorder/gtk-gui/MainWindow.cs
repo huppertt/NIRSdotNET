@@ -510,7 +510,6 @@ public partial class MainWindow
 		this.AllowShrink = true;
 		this.DefaultWidth = 1400;
 		this.DefaultHeight = 800;
-		this.Decorated = false;
 		this.DestroyWithParent = true;
 		this.Gravity = ((global::Gdk.Gravity)(5));
 		// Container child MainWindow.Gtk.Container+ContainerChild

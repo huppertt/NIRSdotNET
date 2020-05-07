@@ -25,9 +25,7 @@ namespace NIRSrecorder
             this.drawingarea1.ExposeEvent += Sdgdraw;
             probe = new nirs.core.Probe();
 
-            //this.previewSDG.ExposeEvent += sdgdraw;
-            //  DeleteEvent += delegate { this.Dispose(); };
-
+  
             // Populate the investigator/study/subjid folders
             string rootfolder = MainClass.win.settings.DATADIR;
             string[] investigators = Directory.GetDirectories(rootfolder);
@@ -218,6 +216,8 @@ namespace NIRSrecorder
             demo[i].set("head_circumference", demo_headsize.Text);
             demo[i].set("Technician", demo_tecnician.Text);
             demo[i].set("comments", demo_comments.Buffer.Text);
+
+
 
             // Add channels for Optical Density, HbO2, and HbR
 

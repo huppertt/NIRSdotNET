@@ -1,27 +1,20 @@
 ﻿<Properties StartupConfiguration="{1B6462A9-7434-490C-B65C-91498B6FFA3F}|Default" NuGet.AddPackagesDialog.IncludePrerelease="True">
   <MonoDevelop.Ide.ItemProperties.NIRSrecorder PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/ConnectDevices.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/MainWindow.cs">
     <Files>
-      <File FileName="NIRSrecorder/MainWindow.cs" Line="294" Column="57" IsPinned="True" />
-      <File FileName="NIRSrecorder/MainWindow_Threading.cs" Line="113" Column="16" />
-      <File FileName="NIRSrecorder/ConnectDevices.cs" Line="2" Column="1" />
+      <File FileName="NIRSrecorder/ConnectDevices.cs" Line="186" Column="1" />
+      <File FileName="NIRSrecorder/MainWindow.cs" Line="24" Column="6" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="NIRSdotNET" expanded="True">
-            <Node name="NIRSDAQ" expanded="True" />
-            <Node name="NIRSdotNET" expanded="True" />
-            <Node name="NIRSrecorder" expanded="True">
-              <Node name="ConnectDevices.cs" selected="True" />
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.NIRSconverter PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="../../../SNIRF/CProbe.cs" line="65" column="25" endLine="65" endColumn="30" offsetX="-1" offsetY="-1" expression="i" liveUpdate="False" />
+    <Watch file="../../../SNIRF/CProbe.cs" line="71" column="25" endLine="71" endColumn="68" offsetX="-1" offsetY="-1" expression="r" liveUpdate="False" />
+    <Watch file="../../../SNIRF/CProbe.cs" line="73" column="25" endLine="73" endColumn="68" offsetX="-1" offsetY="-1" expression="g" liveUpdate="False" />
+    <Watch file="../../../SNIRF/CProbe.cs" line="75" column="25" endLine="75" endColumn="68" offsetX="-1" offsetY="-1" expression="b" liveUpdate="False" />
+    <Watch file="../../../SNIRF/CProbe.cs" line="73" column="25" endLine="73" endColumn="68" offsetX="-1" offsetY="-1" expression="g" liveUpdate="False" />
+    <Watch file="../../../SNIRF/CProbe.cs" line="75" column="25" endLine="75" endColumn="68" offsetX="-1" offsetY="-1" expression="b" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
   <DisabledProjects>
     <String>../HDF.PInvoke/HDF.PInvoke.csproj</String>
     <String>../photonviewer/PhotonViewer/PhotonViewer.csproj</String>

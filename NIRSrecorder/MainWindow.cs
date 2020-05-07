@@ -17,24 +17,22 @@ public partial class MainWindow : Window
         Build();
         settings = new NIRSrecorder.Settings();
         MainClass.obj_Splash.label.Text = "Loading GUI";
-       
+ 
     }
 
     public void IntializeGUI()
     {
 
-        EnableControls(false);
+        
+//        MainClass.obj_Splash.label.Text = string.Format("Finding Devices: {0}", settings.SYSTEM);
+//        MainClass.obj_Splash.QueueDraw();
+//        MainClass.obj_Splash.ShowNow();
 
-        MainClass.obj_Splash.label.Text = string.Format("Finding Devices: {0}", settings.SYSTEM);
-        MainClass.obj_Splash.QueueDraw();
-        MainClass.obj_Splash.ShowNow();
         // For now
         // This will allow me to handle multiple devices (eventually).  For now, just default to 1
         List<string> ports = new List<string>();
         if (settings.SYSTEM.Trim().ToLower().Equals("simulator"))
         {
-            ConnectMultipleDevicesAction.Sensitive = false;
-
             ports.Add("simulator");
             label_deviceConnected.Text = "Connected to Simulator";
             //colorbutton3.Color = new Gdk.Color(128, 255, 128);
@@ -42,7 +40,6 @@ public partial class MainWindow : Window
         }
         else if (settings.SYSTEM.Trim().ToLower().Equals("simulatorhyperscan"))
         {
-            ConnectMultipleDevicesAction.Sensitive = false;
             settings.SYSTEM = "Simulator";
             ports.Add("1");
             ports.Add("2");
@@ -58,23 +55,15 @@ public partial class MainWindow : Window
             MainClass.obj_Splash.ShowNow();
             if (ports.Count == 0)
             {
-
-         //       System.Windows.Forms.MessageBox.Show("No TechEn BTNIRS devices detected.  Please check hardware and connect.",
-         //                       "No devices found");
                 label_deviceConnected.Text = "No Devices found";
-                MainClass.devices = new NIRSDAQ.Instrument.instrument[0];
             }
             else
             {
                 label_deviceConnected.Text = "Connected to TechEn BTNIRS";
             }
-            if (ports.Count == 1)
-            {
-                ConnectMultipleDevicesAction.Sensitive = false;
-            }
-
-
         }
+
+        EnableControls(false);
 
         scancount = 0;
 
@@ -110,6 +99,12 @@ public partial class MainWindow : Window
         {
            SetupGUI(ports);
         }
+
+
+        Gtk.ListStore ClearList = new Gtk.ListStore(typeof(string));
+        combobox_statusBattery.Model = ClearList;
+        combobox_statusBattery.AppendText("---------");
+        combobox_statusBattery.Active = 0;
 
         batteryCheck = new Thread(CheckBatteryWrapper);
         batteryCheck.Start();
@@ -165,6 +160,7 @@ public partial class MainWindow : Window
 
         CheckBattery();
 
+        
         liblsl.StreamInfo inf = new liblsl.StreamInfo("NIRSRecordIREvents", "Markers",2,liblsl.IRREGULAR_RATE,
                                                       liblsl.channel_format_t.cf_string);
         stimulusLSL = new liblsl.StreamOutlet(inf);
@@ -172,7 +168,7 @@ public partial class MainWindow : Window
         liblsl.StreamInfo[] results = liblsl.resolve_streams();
         if (results.Length > 0)
         {
-            Gtk.ListStore ClearList = new Gtk.ListStore(typeof(string));
+           ClearList = new Gtk.ListStore(typeof(string));
 
             combobox_selectLSLStimInlet.Model = ClearList;
             for (int i=0; i<results.Length; i++)
@@ -185,7 +181,7 @@ public partial class MainWindow : Window
             combobox_selectLSLStimInlet.Sensitive = false;
             checkbutton_LSLStimInlet.Active = false;
         }
-
+        
 
         ShowAll();
 
@@ -195,6 +191,7 @@ public partial class MainWindow : Window
     public void SetupGUI(List<string> ports)
     {
 
+        MainClass.win.settings.LoadSettingsSystem();
 
         // remove all pages
         int n = notebook_detectors.NPages;
@@ -449,7 +446,7 @@ public partial class MainWindow : Window
         entry_timeWindow.Sensitive = flag;
         MultipleDevicesAction.Sensitive = flag;
 
-
+        
 
     }
 
@@ -486,7 +483,7 @@ public partial class MainWindow : Window
             popup_menu.Popup();
         }
     }
-
+   
     private void AddEvent_ButtonReleaseEvent(object o, ButtonReleaseEventArgs args)
     {
         MyTreeNode myTreeNode = new MyTreeNode("--",-1,1,1,0);
