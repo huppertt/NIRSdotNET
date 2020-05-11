@@ -334,9 +334,9 @@ namespace NIRSrecorder
 			this.Show();
 			this.checkbutton_simMode.Toggled += new global::System.EventHandler(this.ToggleUseSim);
 			this.button_connect.Clicked += new global::System.EventHandler(this.Cont);
-			this.button_ident.Clicked += new global::System.EventHandler(this.IDcont);
+			this.button_ident.Clicked += new global::System.EventHandler(this.IDdiscont);
 			this.button_discont.Clicked += new global::System.EventHandler(this.Discont);
-			this.button234.Clicked += new global::System.EventHandler(this.IDdiscont);
+			this.button234.Clicked += new global::System.EventHandler(this.IDcont);
 			this.buttonCancel.Clicked += new global::System.EventHandler(this.ClickedOK);
 		}
 	}

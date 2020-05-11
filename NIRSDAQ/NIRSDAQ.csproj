@@ -83,7 +83,7 @@
       <HintPath>..\packages\System.Threading.ThreadPool.4.3.0\lib\net46\System.Threading.ThreadPool.dll</HintPath>
     </Reference>
     <Reference Include="RJCP.SerialPortStream">
-      <HintPath>..\packages\SerialPortStream.2.2.1\lib\net45\RJCP.SerialPortStream.dll</HintPath>
+      <HintPath>..\packages\SerialPortStream.2.2.1.1\lib\net45\RJCP.SerialPortStream.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.4.7.0\lib\net45\NLog.dll</HintPath>

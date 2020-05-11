@@ -43,13 +43,13 @@ namespace NIRSDAQ
                     private string battery;
 
                     private List<int> MLorder;
-
+                    public int[] wavelengths;
 
                     public void Initialize(nirs.core.Probe probe)
                     {
                         // Sets the mapping between data and the probe.
 
-                        int[] wavelengths = new int[] { 735, 850 };
+                        wavelengths = new int[] { 735, 850 };
                         int[] DetIdx = new int[] { 1, 5, 1, 5, 1, 5, 1, 5, 2, 6, 2, 6, 2, 6, 2, 6, 3, 7, 3, 7, 3, 7, 3, 7, 4, 8, 4, 8, 4, 8, 4, 8 };
                         int[] SrcIdx = new int[] { 1, 3, 1, 3, 2, 4, 2, 4, 1, 3, 1, 3, 2, 4, 2, 4, 1, 3, 1, 3, 2, 4, 2, 4, 1, 3, 1, 3, 2, 4, 2, 4 };
                         int[] TypIdx = new int[] { 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2 };
@@ -82,6 +82,18 @@ namespace NIRSDAQ
 
                     }
 
+                    public void IDmode(bool flag)
+                    {
+                        if (flag)
+                        {
+                            SendCommMsg("ION");
+                        }
+                        else
+                        {
+                            SendCommMsg("IOF");
+                        }
+
+                    }
 
 
                     public int getsamplerate()
@@ -110,13 +122,20 @@ namespace NIRSDAQ
 
                     public void Destroy()
                     {
-
+                        try
+                        {
+                            Stop();
+                            AllOff();
+                            _serialPort.Close();
+                            _serialPort.Dispose();
+                        }
+                        catch { }
                     }
 
                     public BTnirs()
                     {
                         _serialPort = new SerialPort();
-
+                        isconnected = false;
                         isrunning = false;
                         laserstates = new bool[_nsrcs];
                         laserpower = new int[_nsrcs];
@@ -356,8 +375,7 @@ namespace NIRSDAQ
 
                     public void FlushBuffer()
                     {
-                        if (isconnected)
-                        {
+                    
                             while (_serialPort.BytesToRead > 0)
                             {
                                 _serialPort.DiscardInBuffer();
@@ -369,7 +387,7 @@ namespace NIRSDAQ
                                     _ = _serialPort.ReadExisting();
                                 }
                             }
-                        }
+                       
 
                     }
 
@@ -413,14 +431,14 @@ namespace NIRSDAQ
                     // deconstructor
                     ~BTnirs()
                     {
-                        if (isconnected)
+                        try
                         {
                             Stop();
                             AllOff();
                             _serialPort.Close();
                             _serialPort.Dispose();
                         }
-
+                        catch { }
                     }
 
 
@@ -518,17 +536,20 @@ namespace NIRSDAQ
                                 {
                                     _serialPort = new SerialPort(port, 115200, Parity.None, 8);
                                     _serialPort.StopBits = StopBits.One;
-                                    _serialPort.Handshake = Handshake.RequestToSend;
+                                    _serialPort.Handshake = Handshake.None;
                                     _serialPort.ReadBufferSize = 1024 * 1024;
-                                    _serialPort.ReadTimeout = 10;
+                                    _serialPort.ReadTimeout = 50;
+                                //    _serialPort.WriteTimeout = 50;
                                     _serialPort.NewLine = string.Format("{0}", (char)13);
                                     _serialPort.Open();
+                                    isconnected = true;
 
                                     SendCommMsg("STP");
-                                    Thread.Sleep(250);
+                                    AllOff();
+                                   
                                     SendCommMsg("PID");
-
-                                    if (_serialPort.BytesToRead > 0)
+                                    Thread.Sleep(250);
+                                   if (_serialPort.BytesToRead > 0)
                                     {
                                         string msg = ReadCommMsg();
                                         flag = true;
@@ -544,12 +565,12 @@ namespace NIRSDAQ
                                     for (int i = 0; i < _nsrcs; i++)
                                     {
                                         SetLaserState(i, false);
-                                        SetLaserPower(i, 0);
+                                        SetLaserPower(i, 100);
                                     }
                                     detgains = new int[_ndets];
                                     for (int i = 0; i < _ndets; i++)
                                     {
-                                        SetDetGain(i, 0);
+                                        SetDetGain(i, 1);
                                     }
 
 
@@ -629,7 +650,7 @@ namespace NIRSDAQ
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Read Failed: No bytes avalaiable/n");
+                                   // Console.WriteLine("Read Failed: No bytes avalaiable/n");
 
                                 }
                             }

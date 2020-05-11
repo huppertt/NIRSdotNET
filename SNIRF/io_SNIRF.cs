@@ -186,6 +186,15 @@ namespace nirs
 
             // data#/probe/sourceLabels [string] 
             tmp = nirs.io.AddDataValue(probeIdx, "sourceCount", data.probe.numSrc);
+            if (data.probe.SourceLabels == null)
+            {
+                data.probe.SourceLabels = new string[data.probe.numSrc];
+                for (int i = 0; i < data.probe.numSrc; i++)
+                {
+                    data.probe.SourceLabels[i] = string.Format("Source-{0}", i + 1);
+                }
+            }
+
             for (int i = 0; i < data.probe.numSrc; i++){
                 tmp = nirs.io.AddDataString(probeIdx, String.Format("sourceLabels{0}", i),
                                             data.probe.SourceLabels[i]);
@@ -193,6 +202,17 @@ namespace nirs
 
             // data#/probe/detectorLabels [string]
             tmp = nirs.io.AddDataValue(probeIdx, "detectorCount", data.probe.numDet);
+
+            if (data.probe.DetectorLabels == null)
+            {
+                data.probe.DetectorLabels = new string[data.probe.numDet];
+                for (int i = 0; i < data.probe.numDet; i++)
+                {
+                    data.probe.DetectorLabels[i] = string.Format("Detector-{0}", i + 1);
+                }
+            }
+
+
             for (int i = 0; i < data.probe.numDet; i++)
             {
                 tmp = nirs.io.AddDataString(probeIdx, String.Format("detectorLabels{0}", i),

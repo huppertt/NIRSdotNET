@@ -2,9 +2,30 @@
   <MonoDevelop.Ide.ItemProperties.NIRSrecorder PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/MainWindow.cs">
     <Files>
-      <File FileName="NIRSrecorder/ConnectDevices.cs" Line="186" Column="1" />
-      <File FileName="NIRSrecorder/MainWindow.cs" Line="24" Column="6" />
+      <File FileName="NIRSDAQ/BTNIRS.cs" Line="37" Column="1" />
+      <File FileName="NIRSrecorder/Splash.cs" />
+      <File FileName="SNIRF/Properties/AssemblyInfo.cs" />
+      <File FileName="NIRSrecorder/MainWindow.cs" Line="613" Column="1" />
+      <File FileName="SNIRF/io_SNIRF.cs" />
+      <File FileName="NIRSrecorder/MainWindow_Threading.cs" />
+      <File FileName="NIRSrecorder/MainWindow_Parameters.cs" />
+      <File FileName="NIRSrecorder/HelperStructs.cs" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="NIRSdotNET" expanded="True">
+            <Node name="NIRSDAQ" expanded="True" />
+            <Node name="NIRSdotNET" expanded="True">
+              <Node name="Properties" expanded="True" />
+            </Node>
+            <Node name="NIRSrecorder" expanded="True">
+              <Node name="MainWindow.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.NIRSconverter PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

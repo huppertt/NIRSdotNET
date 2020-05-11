@@ -53,6 +53,9 @@
       <HintPath>..\packages\MathNet.Filtering.Kalman.0.6.0\lib\net461\MathNet.Filtering.Kalman.dll</HintPath>
     </Reference>
     <Reference Include="System.Management" />
+    <Reference Include="HDF.PInvoke">
+      <HintPath>..\packages\HDF.PInvoke.NETStandard.1.10.502\lib\netstandard2.0\HDF.PInvoke.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">

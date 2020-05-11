@@ -24,9 +24,9 @@ public partial class MainWindow : Window
     {
 
         
-//        MainClass.obj_Splash.label.Text = string.Format("Finding Devices: {0}", settings.SYSTEM);
-//        MainClass.obj_Splash.QueueDraw();
-//        MainClass.obj_Splash.ShowNow();
+        MainClass.obj_Splash.label.Text = string.Format("Finding Devices: {0}", settings.SYSTEM);
+        MainClass.obj_Splash.QueueDraw();
+        MainClass.obj_Splash.ShowNow();
 
         // For now
         // This will allow me to handle multiple devices (eventually).  For now, just default to 1
@@ -44,7 +44,6 @@ public partial class MainWindow : Window
             ports.Add("1");
             ports.Add("2");
             label_deviceConnected.Text = "Connected to Dual-Simulator";
-            //colorbutton3.Color = new Gdk.Color(128,255, 128);
             DebugMessage("Connected to Hyperscanning Simulator");
         }
         else  //TODO
@@ -84,10 +83,7 @@ public partial class MainWindow : Window
         };
 
         nirsdata = new List<nirs.core.Data>();
-
         colorbutton1.Color = new Gdk.Color(128, 128, 128);
-
-
 
 
         if (ports.Count == 0)
@@ -100,6 +96,8 @@ public partial class MainWindow : Window
            SetupGUI(ports);
         }
 
+
+        
 
         Gtk.ListStore ClearList = new Gtk.ListStore(typeof(string));
         combobox_statusBattery.Model = ClearList;
@@ -151,13 +149,7 @@ public partial class MainWindow : Window
         nodeview_stim.AppendColumn("Amplitude", cellRenderer3, "text", 3);
         nodeview_stim.NodeStore = new NodeStore(typeof(MyTreeNode));
 
-        nodeviewdemo.AppendColumn("SubjID", new CellRendererText(), "text", 0);
-        nodeviewdemo.AppendColumn("Group", new CellRendererText(), "text", 1);
-        nodeviewdemo.AppendColumn("Age", new CellRendererText(), "text", 2);
-        nodeviewdemo.AppendColumn("Gender", new CellRendererText(), "text", 3);
-        nodeviewdemo.AppendColumn("Headsize", new CellRendererText(), "text", 4);
-        nodeviewdemo.NodeStore = new NodeStore(typeof(MyTreeNodeDemo));
-
+    
         CheckBattery();
 
         
@@ -205,18 +197,67 @@ public partial class MainWindow : Window
             notebook_sources.RemovePage(i);
         }
 
+        if (ports.Count > 0)
+        {
+            DeviceOptionsAction.Sensitive = true;
+        }
+
+        List<string> ports2 = new List<string>();
+        for(int i=0; i<ports.Count; i++)
+        {
+            ports2.Add(ports[i]);
+        }
+
+
+        // If the device already has some connected
+        if (MainClass.devices!=null)
+        {
+            NIRSDAQ.Instrument.instrument[] dev = new NIRSDAQ.Instrument.instrument[ports.Count];
+            int cnt = 0;
+            for(int j=0; j<MainClass.devices.Length; j++)
+            {
+                NIRSDAQ.info _info = MainClass.devices[j].GetInfo();
+                if (ports2.Contains(_info.PortName))
+                {
+                    ports2.Remove(_info.PortName);
+                    dev[cnt] = MainClass.devices[j];
+                    cnt++;
+                }
+                else
+                {
+                    MainClass.devices[j].Disconnect();
+                }
+            }
+
+            for (int i = 0; i < ports2.Count; i++)
+            {
+                MainClass.devices[cnt+i] = new NIRSDAQ.Instrument.instrument(settings.SYSTEM);
+                MainClass.devices[cnt + i].Connect(ports2[i]);
+                colorbutton3.Color = new Gdk.Color(128, 255, 128);
+                DebugMessage(string.Format("Connected to device {0}", cnt + 1));
+
+            }
+
+        }
+        else
+        {
+            MainClass.devices = new NIRSDAQ.Instrument.instrument[ports2.Count];
+            for (int i = 0; i < ports2.Count; i++)
+            {
+                MainClass.devices[i] = new NIRSDAQ.Instrument.instrument(settings.SYSTEM);
+               MainClass.devices[i].Connect(ports2[i]);
+               colorbutton3.Color = new Gdk.Color(128, 255, 128);
+                DebugMessage(string.Format("Connected to device {0}", i + 1));
+            }
+
+        }
 
 
 
-        MainClass.devices = new NIRSDAQ.Instrument.instrument[ports.Count];
+        
         for (int i = 0; i < ports.Count; i++)
         {
-            MainClass.devices[i] = new NIRSDAQ.Instrument.instrument(settings.SYSTEM);
 
-            MainClass.devices[i].Connect(ports[i]);
-
-            colorbutton3.Color = new Gdk.Color(128, 255, 128);
-            DebugMessage(string.Format("Connected to device {0}", i + 1));
 
             MainClass.devices[i].devicename = string.Format("{0}-{1}", MainClass.devices[i].devicename, i + 1);
             NIRSDAQ.info _info = MainClass.devices[i].GetInfo();
@@ -224,9 +265,8 @@ public partial class MainWindow : Window
             _info.numDet = settings.system_Info.numdet;
             _info.numSrc = settings.system_Info.numsrc;
 
-
-            //DevicesInUseAction
-
+            
+                               
             HBox hBox = new HBox(true, 0);
             Label label = new Label();
             for (int j = 0; j < _info.numDet; j++)
@@ -252,7 +292,7 @@ public partial class MainWindow : Window
                 VBox _box = new VBox(false, 0);
                 det.led = new ColorButton(new Gdk.Color(0, 255, 0))
                 {
-                    HeightRequest = 5,
+                    HeightRequest = 25,
                     Sensitive = false
                 };
 
@@ -261,7 +301,7 @@ public partial class MainWindow : Window
                     Value = det.gain,
                     ValuePos = PositionType.Bottom,
                     Inverted = true,
-                    HeightRequest = 200,
+                    HeightRequest = 175,
                     Name = string.Format("{0}", _handles.detectors.Count)
                 };
                 det.vScale.ValueChanged += DetChanged;
@@ -531,6 +571,123 @@ public partial class MainWindow : Window
         liblsl.StreamInfo[] results = liblsl.resolve_streams();
         stimulusInLSL = new liblsl.StreamInlet(results[dIDX]);
 
+
+    }
+
+    protected void AutoAdjust(object sender, EventArgs e)
+    {
+    }
+
+    protected void EditTimeWinChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            double val = Convert.ToDouble(entry_timeWindow.Text);
+            if (val<1) {
+                entry_timeWindow.Text = string.Format("{0}", 1);
+            }
+        }
+        catch
+        {
+            entry_timeWindow.Text = string.Format("{0}", 30);
+        }
+    }
+
+
+
+
+    protected void ChangedDemoDevice(object sender, EventArgs e)
+    {
+        int dID = comboboxdeviceDemo.Active;
+        if (dID < 0)
+        {
+            return;
+        }
+
+        entrysubjid.Text = (string)nirsdata[dID].demographics.get("SubjID");
+        entryage.Text = (string)nirsdata[dID].demographics.get("Age");
+        entryheadcirm.Text = (string)nirsdata[dID].demographics.get("head_circumference");
+        entry1.Text = (string)nirsdata[dID].demographics.get("Group");
+
+        string gender = (string)nirsdata[dID].demographics.get("Gender");
+
+        ListStore store = (ListStore)comboboxentrygender.Model;
+        int index = 0;
+        bool found = false;
+        foreach (object[] row in store)
+        {
+            // Check for match
+            if (gender == row[0].ToString())
+            {
+                comboboxentrygender.Active = index;
+                found = true;
+                break;
+            }
+            // Increment the index so we can reference it for the active.
+            index++;
+        }
+        if (!found)
+        {
+            comboboxentrygender.AppendText(gender);
+            comboboxentrygender.Active = index;
+        }
+
+        string custom1 = entrycustom1Name.Text;
+        string custom2 = entrycustom2Name.Text;
+        string custom3 = entryCustom3Name.Text;
+
+        entryCustom1Val.Text = (string)nirsdata[dID].demographics.get(custom1);
+        entryCustom2Val.Text = (string)nirsdata[dID].demographics.get(custom2);
+        entryCustom3Val.Text = (string)nirsdata[dID].demographics.get(custom3);
+
+        
+    }
+
+    protected void DemoIDdevice(object sender, EventArgs e)
+    {
+
+        int dID = comboboxdeviceDemo.Active;
+        if (dID < 0)
+        {
+            return;
+        }
+
+        try
+        {
+            MainClass.devices[dID].IDmode(true);
+            Thread.Sleep(3000);
+            MainClass.devices[dID].IDmode(false);
+        }
+        catch { }
+
+
+
+    }
+
+    protected void ChangedDemo(object sender, EventArgs e)
+    {
+
+
+        int dID = comboboxdeviceDemo.Active;
+        if (dID < 0)
+        {
+            return;
+        }
+
+
+        nirsdata[dID].demographics.set("SubjID",entrysubjid.Text);
+        nirsdata[dID].demographics.set("Age",entryage.Text);
+        nirsdata[dID].demographics.set("head_circumference",entryheadcirm.Text);
+        nirsdata[dID].demographics.set("Group",entry1.Text);
+        nirsdata[dID].demographics.set("Gender",comboboxentrygender.ActiveText);
+
+        string custom1 = entrycustom1Name.Text;
+        string custom2 = entrycustom2Name.Text;
+        string custom3 = entryCustom3Name.Text;
+
+        nirsdata[dID].demographics.set(custom1, entryCustom1Val.Text);
+        nirsdata[dID].demographics.set(custom2, entryCustom2Val.Text);
+        nirsdata[dID].demographics.set(custom3, entryCustom3Val.Text);
 
     }
 }

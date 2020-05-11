@@ -13,8 +13,7 @@ public partial class MainWindow : Window
     public RealtimeEngine realtimeEngine;
     public static Thread maindisplaythread;  // Timing thread to handle drawing during running aquistion
     public static Thread batteryCheck;
-
-
+    public static Thread SCIupdate;
 
     public int scancount;
 

@@ -14,6 +14,7 @@ namespace NIRSDAQ
         public int numwavelengths;
         public int[] wavelengths;
         public int sample_rate;
+        public string Manufacturer;
     }
 
 
@@ -59,6 +60,7 @@ namespace NIRSDAQ
 
             }
 
+
             public info GetInfo()
             {
                 info _info = new info();
@@ -70,6 +72,7 @@ namespace NIRSDAQ
                         _info.numSrc = ((NIRSDAQ.Instrument.Devices.Simulator)device).nsrcs();
                         _info.numMeas = ((NIRSDAQ.Instrument.Devices.Simulator)device).nmeas();
                         _info.PortName = ((NIRSDAQ.Instrument.Devices.Simulator)device).portname();
+                        _info.Manufacturer = ((NIRSDAQ.Instrument.Devices.Simulator)device).Manufacturer;
                         _info.numwavelengths = 2;
                         _info.wavelengths = new int[2];
                         _info.wavelengths[0] = 690;
@@ -81,16 +84,32 @@ namespace NIRSDAQ
                         _info.numSrc = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).nsrcs();
                         _info.numMeas = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).nmeas();
                         _info.PortName = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).portname();
+                        _info.Manufacturer = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).Manufacturer;
                         _info.numwavelengths = 2;
                         _info.wavelengths = new int[2];
-                        _info.wavelengths[0] = 690;
-                        _info.wavelengths[1] = 830;
+                        _info.wavelengths[0] = 735;
+                        _info.wavelengths[1] = 850;
                         _info.sample_rate = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).sample_rate;
                         break;
                 }
 
                 return _info;
 
+            }
+
+            public void IDmode(bool flag)
+            {
+                switch (devicetype)
+                {
+                    case 0:
+                        //((NIRSDAQ.Instrument.Devices.Simulator)device).IDmode(flag);  // doesn't exist
+                        //devicename += " " + port;
+                        break;
+                    case 1:
+                        ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).IDmode(flag);
+                        //  devicename += " " + port;
+                        break;
+                }
             }
 
             public void Connect(string port)
@@ -109,6 +128,28 @@ namespace NIRSDAQ
                 AllOff();
 
             }
+
+
+            public void Disconnect()
+            {
+                AllOff();
+                Stop();
+                switch (devicetype)
+                {
+                    case 0:
+                       // ((NIRSDAQ.Instrument.Devices.Simulator)device).Connect(port);
+                        //devicename += " " + port;
+                        break;
+                    case 1:
+                        ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).Destroy();
+                        //  devicename += " " + port;
+                        break;
+                }
+                
+
+            }
+
+
 
             public void Start()
             {

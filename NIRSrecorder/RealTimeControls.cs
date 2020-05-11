@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace NIRSrecorder
 {
 
-	struct MBLLmapping {
+	public struct MBLLmapping {
 		public int[][] measurementPairs;
 		public int[][] hboIndex;
 		public double[][] ExtCoefHbO;
@@ -19,7 +19,7 @@ namespace NIRSrecorder
         public OnlineFilter[][] OnlineFIRFiltersBPF;
         readonly DiscreteKalmanFilter[][] MocoKalman;
         private readonly int[] nsamples;
-		private MBLLmapping[] mBLLmappings;
+		public MBLLmapping[] mBLLmappings;
 
 
 		public RealtimeEngine()

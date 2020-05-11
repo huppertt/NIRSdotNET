@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Threading;
 
 namespace NIRSrecorder
 {
@@ -50,7 +50,7 @@ namespace NIRSrecorder
 
                     NIRSDAQ.info info = MainClass.devices[i].GetInfo();
 
-                    connected.Add(MainClass.devices[i].devicename);
+                    connected.Add(info.PortName);
 
                     if (ports.Contains(info.PortName))
                     {
@@ -148,10 +148,72 @@ namespace NIRSrecorder
 
         protected void IDcont(object sender, EventArgs e)
         {
+
+            if (combobox_connected.Active < 0) { return; }
+
+            string port = combobox_connected.ActiveText;
+            try
+            {
+
+                bool found = false;
+                for (int i = 0; i < MainClass.devices.Length; i++)
+                {
+                    NIRSDAQ.info info = MainClass.devices[i].GetInfo();
+                    if(port == info.PortName)
+                    {
+                        MainClass.devices[i].IDmode(true);
+                        Thread.Sleep(3000);
+                        MainClass.devices[i].IDmode(false);
+                        found = true;
+                    }
+                }
+                if(!found)
+                {
+                    NIRSDAQ.Instrument.Devices.TechEn.BTnirs bTnirs = new NIRSDAQ.Instrument.Devices.TechEn.BTnirs();
+                    bTnirs.Connect(port);
+                    bTnirs.IDmode(true);
+                    Thread.Sleep(3000);
+                    bTnirs.IDmode(false);
+                    bTnirs.Destroy();
+                }
+            }
+            catch { }
+
+
         }
 
         protected void IDdiscont(object sender, EventArgs e)
         {
+
+            if (combobox_avail.Active < 0) { return; }
+
+            string port = combobox_avail.ActiveText;
+            try
+            {
+
+                bool found = false;
+                for (int i = 0; i < MainClass.devices.Length; i++)
+                {
+                    NIRSDAQ.info info = MainClass.devices[i].GetInfo();
+                    if (port == info.PortName)
+                    {
+                        MainClass.devices[i].IDmode(true);
+                        Thread.Sleep(3000);
+                        MainClass.devices[i].IDmode(false);
+                        found = true;
+                    }
+                }
+                if (!found)
+                {
+                    NIRSDAQ.Instrument.Devices.TechEn.BTnirs bTnirs = new NIRSDAQ.Instrument.Devices.TechEn.BTnirs();
+                    bTnirs.Connect(port);
+                    bTnirs.IDmode(true);
+                    Thread.Sleep(3000);
+                    bTnirs.IDmode(false);
+                    bTnirs.Destroy();
+                }
+            }
+            catch { }
         }
 
         protected void ClickedOK(object sender, EventArgs e)
