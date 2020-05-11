@@ -28,6 +28,15 @@ public partial class MainWindow : Window
         MainClass.obj_Splash.QueueDraw();
         MainClass.obj_Splash.ShowNow();
 
+        #if !ADDLSL
+            checkbutton_LSLStimInlet.Sensitive = false;
+            checkbutton_LSLStimOutlet.Sensitive = false;
+            combobox_LSLOutType.Sensitive = false;
+            combobox_selectLSLStimInlet.Sensitive = false;
+            textview_LSLIn.Sensitive = false;
+        #endif
+
+
         // For now
         // This will allow me to handle multiple devices (eventually).  For now, just default to 1
         List<string> ports = new List<string>();
@@ -152,7 +161,7 @@ public partial class MainWindow : Window
     
         CheckBattery();
 
-        
+#if ADDLSL
         liblsl.StreamInfo inf = new liblsl.StreamInfo("NIRSRecordIREvents", "Markers",2,liblsl.IRREGULAR_RATE,
                                                       liblsl.channel_format_t.cf_string);
         stimulusLSL = new liblsl.StreamOutlet(inf);
@@ -173,7 +182,7 @@ public partial class MainWindow : Window
             combobox_selectLSLStimInlet.Sensitive = false;
             checkbutton_LSLStimInlet.Active = false;
         }
-        
+#endif
 
         ShowAll();
 
@@ -567,10 +576,11 @@ public partial class MainWindow : Window
             checkbutton_LSLStimInlet.Active = false;
             return;
         }
-        int dIDX = combobox_selectLSLStimInlet.Active;
-        liblsl.StreamInfo[] results = liblsl.resolve_streams();
-        stimulusInLSL = new liblsl.StreamInlet(results[dIDX]);
-
+#if ADDLSL
+            int dIDX = combobox_selectLSLStimInlet.Active;
+            liblsl.StreamInfo[] results = liblsl.resolve_streams();
+            stimulusInLSL = new liblsl.StreamInlet(results[dIDX]);
+#endif
 
     }
 

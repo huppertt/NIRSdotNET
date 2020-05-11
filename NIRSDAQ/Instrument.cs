@@ -56,6 +56,8 @@ namespace NIRSDAQ
                     case 1:
                         ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).Destroy();
                         break;
+                    default:
+                        break;
                 }
 
             }

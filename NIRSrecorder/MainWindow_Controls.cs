@@ -251,7 +251,7 @@ public partial class MainWindow : Window
         }
 
 
-
+        #if ADDLSL
         MainClass.win.dataLSL = new LSL.liblsl.StreamOutlet[MainClass.devices.Length];
         for (int ii = 0; ii < MainClass.devices.Length; ii++)
         {
@@ -261,7 +261,7 @@ public partial class MainWindow : Window
                 (double)fs, LSL.liblsl.channel_format_t.cf_int32);
             MainClass.win.dataLSL[ii] = new LSL.liblsl.StreamOutlet(info);
         }
-
+        #endif
 
 
         MainClass.win._handles.whichdata.Active = 0;
@@ -286,6 +286,7 @@ public partial class MainWindow : Window
         double time = nirsdata[0].time[nirsdata[0].time.Count - 1];
         string condname = comboboxentry_stimtype.ActiveText;
 
+        #if ADDLSL
         if (checkbutton_LSLStimOutlet.Active)
         {
             string[] stim = new string[2];
@@ -294,6 +295,7 @@ public partial class MainWindow : Window
 
             stimulusLSL.push_sample(stim);
         }
+        #endif
 
         int index = 0;
         bool found = false;
@@ -377,7 +379,7 @@ public partial class MainWindow : Window
                     ev.amplitude.Add(1);
                     ev.duration.Add(999);
 
-
+                    #if ADDLSL
                     if (checkbutton_LSLStimOutlet.Active)
                     {
                         string[] stim = new string[2];
@@ -386,6 +388,7 @@ public partial class MainWindow : Window
 
                         stimulusLSL.push_sample(stim);
                     }
+                    #endif
 
                     label_numstim.Text = string.Format("Marks: {0}", ev.amplitude.Count);
                 }
@@ -397,6 +400,7 @@ public partial class MainWindow : Window
                          ev.duration[ev.duration.Count - 1], ev.amplitude[ev.amplitude.Count - 1], index);
                     nodeview_stim.NodeStore.AddNode(myTreeNode);
 
+                    #if ADDLSL
                     if (checkbutton_LSLStimOutlet.Active)
                     {
                         string[] stim = new string[2];
@@ -405,7 +409,7 @@ public partial class MainWindow : Window
 
                         stimulusLSL.push_sample(stim);
                     }
-
+                    #endif
 
                 }
                 nirsdata[0].stimulus[i] = ev;

@@ -3,7 +3,6 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/Config.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/BTNIRS_Config.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/Simulator_Config.xml
-/Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/liblsl64.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/io_SNIRF.cs
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/GetSpectrum.cs
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/DefaultConfig.xml
@@ -18,6 +17,7 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/myLSLlibrary.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/NIRSDAQ.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/SNIRF.dll
+/Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/System.ValueTuple.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/csmatio.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/NIRSDAQ.pdb
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/SNIRF.pdb
@@ -26,6 +26,7 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/MathNet.Filtering.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/MathNet.Filtering.Kalman.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/HDF.PInvoke.xml
+/Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/System.ValueTuple.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/obj/Debug/NIRSrecorder.csprojAssemblyReference.cache
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/obj/Debug/NIRSrecorder.csproj.CoreCompileInputs.cache
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/obj/Debug/NIRSrecorder.csproj.CopyComplete

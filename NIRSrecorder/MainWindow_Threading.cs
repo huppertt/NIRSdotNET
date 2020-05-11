@@ -318,13 +318,15 @@ public partial class MainWindow : Window
                         {
                             d[k] = nirsdata[i].data[k + m][j];
                         }
+                    #if ADDLSL
                         dataLSL[i].push_sample(d, nirsdata[i].time[j]);
+                    #endif
                     }
                 }
             }
 
 
-
+            #if ADDLSL
             try
             {
                 if (checkbutton_LSLStimInlet.Active)
@@ -345,7 +347,7 @@ public partial class MainWindow : Window
             {
                 Console.WriteLine("LSL read failed");
             }
-
+            #endif
 
 
 

@@ -5,8 +5,13 @@ using System.Collections.Generic;
 using LSL;
 
 
+
+
 public partial class MainWindow : Window
 {
+
+//#define ADDLSL
+
     public Handles _handles;
     public NIRSrecorder.Settings settings;
     public List<nirs.core.Data> nirsdata;
@@ -19,8 +24,10 @@ public partial class MainWindow : Window
 
     private int batterychecktime = 20000;  // msec interval to check battery
 
+#if ADDLSL
     public LSL.liblsl.StreamOutlet stimulusLSL;
     public LSL.liblsl.StreamInlet stimulusInLSL;
     public LSL.liblsl.StreamOutlet[] dataLSL;
+#endif
 
 }
