@@ -330,14 +330,11 @@ public partial class MainWindow : Window
             index = ev.duration.Count;
         }
 
-
-        MyTreeNode myTreeNode = new MyTreeNode(condname, ev.onsets[ev.onsets.Count - 1],
-            ev.duration[ev.duration.Count - 1], ev.amplitude[ev.amplitude.Count - 1], index);
-        nodeview_stim.NodeStore.AddNode(myTreeNode);
+        _handles.stimListStore.AppendValues(condname, ev.onsets[ev.onsets.Count - 1],
+            ev.duration[ev.duration.Count - 1], ev.amplitude[ev.amplitude.Count - 1]);
 
         label_numstim.Text = string.Format("Marks: {0}", ev.amplitude.Count);
-        nodeview_stim.QueueDraw();
-
+        _handles.StimTree.QueueDraw();
 
 
     }
@@ -396,9 +393,9 @@ public partial class MainWindow : Window
                 {
                     ev.duration[ev.duration.Count - 1] = time - ev.onsets[ev.onsets.Count - 1];
                     int index = ev.duration.Count - 1;
-                    MyTreeNode myTreeNode = new MyTreeNode(condname, ev.onsets[ev.onsets.Count - 1],
-                         ev.duration[ev.duration.Count - 1], ev.amplitude[ev.amplitude.Count - 1], index);
-                    nodeview_stim.NodeStore.AddNode(myTreeNode);
+                    _handles.stimListStore.AppendValues(condname, ev.onsets[ev.onsets.Count - 1],
+                        ev.duration[ev.duration.Count - 1], ev.amplitude[ev.amplitude.Count - 1]);
+
 
                     #if ADDLSL
                     if (checkbutton_LSLStimOutlet.Active)
@@ -464,7 +461,7 @@ public partial class MainWindow : Window
     {
         try
         {
-
+            /* TODO
             Gtk.CellRendererText cellRenderer = (Gtk.CellRendererText)sender;
             MyTreeNode nodeStore = nodeview_stim.NodeStore.GetNode(new TreePath(args.Path)) as MyTreeNode;
             //args.Path
@@ -559,7 +556,7 @@ public partial class MainWindow : Window
 
             }
 
-
+            */
 
             drawingarea_Data.QueueDraw();
             drawingarea_Data2.QueueDraw();

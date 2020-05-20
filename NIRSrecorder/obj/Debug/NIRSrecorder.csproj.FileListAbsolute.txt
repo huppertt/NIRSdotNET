@@ -8,6 +8,7 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/DefaultConfig.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/liblsl.1.14.0.dylib
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/liblsl.dylib
+/Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/NIRSrecorder.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/NIRSrecorder.exe
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/NIRSrecorder.pdb
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/HDF.PInvoke.dll

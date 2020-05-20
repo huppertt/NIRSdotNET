@@ -170,7 +170,7 @@ namespace NIRSDAQ
                         for (int i = 0; i < ports.Length; i++)
                         {
 
-                            if (ports[i].Contains("SerialPort"))
+                            if (ports[i].Contains("SerialPort") | ports[i].Contains("COM"))
                             {
                                 try
                                 {

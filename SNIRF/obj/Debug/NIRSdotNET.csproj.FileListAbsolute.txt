@@ -91,4 +91,3 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/obj/Debug/NIRSdotNET.csproj.CopyComplete
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/obj/Debug/SNIRF.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/obj/Debug/SNIRF.pdb
-/Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/obj/Debug/NIRSdotNET.csprojAssemblyReference.cache

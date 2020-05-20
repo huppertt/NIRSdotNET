@@ -8,6 +8,7 @@
     <RootNamespace>SNIRF</RootNamespace>
     <AssemblyName>SNIRF</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <ReleaseVersion>1.0</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

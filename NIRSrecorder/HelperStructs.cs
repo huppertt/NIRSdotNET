@@ -15,6 +15,12 @@ public struct Handles
     public CheckButton useMOCO;
     public Entry editHPF;
     public Entry editLPF;
+
+    public Gtk.TreeView StimTree;
+    public Gtk.TreeView DataTree;
+    public Gtk.ListStore stimListStore;
+    public Gtk.ListStore dataListStore;
+
 }
 
 // Struct to hold info about the GUI-Source to instrument mappings (including the GUI-controls)
@@ -41,59 +47,4 @@ public struct Detector
     public Frame frame;
     public ColorButton led;
     public VScale vScale;
-}
-
-
-public partial class MainWindow : Window
-{
-    [TreeNode(ListOnly = true)]
-    public class MyTreeNode : TreeNode
-    {
-        public double onset;
-        public double duration;
-        public double amp;
-        public int index;
-        public string condname;
-
-        public MyTreeNode(string name, double onset, double duration, double amp, int index)
-        {
-            Name = name;
-            this.condname = name;
-            this.onset = onset;
-            this.index = index;
-            this.duration = duration;
-            this.amp = amp;
-        }
-
-        [TreeNodeValue(Column = 0)]
-        public string Name;
-        [TreeNodeValue(Column = 1)]
-        public string Onset { get { return string.Format("{0}", onset); } }
-        [TreeNodeValue(Column = 2)]
-        public string Duration => string.Format("{0}", duration);
-        [TreeNodeValue(Column = 3)]
-        public string Amplitude { get { return string.Format("{0}", amp); } }
-    }
-
-
-
-
-    [TreeNode(ListOnly = true)]
-    public class MyTreeNodeData : TreeNode
-    {
-
-        public MyTreeNodeData(string filename, string comments)
-        {
-            FileName = filename;
-            Comments = comments;
-        }
-
-        [TreeNodeValue(Column = 0)]
-        public string FileName;
-        [TreeNodeValue(Column = 1)]
-        public string Comments;
-    }
-
-
-
 }

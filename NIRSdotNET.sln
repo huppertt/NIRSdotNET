@@ -152,5 +152,6 @@ Global
 		$9.scope = application/xml
 		$0.XmlFormattingPolicy = $10
 		$10.scope = application/xml
+		version = 1.0
 	EndGlobalSection
 EndGlobal

@@ -1,16 +1,30 @@
 ﻿<Properties StartupConfiguration="{1B6462A9-7434-490C-B65C-91498B6FFA3F}|Default">
   <MonoDevelop.Ide.ItemProperties.NIRSrecorder PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSDAQ/Instrument.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/MainWindow_Parameters.cs">
     <Files>
-      <File FileName="NIRSconverter/gtk-gui/MainWindow.cs" Line="115" Column="23" />
-      <File FileName="NIRSDAQ/Instrument.cs" Line="46" Column="13" />
+      <File FileName="NIRSrecorder/MainWindow_Threading.cs" Line="74" Column="35" />
+      <File FileName="NIRSrecorder/MainWindow_Controls.cs" Line="4" Column="24" />
+      <File FileName="NIRSrecorder/MainWindow.cs" Line="179" Column="33" />
+      <File FileName="NIRSrecorder/MainWindow_Parameters.cs" Line="9" Column="1" />
+      <File FileName="NIRSrecorder/HelperStructs.cs" />
+      <File FileName="NIRSrecorder/RegisterSubjectDialog.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="NIRSdotNET" expanded="True">
+            <Node name="NIRSDAQ" expanded="True" />
+            <Node name="NIRSrecorder" expanded="True" selected="True" />
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State name="__root__">
+          <Node name="NIRSdotNET" expanded="True">
             <Node name="NIRSDAQ" expanded="True">
-              <Node name="Instrument.cs" selected="True" />
+              <Node name="NIRSDAQ" expanded="True">
+                <Node name="NIRSDAQ.Instrument.Devices.TechEn.BTnirs" selected="True" />
+              </Node>
             </Node>
           </Node>
         </State>
@@ -19,7 +33,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.NIRSconverter PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="HDF5 1.10 Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="HDF5 1.10 Release" />
   <Debugger.DebugSourceFolders />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

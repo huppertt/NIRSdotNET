@@ -55,7 +55,7 @@ public partial class MainWindow : Window
             label_deviceConnected.Text = "Connected to Dual-Simulator";
             DebugMessage("Connected to Hyperscanning Simulator");
         }
-        else  //TODO
+        else  
         {
             NIRSDAQ.Instrument.Devices.TechEn.BTnirs bTnirs = new NIRSDAQ.Instrument.Devices.TechEn.BTnirs();
             ports = bTnirs.ListPorts();
@@ -129,36 +129,70 @@ public partial class MainWindow : Window
         drawingarea_SDG2.AddEvents((int)Gdk.EventMask.ButtonReleaseMask);
         drawingarea_SDG2.ButtonReleaseEvent += ClickSDG2;
 
+        _handles.DataTree = new TreeView();
+        PlaceHolder_Data.Add(_handles.DataTree);
+        Gtk.TreeViewColumn fileColumn = new Gtk.TreeViewColumn();
+        fileColumn.Title = "File Name";
+        _handles.DataTree.AppendColumn(fileColumn);
+        Gtk.TreeViewColumn commentsColumn = new Gtk.TreeViewColumn();
+        commentsColumn.Title = "Comments";
+        _handles.DataTree.AppendColumn(commentsColumn);
+        _handles.dataListStore = new Gtk.ListStore(typeof(string), typeof(string));
+        _handles.DataTree.Model = _handles.dataListStore;
+        Gtk.CellRendererText fileNameCell = new Gtk.CellRendererText();
+        fileColumn.PackStart(fileNameCell, true);
+        Gtk.CellRendererText commentCell = new Gtk.CellRendererText();
+        commentsColumn.PackStart(commentCell, true);
+        fileColumn.AddAttribute(fileNameCell, "text", 0);
+        commentsColumn.AddAttribute(commentCell, "text", 1);
+        commentCell.Editable = true;
 
-        nodeview_stim.AddEvents((int)Gdk.EventMask.ButtonPressMask);
-        nodeview_stim.AddEvents((int)Gdk.EventMask.ButtonReleaseMask);
-        nodeview_stim.ButtonPressEvent += StimNode_Clicked;
+
+        _handles.StimTree = new TreeView();
+        PlaceHolderStim.Add(_handles.StimTree);
+        Gtk.TreeViewColumn nameColumn = new Gtk.TreeViewColumn();
+        nameColumn.Title = "Name";
+        _handles.StimTree.AppendColumn(nameColumn);
+        Gtk.TreeViewColumn onsetColumn = new Gtk.TreeViewColumn();
+        onsetColumn.Title = "Onset";
+        _handles.StimTree.AppendColumn(onsetColumn);
+        Gtk.TreeViewColumn durColumn = new Gtk.TreeViewColumn();
+        durColumn.Title = "Dur";
+        _handles.StimTree.AppendColumn(durColumn);
+        Gtk.TreeViewColumn ampColumn = new Gtk.TreeViewColumn();
+        ampColumn.Title = "Amp";
+        _handles.StimTree.AppendColumn(ampColumn);
+        _handles.stimListStore = new Gtk.ListStore(typeof(string), typeof(double), typeof(double), typeof(double));
+        _handles.StimTree.Model = _handles.stimListStore;
 
 
-        nodeview4.AppendColumn("FileName", new CellRendererText(), "text", 0);
-        nodeview4.AppendColumn("Comments", new CellRendererText(), "text", 1);
-        nodeview4.NodeStore = new NodeStore(typeof(MyTreeNodeData));
+        Gtk.CellRendererText nameCell = new Gtk.CellRendererText();
+        nameColumn.PackStart(nameCell, true);
+        Gtk.CellRendererText onsetCell = new Gtk.CellRendererText();
+        onsetColumn.PackStart(onsetCell, true);
+        Gtk.CellRendererText durCell = new Gtk.CellRendererText();
+        durColumn.PackStart(durCell, true);
+        Gtk.CellRendererText ampCell = new Gtk.CellRendererText();
+        ampColumn.PackStart(ampCell, true);
+        nameCell.Editable = true;
+        onsetCell.Editable = true;
+        durCell.Editable = true;
+        ampCell.Editable = true;
 
-        CellRendererText cellRenderer = new CellRendererText();
-        cellRenderer.Editable = true;
-        cellRenderer.Edited += EditStimTableName;
-        CellRendererText cellRenderer1 = new CellRendererText();
-        cellRenderer1.Editable = true;
-        cellRenderer1.Edited += EditStimTableOnset;
-        CellRendererText cellRenderer2 = new CellRendererText();
-        cellRenderer2.Editable = true;
-        cellRenderer2.Edited += EditStimTableDur;
-        CellRendererText cellRenderer3 = new CellRendererText();
-        cellRenderer3.Editable = true;
-        cellRenderer3.Edited += EditStimTableAmp;
+      
+        nameColumn.AddAttribute(nameCell, "text", 0);
+        onsetColumn.AddAttribute(onsetCell, "text", 1);
+        durColumn.AddAttribute(durCell, "text", 2);
+        ampColumn.AddAttribute(ampCell, "text", 3);
 
-        nodeview_stim.AppendColumn("Name",cellRenderer, "text", 0);
-        nodeview_stim.AppendColumn("Onset", cellRenderer1, "text", 1);
-        nodeview_stim.AppendColumn("Duration", cellRenderer2, "text", 2);
-        nodeview_stim.AppendColumn("Amplitude", cellRenderer3, "text", 3);
-        nodeview_stim.NodeStore = new NodeStore(typeof(MyTreeNode));
 
-    
+
+        _handles.StimTree.AddEvents((int)Gdk.EventMask.ButtonPressMask);
+        _handles.StimTree.AddEvents((int)Gdk.EventMask.ButtonReleaseMask);
+        _handles.StimTree.ButtonPressEvent += StimNode_Clicked;
+
+
+
         CheckBattery();
 
 #if ADDLSL
@@ -535,32 +569,12 @@ public partial class MainWindow : Window
    
     private void AddEvent_ButtonReleaseEvent(object o, ButtonReleaseEventArgs args)
     {
-        MyTreeNode myTreeNode = new MyTreeNode("--",-1,1,1,0);
-        nodeview_stim.NodeStore.AddNode(myTreeNode);
-        nodeview_stim.QueueDraw();
+       //TODO
     }
 
     private void RemoveEvent_ButtonReleaseEvent(object o, ButtonReleaseEventArgs args)
     {
-       NodeSelection selection = nodeview_stim.NodeSelection;
-       MyTreeNode node = (MyTreeNode)selection.SelectedNode;
-
-        int idx = node.index;
-        for (int i = 0; i < nirsdata[0].stimulus.Count; i++)
-        {
-            if (nirsdata[0].stimulus[i].name.Equals(node.condname))
-            {
-                nirs.Stimulus ev = nirsdata[0].stimulus[i];
-                ev.onsets.RemoveAt(idx);
-                ev.amplitude.RemoveAt(idx);
-                ev.duration.RemoveAt(idx);
-                nirsdata[0].stimulus[i] = ev;
-            }
-
-        }
-
-        nodeview_stim.NodeStore.RemoveNode(node);
-        nodeview_stim.QueueDraw();
+        //TODO
         drawingarea_Data.QueueDraw();
         drawingarea_Data2.QueueDraw();
 

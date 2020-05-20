@@ -79,19 +79,26 @@ public partial class MainWindow : Window
                 nirsdata[i].demographics.set("manufacturer", info.Manufacturer);
                 nirsdata[i].demographics.set("port", info.PortName);
 
-                string file = string.Format("{0}-scan{1}-{2}", (string)nirsdata[i].demographics.get("SubjID"),
-                    scancount, now.ToString("o"));
+                string test=(string)nirsdata[i].demographics.get("SubjID");
+                if (test.Equals(""))
+                {
+                    nirsdata[i].demographics.set("SubjID","unknown");
+                }
+
+
+                string file = string.Format("{0}_scan{1}_{2}", (string)nirsdata[i].demographics.get("SubjID"),
+                    scancount, now.ToString("MMMMddyyyy_HHmm"));
 
                 if (nirsdata.Count > 1) {
-                    file = string.Format("{0}-device{1}-scan{2}-{3}", (string)nirsdata[i].demographics.get("SubjID"),
-                    i+1,scancount, now.ToString("o"));
+                    file = string.Format("{0}_device{1}_scan{2}_{3}", (string)nirsdata[i].demographics.get("SubjID"),
+                    i+1,scancount, now.ToString("MMMMddyyyy_HHmm"));
                 }
 
                 
             string[] paths = new string[] {MainClass.win.settings.DATADIR,
                 (string)nirsdata[i].demographics.get("Investigator"),
                 (string)nirsdata[i].demographics.get("Study"),
-                now.ToString("MM-dd-yyyy")};
+                now.ToString("MMMMddyyyy")};
 
                 string pathname = System.IO.Path.Combine(paths);
 
@@ -104,16 +111,14 @@ public partial class MainWindow : Window
                 {
                     string filename = System.IO.Path.Combine(pathname, string.Format("{0}.nirs", file));
                     nirs.io.writeDOTnirs(nirsdata[i], filename);
-                    MyTreeNodeData tr = new MyTreeNodeData(string.Format("{0}.nirs", file), "  ");
-                    nodeview4.NodeStore.AddNode(tr);
+                    _handles.dataListStore.AppendValues(string.Format("{0}.nirs", file), "  ");
                 }
 
                 if (SaveSnirfFormatAction.Active & !CombineSnirfFilesAction.Active)
                 {
                     string filename = System.IO.Path.Combine(pathname, string.Format("{0}.snirf", file));
                     nirs.io.writeSNIRF(nirsdata[i], filename);
-                    MyTreeNodeData tr = new MyTreeNodeData(string.Format("{0}.snirf", file), "  ");
-                    nodeview4.NodeStore.AddNode(tr);
+                    _handles.dataListStore.AppendValues(string.Format("{0}.snirf", file), "  ");
                 }
 
                 
@@ -124,13 +129,13 @@ public partial class MainWindow : Window
             if (SaveSnirfFormatAction.Active & CombineSnirfFilesAction.Active)
             {
 
-                string file = string.Format("{0}-scan{1}-{2}", "Hyperscan",
-                  scancount, now.ToString("o"));
+                string file = string.Format("{0}_scan{1}_{2}", "Hyperscan",
+                  scancount, now.ToString("MMMMddyyyy_HHmm"));
 
                 string[] paths = new string[] {MainClass.win.settings.DATADIR,
                 (string)nirsdata[0].demographics.get("Investigator"),
                 (string)nirsdata[0].demographics.get("Study"),
-                now.ToString("MM-dd-yyyy")};
+                now.ToString("MM_dd_yyyy")};
 
                 string pathname = System.IO.Path.Combine(paths);
 
@@ -143,8 +148,8 @@ public partial class MainWindow : Window
 
                 string filename = System.IO.Path.Combine(pathname, string.Format("{0}.snirf", file));
                 nirs.io.writeSNIRF(nirsdata, filename);
-                MyTreeNodeData tr = new MyTreeNodeData(string.Format("{0}.snirf", file), "  ");
-                nodeview4.NodeStore.AddNode(tr);
+                _handles.dataListStore.AppendValues(string.Format("{0}.snirf", file), "  ");
+               
             }
 
 
