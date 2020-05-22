@@ -18,7 +18,6 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\NIRSrecorder.xml</DocumentationFile>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -109,6 +108,10 @@
     <ProjectReference Include="..\myLSLlibrary\myLSLlibrary.csproj">
       <Project>{F8D3FE64-31F7-4934-BD69-4942DE6F5850}</Project>
       <Name>myLSLlibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HDF.PInvoke\HDF.PInvoke.csproj">
+      <Project>{4450F800-93E2-4D4A-B224-966E2338CDED}</Project>
+      <Name>HDF.PInvoke</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

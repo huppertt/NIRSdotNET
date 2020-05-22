@@ -1,22 +1,17 @@
 ﻿<Properties StartupConfiguration="{1B6462A9-7434-490C-B65C-91498B6FFA3F}|Default">
   <MonoDevelop.Ide.ItemProperties.NIRSrecorder PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/MainWindow_Threading.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSconverter/MainWindow.cs">
     <Files>
-      <File FileName="NIRSrecorder/MainWindow_Threading.cs" Line="102" Column="1" />
-      <File FileName="NIRSrecorder/MainWindow_Controls.cs" />
-      <File FileName="NIRSrecorder/MainWindow.cs" />
-      <File FileName="NIRSrecorder/MainWindow_Parameters.cs" Line="33" Column="1" />
-      <File FileName="NIRSrecorder/HelperStructs.cs" />
-      <File FileName="NIRSrecorder/RegisterSubjectDialog.cs" />
+      <File FileName="myLSLlibrary/LSL.cs" Line="8" Column="19" />
+      <File FileName="NIRSconverter/MainWindow.cs" Line="3" Column="12" />
+      <File FileName="NIRSDAQ/BTNIRS.cs" Line="280" Column="1" />
+      <File FileName="HDF.PInvoke/HDF5/H5Tglobals.cs" Line="74" Column="79" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="NIRSdotNET" expanded="True">
-            <Node name="NIRSDAQ" expanded="True" />
-            <Node name="NIRSrecorder" expanded="True">
-              <Node name="MainWindow_Threading.cs" selected="True" />
-            </Node>
+            <Node name="NIRSrecorder" selected="True" />
           </Node>
         </State>
       </Pad>
@@ -27,7 +22,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="HDF5 1.10 Release" />
   <Debugger.DebugSourceFolders />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/MainWindow.cs" relfile="NIRSconverter/MainWindow.cs" line="234" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
   <AuthorInfo Name="Theodore Huppert" Email="HUPPERT1@pitt.edu" Copyright="2020" Company="University of Pittsburgh" Trademark="" />

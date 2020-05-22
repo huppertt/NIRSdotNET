@@ -183,7 +183,18 @@ namespace NIRSDAQ
                                     
                                     _serialPort[i].Open();
                                     //_serialPort[i].Close();
-                                    foundports.Add(ports[i]);
+
+                                    string msg = "PID";
+                                    msg = msg + (char)13 + (char)10;
+                                    byte[] bytes = Encoding.ASCII.GetBytes(msg);
+                                    _serialPort[i].Write(bytes, 0, bytes.Length);
+                                    Thread.Sleep(250);
+                                    if (_serialPort[i].BytesToRead > 0)
+                                    {
+                                        foundports.Add(ports[i]);
+                                    }
+
+                                    
                                 }
                                 catch
                                 {

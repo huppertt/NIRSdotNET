@@ -18,6 +18,7 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -52,6 +53,10 @@
     <ProjectReference Include="..\SNIRF\NIRSdotNET.csproj">
       <Project>{66CEE40B-4A70-4432-A819-AA5C63994685}</Project>
       <Name>NIRSdotNET</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HDF.PInvoke\HDF.PInvoke.csproj">
+      <Project>{4450F800-93E2-4D4A-B224-966E2338CDED}</Project>
+      <Name>HDF.PInvoke</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

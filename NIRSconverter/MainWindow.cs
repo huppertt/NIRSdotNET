@@ -4,6 +4,7 @@ using nirs;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 /*
  * This is a simple file type conversion program.  This loads NIRS data using my 
@@ -22,6 +23,8 @@ public partial class MainWindow : Gtk.Window
     {
         Build();
         data = new nirs.core.Data();
+
+        PlatformID pid = Environment.OSVersion.Platform;
 
         // This sets the drawing functions for the time-course and probe windows
         this.drawingareaSDG.ExposeEvent += sdgdraw;

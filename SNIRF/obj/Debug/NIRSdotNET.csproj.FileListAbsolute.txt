@@ -84,9 +84,10 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/MathNet.Numerics.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/MonoGame.Framework.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/zlib.net.dll
+/Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/HDF.PInvoke.dll.config
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/MathNet.Numerics.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/MonoGame.Framework.xml
-/Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/bin/Debug/HDF.PInvoke.xml
+/Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/obj/Debug/NIRSdotNET.csprojAssemblyReference.cache
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/obj/Debug/NIRSdotNET.csproj.CoreCompileInputs.cache
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/obj/Debug/NIRSdotNET.csproj.CopyComplete
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRF/obj/Debug/SNIRF.dll

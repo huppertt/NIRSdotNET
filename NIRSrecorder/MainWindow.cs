@@ -37,8 +37,7 @@ public partial class MainWindow : Window
         #endif
 
 
-        // For now
-        // This will allow me to handle multiple devices (eventually).  For now, just default to 1
+  
         List<string> ports = new List<string>();
         if (settings.SYSTEM.Trim().ToLower().Equals("simulator"))
         {
@@ -242,7 +241,7 @@ public partial class MainWindow : Window
 
         if (ports.Count > 0)
         {
-            DeviceOptionsAction.Sensitive = true;
+           // TODO DeviceOptionsAction.Sensitive = true;
         }
 
         List<string> ports2 = new List<string>();
@@ -456,12 +455,19 @@ public partial class MainWindow : Window
 
         combobox_device1.Model = new ListStore(typeof(string));
         combobox_device2.Model = new ListStore(typeof(string));
+        comboboxdeviceDemo.Model =  new ListStore(typeof(string));
         for (int i = 0; i < MainClass.devices.Length; i++)
         {
             combobox_device1.AppendText(MainClass.devices[i].devicename);
             combobox_device2.AppendText(MainClass.devices[i].devicename);
+            comboboxdeviceDemo.AppendText(MainClass.devices[i].devicename);
         }
-
+       
+        combobox_device1.Active = 0;
+        if (MainClass.devices.Length > 1)
+        {
+            combobox_device2.Active = 1;
+        }
 
 
         ShowAll();

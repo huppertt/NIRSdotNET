@@ -176,7 +176,7 @@ public partial class MainWindow : Window
                     {
                         MathNet.Numerics.Complex32[] w1 = new MathNet.Numerics.Complex32[nFFT];
                         MathNet.Numerics.Complex32[] w2 = new MathNet.Numerics.Complex32[nFFT];
-                        int ntps = nirsdata[i].data[realtimeEngine.mBLLmappings[i].measurementPairs[ch][0]].Count;
+                        int ntps = nirsdata[i].data[realtimeEngine.mBLLmappings[i].measurementPairs[ch][0]].Count-1;
                         double a = 0;
                         double b = 0;
                         int cc = 0;

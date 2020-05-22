@@ -231,7 +231,7 @@ namespace NIRSrecorder
                 MainClass.win.SetupGUI(simdev);
 
             }
-            else
+            else if(connected.Count>0)
             {
                 MainClass.win.SetupGUI(connected);
             }
