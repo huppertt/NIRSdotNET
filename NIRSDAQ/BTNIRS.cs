@@ -624,7 +624,7 @@ namespace NIRSDAQ
                             {
 
                                 _serialPort.Write(bytes, 0, bytes.Length);
-                                Thread.Sleep(40);
+                                Thread.Sleep(10);
 
                                 flag = true;
                             }

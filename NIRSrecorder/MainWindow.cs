@@ -23,7 +23,7 @@ public partial class MainWindow : Window
     public void IntializeGUI()
     {
 
-        
+        SaveSnirfFormatAction.Active = false;
         MainClass.obj_Splash.label.Text = string.Format("Finding Devices: {0}", settings.SYSTEM);
         MainClass.obj_Splash.QueueDraw();
         MainClass.obj_Splash.ShowNow();

@@ -1,34 +1,19 @@
 ﻿<Properties StartupConfiguration="{1B6462A9-7434-490C-B65C-91498B6FFA3F}|Default">
   <MonoDevelop.Ide.ItemProperties.NIRSrecorder PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.ItemProperties.SNIRFvalidator PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/MainWindow_Parameters.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/MainWindow.cs">
     <Files>
-      <File FileName="NIRSrecorder/RealTimeControls.cs" Line="211" Column="7" />
-      <File FileName="NIRSrecorder/MainWindow_Parameters.cs" Line="1" Column="12" />
-      <File FileName="NIRSrecorder/MainWindow_Threading.cs" Line="389" Column="10" />
-      <File FileName="NIRSrecorder/MainWindow_Controls.cs" Line="289" Column="19" />
+      <File FileName="NIRSrecorder/MainWindow.cs" Line="26" Column="9" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="NIRSdotNET" expanded="True">
-            <Node name="NIRSconverter" expanded="True" />
+            <Node name="NIRSDAQ" expanded="True" />
             <Node name="NIRSrecorder" expanded="True">
-              <Node name="MainWindow_Parameters.cs" selected="True" />
+              <Node name="MainWindow.cs" selected="True" />
             </Node>
             <Node name="SNIRFvalidator" expanded="True" />
-          </Node>
-        </State>
-      </Pad>
-      <Pad Id="ClassPad">
-        <State name="__root__">
-          <Node name="NIRSdotNET" expanded="True">
-            <Node name="NIRSconverter" expanded="True">
-              <Node name="NIRSconverter" expanded="True">
-                <Node name="NIRSconverter.MainClass" selected="True" />
-              </Node>
-            </Node>
-            <Node name="NIRSrecorder" expanded="True" />
           </Node>
         </State>
       </Pad>
