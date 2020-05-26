@@ -30,6 +30,11 @@ public partial class MainWindow : Window
       
         realtimeEngine = new RealtimeEngine();
 
+        // Reset the stimulus information
+        _handles.stimListStore.Clear();
+
+
+
 
     }
 
@@ -421,8 +426,6 @@ public partial class MainWindow : Window
 
         if (maindisplaythread.IsAlive)
         {
-            bool usehpf = MainClass.win._handles.useHPF.Active;
-            bool uselpf = MainClass.win._handles.useLPF.Active;
             
 
             for (int i = 0; i < MainClass.devices.Length; i++)
@@ -431,22 +434,9 @@ public partial class MainWindow : Window
 
                 for (int j = 0; j < MainClass.win.nirsdata[i].probe.numChannels; j++)
                 {
-                    if (uselpf & usehpf)
-                    {
-                        realtimeEngine.OnlineFIRFiltersBPF[i][j] = OnlineFilter.CreateBandpass(ImpulseResponse.Finite, fs[i], hpf, lpf);
-                    }
-                    else if (!uselpf & usehpf)
-                    {
-                        realtimeEngine.OnlineFIRFiltersBPF[i][j] = OnlineFilter.CreateHighpass(ImpulseResponse.Finite, fs[i], hpf);
-                    }
-                    else if (uselpf & !usehpf)
-                    {
-                        realtimeEngine.OnlineFIRFiltersBPF[i][j] = OnlineFilter.CreateLowpass(ImpulseResponse.Finite, fs[i], lpf);
-                    }
-                    else
-                    {
-                        realtimeEngine.OnlineFIRFiltersBPF[i][j] = OnlineFilter.CreateDenoise(4);
-                    }
+                    realtimeEngine.OnlineFIRFiltersLPF[i][j] = OnlineFilter.CreateLowpass(ImpulseResponse.Finite, fs[i], lpf);
+                    realtimeEngine.OnlineFIRFiltersHPF[i][j] = OnlineFilter.CreateHighpass(ImpulseResponse.Finite, fs[i], hpf);
+                   
                 }
             }
         }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Xml;
 using System.Linq;
-
+using System.Collections;
 
 public partial class MainWindow : Window
 {
@@ -461,6 +461,9 @@ public partial class MainWindow : Window
     {
         try
         {
+            
+            Hashtable hashtabl=_handles.stimListStore.Data;
+            
             /* TODO
             Gtk.CellRendererText cellRenderer = (Gtk.CellRendererText)sender;
             MyTreeNode nodeStore = nodeview_stim.NodeStore.GetNode(new TreePath(args.Path)) as MyTreeNode;

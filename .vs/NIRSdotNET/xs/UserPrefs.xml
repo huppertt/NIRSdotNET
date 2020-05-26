@@ -1,17 +1,34 @@
 ﻿<Properties StartupConfiguration="{1B6462A9-7434-490C-B65C-91498B6FFA3F}|Default">
   <MonoDevelop.Ide.ItemProperties.NIRSrecorder PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSconverter/MainWindow.cs">
+  <MonoDevelop.Ide.ItemProperties.SNIRFvalidator PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/MainWindow_Parameters.cs">
     <Files>
-      <File FileName="myLSLlibrary/LSL.cs" Line="8" Column="19" />
-      <File FileName="NIRSconverter/MainWindow.cs" Line="3" Column="12" />
-      <File FileName="NIRSDAQ/BTNIRS.cs" Line="280" Column="1" />
-      <File FileName="HDF.PInvoke/HDF5/H5Tglobals.cs" Line="74" Column="79" />
+      <File FileName="NIRSrecorder/RealTimeControls.cs" Line="211" Column="7" />
+      <File FileName="NIRSrecorder/MainWindow_Parameters.cs" Line="1" Column="12" />
+      <File FileName="NIRSrecorder/MainWindow_Threading.cs" Line="389" Column="10" />
+      <File FileName="NIRSrecorder/MainWindow_Controls.cs" Line="289" Column="19" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="NIRSdotNET" expanded="True">
-            <Node name="NIRSrecorder" selected="True" />
+            <Node name="NIRSconverter" expanded="True" />
+            <Node name="NIRSrecorder" expanded="True">
+              <Node name="MainWindow_Parameters.cs" selected="True" />
+            </Node>
+            <Node name="SNIRFvalidator" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State name="__root__">
+          <Node name="NIRSdotNET" expanded="True">
+            <Node name="NIRSconverter" expanded="True">
+              <Node name="NIRSconverter" expanded="True">
+                <Node name="NIRSconverter.MainClass" selected="True" />
+              </Node>
+            </Node>
+            <Node name="NIRSrecorder" expanded="True" />
           </Node>
         </State>
       </Pad>
@@ -23,7 +40,7 @@
   <Debugger.DebugSourceFolders />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/MainWindow.cs" relfile="NIRSconverter/MainWindow.cs" line="234" column="1" />
+      <Breakpoint file="/Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/MainWindow_Controls.cs" relfile="NIRSrecorder/MainWindow_Controls.cs" line="465" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />

@@ -16,8 +16,10 @@ namespace NIRSrecorder
 
 	public partial class RealtimeEngine
 	{
-        public OnlineFilter[][] OnlineFIRFiltersBPF;
-        readonly DiscreteKalmanFilter[][] MocoKalman;
+        public OnlineFilter[][] OnlineFIRFiltersHPF;
+		public OnlineFilter[][] OnlineFIRFiltersHPF2;
+		public OnlineFilter[][] OnlineFIRFiltersLPF;
+		readonly DiscreteKalmanFilter[][] MocoKalman;
         private readonly int[] nsamples;
 		public MBLLmapping[] mBLLmappings;
 
@@ -29,11 +31,14 @@ namespace NIRSrecorder
 
 			bool usehpf = MainClass.win._handles.useHPF.Active;
 			bool uselpf = MainClass.win._handles.useLPF.Active;
+	
 			double hpf = Convert.ToDouble(MainClass.win._handles.editHPF.Text);
 			double lpf = Convert.ToDouble(MainClass.win._handles.editLPF.Text);
 
 			double[] fs = new double[MainClass.devices.Length];
-			OnlineFIRFiltersBPF = new OnlineFilter[MainClass.devices.Length][];
+			OnlineFIRFiltersHPF = new OnlineFilter[MainClass.devices.Length][];
+			OnlineFIRFiltersHPF2 = new OnlineFilter[MainClass.devices.Length][];
+			OnlineFIRFiltersLPF = new OnlineFilter[MainClass.devices.Length][];
 			MocoKalman = new DiscreteKalmanFilter[MainClass.devices.Length][];
 
 			mBLLmappings = new MBLLmapping[MainClass.devices.Length];
@@ -110,38 +115,27 @@ namespace NIRSrecorder
 				nsamples[i] = 0;
 				NIRSDAQ.info info = MainClass.devices[i].GetInfo();
 				fs[i] = info.sample_rate;
-				OnlineFIRFiltersBPF[i] = new OnlineFilter[MainClass.win.nirsdata[i].probe.numChannels];
+				OnlineFIRFiltersHPF[i] = new OnlineFilter[MainClass.win.nirsdata[i].probe.numChannels];
+				OnlineFIRFiltersLPF[i] = new OnlineFilter[MainClass.win.nirsdata[i].probe.numChannels];
+				OnlineFIRFiltersHPF2[i] = new OnlineFilter[MainClass.win.nirsdata[i].probe.numChannels];
 				MocoKalman[i] = new DiscreteKalmanFilter[MainClass.win.nirsdata[i].probe.numChannels];
 
 				for (int j = 0; j < MainClass.win.nirsdata[i].probe.numChannels; j++)
 				{
-
-					if (uselpf & usehpf)
-					{
-						OnlineFIRFiltersBPF[i][j] = OnlineFilter.CreateBandpass(ImpulseResponse.Finite, fs[i], hpf, lpf);
-					}
-					else if (!uselpf & usehpf)
-					{
-						OnlineFIRFiltersBPF[i][j] = OnlineFilter.CreateHighpass(ImpulseResponse.Finite, fs[i], hpf);
-					}
-					else if (uselpf & !usehpf)
-					{
-						OnlineFIRFiltersBPF[i][j] = OnlineFilter.CreateLowpass(ImpulseResponse.Finite, fs[i], lpf);
-
-					}
-					else
-					{
-						OnlineFIRFiltersBPF[i][j] = OnlineFilter.CreateDenoise(4);
-					}
-
-					OnlineFIRFiltersBPF[i][j].Reset();
+					OnlineFIRFiltersLPF[i][j] = OnlineFilter.CreateLowpass(ImpulseResponse.Finite, fs[i], lpf);
+					OnlineFIRFiltersHPF[i][j] = OnlineFilter.CreateHighpass(ImpulseResponse.Finite, fs[i], hpf);
+					OnlineFIRFiltersHPF2[i][j] = OnlineFilter.CreateHighpass(ImpulseResponse.Finite, fs[i], 0.001);
+					
+					OnlineFIRFiltersHPF[i][j].Reset();
+					OnlineFIRFiltersHPF2[i][j].Reset();
+					OnlineFIRFiltersLPF[i][j].Reset();
 
 					int order = 5;
 					var x0 = MathNet.Numerics.LinearAlgebra.Matrix<double>.Build.Dense(order + 1, 1, 0);
 					var P0 = MathNet.Numerics.LinearAlgebra.Matrix<double>.Build.DenseIdentity(order + 1);
 
 					MocoKalman[i][j] = new DiscreteKalmanFilter(x0, P0);
-                   
+
 
 				}
 			}
@@ -151,7 +145,8 @@ namespace NIRSrecorder
         public List<nirs.core.Data> UpdateRTengine(List<nirs.core.Data> nirsdata)
 		{
 			bool useMOCO = MainClass.win._handles.useMOCO.Active;
-
+			bool uselpf = MainClass.win._handles.useLPF.Active;
+			bool usehpf = MainClass.win._handles.useHPF.Active;
 			int nsamplesNew;
 
 
@@ -166,6 +161,7 @@ namespace NIRSrecorder
 					{
 						// optical density
 						double d = -Math.Log(nirsdata[i].data[j][tpt]) + Math.Log(nirsdata[i].data[j][0]);
+						d = OnlineFIRFiltersHPF2[i][j].ProcessSample(d);
 
 						if (useMOCO)
 						{
@@ -192,7 +188,24 @@ namespace NIRSrecorder
 							}
 
 						}
-						d = OnlineFIRFiltersBPF[i][j].ProcessSample(d);
+						if (uselpf)
+						{
+							d = OnlineFIRFiltersLPF[i][j].ProcessSample(d);
+						}
+						else
+						{
+							_ = OnlineFIRFiltersLPF[i][j].ProcessSample(d);
+						}
+
+						if (usehpf)
+						{
+							d = OnlineFIRFiltersHPF[i][j].ProcessSample(d);
+						}
+						else
+						{
+							_ = OnlineFIRFiltersHPF[i][j].ProcessSample(d);
+						}
+
 						nirsdata[i].data[j + nch].Add(d);
 
 					}

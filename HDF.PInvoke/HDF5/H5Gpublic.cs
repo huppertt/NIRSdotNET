@@ -16,10 +16,15 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Text;
+
 
 using hbool_t = System.UInt32;
 using herr_t = System.Int32;
 using hsize_t = System.UInt64;
+
+using size_t = System.IntPtr;
+using ssize_t = System.IntPtr;
 
 #if HDF5_VER1_10
 using hid_t = System.Int64;
@@ -332,6 +337,29 @@ namespace HDF.PInvoke
         public extern static herr_t refresh(hid_t group_id);
 
 #endif
+
+        [DllImport(Constants.DLLFileName, EntryPoint = "H5Gget_num_objs",
+        CallingConvention = CallingConvention.Cdecl,
+        CharSet = CharSet.Ansi),
+        SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
+        public extern static herr_t get_num_objs(hid_t group_id,ref hsize_t nobj);
+
+
+        [DllImport(Constants.DLLFileName, EntryPoint = "H5Gget_objname_by_idx",
+        CallingConvention = CallingConvention.Cdecl,
+        CharSet = CharSet.Ansi),
+        SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
+        public extern static ssize_t get_objname_by_idx(hid_t group_id, hsize_t idx, [In][Out] StringBuilder name, ssize_t size);
+
+
+        [DllImport(Constants.DLLFileName, EntryPoint = "H5Gget_objtype_by_idx",
+        CallingConvention = CallingConvention.Cdecl,
+        CharSet = CharSet.Ansi),
+        SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
+        public extern static int get_objtype_by_idx(hid_t group_id, hsize_t idx);
+
+
+        
 
     }
 }

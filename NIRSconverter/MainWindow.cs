@@ -24,8 +24,7 @@ public partial class MainWindow : Gtk.Window
         Build();
         data = new nirs.core.Data();
 
-        PlatformID pid = Environment.OSVersion.Platform;
-
+       
         // This sets the drawing functions for the time-course and probe windows
         this.drawingareaSDG.ExposeEvent += sdgdraw;
         this.drawingarea_main.ExposeEvent += datadraw;

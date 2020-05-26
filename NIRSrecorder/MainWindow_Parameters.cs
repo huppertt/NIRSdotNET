@@ -1,4 +1,6 @@
-﻿using Gtk;
+﻿//#define C
+
+using Gtk;
 using NIRSrecorder;
 using System.Threading;
 using System.Collections.Generic;
@@ -10,7 +12,7 @@ using LSL;
 public partial class MainWindow : Window
 {
 
-//#define ADDLSL
+
 
     public Handles _handles;
     public NIRSrecorder.Settings settings;

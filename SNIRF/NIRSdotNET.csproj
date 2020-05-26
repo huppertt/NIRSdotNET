@@ -82,6 +82,8 @@
     <Compile Include="GetSpectrum.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="io_SNIRF_info.cs" />
+    <Compile Include="io_SNIRF_Validate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
