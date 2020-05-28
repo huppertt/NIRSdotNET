@@ -252,51 +252,43 @@ public partial class MainWindow : Window
 
 
         // If the device already has some connected
-        if (MainClass.devices!=null)
+        if (MainClass.devices != null)
         {
-            NIRSDAQ.Instrument.instrument[] dev = new NIRSDAQ.Instrument.instrument[ports.Count];
-            int cnt = 0;
-            for(int j=0; j<MainClass.devices.Length; j++)
+            for (int j = 0; j < MainClass.devices.Length; j++)
             {
-                NIRSDAQ.info _info = MainClass.devices[j].GetInfo();
-                if (ports2.Contains(_info.PortName))
-                {
-                    ports2.Remove(_info.PortName);
-                    dev[cnt] = MainClass.devices[j];
-                    cnt++;
-                }
-                else
-                {
-                    MainClass.devices[j].Disconnect();
-                }
-            }
-
-            for (int i = 0; i < ports2.Count; i++)
-            {
-                MainClass.devices[cnt+i] = new NIRSDAQ.Instrument.instrument(settings.SYSTEM);
-                MainClass.devices[cnt + i].Connect(ports2[i]);
-                colorbutton3.Color = new Gdk.Color(128, 255, 128);
-                DebugMessage(string.Format("Connected to device {0}", cnt + 1));
-
-            }
-
-        }
-        else
-        {
-            MainClass.devices = new NIRSDAQ.Instrument.instrument[ports2.Count];
-            for (int i = 0; i < ports2.Count; i++)
-            {
-                MainClass.devices[i] = new NIRSDAQ.Instrument.instrument(settings.SYSTEM);
-               MainClass.devices[i].Connect(ports2[i]);
-               colorbutton3.Color = new Gdk.Color(128, 255, 128);
-                DebugMessage(string.Format("Connected to device {0}", i + 1));
+                MainClass.devices[j].Disconnect();
             }
 
         }
 
+        MainClass.devices = new NIRSDAQ.Instrument.instrument[ports2.Count];
+        for (int i = 0; i < ports2.Count; i++)
+        {
+            MainClass.devices[i] = new NIRSDAQ.Instrument.instrument(settings.SYSTEM);
+            MainClass.devices[i].Connect(ports2[i]);
+            colorbutton3.Color = new Gdk.Color(128, 255, 128);
+            DebugMessage(string.Format("Connected to device {0}", i + 1));
+        }
 
 
-        
+        if (nirsdata != null)
+        {
+            if (nirsdata.Count > ports2.Count)
+            {
+                nirsdata.RemoveRange(ports2.Count, nirsdata.Count - ports2.Count);
+            }
+            if(nirsdata.Count< ports2.Count)
+            {
+                if (nirsdata.Count > 0)
+                {
+                    for(int i=nirsdata.Count-1; i<ports2.Count; i++)
+                    {
+                        nirsdata.Add(nirsdata[0]);
+                    }
+                }
+            }
+        }
+
         for (int i = 0; i < ports.Count; i++)
         {
 
@@ -504,6 +496,9 @@ public partial class MainWindow : Window
             combobox_device2.Hide();
             MultipleDevicesAction.Sensitive = true;
             SingleViewAction.Active = false;
+
+            DualViewAction.Sensitive = true;
+            SingleViewAction.Sensitive = true;
             drawingarea_Data2.Hide();
             drawingarea_SDG2.Hide();
         }

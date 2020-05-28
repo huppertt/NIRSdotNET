@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>NIRSDAQ</RootNamespace>
     <AssemblyName>NIRSDAQ</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <ReleaseVersion>1.0</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

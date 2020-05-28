@@ -3,16 +3,14 @@
   <MonoDevelop.Ide.ItemProperties.SNIRFvalidator PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/MainWindow.cs">
     <Files>
-      <File FileName="NIRSrecorder/MainWindow.cs" Line="26" Column="9" />
+      <File FileName="NIRSrecorder/MainWindow.cs" Line="45" Column="67" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="NIRSdotNET" expanded="True">
-            <Node name="NIRSDAQ" expanded="True" />
-            <Node name="NIRSrecorder" expanded="True">
-              <Node name="MainWindow.cs" selected="True" />
-            </Node>
+            <Node name="NIRSDAQ" selected="True" />
+            <Node name="NIRSrecorder" expanded="True" />
             <Node name="SNIRFvalidator" expanded="True" />
           </Node>
         </State>
