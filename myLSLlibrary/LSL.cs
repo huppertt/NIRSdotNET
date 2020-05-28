@@ -1,4 +1,4 @@
-﻿//#define ISMAC
+﻿#define ISMAC
 using System;
 using System.Runtime.InteropServices;
 
