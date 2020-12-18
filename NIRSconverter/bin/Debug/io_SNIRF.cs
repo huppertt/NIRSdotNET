@@ -33,17 +33,17 @@ namespace nirs
         }
 
 
-        public static void writeSNIRF(List<core.Data> data, string filename, int nirs_index = -1)
+        public static void writeSNIRF(List<core.Data> data, string filename, int nirs_index = -1, int data_index = 0)
         {
 
             for (int i = 0; i < data.Count; i++)
             {
-                writeSNIRF(data[i], filename, nirs_index, i);
+                writeSNIRF(data[i], filename, i,data_index);
             }
 
         }
 
-        public static void writeSNIRF(core.Data data, string filename,int nirs_index=-1, int data_index=0)
+        public static void writeSNIRF(core.Data data, string filename,int nirs_index=-1, int data_index = 0)
         {
             hid_t tmp;
             hid_t fileId = H5F.create(filename, H5F.ACC_TRUNC);

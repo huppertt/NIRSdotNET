@@ -211,7 +211,18 @@ namespace NIRSDAQ
                 return fs;
             }
 
-
+            public void SetSampleRate(int fs)
+            {
+                switch (devicetype)
+                {
+                    case 0:
+                        ((NIRSDAQ.Instrument.Devices.Simulator)device).SetSampleRate(fs);
+                        break;
+                    case 1:
+                        ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).SetSampleRate(fs);
+                        break;
+                }
+            }
             public void AllOn()
             {
                 switch (devicetype)
@@ -349,7 +360,7 @@ namespace NIRSDAQ
 
 
 
-            public nirs.core.Data GetNewData(nirs.core.Data data)
+            public nirs.core.Data GetNewData(nirs.core.Data data,double dt=0)
             {
                 int nsamples = 0;
                 switch (devicetype)
@@ -364,7 +375,7 @@ namespace NIRSDAQ
                                 data.data[j].Add(d[j]);
                             }
                             double fs = ((NIRSDAQ.Instrument.Devices.Simulator)device).getsamplerate();
-                            data.time.Add(data.time.Count / fs);
+                            data.time.Add(data.time.Count / fs+dt);
                             data.numsamples = data.time.Count;
                         }
                         break;
@@ -378,7 +389,7 @@ namespace NIRSDAQ
                                 data.data[j].Add(d[j]);
                             }
                             double fs = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).getsamplerate();
-                            data.time.Add(data.time.Count / fs);
+                            data.time.Add(data.time.Count / fs + dt);
                             data.numsamples = data.time.Count;
                         }
 

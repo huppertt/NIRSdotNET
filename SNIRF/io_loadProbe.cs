@@ -27,9 +27,11 @@ namespace nirs
 
 			XmlDocument doc = new XmlDocument();
 			XmlDocument doc2;
+			XmlDocument doc3;
 			doc.Load(file);
 			XmlNodeList elemList;
 			XmlNodeList elemListsub;
+			XmlNodeList elemListsub2;
 
 			elemList = doc.GetElementsByTagName("wavelength");
 			int[] lambda = new int[elemList.Count];
@@ -162,7 +164,46 @@ namespace nirs
 				probe.measlistAct[i] = true;
 			}
 
-			return probe;
+			//ROI information
+			probe.ROIs = new List<ROI>();
+			elemList = doc.GetElementsByTagName("ROI");
+			for (int i = 0; i < elemList.Count; i++)
+			{
+				ROI rOI = new ROI();
+				doc2 = new XmlDocument();
+				doc2.LoadXml("<root>" + elemList[i].InnerXml + "</root>");
+				elemListsub = doc2.GetElementsByTagName("name");
+
+				rOI.name = elemListsub[0].InnerXml;
+				rOI.sourceindex = new List<int>();
+				rOI.detectorindex = new List<int>();
+				rOI.weight = new List<double>();
+
+				elemListsub = doc2.GetElementsByTagName("meas");
+				for (int j=0; j<elemListsub.Count; j++)
+                {
+					doc3 = new XmlDocument();
+					doc3.LoadXml("<root>" + elemListsub[j].InnerXml + "</root>");
+					elemListsub2 = doc3.GetElementsByTagName("src");
+					rOI.sourceindex.Add(Convert.ToInt16(elemListsub2[0].InnerXml) - 1);
+					elemListsub2 = doc3.GetElementsByTagName("det");
+					rOI.detectorindex.Add(Convert.ToInt16(elemListsub2[0].InnerXml) - 1);
+					elemListsub2 = doc3.GetElementsByTagName("weight");
+                    if (elemListsub2.Count > 0)
+                    {
+						rOI.weight.Add(Convert.ToDouble(elemListsub2[0].InnerXml));
+					}
+                    else
+                    {
+						rOI.weight.Add(1);
+                    }
+
+
+				}
+				probe.ROIs.Add(rOI);
+			}
+
+				return probe;
 
 		}
 

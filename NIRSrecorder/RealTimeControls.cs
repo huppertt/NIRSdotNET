@@ -20,7 +20,7 @@ namespace NIRSrecorder
 		public OnlineFilter[][] OnlineFIRFiltersHPF2;
 		public OnlineFilter[][] OnlineFIRFiltersLPF;
 		readonly DiscreteKalmanFilter[][] MocoKalman;
-        private readonly int[] nsamples;
+        public int[] nsamples;
 		public MBLLmapping[] mBLLmappings;
 
 
@@ -149,96 +149,114 @@ namespace NIRSrecorder
 			bool usehpf = MainClass.win._handles.useHPF.Active;
 			int nsamplesNew;
 
-
-			for (int i = 0; i < nirsdata.Count; i++) { 
-				nsamplesNew = nirsdata[i].data[0].Count;
-
-				for (int tpt = nsamples[i]; tpt < nsamplesNew; tpt++)
+			try
+			{
+				for (int i = 0; i < nirsdata.Count; i++)
 				{
+					nsamplesNew = nirsdata[i].data[0].Count;
 
-					int nch = nirsdata[i].probe.numChannels;
-					for (int j = 0; j < nch; j++)
+					for (int tpt = nsamples[i]; tpt < nsamplesNew; tpt++)
 					{
-						// optical density
-						double d = -Math.Log(nirsdata[i].data[j][tpt]) + Math.Log(nirsdata[i].data[j][0]);
-						d = OnlineFIRFiltersHPF2[i][j].ProcessSample(d);
-
-						if (useMOCO)
+						if (MainClass.win._handles.SaveTempFile.Active)
 						{
-							int order = 5;
-							if (tpt > order)
+							MainClass.win.TempStreamWriter.Write(String.Format("{0},", nirsdata[i].time[tpt]));
+						}
+						int nch = nirsdata[i].probe.numChannels;
+						for (int j = 0; j < nch; j++)
+						{
+							if (MainClass.win._handles.SaveTempFile.Active)
 							{
-								var F = MathNet.Numerics.LinearAlgebra.Matrix<double>.Build.DenseIdentity(order + 1);
-								var Q = MathNet.Numerics.LinearAlgebra.Matrix<double>.Build.Dense(order + 1, order + 1, 0);
-								var H = MathNet.Numerics.LinearAlgebra.Matrix<double>.Build.Dense(1, order + 1);
-								var R = MathNet.Numerics.LinearAlgebra.Matrix<double>.Build.Dense(1, 1, .001);
-								var z = MathNet.Numerics.LinearAlgebra.Matrix<double>.Build.Dense(1, 1, d);
-
-								for (int k = 0; k < order; k++)
-								{
-									H[0, k] = -Math.Log(nirsdata[i].data[j][tpt - k - 1]) + Math.Log(nirsdata[i].data[j][0]);
-									//data [1].data [j, i - k - 1];
-								}
-
-								MocoKalman[i][j].Predict(F, Q);
-								MocoKalman[i][j].Update(z, H, R);
-
-								var ressid = H * MocoKalman[i][j].State;
-								d = ressid[0, 0];
+								MainClass.win.TempStreamWriter.Write(String.Format("{0},", nirsdata[i].data[j][tpt]));
 							}
 
-						}
-						if (uselpf)
-						{
-							d = OnlineFIRFiltersLPF[i][j].ProcessSample(d);
-						}
-						else
-						{
-							_ = OnlineFIRFiltersLPF[i][j].ProcessSample(d);
-						}
+							// optical density
+							double d = -Math.Log(nirsdata[i].data[j][tpt]) + Math.Log(nirsdata[i].data[j][0]);
+							d = OnlineFIRFiltersHPF2[i][j].ProcessSample(d);
 
-						if (usehpf)
-						{
-							d = OnlineFIRFiltersHPF[i][j].ProcessSample(d);
-						}
-						else
-						{
-							_ = OnlineFIRFiltersHPF[i][j].ProcessSample(d);
-						}
+							if (useMOCO)
+							{
+								int order = 5;
+								if (tpt > order)
+								{
+									var F = MathNet.Numerics.LinearAlgebra.Matrix<double>.Build.DenseIdentity(order + 1);
+									var Q = MathNet.Numerics.LinearAlgebra.Matrix<double>.Build.Dense(order + 1, order + 1, 0);
+									var H = MathNet.Numerics.LinearAlgebra.Matrix<double>.Build.Dense(1, order + 1);
+									var R = MathNet.Numerics.LinearAlgebra.Matrix<double>.Build.Dense(1, 1, .001);
+									var z = MathNet.Numerics.LinearAlgebra.Matrix<double>.Build.Dense(1, 1, d);
 
-						nirsdata[i].data[j + nch].Add(d);
+									for (int k = 0; k < order; k++)
+									{
+										H[0, k] = -Math.Log(nirsdata[i].data[j][tpt - k - 1]) + Math.Log(nirsdata[i].data[j][0]);
+										//data [1].data [j, i - k - 1];
+									}
 
+									MocoKalman[i][j].Predict(F, Q);
+									MocoKalman[i][j].Update(z, H, R);
+
+									var ressid = H * MocoKalman[i][j].State;
+									d = ressid[0, 0];
+								}
+
+							}
+							if (uselpf)
+							{
+								d = OnlineFIRFiltersLPF[i][j].ProcessSample(d);
+							}
+							else
+							{
+								_ = OnlineFIRFiltersLPF[i][j].ProcessSample(d);
+							}
+
+							if (usehpf)
+							{
+								d = OnlineFIRFiltersHPF[i][j].ProcessSample(d);
+							}
+							else
+							{
+								_ = OnlineFIRFiltersHPF[i][j].ProcessSample(d);
+							}
+
+							nirsdata[i].data[j + nch].Add(d);
+
+						}
+						if (MainClass.win._handles.SaveTempFile.Active)
+						{
+							MainClass.win.TempStreamWriter.Write("\r\n");
+						}
 					}
+					// MBLL
+					for (int tpt = nsamples[i]; tpt < nsamplesNew; tpt++)
+					{
+						for (int ch = 0; ch < mBLLmappings[i].distances.Length; ch++)
+						{
 
-				}
-				// MBLL
-				for (int tpt = nsamples[i]; tpt < nsamplesNew; tpt++)
-				{
-                    for(int ch=0; ch<mBLLmappings[i].distances.Length; ch++)
-                    {
-						
-						double E11 = mBLLmappings[i].ExtCoefHbO[ch][0];
-						double E12 = mBLLmappings[i].ExtCoefHbR[ch][0];
-						double E21 = mBLLmappings[i].ExtCoefHbO[ch][1];
-						double E22 = mBLLmappings[i].ExtCoefHbR[ch][1];
-                        double L = mBLLmappings[i].distances[ch];
+							double E11 = mBLLmappings[i].ExtCoefHbO[ch][0];
+							double E12 = mBLLmappings[i].ExtCoefHbR[ch][0];
+							double E21 = mBLLmappings[i].ExtCoefHbO[ch][1];
+							double E22 = mBLLmappings[i].ExtCoefHbR[ch][1];
+							double L = mBLLmappings[i].distances[ch];
 
-						double d1 = nirsdata[i].data[mBLLmappings[i].measurementPairs[ch][0]][tpt];
-						double d2 = nirsdata[i].data[mBLLmappings[i].measurementPairs[ch][1]][tpt];
+							double d1 = nirsdata[i].data[mBLLmappings[i].measurementPairs[ch][0]][tpt];
+							double d2 = nirsdata[i].data[mBLLmappings[i].measurementPairs[ch][1]][tpt];
 
-						double HbO = 1000000 * 1 / L * (E22 * d1 - E12 * d2) / (E11 * E11 - E12 * E21);
-						double HbR = 1000000 * 1 / L * (E21 * d2 - E11 * d1) / (E11 * E11 - E12 * E21);
+							double HbO = 1000000 * 1 / L * (E22 * d1 - E12 * d2) / (E11 * E11 - E12 * E21);
+							double HbR = 1000000 * 1 / L * (E21 * d2 - E11 * d1) / (E11 * E11 - E12 * E21);
 
 
-						nirsdata[i].data[mBLLmappings[i].hboIndex[ch][0]].Add(HbO);
-						nirsdata[i].data[mBLLmappings[i].hboIndex[ch][1]].Add(HbR);
+							nirsdata[i].data[mBLLmappings[i].hboIndex[ch][0]].Add(HbO);
+							nirsdata[i].data[mBLLmappings[i].hboIndex[ch][1]].Add(HbR);
 
+						}
 					}
-				}
 
 
 					nsamples[i] = nsamplesNew;
-			}
+				}
+            }
+            catch
+            {
+				
+            }
 
             return nirsdata;
         }

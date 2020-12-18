@@ -20,7 +20,8 @@ public struct Handles
     public Gtk.TreeView DataTree;
     public Gtk.ListStore stimListStore;
     public Gtk.ListStore dataListStore;
-
+    public Gtk.CheckButton SaveTempFile;
+  
 }
 
 // Struct to hold info about the GUI-Source to instrument mappings (including the GUI-controls)

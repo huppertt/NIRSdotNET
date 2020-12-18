@@ -165,13 +165,15 @@ namespace nirs
             return data;
         }
 
-        public static void writeDOTnirs(core.Data data, string filename)
+        public static void writeDOTnirs(core.Data data, string filename,int startIdx=0,int endIdx= Int32.MaxValue)
         {
 
             // Store the data into the *.nirs matlab format
 
             int numsamples = data.numsamples;
             int numch = data.probe.numChannels;
+
+            numsamples = Math.Min(endIdx - startIdx, numsamples-startIdx);
 
 
             // save the structure as mat file using MatFileWriter
@@ -180,7 +182,7 @@ namespace nirs
             double[][] d = new double[numsamples][];
             double[][] t = new double[numsamples][];
 
-            for (int j = 0; j < numsamples; j++)
+            for (int j = startIdx; j < startIdx+numsamples; j++)
             {
                 double[] dloc = new double[numch];
 
@@ -190,8 +192,8 @@ namespace nirs
                 }
                 double[] tt = new double[1];
                 tt[0] = data.time[j];
-                t[j] = tt;
-                d[j] = dloc;
+                t[j-startIdx] = tt;
+                d[j - startIdx] = dloc;
             }
 
             MLDouble mldata = new MLDouble("d", d);

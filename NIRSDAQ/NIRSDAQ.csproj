@@ -40,7 +40,7 @@
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.Win32.Registry">
-      <HintPath>..\packages\Microsoft.Win32.Registry.4.7.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Win32.Registry.5.0.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System.Collections.Specialized">
@@ -84,16 +84,16 @@
       <HintPath>..\packages\System.Threading.ThreadPool.4.3.0\lib\net46\System.Threading.ThreadPool.dll</HintPath>
     </Reference>
     <Reference Include="RJCP.SerialPortStream">
-      <HintPath>..\packages\SerialPortStream.2.2.1.1\lib\net45\RJCP.SerialPortStream.dll</HintPath>
+      <HintPath>..\packages\SerialPortStream.2.2.2\lib\net45\RJCP.SerialPortStream.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
-      <HintPath>..\packages\NLog.4.7.2\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.7.6\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Principal.Windows">
-      <HintPath>..\packages\System.Security.Principal.Windows.4.7.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+      <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.AccessControl">
-      <HintPath>..\packages\System.Security.AccessControl.4.7.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+      <HintPath>..\packages\System.Security.AccessControl.5.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

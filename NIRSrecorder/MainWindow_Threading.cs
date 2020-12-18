@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using MathNet.Filtering;
 using MathNet.Numerics.IntegralTransforms;
 using System.IO;
+using System.Diagnostics;
 
 public partial class MainWindow : Window
 {
@@ -34,14 +35,37 @@ public partial class MainWindow : Window
         _handles.stimListStore.Clear();
 
 
-
-
     }
 
     protected void ClickedStartDAQ(object sender, EventArgs e)
     {
         if (buttonStartDAQ.Label.Equals("Start"))
         {
+            scancount++;
+            if (checkbuttonSaveTemp.Active)
+            {
+                string pathname = System.IO.Path.Combine(new string[] {
+                    MainClass.win.settings.DATADIR,
+                    (string)nirsdata[0].demographics.get("Investigator"),
+                    (string)nirsdata[0].demographics.get("Study"),
+                    DateTime.Now.ToString("MMMMddyyyy")});
+
+                if (!Directory.Exists(pathname))
+                {
+                    Directory.CreateDirectory(pathname);
+                }
+
+                string[] paths = new string[] {MainClass.win.settings.DATADIR,
+                (string)nirsdata[0].demographics.get("Investigator"),
+                (string)nirsdata[0].demographics.get("Study"),
+                DateTime.Now.ToString("MMMMddyyyy"),
+                String.Format("TempNIRSData.csv")};
+
+                TempFileName = System.IO.Path.Combine(paths);
+                TempfileStream = new FileStream(TempFileName, FileMode.OpenOrCreate);
+                TempStreamWriter = new StreamWriter(TempfileStream, System.Text.Encoding.ASCII);
+            }
+
             buttonStartDAQ.Label = "Stop";
             InitializeData();
             for (int i = 0; i < MainClass.devices.Length; i++)
@@ -70,94 +94,118 @@ public partial class MainWindow : Window
             }
             colorbutton1.Color = new Gdk.Color(128, 128, 128);
 
-            scancount++;
-            DateTime now = DateTime.Now;
+            SaveDataNow(0,2147483647);
 
-            for (int i = 0; i < nirsdata.Count; i++)
+ 
+
+            if (checkbuttonSaveTemp.Active)
             {
-
-                NIRSDAQ.info info = MainClass.devices[i].GetInfo();
-
-
-                nirsdata[i].demographics.set("scan_date", now.ToString("MM-dd-yyyy_HH:mm:ss"));
-                nirsdata[i].demographics.set("device", info.DeviceName);
-                nirsdata[i].demographics.set("manufacturer", info.Manufacturer);
-                nirsdata[i].demographics.set("port", info.PortName);
-
-                string test=(string)nirsdata[i].demographics.get("SubjID");
-                if (test.Equals(""))
-                {
-                    nirsdata[i].demographics.set("SubjID","unknown");
-                }
+                TempfileStream.Dispose();
+                File.Delete(TempFileName);
+            }
 
 
-                string file = string.Format("{0}_scan{1}_{2}", (string)nirsdata[i].demographics.get("SubjID"),
-                    scancount, now.ToString("MMMMddyyyy_HHmm"));
+        }
+    }
 
-                if (nirsdata.Count > 1) {
-                    file = string.Format("{0}_device{1}_scan{2}_{3}", (string)nirsdata[i].demographics.get("SubjID"),
-                    i+1,scancount, now.ToString("MMMMddyyyy_HHmm"));
-                }
+    protected void SaveDataNow(int startIdx, int endIdx, int dataIdx = 0, bool keeptime = false)
+    {
+        DateTime now;
+        if (keeptime)
+        {
+            now = lastscantime;
+        }
+        else
+        {
+            now=DateTime.Now;
+            lastscantime = now;
+        }
 
-                
+        for (int i = 0; i < nirsdata.Count; i++)
+        {
+
+            NIRSDAQ.info info = MainClass.devices[i].GetInfo();
+
+
+            nirsdata[i].demographics.set("scan_date", now.ToString("MM-dd-yyyy_HH:mm:ss"));
+            nirsdata[i].demographics.set("device", info.DeviceName);
+            nirsdata[i].demographics.set("manufacturer", info.Manufacturer);
+            nirsdata[i].demographics.set("port", info.PortName);
+
+            string test = (string)nirsdata[i].demographics.get("SubjID");
+            if (test.Equals(""))
+            {
+                nirsdata[i].demographics.set("SubjID", "unknown");
+            }
+
+
+            string file = string.Format("{0}_scan{1}_{2}", (string)nirsdata[i].demographics.get("SubjID"),
+                scancount, now.ToString("MMMMddyyyy_HHmm"));
+
+            if (nirsdata.Count > 1)
+            {
+                file = string.Format("{0}_device{1}_scan{2}_{3}", (string)nirsdata[i].demographics.get("SubjID"),
+                i + 1, scancount, now.ToString("MMMMddyyyy_HHmm"));
+            }
+
+
             string[] paths = new string[] {MainClass.win.settings.DATADIR,
                 (string)nirsdata[i].demographics.get("Investigator"),
                 (string)nirsdata[i].demographics.get("Study"),
                 now.ToString("MMMMddyyyy")};
 
-                string pathname = System.IO.Path.Combine(paths);
+            string pathname = System.IO.Path.Combine(paths);
 
-                if (!Directory.Exists(pathname))
-                {
-                    Directory.CreateDirectory(pathname);
-                }
-
-                if (SaveNirsFormatAction.Active)
-                {
-                    string filename = System.IO.Path.Combine(pathname, string.Format("{0}.nirs", file));
-                    nirs.io.writeDOTnirs(nirsdata[i], filename);
-                    _handles.dataListStore.AppendValues(string.Format("{0}.nirs", file), "  ");
-                }
-
-                if (SaveSnirfFormatAction.Active & !CombineSnirfFilesAction.Active)
-                {
-                    string filename = System.IO.Path.Combine(pathname, string.Format("{0}.snirf", file));
-                    nirs.io.writeSNIRF(nirsdata[i], filename);
-                    _handles.dataListStore.AppendValues(string.Format("{0}.snirf", file), "  ");
-                }
-
-                
-
-
+            if (!Directory.Exists(pathname))
+            {
+                Directory.CreateDirectory(pathname);
             }
 
-            if (SaveSnirfFormatAction.Active & CombineSnirfFilesAction.Active)
+            if (SaveNirsFormatAction.Active)
             {
+                string filename = System.IO.Path.Combine(pathname, string.Format("{0}.nirs", file));
+                nirs.io.writeDOTnirs(nirsdata[i], filename,startIdx,endIdx);
+                _handles.dataListStore.AppendValues(string.Format("{0}.nirs", file), "  ");
+                DebugMessage(string.Format("Saving file {0}", filename));
+            }
 
-                string file = string.Format("{0}_scan{1}_{2}", "Hyperscan",
-                  scancount, now.ToString("MMMMddyyyy_HHmm"));
+            if (SaveSnirfFormatAction.Active & !CombineSnirfFilesAction.Active)
+            {
+                string filename = System.IO.Path.Combine(pathname, string.Format("{0}.snirf", file));
+                nirs.io.writeSNIRF(nirsdata[i], filename,-1, dataIdx);
+                _handles.dataListStore.AppendValues(string.Format("{0}.snirf", file), "  ");
+                DebugMessage(string.Format("Saving file {0}", filename));
+            }
 
-                string[] paths = new string[] {MainClass.win.settings.DATADIR,
+
+
+
+        }
+
+        if (SaveSnirfFormatAction.Active & CombineSnirfFilesAction.Active)
+        {
+
+            string file = string.Format("{0}_scan{1}_{2}", "Hyperscan",
+              scancount, now.ToString("MMMMddyyyy_HHmm"));
+
+            string[] paths = new string[] {MainClass.win.settings.DATADIR,
                 (string)nirsdata[0].demographics.get("Investigator"),
                 (string)nirsdata[0].demographics.get("Study"),
                 now.ToString("MM_dd_yyyy")};
 
-                string pathname = System.IO.Path.Combine(paths);
+            string pathname = System.IO.Path.Combine(paths);
 
-                if (!Directory.Exists(pathname))
-                {
-                    Directory.CreateDirectory(pathname);
-                }
-
-
-
-                string filename = System.IO.Path.Combine(pathname, string.Format("{0}.snirf", file));
-                nirs.io.writeSNIRF(nirsdata, filename);
-                _handles.dataListStore.AppendValues(string.Format("{0}.snirf", file), "  ");
-               
+            if (!Directory.Exists(pathname))
+            {
+                Directory.CreateDirectory(pathname);
             }
 
 
+
+            string filename = System.IO.Path.Combine(pathname, string.Format("{0}.snirf", file));
+            nirs.io.writeSNIRF(nirsdata, filename, -1, dataIdx);
+            _handles.dataListStore.AppendValues(string.Format("{0}.snirf", file), "  ");
+            DebugMessage(string.Format("Saving file {0}",filename));
         }
     }
 
@@ -298,18 +346,29 @@ public partial class MainWindow : Window
     {
         // This loop is evoked with the maindisplaythread is started and updates the data display
 
+        Stopwatch stopWatch = new Stopwatch();
+        stopWatch.Start();
+        double dt = 0;
+        int startIdx = 0;
+        int dataIdx = 0;
+
+        double intervaltime = Convert.ToDouble(entry3.Text);
+        Thread.Sleep(MainClass.win.settings.UPDATETIME);  // update rate (default 500ms)
         // float cnt = 0;
         while (maindisplaythread.IsAlive)
         {
 
-            Thread.Sleep(MainClass.win.settings.UPDATETIME);  // update rate (default 500ms)
+
+            intervaltime = Convert.ToDouble(entry3.Text);
+
+
 
             // Get data from the instrument
             int[] s = new int[MainClass.devices.Length];
             for (int i = 0; i < MainClass.devices.Length; i++)
             {
                 s[i] = nirsdata[i].time.Count;
-                nirsdata[i] = MainClass.devices[i].GetNewData(nirsdata[i]);
+                nirsdata[i] = MainClass.devices[i].GetNewData(nirsdata[i],dt);
 
             }
 
@@ -368,6 +427,39 @@ public partial class MainWindow : Window
 
             progressbar1.Pulse();
             progressbar1.QueueDraw();
+
+            bool resetfileaftersave = checkbuttonReset.Active;
+            if (checkbutton4.Active & stopWatch.Elapsed.TotalSeconds > intervaltime)
+            {
+
+                if (resetfileaftersave)
+                {
+                    SaveDataNow(0, Int32.MaxValue, dataIdx);
+                    dt = nirsdata[0].time[nirsdata[0].time.Count - 1];
+                    dataIdx++;
+                    for (int i = 0; i < MainClass.devices.Length; i++)
+                    {
+                        nirsdata[i].reset();
+                    }
+                    for (int i = 1; i < MainClass.win.realtimeEngine.nsamples.Length; i++)
+                    {
+                        MainClass.win.realtimeEngine.nsamples[i] = 0;
+                    }
+                }
+                else
+                {
+                    SaveDataNow(startIdx, Int32.MaxValue, dataIdx);   
+                    startIdx = nirsdata[0].time.Count;
+                    dataIdx++;
+                }
+                stopWatch.Reset();
+                stopWatch.Start();
+            }
+            else
+            {
+                Thread.Sleep(MainClass.win.settings.UPDATETIME);  // update rate (default 500ms)
+            }
+
 
         }
     }

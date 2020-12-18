@@ -1,12 +1,11 @@
 ﻿//#define C
-
+using System;
 using Gtk;
 using NIRSrecorder;
 using System.Threading;
 using System.Collections.Generic;
 using LSL;
-
-
+using System.IO;
 
 
 public partial class MainWindow : Window
@@ -25,6 +24,12 @@ public partial class MainWindow : Window
     public int scancount;
 
     private int batterychecktime = 20000;  // msec interval to check battery
+
+    public string TempFileName;
+    public FileStream TempfileStream;
+    public StreamWriter TempStreamWriter;
+
+    public DateTime lastscantime;
 
 #if ADDLSL
     public LSL.liblsl.StreamOutlet stimulusLSL;

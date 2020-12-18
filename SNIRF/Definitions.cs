@@ -9,7 +9,13 @@ namespace nirs
       //  ThreeDimensional = 3   // TODO not implimented yet
     }
 
-
+    public struct ROI
+    {
+        public string name;
+        public List<int> sourceindex;
+        public List<int> detectorindex;
+        public List<double> weight;
+    }
 
     public enum stimtypes
     {

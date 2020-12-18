@@ -178,6 +178,12 @@ public partial class MainWindow : Window
         }
 
         bool autoscale = checkbutton_autoscaleY.Active;
+        bool autoscaleYmax = checkbuttonYmax.Active;
+        bool autoscaleYmin = checkbuttonYmin.Active;
+
+        double minY = Convert.ToDouble(entryYmin.Text);
+        double maxY = Convert.ToDouble(entryYmax.Text);
+
 
         if (nirsdata[0].time.Count < 1)
         {
@@ -190,7 +196,7 @@ public partial class MainWindow : Window
         }
 
         // This is evoked on exposure of the main data window to update the drawing
-        nirsdata[combobox_device1.Active].draw(drawingarea_Data.GdkWindow, combobox_whichdata.ActiveText, autoscale, tMin);
+        nirsdata[combobox_device1.Active].draw(drawingarea_Data.GdkWindow, combobox_whichdata.ActiveText, autoscale, tMin,autoscaleYmin,minY,autoscaleYmax,maxY);
         if (DualViewAction.Active)
         {
             nirsdata[combobox_device2.Active].draw(drawingarea_Data2.GdkWindow, combobox_whichdata.ActiveText, autoscale, tMin);

@@ -10,14 +10,14 @@ using LSL;
 
 public partial class MainWindow : Window
 {
-   
+
 
     public MainWindow() : base(WindowType.Toplevel)
     {
         Build();
         settings = new NIRSrecorder.Settings();
         MainClass.obj_Splash.label.Text = "Loading GUI";
- 
+
     }
 
     public void IntializeGUI()
@@ -28,16 +28,16 @@ public partial class MainWindow : Window
         MainClass.obj_Splash.QueueDraw();
         MainClass.obj_Splash.ShowNow();
 
-        #if !ADDLSL
+#if !ADDLSL
             checkbutton_LSLStimInlet.Sensitive = false;
             checkbutton_LSLStimOutlet.Sensitive = false;
             combobox_LSLOutType.Sensitive = false;
             combobox_selectLSLStimInlet.Sensitive = false;
             textview_LSLIn.Sensitive = false;
-        #endif
+#endif
 
 
-  
+
         List<string> ports = new List<string>();
         if (settings.SYSTEM.Trim().ToLower().Equals("simulator"))
         {
@@ -54,7 +54,7 @@ public partial class MainWindow : Window
             label_deviceConnected.Text = "Connected to Dual-Simulator";
             DebugMessage("Connected to Hyperscanning Simulator");
         }
-        else  
+        else
         {
             NIRSDAQ.Instrument.Devices.TechEn.BTnirs bTnirs = new NIRSDAQ.Instrument.Devices.TechEn.BTnirs();
             ports = bTnirs.ListPorts();
@@ -87,7 +87,8 @@ public partial class MainWindow : Window
             useLPF = checkbutton_lpf,
             useMOCO = checkbutton_moco,
             editHPF = entry_hpf,
-            editLPF = entry_lpf
+            editLPF = entry_lpf,
+            SaveTempFile = checkbuttonSaveTemp
         };
 
         nirsdata = new List<nirs.core.Data>();
@@ -101,11 +102,11 @@ public partial class MainWindow : Window
         }
         else
         {
-           SetupGUI(ports);
+            SetupGUI(ports);
         }
 
 
-        
+
 
         Gtk.ListStore ClearList = new Gtk.ListStore(typeof(string));
         combobox_statusBattery.Model = ClearList;
@@ -127,6 +128,8 @@ public partial class MainWindow : Window
         drawingarea_SDG2.AddEvents((int)Gdk.EventMask.ButtonPressMask);
         drawingarea_SDG2.AddEvents((int)Gdk.EventMask.ButtonReleaseMask);
         drawingarea_SDG2.ButtonReleaseEvent += ClickSDG2;
+
+        drawingarea_SDG.ButtonPressEvent += SDcontextmenu;
 
         _handles.DataTree = new TreeView();
         PlaceHolder_Data.Add(_handles.DataTree);
@@ -178,7 +181,12 @@ public partial class MainWindow : Window
         durCell.Editable = true;
         ampCell.Editable = true;
 
-      
+        nameCell.Edited += EditStimName;
+        onsetCell.Edited += EditStimOnset;
+        durCell.Edited += EditStimDur;
+        ampCell.Edited += EditStimAmp;
+
+
         nameColumn.AddAttribute(nameCell, "text", 0);
         onsetColumn.AddAttribute(onsetCell, "text", 1);
         durColumn.AddAttribute(durCell, "text", 2);
@@ -195,19 +203,19 @@ public partial class MainWindow : Window
         CheckBattery();
 
 #if ADDLSL
-        liblsl.StreamInfo inf = new liblsl.StreamInfo("NIRSRecordIREvents", "Markers",2,liblsl.IRREGULAR_RATE,
+        liblsl.StreamInfo inf = new liblsl.StreamInfo("NIRSRecordIREvents", "Markers", 2, liblsl.IRREGULAR_RATE,
                                                       liblsl.channel_format_t.cf_string);
         stimulusLSL = new liblsl.StreamOutlet(inf);
 
         liblsl.StreamInfo[] results = liblsl.resolve_streams();
         if (results.Length > 0)
         {
-           ClearList = new Gtk.ListStore(typeof(string));
+            ClearList = new Gtk.ListStore(typeof(string));
 
             combobox_selectLSLStimInlet.Model = ClearList;
-            for (int i=0; i<results.Length; i++)
+            for (int i = 0; i < results.Length; i++)
             {
-                combobox_selectLSLStimInlet.AppendText(string.Format("{0}:{1}",results[i].name(),results[i].hostname()));
+                combobox_selectLSLStimInlet.AppendText(string.Format("{0}:{1}", results[i].name(), results[i].hostname()));
             }
         }
         else
@@ -221,6 +229,10 @@ public partial class MainWindow : Window
 
     }
 
+    private void EditStimTableName(object o, EditedArgs args)
+    {
+        throw new NotImplementedException();
+    }
 
     public void SetupGUI(List<string> ports)
     {
@@ -229,7 +241,7 @@ public partial class MainWindow : Window
 
         // remove all pages
         int n = notebook_detectors.NPages;
-        for (int i = n-1; i >-1; i--)
+        for (int i = n - 1; i > -1; i--)
         {
             notebook_detectors.RemovePage(i);
         }
@@ -241,11 +253,11 @@ public partial class MainWindow : Window
 
         if (ports.Count > 0)
         {
-           // TODO DeviceOptionsAction.Sensitive = true;
+            // TODO DeviceOptionsAction.Sensitive = true;
         }
 
         List<string> ports2 = new List<string>();
-        for(int i=0; i<ports.Count; i++)
+        for (int i = 0; i < ports.Count; i++)
         {
             ports2.Add(ports[i]);
         }
@@ -277,11 +289,11 @@ public partial class MainWindow : Window
             {
                 nirsdata.RemoveRange(ports2.Count, nirsdata.Count - ports2.Count);
             }
-            if(nirsdata.Count< ports2.Count)
+            if (nirsdata.Count < ports2.Count)
             {
                 if (nirsdata.Count > 0)
                 {
-                    for(int i=nirsdata.Count-1; i<ports2.Count; i++)
+                    for (int i = nirsdata.Count - 1; i < ports2.Count; i++)
                     {
                         nirsdata.Add(nirsdata[0]);
                     }
@@ -299,8 +311,8 @@ public partial class MainWindow : Window
             _info.numDet = settings.system_Info.numdet;
             _info.numSrc = settings.system_Info.numsrc;
 
-            
-                               
+
+
             HBox hBox = new HBox(true, 0);
             Label label = new Label();
             for (int j = 0; j < _info.numDet; j++)
@@ -447,14 +459,14 @@ public partial class MainWindow : Window
 
         combobox_device1.Model = new ListStore(typeof(string));
         combobox_device2.Model = new ListStore(typeof(string));
-        comboboxdeviceDemo.Model =  new ListStore(typeof(string));
+        comboboxdeviceDemo.Model = new ListStore(typeof(string));
         for (int i = 0; i < MainClass.devices.Length; i++)
         {
             combobox_device1.AppendText(MainClass.devices[i].devicename);
             combobox_device2.AppendText(MainClass.devices[i].devicename);
             comboboxdeviceDemo.AppendText(MainClass.devices[i].devicename);
         }
-       
+
         combobox_device1.Active = 0;
         if (MainClass.devices.Length > 1)
         {
@@ -506,7 +518,7 @@ public partial class MainWindow : Window
         {
             NewSubjectAction.Sensitive = true;
         }
-        
+
     }
 
 
@@ -529,8 +541,12 @@ public partial class MainWindow : Window
         button_autoadjust.Sensitive = flag;
         entry_timeWindow.Sensitive = flag;
         MultipleDevicesAction.Sensitive = flag;
+        checkbutton_autoscaleY.Sensitive = flag;
+        checkbuttonYmax.Sensitive = flag;
+        checkbuttonYmin.Sensitive = flag;
+        entryYmax.Sensitive = flag;
+        entryYmin.Sensitive = flag;
 
-        
 
     }
 
@@ -567,10 +583,179 @@ public partial class MainWindow : Window
             popup_menu.Popup();
         }
     }
-   
+
+    [GLib.ConnectBeforeAttribute]
+    private void SDcontextmenu(object o, ButtonPressEventArgs args)
+    {
+        if (args.Event.Button == 3)
+        { /* right click */
+            Gtk.Menu popup_menu = new Gtk.Menu();
+
+            MenuItem Event1 = new MenuItem("Select ALL channels");
+            Event1.ButtonReleaseEvent += SelectAllChannels;
+            MenuItem Event2 = new MenuItem("Select NONE channels");
+            Event2.ButtonReleaseEvent += SelectNoneChannels;
+            MenuItem Event3 = new MenuItem("Sync selected channels");
+            Event3.ButtonReleaseEvent += SyncChannels;
+
+            popup_menu.Add(Event1);
+            popup_menu.Add(Event2);
+            popup_menu.Add(Event3);
+            popup_menu.Add(new Gtk.SeparatorMenuItem());
+
+            MenuItem[] EventROI = new MenuItem[nirsdata[combobox_device1.Active].probe.ROIs.Count];
+            for (int i = 0; i < nirsdata[combobox_device1.Active].probe.ROIs.Count; i++)
+            {
+                EventROI[i] = new MenuItem(nirsdata[combobox_device1.Active].probe.ROIs[i].name);
+                EventROI[i].ButtonReleaseEvent += SelectROI;
+                EventROI[i].Name = nirsdata[combobox_device1.Active].probe.ROIs[i].name;
+                popup_menu.Add(EventROI[i]);
+            }
+
+            popup_menu.ShowAll();
+            popup_menu.Popup();
+        }
+    }
+
+    [GLib.ConnectBeforeAttribute]
+    private void SDcontextmenu2(object o, ButtonPressEventArgs args)
+    {
+        if (args.Event.Button == 3)
+        { /* right click */
+            Gtk.Menu popup_menu = new Gtk.Menu();
+
+            MenuItem Event1 = new MenuItem("Select ALL channels");
+            Event1.ButtonReleaseEvent += SelectAllChannels2;
+            MenuItem Event2 = new MenuItem("Select NONE channels");
+            Event2.ButtonReleaseEvent += SelectNoneChannels2;
+            MenuItem Event3 = new MenuItem("Sync selected channels");
+            Event3.ButtonReleaseEvent += SyncChannels2;
+
+            popup_menu.Add(Event1);
+            popup_menu.Add(Event2);
+            popup_menu.Add(Event3);
+            popup_menu.Add(new Gtk.SeparatorMenuItem());
+
+            MenuItem[] EventROI = new MenuItem[nirsdata[combobox_device1.Active].probe.ROIs.Count];
+            for (int i = 0; i < nirsdata[combobox_device2.Active].probe.ROIs.Count; i++)
+            {
+                EventROI[i] = new MenuItem(nirsdata[combobox_device2.Active].probe.ROIs[i].name);
+                EventROI[i].ButtonReleaseEvent += SelectROI2;
+                EventROI[i].Name = nirsdata[combobox_device2.Active].probe.ROIs[i].name;
+                popup_menu.Add(EventROI[i]);
+            }
+
+            popup_menu.ShowAll();
+            popup_menu.Popup();
+        }
+    }
+
+
+    private void SelectROI(object o, ButtonReleaseEventArgs args)
+    {
+        MenuItem thismenu = (MenuItem)o;
+        string name = thismenu.Name;
+        nirsdata[combobox_device1.Active].probe.selectROI(name);
+        drawingarea_SDG.QueueDraw();
+        drawingarea_Data.QueueDraw();
+
+    }
+
+    private void SelectROI2(object o, ButtonReleaseEventArgs args)
+    {
+        MenuItem thismenu = (MenuItem)o;
+        string name = thismenu.Name;
+        nirsdata[combobox_device2.Active].probe.selectROI(name);
+        drawingarea_SDG2.QueueDraw();
+        drawingarea_Data2.QueueDraw();
+
+    }
+
+    private void SelectAllChannels(object o, ButtonReleaseEventArgs args)
+    {
+
+        for (int i = 0; i < nirsdata[combobox_device1.Active].probe.measlistAct.Length; i++)
+        {
+            nirsdata[combobox_device1.Active].probe.measlistAct[i] = true;
+        }
+        drawingarea_SDG.QueueDraw();
+        drawingarea_Data.QueueDraw();
+    }
+
+    private void SelectAllChannels2(object o, ButtonReleaseEventArgs args)
+    {
+
+        for (int i = 0; i < nirsdata[combobox_device2.Active].probe.measlistAct.Length; i++)
+        {
+            nirsdata[combobox_device2.Active].probe.measlistAct[i] = true;
+        }
+        drawingarea_SDG2.QueueDraw();
+        drawingarea_Data2.QueueDraw();
+    }
+
+    private void SelectNoneChannels(object o, ButtonReleaseEventArgs args)
+    {
+
+        for (int i = 0; i < nirsdata[combobox_device1.Active].probe.measlistAct.Length; i++)
+        {
+            nirsdata[combobox_device1.Active].probe.measlistAct[i] = false;
+        }
+        drawingarea_SDG.QueueDraw();
+        drawingarea_Data.QueueDraw();
+    }
+    private void SelectNoneChannels2(object o, ButtonReleaseEventArgs args)
+    {
+
+        for (int i = 0; i < nirsdata[combobox_device2.Active].probe.measlistAct.Length; i++)
+        {
+            nirsdata[combobox_device2.Active].probe.measlistAct[i] = false;
+        }
+        drawingarea_SDG2.QueueDraw();
+        drawingarea_Data2.QueueDraw();
+    }
+
+    private void SyncChannels(object o, ButtonReleaseEventArgs args)
+    {
+
+        for (int i = 0; i < nirsdata[combobox_device1.Active].probe.measlistAct.Length; i++)
+        {
+            for (int j = 0; j < nirsdata.Count; j++)
+            {
+                if (j != combobox_device1.Active)
+                {
+                    nirsdata[j].probe.measlistAct[i] =
+                        nirsdata[combobox_device1.Active].probe.measlistAct[i];
+                }
+            }
+        }
+        drawingarea_SDG.QueueDraw();
+        drawingarea_Data.QueueDraw();
+        drawingarea_SDG2.QueueDraw();
+        drawingarea_Data2.QueueDraw();
+    }
+    private void SyncChannels2(object o, ButtonReleaseEventArgs args)
+    {
+
+        for (int i = 0; i < nirsdata[combobox_device2.Active].probe.measlistAct.Length; i++)
+        {
+            for (int j = 0; j < nirsdata.Count; j++)
+            {
+                if (j != combobox_device2.Active)
+                {
+                    nirsdata[j].probe.measlistAct[i] =
+                        nirsdata[combobox_device1.Active].probe.measlistAct[i];
+                }
+            }
+        }
+        drawingarea_SDG.QueueDraw();
+        drawingarea_Data.QueueDraw();
+        drawingarea_SDG2.QueueDraw();
+        drawingarea_Data2.QueueDraw();
+    }
+
     private void AddEvent_ButtonReleaseEvent(object o, ButtonReleaseEventArgs args)
     {
-       //TODO
+        //TODO
     }
 
     private void RemoveEvent_ButtonReleaseEvent(object o, ButtonReleaseEventArgs args)
@@ -592,9 +777,9 @@ public partial class MainWindow : Window
             return;
         }
 #if ADDLSL
-            int dIDX = combobox_selectLSLStimInlet.Active;
-            liblsl.StreamInfo[] results = liblsl.resolve_streams();
-            stimulusInLSL = new liblsl.StreamInlet(results[dIDX]);
+        int dIDX = combobox_selectLSLStimInlet.Active;
+        liblsl.StreamInfo[] results = liblsl.resolve_streams();
+        stimulusInLSL = new liblsl.StreamInlet(results[dIDX]);
 #endif
 
     }
@@ -608,7 +793,8 @@ public partial class MainWindow : Window
         try
         {
             double val = Convert.ToDouble(entry_timeWindow.Text);
-            if (val<1) {
+            if (val < 1)
+            {
                 entry_timeWindow.Text = string.Format("{0}", 1);
             }
         }
@@ -665,7 +851,7 @@ public partial class MainWindow : Window
         entryCustom2Val.Text = (string)nirsdata[dID].demographics.get(custom2);
         entryCustom3Val.Text = (string)nirsdata[dID].demographics.get(custom3);
 
-        
+
     }
 
     protected void DemoIDdevice(object sender, EventArgs e)
@@ -700,11 +886,11 @@ public partial class MainWindow : Window
         }
 
 
-        nirsdata[dID].demographics.set("SubjID",entrysubjid.Text);
-        nirsdata[dID].demographics.set("Age",entryage.Text);
-        nirsdata[dID].demographics.set("head_circumference",entryheadcirm.Text);
-        nirsdata[dID].demographics.set("Group",entry1.Text);
-        nirsdata[dID].demographics.set("Gender",comboboxentrygender.ActiveText);
+        nirsdata[dID].demographics.set("SubjID", entrysubjid.Text);
+        nirsdata[dID].demographics.set("Age", entryage.Text);
+        nirsdata[dID].demographics.set("head_circumference", entryheadcirm.Text);
+        nirsdata[dID].demographics.set("Group", entry1.Text);
+        nirsdata[dID].demographics.set("Gender", comboboxentrygender.ActiveText);
 
         string custom1 = entrycustom1Name.Text;
         string custom2 = entrycustom2Name.Text;
@@ -715,6 +901,43 @@ public partial class MainWindow : Window
         nirsdata[dID].demographics.set(custom3, entryCustom3Val.Text);
 
     }
+
+
+    protected void SetInstrumentSampleRate(object sender, EventArgs e)
+    {
+
+        int fs = Convert.ToInt16(comboboxentry1.ActiveText);
+
+        for (int i = 0; i < MainClass.devices.Length; i++)
+        {
+            MainClass.devices[i].SetSampleRate(fs);
+        }
+
+    }
+
+
+    protected void ResaveFile(object sender, EventArgs e)
+    {     // This function resaves the last data file to replace changes to the stimulus events and demographics
+
+        MessageDialog md = new MessageDialog(this, DialogFlags.DestroyWithParent,
+           MessageType.Question, ButtonsType.YesNo, "Replace Existing File?");
+        Gtk.ResponseType result = (ResponseType)md.Run();
+        md.Destroy();
+
+        if (result == Gtk.ResponseType.Yes)
+        {
+            SaveDataNow(0, Int32.MaxValue, 0, true);  // this will make a new file with the same scan #    
+        }
+        else
+        {
+            SaveDataNow(0, Int32.MaxValue, 0, false);  // this will make a new file with the same scan # but a different time stamp     
+
+        }
+
+   
+    }
+
+  
 }
 
 

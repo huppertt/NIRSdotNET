@@ -19,6 +19,10 @@ namespace nirs
             public double[,] DetPos3D;
             public double[,] LandmarkPos3D;
 
+            private double[,] ROIdrawPos;
+
+            public List<nirs.ROI> ROIs;
+
             public int numSrc;
             public int numDet;
             public int numChannels;
@@ -48,6 +52,7 @@ namespace nirs
                 default_display = probedisplay.TwoDimensional;
 
                 isregistered = false;
+                ROIs = new List<ROI>();
 
                 // Load the colormaps from the XML file
                 XmlDocument doc = new XmlDocument();
@@ -106,6 +111,7 @@ namespace nirs
                 other.numSrc = this.numSrc;
                 other.numChannels = this.numChannels;
                 other.numWavelengths = this.numWavelengths;
+                other.ROIs = this.ROIs;
 
                 other.SrcPos = this.SrcPos;
                 other.DetPos = this.DetPos;
@@ -205,6 +211,20 @@ namespace nirs
                     if (minY > this.SrcPos[i, 1])
                         minY = this.SrcPos[i, 1];
                 }
+
+
+                ROIdrawPos = new double[ROIs.Count, 2];
+                for(int i=0; i<ROIs.Count; i++)
+                {
+                    ROIdrawPos[i, 0] = minX - .1 * (maxX - minX);
+                    ROIdrawPos[i, 1] = minY - .2 * (i)*(maxY - minY);
+                }
+                if (ROIs.Count > 0)
+                {
+                    minY = minY - (ROIs.Count) * .2 * (maxY - minY);
+                    minX = minX - .1 * (maxX - minX);
+                }
+
                 double rangeX = maxX - minX;
                 double rangeY = maxY - minY;
                
@@ -255,10 +275,10 @@ namespace nirs
                         int si = this.ChannelMap[i].sourceindex;
                         int di = this.ChannelMap[i].detectorindex;
 
-                        double x1 = (this.DetPos[di, 0] - minX) / rangeX * width + dx;
-                        double y1 = (this.DetPos[di, 1] - minY) / rangeY * height + dy;
-                        double x2 = (this.SrcPos[si, 0] - minX) / rangeX * width + dx;
-                        double y2 = (this.SrcPos[si, 1] - minY) / rangeY * height + dy;
+                        double x1 = (this.DetPos[di, 0] - minX) / rangeX * width;
+                        double y1 = height-((this.DetPos[di, 1] - minY) / rangeY * height) + dy;
+                        double x2 = (this.SrcPos[si, 0] - minX) / rangeX * width;
+                        double y2 = height-((this.SrcPos[si, 1] - minY) / rangeY * height)+dy;
                         da.DrawLine(gc, (int)x1, (int)y1, (int)x2, (int)y2);
                         //pts[cnt]=new Gdk.Point((int)x,(int)y);
 
@@ -271,8 +291,8 @@ namespace nirs
                 //  Gdk.Point[] pts = new Gdk.Point[this.numdet+this.numsrc];
                 for (int i = 0; i < this.numDet; i++)
                 {
-                    double x = (this.DetPos[i, 0] - minX) / rangeX * width + dx - sz / 2;
-                    double y = (this.DetPos[i, 1] - minY) / rangeY * height + dy - sz / 2;
+                    double x = (this.DetPos[i, 0] - minX) / rangeX * width  - sz / 2;
+                    double y = height-((this.DetPos[i, 1] - minY) / rangeY * height) - sz / 2 + dy;
                     da.DrawArc(gc, true, (int)x, (int)y, sz, sz, 0, 360 * 64);
                     //pts[cnt]=new Gdk.Point((int)x,(int)y);
 
@@ -281,8 +301,8 @@ namespace nirs
                 gc.RgbFgColor = new Gdk.Color(0, 0, 0);
                  for (int i = 0; i < this.numDet; i++)
                 {
-                    double x = (this.DetPos[i, 0] - minX) / rangeX * width + dx - sz / 2;
-                    double y = (this.DetPos[i, 1] - minY) / rangeY * height + dy - sz / 2;
+                    double x = (this.DetPos[i, 0] - minX) / rangeX * width - sz / 2;
+                    double y = height-((this.DetPos[i, 1] - minY) / rangeY * height) - sz / 2 + dy;
               
                     Gtk.Label lab = new Gtk.Label();
                     lab.Text = string.Format("D{0}", i + 1);
@@ -295,8 +315,8 @@ namespace nirs
                 gc.SetLineAttributes(3, LineStyle.Solid, CapStyle.Round, JoinStyle.Round);
                 for (int i = 0; i < this.numSrc; i++)
                 {
-                    double x = (this.SrcPos[i, 0] - minX) / rangeX * width + dx - sz / 2;
-                    double y = (this.SrcPos[i, 1] - minY) / rangeY * height + dy - sz / 2;
+                    double x = (this.SrcPos[i, 0] - minX) / rangeX * width - sz / 2;
+                    double y = height-((this.SrcPos[i, 1] - minY) / rangeY * height) - sz / 2 + dy;
                     da.DrawArc(gc, true, (int)x, (int)y, sz, sz, 0, 360 * 64);
 
                 }
@@ -304,20 +324,36 @@ namespace nirs
                 gc.RgbFgColor = new Gdk.Color(0, 0, 0);
                 for (int i = 0; i < this.numSrc; i++)
                 {
-                    double x = (this.SrcPos[i, 0] - minX) / rangeX * width + dx - sz / 2;
-                    double y = (this.SrcPos[i, 1] - minY) / rangeY * height + dy - sz / 2;
+                    double x = (this.SrcPos[i, 0] - minX) / rangeX * width - sz / 2;
+                    double y = height-((this.SrcPos[i, 1] - minY) / rangeY * height) - sz / 2 + dy;
                  
                     Gtk.Label lab = new Gtk.Label();
                     lab.Text = string.Format("S{0}", i + 1);
                     da.DrawLayout(gc, (int)x, (int)y, lab.Layout);
                 }
 
-               
+                gc.RgbFgColor = new Gdk.Color(255, 0, 255);
+                for (int i = 0; i < ROIs.Count; i++)
+                {
+                    double x = (ROIdrawPos[i, 0] - minX) / rangeX * width+sz/2;
+                    double y = height - ((ROIdrawPos[i, 1] - minY) / rangeY * height) + dy;
+                    da.DrawArc(gc, true, (int)x, (int)y, sz, sz, 0, 360 * 64);
+                }
 
-               Gtk.Label lab2 = new Gtk.Label();
-               lab2.Text = "Right";
-                da.DrawLayout(gc, (int)(width*.02), (int)(height*.98+dy), lab2.Layout);
-              
+                gc.RgbFgColor = new Gdk.Color(0, 0, 0);
+                for (int i = 0; i < ROIs.Count; i++)
+                {
+                    double x = (ROIdrawPos[i, 0] - minX) / rangeX * width + sz;
+                    double y = height - ((ROIdrawPos[i, 1] - minY) / rangeY * height) + dy;
+                    Gtk.Label lab = new Gtk.Label();
+                    lab.Text = ROIs[i].name;
+                    da.DrawLayout(gc, (int)(x), (int)y, lab.Layout);
+                }
+
+                Gtk.Label lab2 = new Gtk.Label();
+                lab2.Text = "L";
+                da.DrawLayout(gc, (int)(width-5), (int)(height-5), lab2.Layout);
+
 
 
                 return;
@@ -377,6 +413,19 @@ namespace nirs
                 double minX = -1 * headcirc * 1.2;
                 double maxY = headcirc * 1.2;
                 double minY = -1 * headcirc * 1.2;
+
+
+                ROIdrawPos = new double[ROIs.Count, 2];
+                for (int i = 0; i < ROIs.Count; i++)
+                {
+                    ROIdrawPos[i, 0] = minX - .1 * headcirc;
+                    ROIdrawPos[i, 1] = minY - .2 * (i) * headcirc;
+                }
+                if (ROIs.Count > 0)
+                {
+                    minY = minY - (ROIs.Count) * .2 * headcirc;
+                    minX = minX - .1 * headcirc;
+                }
 
                 double rangeX = maxX - minX;
                 double rangeY = maxY - minY;
@@ -495,9 +544,29 @@ namespace nirs
                 double yy = (0) / rangeY * height + dy;
                 da.DrawArc(gc, false, (int)xx, (int)yy, (int)(width), (int)(height), 0, 360 * 64);
 
+
+
+                gc.RgbFgColor = new Gdk.Color(255, 0, 255);
+                for (int i = 0; i < ROIs.Count; i++)
+                {
+                    double x = (ROIdrawPos[i, 0] - minX) / rangeX * width + sz / 2;
+                    double y = height - ((ROIdrawPos[i, 1] - minY) / rangeY * height) + dy;
+                    da.DrawArc(gc, true, (int)x, (int)y, sz, sz, 0, 360 * 64);
+                }
+
+                gc.RgbFgColor = new Gdk.Color(0, 0, 0);
+                for (int i = 0; i < ROIs.Count; i++)
+                {
+                    double x = (ROIdrawPos[i, 0] - minX) / rangeX * width + sz;
+                    double y = height - ((ROIdrawPos[i, 1] - minY) / rangeY * height) + dy;
+                    Gtk.Label lab = new Gtk.Label();
+                    lab.Text = ROIs[i].name;
+                    da.DrawLayout(gc, (int)(x), (int)y, lab.Layout);
+                }
+
                 Gtk.Label lab2 = new Gtk.Label();
-                lab2.Text = "Right";
-                da.DrawLayout(gc, (int)(width*.96), (int)(height*.96), lab2.Layout);
+                lab2.Text = "R";
+                da.DrawLayout(gc, (int)(width - 5), (int)(height - 5), lab2.Layout);
 
 
             }
@@ -507,11 +576,12 @@ namespace nirs
             {
                 // This function is called whrn the user clicks on the SDG and used to update the MeasurementList
 
+                DAx -= 3;
+                DAy += 10;
 
                 int sz = 10;
-                double dx, dy;
-                dx = 10;
-                dy = 10;
+                double dy;
+                dy = 20;
                 DAwidth = DAwidth - 20;
                 DAheight = DAheight - 20;
 
@@ -541,12 +611,26 @@ namespace nirs
                     if (minY > this.SrcPos[i, 1])
                         minY = this.SrcPos[i, 1];
                 }
+
+
+                ROIdrawPos = new double[ROIs.Count, 2];
+                for (int i = 0; i < ROIs.Count; i++)
+                {
+                    ROIdrawPos[i, 0] = minX - .1 * (maxX - minX);
+                    ROIdrawPos[i, 1] = minY - .2 * (i) * (maxY - minY);
+                }
+                if (ROIs.Count > 0)
+                {
+                    minY = minY - (ROIs.Count) * .2 * (maxY - minY);
+                    minX = minX - .1 * (maxX - minX);
+                }
+
                 double rangeX = maxX - minX;
                 double rangeY = maxY - minY;
 
                 double distance;
-                double cutoff = 5;
-                double cutoff2 = 2;
+                double cutoff = 8;
+                double cutoff2 = 3;
 
                 if (this.measlistAct == null)
                 {
@@ -574,10 +658,10 @@ namespace nirs
                     int di = this.ChannelMap[i].detectorindex;
 
 
-                    double x1 = (this.DetPos[di, 0] - minX) / rangeX * DAwidth + dx;
-                    double y1 = (this.DetPos[di, 1] - minY) / rangeY * DAheight + dy;
-                    double x2 = (this.SrcPos[si, 0] - minX) / rangeX * DAwidth + dx;
-                    double y2 = (this.SrcPos[si, 1] - minY) / rangeY * DAheight + dy;
+                    double x1 = (this.DetPos[di, 0] - minX) / rangeX * DAwidth ;
+                    double y1 = DAheight-((this.DetPos[di, 1] - minY) / rangeY * DAheight) + dy;
+                    double x2 = (this.SrcPos[si, 0] - minX) / rangeX * DAwidth ;
+                    double y2 = DAheight-((this.SrcPos[si, 1] - minY) / rangeY * DAheight) + dy;
 
                     double dist2S, dist2D, distSD;
                     distSD = Math.Sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
@@ -595,8 +679,8 @@ namespace nirs
 
                 for (int i = 0; i < this.numDet; i++)
                 {
-                    double x = (this.DetPos[i, 0] - minX) / rangeX * DAwidth + dx - sz / 2;
-                    double y = (this.DetPos[i, 1] - minY) / rangeY * DAheight + dy - sz / 2;
+                    double x = (this.DetPos[i, 0] - minX) / rangeX * DAwidth  - sz / 2;
+                    double y = DAheight-((this.DetPos[i, 1] - minY) / rangeY * DAheight) + dy - sz / 2;
                     distance = (DAx - x) * (DAx - x) + (DAy - y) * (DAy - y);
 
                     if (distance < cutoff * cutoff)
@@ -621,8 +705,8 @@ namespace nirs
                 }
                 for (int i = 0; i < this.numSrc; i++)
                 {
-                    double x = (this.SrcPos[i, 0] - minX) / rangeX * DAwidth + dx - sz / 2;
-                    double y = (this.SrcPos[i, 1] - minY) / rangeY * DAheight + dy - sz / 2;
+                    double x = (this.SrcPos[i, 0] - minX) / rangeX * DAwidth  - sz / 2;
+                    double y = DAheight-((this.SrcPos[i, 1] - minY) / rangeY * DAheight) + dy - sz / 2;
                     distance = (DAx - x) * (DAx - x) + (DAy - y) * (DAy - y);
 
                     if (distance < cutoff * cutoff)
@@ -649,12 +733,48 @@ namespace nirs
 
 
 
+                for (int i = 0; i < ROIs.Count; i++)
+                {
+                    double x = (ROIdrawPos[i, 0] - minX) / rangeX * DAwidth + sz / 2;
+                    double y = DAheight - ((ROIdrawPos[i, 1] - minY) / rangeY * DAheight) + dy;
+                    distance = (DAx - x) * (DAx - x) + (DAy - y) * (DAy - y);
+                    if (distance < cutoff * cutoff)
+                    {
+                        selectROI(ROIs[i].name);
+                    }
+                }
+
+
                 return;
 
             }
 
 
+            public void selectROI(string roiname)
+            {
+                for(int i=0; i<measlistAct.Length; i++)
+                {
+                    measlistAct[i] = false;
+                }
+                for(int i=0; i<ROIs.Count; i++)
+                {
+                    if (ROIs[i].name.Equals(roiname))
+                    {
+                        for(int j=0; j<ROIs[i].sourceindex.Count; j++)
+                        {
+                            for(int k=0; k<measlistAct.Length; k++)
+                            {
+                                if(ChannelMap[k].sourceindex==ROIs[i].sourceindex[j] &
+                                   ChannelMap[k].detectorindex == ROIs[i].detectorindex[j])
+                                {
+                                    measlistAct[k] = true;
+                                }
+                            }
+                        }
+                    }
+                }
 
+            }
 
 
             public void updateML1020(int DAx, int DAy, bool reset, int DAwidth, int DAheight)
@@ -666,20 +786,33 @@ namespace nirs
                     return;
                 }
 
+                DAx -= 3;
+                DAy += 10;
+
                 double headcirc = 0;
                 double[,] lsrcpos = project1020(this.SrcPos3D, this.numSrc, out headcirc);
                 double[,] ldetpos = project1020(this.DetPos3D, this.numDet, out headcirc);
 
 
-                double dx, dy;
-                dx = 10;
-                dy = 10;
+                double dy;
+                dy = 20;
 
                 double maxX = headcirc * 1.2;
                 double minX = -1 * headcirc * 1.2;
                 double maxY = headcirc * 1.2;
                 double minY = -1 * headcirc * 1.2;
 
+                ROIdrawPos = new double[ROIs.Count, 2];
+                for (int i = 0; i < ROIs.Count; i++)
+                {
+                    ROIdrawPos[i, 0] = minX - .1 * headcirc;
+                    ROIdrawPos[i, 1] = minY - .2 * (i) * headcirc;
+                }
+                if (ROIs.Count > 0)
+                {
+                    minY = minY - (ROIs.Count) * .2 * headcirc;
+                    minX = minX - .1 * headcirc;
+                }
 
                 int sz = 10;
                 DAwidth = DAwidth - 20;
@@ -689,8 +822,8 @@ namespace nirs
                 double rangeY = maxY - minY;
 
                 double distance;
-                double cutoff = 5;
-                double cutoff2 = 2;
+                double cutoff = 8;
+                double cutoff2 = 3;
 
                 if (this.measlistAct == null)
                 {
@@ -718,9 +851,9 @@ namespace nirs
                     int di = this.ChannelMap[i].detectorindex;
 
 
-                    double x1 = (ldetpos[di, 0] - minX) / rangeX * DAwidth + dx;
+                    double x1 = (ldetpos[di, 0] - minX) / rangeX * DAwidth ;
                     double y1 = (ldetpos[di, 1] - minY) / rangeY * DAheight + dy;
-                    double x2 = (lsrcpos[si, 0] - minX) / rangeX * DAwidth + dx;
+                    double x2 = (lsrcpos[si, 0] - minX) / rangeX * DAwidth ;
                     double y2 = (lsrcpos[si, 1] - minY) / rangeY * DAheight + dy;
 
                     double dist2S, dist2D, distSD;
@@ -739,7 +872,7 @@ namespace nirs
 
                 for (int i = 0; i < this.numDet; i++)
                 {
-                    double x = (ldetpos[i, 0] - minX) / rangeX * DAwidth + dx - sz / 2;
+                    double x = (ldetpos[i, 0] - minX) / rangeX * DAwidth  - sz / 2;
                     double y = (ldetpos[i, 1] - minY) / rangeY * DAheight + dy - sz / 2;
                     distance = (DAx - x) * (DAx - x) + (DAy - y) * (DAy - y);
 
@@ -765,7 +898,7 @@ namespace nirs
                 }
                 for (int i = 0; i < this.numSrc; i++)
                 {
-                    double x = (lsrcpos[i, 0] - minX) / rangeX * DAwidth + dx - sz / 2;
+                    double x = (lsrcpos[i, 0] - minX) / rangeX * DAwidth - sz / 2;
                     double y = (lsrcpos[i, 1] - minY) / rangeY * DAheight + dy - sz / 2;
                     distance = (DAx - x) * (DAx - x) + (DAy - y) * (DAy - y);
 
@@ -790,7 +923,16 @@ namespace nirs
 
                 }
 
-
+                for (int i = 0; i < ROIs.Count; i++)
+                {
+                    double x = (ROIdrawPos[i, 0] - minX) / rangeX * DAwidth + sz / 2;
+                    double y = DAheight - ((ROIdrawPos[i, 1] - minY) / rangeY * DAheight) + dy;
+                    distance = (DAx - x) * (DAx - x) + (DAy - y) * (DAy - y);
+                    if (distance < cutoff * cutoff)
+                    {
+                        selectROI(ROIs[i].name);
+                    }
+                }
 
 
                 return;

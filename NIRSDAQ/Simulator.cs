@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO.Ports;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Collections;
 
@@ -129,7 +128,7 @@ namespace NIRSDAQ
                 {
                     newthread = new Thread(adddata);
                     isrunning = true;
-             
+                 
                     newthread.Start();
                 }
 
@@ -255,7 +254,7 @@ namespace NIRSDAQ
                 {
                     // TODO
                     int wait;
-                    wait = 500 / sample_rate;
+                    wait = 950 / sample_rate;
                     Random rnd = new Random();
 
                     while (isrunning)

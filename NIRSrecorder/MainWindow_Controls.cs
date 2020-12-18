@@ -263,6 +263,7 @@ public partial class MainWindow : Window
         }
         #endif
 
+        comboboxdeviceDemo.Active = 0;
 
         MainClass.win._handles.whichdata.Active = 0;
 
@@ -440,137 +441,119 @@ public partial class MainWindow : Window
     }
 
 
-    private void EditStimTableName(object sender, Gtk.EditedArgs args)
+    private void EditStimName(object sender, Gtk.EditedArgs args)
     {
         EditStimTable(sender,args,"name");
     }
-    private void EditStimTableOnset(object sender, Gtk.EditedArgs args)
+    private void EditStimOnset(object sender, Gtk.EditedArgs args)
     {
         EditStimTable(sender, args, "onset");
     }
-    private void EditStimTableDur(object sender, Gtk.EditedArgs args)
+    private void EditStimDur(object sender, Gtk.EditedArgs args)
     {
         EditStimTable(sender, args, "dur");
     }
-    private void EditStimTableAmp(object sender, Gtk.EditedArgs args)
+    private void EditStimAmp(object sender, Gtk.EditedArgs args)
     {
         EditStimTable(sender, args, "amp");
     }
 
-    private void EditStimTable(object sender, Gtk.EditedArgs args,string type)
+    private void EditStimTable(object sender, Gtk.EditedArgs args, string type)
     {
-        try
+
+        Gtk.TreeIter iter;
+        _handles.stimListStore.GetIter(out iter, new TreePath(args.Path));
+
+        string Oldname = (string)_handles.stimListStore.GetValue(iter, 0);
+        double Oldonset = (double)_handles.stimListStore.GetValue(iter, 1);
+        double Olddur = (double)_handles.stimListStore.GetValue(iter, 2);
+        double Oldamp = (double)_handles.stimListStore.GetValue(iter, 3);
+
+
+        string name = (string)_handles.stimListStore.GetValue(iter, 0);
+        double onset = (double)_handles.stimListStore.GetValue(iter, 1);
+        double dur = (double)_handles.stimListStore.GetValue(iter, 2);
+        double amp = (double)_handles.stimListStore.GetValue(iter, 3);
+
+        _handles.stimListStore.Remove(ref iter);
+
+        if (type.Equals("name"))
         {
-            
-            Hashtable hashtabl=_handles.stimListStore.Data;
-            
-            /* TODO
-            Gtk.CellRendererText cellRenderer = (Gtk.CellRendererText)sender;
-            MyTreeNode nodeStore = nodeview_stim.NodeStore.GetNode(new TreePath(args.Path)) as MyTreeNode;
-            //args.Path
+            name=args.NewText;
+        }
+        else if (type.Equals("onset"))
+        {
+            onset=Convert.ToDouble(args.NewText);
+        }
+        else if (type.Equals("dur"))
+        {
+            dur=Convert.ToDouble(args.NewText);
+        }
+        else if (type.Equals("amp"))
+        {
+           amp=Convert.ToDouble(args.NewText);
+        }
+        _handles.stimListStore.AppendValues(name, onset, dur, amp);
+        _handles.stimListStore.SetSortColumnId(1, SortType.Ascending);
 
-            if (type.Equals("name"))
+       nirs.Stimulus ev;
+        nirs.Stimulus ev2 = new nirs.Stimulus(); ;
+        for (int i = 0; i < nirsdata[0].stimulus.Count; i++)
+        {
+            ev = nirsdata[0].stimulus[i];
+            if (ev.name == Oldname)
             {
-                nodeStore.Name = args.NewText;
-            }
-            else if (type.Equals("onset"))
-            {
-                nodeStore.onset = Convert.ToInt32(args.NewText);
-            }
-            else if (type.Equals("dur"))
-            {
-                nodeStore.duration = Convert.ToInt32(args.NewText);
-            }
-            else if (type.Equals("amp"))
-            {
-                nodeStore.amp = Convert.ToInt32(args.NewText);
-            }
-
-
-
-            if (!type.Equals("name"))
-            { // changed onset, amp, or duration
-                int idx = nodeStore.index;
-                for (int i = 0; i < nirsdata[0].stimulus.Count; i++)
+                for (int j = 0; j < ev.onsets.Count; j++)
                 {
-                    if (nirsdata[0].stimulus[i].name.Equals(nodeStore.condname))
+                    if (ev.onsets[j] == Oldonset)
                     {
-                        nirs.Stimulus ev = nirsdata[0].stimulus[i];
-                        ev.onsets[idx] = nodeStore.onset;
-                        ev.amplitude[idx] = nodeStore.amp;
-                        ev.duration[idx] = nodeStore.duration;
-
-                        for (int j = 0; j < nirsdata.Count; j++)
+                        if (type.Equals("name"))
                         {
-                            nirsdata[j].stimulus[i] = ev;
+                            ev.onsets.RemoveAt(j);
+                            ev.duration.RemoveAt(j);
+                            ev.amplitude.RemoveAt(j);
+                            nirsdata[0].stimulus[i] = ev;
+                            bool found = false;
+                            for (int k = 0; k < nirsdata[0].stimulus.Count; k++)
+                            {
+                                ev2 = nirsdata[0].stimulus[k];
+                                if (ev2.name == name)
+                                {
+                                    ev2.amplitude.Add(amp);
+                                    ev2.duration.Add(dur);
+                                    ev2.onsets.Add(onset);
+                                    nirsdata[0].stimulus[k] = ev2;
+                                    found = true;
+                                }
+                            }
+                            if (!found)
+                            {
+                                ev2.name = name;
+                                ev2.amplitude = new List<double>();
+                                ev2.duration = new List<double>();
+                                ev2.onsets = new List<double>();
+                                ev2.amplitude.Add(amp);
+                                ev2.duration.Add(dur);
+                                ev2.onsets.Add(onset);
+                                nirsdata[0].stimulus.Add(ev2);
+                            }
                         }
-
+                        else
+                        {
+                            ev.onsets[j] = onset;
+                            ev.duration[j] = dur;
+                            ev.amplitude[j] = amp;
+                            nirsdata[0].stimulus[i] = ev;
+                        }
                     }
-
                 }
             }
-            else
-            {
-                int idx = nodeStore.index;
-                for (int i = 0; i < nirsdata[0].stimulus.Count; i++)
-                {
-                    if (nirsdata[0].stimulus[i].name.Equals(nodeStore.condname))
-                    {
-                        nirs.Stimulus ev = nirsdata[0].stimulus[i];
-                        ev.onsets.RemoveAt(idx);
-                        ev.amplitude.RemoveAt(idx);
-                        ev.duration.RemoveAt(idx);
-
-                        nirsdata[0].stimulus[i] = ev;
-
-
-                    }
-
-                }
-
-                bool found = false;
-                for (int i = 0; i < nirsdata[0].stimulus.Count; i++)
-                {
-                    if (nirsdata[0].stimulus[i].name.Equals(nodeStore.Name))
-                    {
-                        nirs.Stimulus ev = nirsdata[0].stimulus[i];
-                        ev.onsets.Add(nodeStore.onset);
-                        ev.amplitude.Add(nodeStore.amp);
-                        ev.duration.Add(nodeStore.duration);
-                        found = true;
-                        nirsdata[0].stimulus[i] = ev;
-                    }
-
-                }
-                if (!found)
-                {
-                    nirs.Stimulus ev = new nirs.Stimulus();
-
-                    ev.onsets = new List<double>();
-                    ev.duration = new List<double>();
-                    ev.amplitude = new List<double>();
-                    ev.name = nodeStore.Name;
-                    ev.onsets.Add(nodeStore.onset);
-                    ev.amplitude.Add(nodeStore.amp);
-                    ev.duration.Add(nodeStore.duration);
-                    nirsdata[0].stimulus.Add(ev);
-
-                }
-
-            }
-
-            */
-
-            drawingarea_Data.QueueDraw();
-            drawingarea_Data2.QueueDraw();
         }
-        catch {
-            Console.Write("Stim event change failed");
-        }
+
+        drawingarea_Data.QueueDraw();
+        drawingarea_Data2.QueueDraw();
         return;
-        //   editableCell.Edited += (object o, Gtk.EditedArgs args) => {
-        //       var node = store.GetNode(new Gtk.TreePath(args.Path)) as MyTreeNode;
-        //       node.Text = args.NewText;
+
     }
 
 
@@ -586,6 +569,77 @@ public partial class MainWindow : Window
 
     protected void ReloadData(object sender, EventArgs e)
     {
+        string result = null;
+        Gtk.FileChooserDialog saveDialog = new Gtk.FileChooserDialog("Load File", null, Gtk.FileChooserAction.Open, "Cancel", Gtk.ResponseType.Cancel, "Load", Gtk.ResponseType.Accept);
+        Gtk.FileFilter fileFilter = new FileFilter();
+        fileFilter.AddPattern("*.nirs");
+        fileFilter.Name = ".nirs";
+        saveDialog.AddFilter(fileFilter);
+        Gtk.FileFilter fileFilter2 = new FileFilter();
+        fileFilter.AddPattern("*.snirf");
+        fileFilter.Name = ".snirf";
+        saveDialog.AddFilter(fileFilter2);
+        if (saveDialog.Run() == (int)Gtk.ResponseType.Accept)
+        {
+            result = saveDialog.Filename;
+
+            if (nirsdata == null)
+            {
+                nirsdata = new List<nirs.core.Data>();
+            }
+            nirsdata.Clear();
+            if (result.Contains(".nirs"))
+            {
+                nirsdata.Add(nirs.io.readDOTnirs(result));
+            }
+            else if (result.Contains(".snirf"))
+            {
+                nirs.core.Data[] datas = nirs.io.readSNIRF(result);
+                nirsdata.Add(datas[0]);
+                
+            }
+            for (int i = 0; i < nirsdata[0].probe.ChannelMap.Length; i++)
+            {
+                nirsdata[0].probe.ChannelMap[i].datasubtype = string.Format("raw {0}",
+                    nirsdata[0].probe.ChannelMap[i].datasubtype);
+            }
+            _handles.dataListStore.AppendValues(result, "Previously recorded file");
+
+            Gtk.ListStore ClearList = new Gtk.ListStore(typeof(string));
+            MainClass.win._handles.whichdata.Model = ClearList;
+
+            List<string> datatypes = new List<string>();
+            for (int ii = 0; ii < nirsdata[0].probe.ChannelMap.Length; ii++)
+            {
+                datatypes.Add(nirsdata[0].probe.ChannelMap[ii].datasubtype);
+            }
+            datatypes = datatypes.Distinct().ToList();
+
+            foreach (string s in datatypes)
+            {
+                MainClass.win._handles.whichdata.AppendText(s);
+            }
+
+            MainClass.win._handles.whichdata.Active = 0;
+
+            combobox_whichdata.Sensitive = true;
+            combobox_selectview.Sensitive = true;
+            checkbutton_autoscaleY.Sensitive = true;
+            checkbutton_timeWindow.Sensitive = true;
+            entry_timeWindow.Sensitive = true;
+            checkbuttonYmax.Sensitive = true;
+            checkbuttonYmin.Sensitive = true;
+            entryYmax.Sensitive = true;
+            entryYmin.Sensitive = true;
+        }
+
+        saveDialog.Destroy();
+        drawingarea_SDG.QueueDraw();
+        drawingarea_Data.QueueDraw();
+        drawingarea_SDG2.QueueDraw();
+        drawingarea_Data2.QueueDraw();
+
+
     }
 
     protected void ChangeViewDisplay(object sender, EventArgs e)
