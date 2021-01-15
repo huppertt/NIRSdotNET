@@ -36,7 +36,7 @@ namespace NIRSDAQ
                     private int wordsperrecord;
 
                     public int _nsrcs = 8;
-                    public int _ndets = 8;
+                    public int _ndets = 2;
 
                     // num measurements
                     private int _nmeas = 32;
