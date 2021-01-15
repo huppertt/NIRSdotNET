@@ -67,13 +67,15 @@ public partial class MainWindow : Window
     // Menu item to close program
     protected void ExitGUI(object sender, EventArgs e)
     {
-        for (int i = 0; i < MainClass.devices.Length; i++)
+        if (MainClass.devices != null)
         {
-            MainClass.devices[i].Stop();
-            MainClass.devices[i].AllOff();
-            MainClass.devices[i].FlushBuffer();
+            for (int i = 0; i < MainClass.devices.Length; i++)
+            {
+                MainClass.devices[i].Stop();
+                MainClass.devices[i].AllOff();
+                MainClass.devices[i].FlushBuffer();
+            }
         }
-
         Destroy();
 
     }
