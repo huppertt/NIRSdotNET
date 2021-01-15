@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\NuGet.Build.Packaging.0.2.5-dev.8\build\NuGet.Build.Packaging.props" Condition="Exists('..\packages\NuGet.Build.Packaging.0.2.5-dev.8\build\NuGet.Build.Packaging.props')" />
   <PropertyGroup>
@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>SNIRF</RootNamespace>
     <AssemblyName>SNIRF</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <ReleaseVersion>1.0</ReleaseVersion>
     <PackageVersion>0.0.0.1</PackageVersion>
     <Authors>Theodore Huppert</Authors>
@@ -19,6 +19,9 @@
     <Description>This is a specialized scientific toolset for import/export and visualization of functional near-infrared spectroscopy (fNIRS) brain imaging</Description>
     <PackageProjectUrl>www.github.com/huppertt/NIRSdotNET</PackageProjectUrl>
     <PackageId>NIRSdotNET</PackageId>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,7 +42,8 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
     <StartAction>Project</StartAction>
-    <TargetRuntimeId></TargetRuntimeId>
+    <TargetRuntimeId>
+    </TargetRuntimeId>
     <MonoArchitecture>Default</MonoArchitecture>
   </PropertyGroup>
   <ItemGroup>
@@ -99,10 +103,17 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HDF.PInvoke\HDF.PInvoke.csproj">
-      <Project>{4450F800-93E2-4D4A-B224-966E2338CDED}</Project>
+      <Project>{4450f800-93e2-4d4a-b224-966e2338cded}</Project>
       <Name>HDF.PInvoke</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\NuGet.Build.Packaging.0.2.5-dev.8\build\NuGet.Build.Packaging.targets" Condition="Exists('..\packages\NuGet.Build.Packaging.0.2.5-dev.8\build\NuGet.Build.Packaging.targets')" />
+  <Import Project="..\packages\HDF.PInvoke.1.10.6.1\build\HDF.PInvoke.targets" Condition="Exists('..\packages\HDF.PInvoke.1.10.6.1\build\HDF.PInvoke.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\HDF.PInvoke.1.10.6.1\build\HDF.PInvoke.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HDF.PInvoke.1.10.6.1\build\HDF.PInvoke.targets'))" />
+  </Target>
 </Project>

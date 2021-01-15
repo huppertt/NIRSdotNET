@@ -345,8 +345,9 @@ public partial class MainWindow : Window
     protected void Updatedata()
     {
         // This loop is evoked with the maindisplaythread is started and updates the data display
-
-        Stopwatch stopWatch = new Stopwatch();
+        try
+        {
+            Stopwatch stopWatch = new Stopwatch();
         stopWatch.Start();
         double dt = 0;
         int startIdx = 0;
@@ -355,47 +356,48 @@ public partial class MainWindow : Window
         double intervaltime = Convert.ToDouble(entry3.Text);
         Thread.Sleep(MainClass.win.settings.UPDATETIME);  // update rate (default 500ms)
         // float cnt = 0;
-        while (maindisplaythread.IsAlive)
-        {
-
-
-            intervaltime = Convert.ToDouble(entry3.Text);
-
-
-
-            // Get data from the instrument
-            int[] s = new int[MainClass.devices.Length];
-            for (int i = 0; i < MainClass.devices.Length; i++)
+        
+            while (maindisplaythread.IsAlive)
             {
-                s[i] = nirsdata[i].time.Count;
-                nirsdata[i] = MainClass.devices[i].GetNewData(nirsdata[i],dt);
 
-            }
 
-            nirsdata = realtimeEngine.UpdateRTengine(nirsdata);
+                intervaltime = Convert.ToDouble(entry3.Text);
 
-            if (checkbutton_LSLdata.Active)
-            {
+
+
+                // Get data from the instrument
+                int[] s = new int[MainClass.devices.Length];
                 for (int i = 0; i < MainClass.devices.Length; i++)
                 {
+                    s[i] = nirsdata[i].time.Count;
+                    nirsdata[i] = MainClass.devices[i].GetNewData(nirsdata[i], dt);
 
-                    int m = nirsdata[i].probe.numChannels * combobox_LSLOutType.Active;
-                    for (int j = s[i]; j < nirsdata[i].time.Count; j++)
+                }
+
+                nirsdata = realtimeEngine.UpdateRTengine(nirsdata);
+
+                if (checkbutton_LSLdata.Active)
+                {
+                    for (int i = 0; i < MainClass.devices.Length; i++)
                     {
-                        double[] d = new double[nirsdata[i].probe.numChannels];
-                        for (int k = 0; k < d.Length; k++)
+
+                        int m = nirsdata[i].probe.numChannels * combobox_LSLOutType.Active;
+                        for (int j = s[i]; j < nirsdata[i].time.Count; j++)
                         {
-                            d[k] = nirsdata[i].data[k + m][j];
-                        }
-                    #if ADDLSL
+                            double[] d = new double[nirsdata[i].probe.numChannels];
+                            for (int k = 0; k < d.Length; k++)
+                            {
+                                d[k] = nirsdata[i].data[k + m][j];
+                            }
+#if ADDLSL
                         dataLSL[i].push_sample(d, nirsdata[i].time[j]);
-                    #endif
+#endif
+                        }
                     }
                 }
-            }
 
 
-            #if ADDLSL
+#if ADDLSL
             try
             {
                 if (checkbutton_LSLStimInlet.Active)
@@ -416,51 +418,58 @@ public partial class MainWindow : Window
             {
                 Console.WriteLine("LSL read failed");
             }
-            #endif
+#endif
 
 
 
 
 
-            drawingarea_Data.QueueDraw();
-            drawingarea_Data2.QueueDraw();
+                drawingarea_Data.QueueDraw();
+                drawingarea_Data2.QueueDraw();
 
-            progressbar1.Pulse();
-            progressbar1.QueueDraw();
+                progressbar1.Pulse();
+                progressbar1.QueueDraw();
 
-            bool resetfileaftersave = checkbuttonReset.Active;
-            if (checkbutton4.Active & stopWatch.Elapsed.TotalSeconds > intervaltime)
-            {
-
-                if (resetfileaftersave)
+                bool resetfileaftersave = checkbuttonReset.Active;
+                if (checkbutton4.Active & stopWatch.Elapsed.TotalSeconds > intervaltime)
                 {
-                    SaveDataNow(0, Int32.MaxValue, dataIdx);
-                    dt = nirsdata[0].time[nirsdata[0].time.Count - 1];
-                    dataIdx++;
-                    for (int i = 0; i < MainClass.devices.Length; i++)
+
+                    if (resetfileaftersave)
                     {
-                        nirsdata[i].reset();
+                        SaveDataNow(0, Int32.MaxValue, dataIdx);
+                        dt = nirsdata[0].time[nirsdata[0].time.Count - 1];
+                        dataIdx++;
+                        for (int i = 0; i < MainClass.devices.Length; i++)
+                        {
+                            nirsdata[i].reset();
+                        }
+                        for (int i = 1; i < MainClass.win.realtimeEngine.nsamples.Length; i++)
+                        {
+                            MainClass.win.realtimeEngine.nsamples[i] = 0;
+                        }
                     }
-                    for (int i = 1; i < MainClass.win.realtimeEngine.nsamples.Length; i++)
+                    else
                     {
-                        MainClass.win.realtimeEngine.nsamples[i] = 0;
+                        SaveDataNow(startIdx, Int32.MaxValue, dataIdx);
+                        startIdx = nirsdata[0].time.Count;
+                        dataIdx++;
                     }
+                    stopWatch.Reset();
+                    stopWatch.Start();
                 }
                 else
                 {
-                    SaveDataNow(startIdx, Int32.MaxValue, dataIdx);   
-                    startIdx = nirsdata[0].time.Count;
-                    dataIdx++;
+                    Thread.Sleep(MainClass.win.settings.UPDATETIME);  // update rate (default 500ms)
                 }
-                stopWatch.Reset();
-                stopWatch.Start();
-            }
-            else
-            {
-                Thread.Sleep(MainClass.win.settings.UPDATETIME);  // update rate (default 500ms)
-            }
 
 
+            }
+        }
+        catch (ThreadAbortException e)
+        {
+            Console.WriteLine("Thread - caught ThreadAbortException - resetting.");
+            Console.WriteLine("Exception message: {0}", e.Message);
+            Thread.ResetAbort();
         }
     }
 

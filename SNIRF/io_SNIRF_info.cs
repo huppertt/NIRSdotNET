@@ -61,8 +61,7 @@ namespace nirs
 
             hsize_t nobj = new hsize_t();
             H5G.get_num_objs(gId, ref nobj);
-
-
+            
             for(int i=0; i<(int)nobj; i++)
             {
                 member_name = new System.Text.StringBuilder();

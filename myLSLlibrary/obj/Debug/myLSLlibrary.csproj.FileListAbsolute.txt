@@ -6,3 +6,11 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/myLSLlibrary/obj/Debug/myLSLlibrary.csproj.CoreCompileInputs.cache
 /Users/theodorehuppert/Projects/NIRSdotNET/myLSLlibrary/obj/Debug/myLSLlibrary.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/myLSLlibrary/obj/Debug/myLSLlibrary.pdb
+C:\Users\NIRS\Desktop\NIRSDOTnet\myLSLlibrary\bin\Debug\liblsl.1.14.0.dylib
+C:\Users\NIRS\Desktop\NIRSDOTnet\myLSLlibrary\bin\Debug\liblsl.dylib
+C:\Users\NIRS\Desktop\NIRSDOTnet\myLSLlibrary\bin\Debug\myLSLlibrary.dll
+C:\Users\NIRS\Desktop\NIRSDOTnet\myLSLlibrary\bin\Debug\myLSLlibrary.pdb
+C:\Users\NIRS\Desktop\NIRSDOTnet\myLSLlibrary\obj\Debug\myLSLlibrary.csprojAssemblyReference.cache
+C:\Users\NIRS\Desktop\NIRSDOTnet\myLSLlibrary\obj\Debug\myLSLlibrary.csproj.CoreCompileInputs.cache
+C:\Users\NIRS\Desktop\NIRSDOTnet\myLSLlibrary\obj\Debug\myLSLlibrary.dll
+C:\Users\NIRS\Desktop\NIRSDOTnet\myLSLlibrary\obj\Debug\myLSLlibrary.pdb

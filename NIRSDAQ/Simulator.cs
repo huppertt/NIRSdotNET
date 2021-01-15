@@ -252,23 +252,31 @@ namespace NIRSDAQ
 
                 public void adddata()
                 {
-                    // TODO
-                    int wait;
-                    wait = 950 / sample_rate;
-                    Random rnd = new Random();
-
-                    while (isrunning)
+                    try
                     {
+                        // TODO
+                        int wait;
+                        wait = 950 / sample_rate;
+                        Random rnd = new Random();
 
-
-                        for (int i = 0; i < _nmeas; i++)
+                        while (isrunning)
                         {
-                            dataqueue[i].Enqueue(rnd.NextDouble() * 100 + i * 10 + 50 * detgains[0]);
+
+
+                            for (int i = 0; i < _nmeas; i++)
+                            {
+                                dataqueue[i].Enqueue(rnd.NextDouble() * 100 + i * 10 + 50 * detgains[0]);
+                            }
+                            Thread.Sleep(wait);
                         }
-                        Thread.Sleep(wait);
+
                     }
-
-
+                    catch (ThreadAbortException e)
+                    {
+                        Console.WriteLine("Thread - caught ThreadAbortException - resetting.");
+                        Console.WriteLine("Exception message: {0}", e.Message);
+                        Thread.ResetAbort();
+                    }
                 }
 
                 // Connect to device
