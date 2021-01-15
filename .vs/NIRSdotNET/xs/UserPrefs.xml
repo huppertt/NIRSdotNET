@@ -4,9 +4,10 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/MainWindow_Threading.cs">
     <Files>
       <File FileName="NIRSrecorder/MainWindow_Controls.cs" Line="632" Column="40" />
-      <File FileName="NIRSrecorder/MainWindow_Threading.cs" Line="153" Column="39" />
+      <File FileName="NIRSrecorder/MainWindow_Threading.cs" Line="111" Column="5" />
       <File FileName="NIRSrecorder/RegisterSubjectDialog.cs" />
-      <File FileName="NIRSrecorder/MainWindow.cs" />
+      <File FileName="NIRSrecorder/MainWindow.cs" Line="200" Column="1" />
+      <File FileName="NIRSrecorder/MainWindow_Sources.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">

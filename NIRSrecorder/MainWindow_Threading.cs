@@ -169,6 +169,7 @@ public partial class MainWindow : Window
                 DebugMessage(string.Format("Saving file {0}", filename));
             }
 
+#if AllowHDF5
             if (SaveSnirfFormatAction.Active & !CombineSnirfFilesAction.Active)
             {
                 string filename = System.IO.Path.Combine(pathname, string.Format("{0}.snirf", file));
@@ -176,12 +177,13 @@ public partial class MainWindow : Window
                 _handles.dataListStore.AppendValues(string.Format("{0}.snirf", file), "  ");
                 DebugMessage(string.Format("Saving file {0}", filename));
             }
-
+#endif
 
 
 
         }
 
+#if AllowHDF5
         if (SaveSnirfFormatAction.Active & CombineSnirfFilesAction.Active)
         {
 
@@ -207,6 +209,7 @@ public partial class MainWindow : Window
             _handles.dataListStore.AppendValues(string.Format("{0}.snirf", file), "  ");
             DebugMessage(string.Format("Saving file {0}",filename));
         }
+#endif
     }
 
 

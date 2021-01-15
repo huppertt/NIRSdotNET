@@ -202,6 +202,14 @@ public partial class MainWindow : Window
 
         CheckBattery();
 
+#if !AllowHDF5
+        SaveSnirfFormatAction.Active = false;
+        SaveSnirfFormatAction.Sensitive = false;
+        CombineSnirfFilesAction.Active = false;
+        CombineSnirfFilesAction.Sensitive = false;
+#endif
+
+
 #if ADDLSL
         liblsl.StreamInfo inf = new liblsl.StreamInfo("NIRSRecordIREvents", "Markers", 2, liblsl.IRREGULAR_RATE,
                                                       liblsl.channel_format_t.cf_string);
