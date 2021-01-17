@@ -1,20 +1,31 @@
 ﻿<Properties StartupConfiguration="{1B6462A9-7434-490C-B65C-91498B6FFA3F}|Default">
   <MonoDevelop.Ide.ItemProperties.NIRSrecorder PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.ItemProperties.SNIRFvalidator PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/MainWindow_Threading.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/BTNIRS_Config.xml">
     <Files>
-      <File FileName="NIRSrecorder/MainWindow_Controls.cs" Line="632" Column="40" />
-      <File FileName="NIRSrecorder/MainWindow_Threading.cs" Line="153" Column="39" />
+      <File FileName="NIRSrecorder/MainWindow_Controls.cs" Line="40" Column="10" />
+      <File FileName="NIRSrecorder/MainWindow_Threading.cs" Line="530" Column="10" />
       <File FileName="NIRSrecorder/RegisterSubjectDialog.cs" />
-      <File FileName="NIRSrecorder/MainWindow.cs" />
+      <File FileName="NIRSrecorder/MainWindow.cs" Line="18" Column="48" />
+      <File FileName="NIRSrecorder/AboutDialog.cs" Line="1" Column="1" />
+      <File FileName="NIRSrecorder/Config.xml" Line="1" Column="1" />
+      <File FileName="NIRSrecorder/BTNIRS_Config.xml" Line="13" Column="48" />
+      <File FileName="NIRSDAQ/BTNIRS.cs" Line="39" Column="42" />
+      <File FileName="SNIRF/HemoglobinSpectrum.xml" Line="1" Column="1" />
+      <File FileName="NIRSrecorder/MainWindow_Drawing.cs" Line="1" Column="1" />
+      <File FileName="NIRSrecorder/MainWindow_Detectors.cs" Line="1" Column="1" />
+      <File FileName="NIRSDAQ/Simulator.cs" Line="33" Column="40" />
+      <File FileName="NIRSDAQ/Instrument.cs" Line="1" Column="1" />
+      <File FileName="SNIRF/io_DOTnirs.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="NIRSdotNET" expanded="True">
+            <Node name="NIRSDAQ" expanded="True" />
             <Node name="NIRSdotNET" expanded="True" />
             <Node name="NIRSrecorder" expanded="True">
-              <Node name="MainWindow_Threading.cs" selected="True" />
+              <Node name="BTNIRS_Config.xml" selected="True" />
             </Node>
           </Node>
         </State>

@@ -2,7 +2,7 @@
 <system>
     
     <numsrc> 8 </numsrc>
-    <numdet> 8 </numdet>
+    <numdet> 2 </numdet>
     <numaux> 0 </numaux>
     <laseradjustable> true </laseradjustable>
     <maxgain> 127 </maxgain>

@@ -3922,12 +3922,13 @@ Laser 4 On
                     <property name="Editable">False</property>
                     <property name="CursorVisible">False</property>
                     <property name="Text" translatable="yes">
-Version 0.1  (April 22nd 2020)
+Version 1.0  (January 16th 2021)
 
 Written by T. Huppert
 huppert1@pitt.edu
 
 </property>
+                    <property name="Justification">Center</property>
                   </widget>
                 </child>
               </widget>

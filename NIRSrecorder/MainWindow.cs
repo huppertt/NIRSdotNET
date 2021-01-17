@@ -36,7 +36,15 @@ public partial class MainWindow : Window
             textview_LSLIn.Sensitive = false;
 #endif
 
+#if !AllowHDF5
+        CombineSnirfFilesAction.Active = false;
+        SaveSnirfFormatAction.Active = false;
+        SaveNirsFormatAction.Active = true;
+        SaveSnirfFormatAction.Sensitive = false;
+        CombineSnirfFilesAction.Sensitive = false;
+        SaveNirsFormatAction.Sensitive = false;
 
+#endif
 
         List<string> ports = new List<string>();
         if (settings.SYSTEM.Trim().ToLower().Equals("simulator"))

@@ -74,11 +74,12 @@ namespace NIRSrecorder
 			this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
 			this.textview1 = new global::Gtk.TextView();
-			this.textview1.Buffer.Text = global::Mono.Unix.Catalog.GetString("\nVersion 0.1  (April 22nd 2020)\n\nWritten by T. Huppert\nhuppert1@pitt.edu\n\n");
+			this.textview1.Buffer.Text = global::Mono.Unix.Catalog.GetString("\nVersion 1.0  (January 16th 2021)\n\nWritten by T. Huppert\nhuppert1@pitt.edu\n\n");
 			this.textview1.CanFocus = true;
 			this.textview1.Name = "textview1";
 			this.textview1.Editable = false;
 			this.textview1.CursorVisible = false;
+			this.textview1.Justification = ((global::Gtk.Justification)(2));
 			this.GtkScrolledWindow.Add(this.textview1);
 			this.vbox1.Add(this.GtkScrolledWindow);
 			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.GtkScrolledWindow]));
