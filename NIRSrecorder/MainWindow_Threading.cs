@@ -34,6 +34,11 @@ public partial class MainWindow : Window
         // Reset the stimulus information
         _handles.stimListStore.Clear();
 
+        // Clean up the .net memory by manually calling the garbage colleciton module
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
+
 
     }
 

@@ -473,9 +473,12 @@ public partial class MainWindow : Window
             combobox_device1.AppendText(MainClass.devices[i].devicename);
             combobox_device2.AppendText(MainClass.devices[i].devicename);
             comboboxdeviceDemo.AppendText(MainClass.devices[i].devicename);
+           
         }
 
         combobox_device1.Active = 0;
+        comboboxdeviceDemo.Active = 0;
+
         if (MainClass.devices.Length > 1)
         {
             combobox_device2.Active = 1;
@@ -823,6 +826,11 @@ public partial class MainWindow : Window
             return;
         }
 
+        if (nirsdata == null || nirsdata.Count<dID+1)
+        {
+            return;
+        }
+
         entrysubjid.Text = (string)nirsdata[dID].demographics.get("SubjID");
         entryage.Text = (string)nirsdata[dID].demographics.get("Age");
         entryheadcirm.Text = (string)nirsdata[dID].demographics.get("head_circumference");
@@ -853,12 +861,9 @@ public partial class MainWindow : Window
 
         string custom1 = entrycustom1Name.Text;
         string custom2 = entrycustom2Name.Text;
-        string custom3 = entryCustom3Name.Text;
 
         entryCustom1Val.Text = (string)nirsdata[dID].demographics.get(custom1);
         entryCustom2Val.Text = (string)nirsdata[dID].demographics.get(custom2);
-        entryCustom3Val.Text = (string)nirsdata[dID].demographics.get(custom3);
-
 
     }
 
@@ -902,11 +907,9 @@ public partial class MainWindow : Window
 
         string custom1 = entrycustom1Name.Text;
         string custom2 = entrycustom2Name.Text;
-        string custom3 = entryCustom3Name.Text;
 
         nirsdata[dID].demographics.set(custom1, entryCustom1Val.Text);
         nirsdata[dID].demographics.set(custom2, entryCustom2Val.Text);
-        nirsdata[dID].demographics.set(custom3, entryCustom3Val.Text);
 
     }
 

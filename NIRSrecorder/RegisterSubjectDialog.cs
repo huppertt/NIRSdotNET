@@ -5,6 +5,7 @@ using Gtk;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
+using System.Windows.Forms;
 
 namespace NIRSrecorder
 {
@@ -20,14 +21,28 @@ namespace NIRSrecorder
         public RegisterSubjectDialog()
         {
 
+          
+  
+            // Populate the investigator/study/subjid folders
+            string rootfolder = MainClass.win.settings.DATADIR;
+
+            if (!Directory.Exists(rootfolder))
+            {
+                MessageDialog md = new MessageDialog(this, DialogFlags.Modal, MessageType.Error, ButtonsType.Close,
+                    string.Format("Warning: Folder {0} does not exist.  Fix the Config.xml file and restart the program", rootfolder));
+                md.Run();
+                md.Destroy();
+
+                return;
+            }
+
+
             this.Build();
             device_previous = 0;
             this.drawingarea1.ExposeEvent += Sdgdraw;
             probe = new nirs.core.Probe();
 
-  
-            // Populate the investigator/study/subjid folders
-            string rootfolder = MainClass.win.settings.DATADIR;
+
             string[] investigators = Directory.GetDirectories(rootfolder);
             Gtk.ListStore ClearList = new Gtk.ListStore(typeof(string));
 

@@ -1193,7 +1193,7 @@ Type 4</property>
                             <property name="WidthRequest">524</property>
                             <property name="HeightRequest">200</property>
                             <property name="CanFocus">True</property>
-                            <property name="CurrentPage">5</property>
+                            <property name="CurrentPage">3</property>
                             <property name="TabPos">Left</property>
                             <property name="BorderWidth">6</property>
                             <child>
@@ -1781,7 +1781,7 @@ Type 4</property>
                                                 <child>
                                                   <widget class="Gtk.Table" id="table2">
                                                     <property name="MemberName" />
-                                                    <property name="NRows">8</property>
+                                                    <property name="NRows">7</property>
                                                     <property name="NColumns">2</property>
                                                     <property name="RowSpacing">6</property>
                                                     <property name="ColumnSpacing">6</property>
@@ -1939,53 +1939,6 @@ Unknown</property>
                                                       <packing>
                                                         <property name="TopAttach">6</property>
                                                         <property name="BottomAttach">7</property>
-                                                        <property name="LeftAttach">1</property>
-                                                        <property name="RightAttach">2</property>
-                                                        <property name="AutoSize">False</property>
-                                                        <property name="XOptions">Shrink, Fill</property>
-                                                        <property name="YOptions">Fill</property>
-                                                        <property name="XExpand">False</property>
-                                                        <property name="XFill">True</property>
-                                                        <property name="XShrink">True</property>
-                                                        <property name="YExpand">False</property>
-                                                        <property name="YFill">True</property>
-                                                        <property name="YShrink">False</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="Gtk.Entry" id="entryCustom3Name">
-                                                        <property name="MemberName" />
-                                                        <property name="CanFocus">True</property>
-                                                        <property name="Text" translatable="yes">Custom3</property>
-                                                        <property name="IsEditable">True</property>
-                                                        <property name="InvisibleChar">●</property>
-                                                        <signal name="Changed" handler="ChangedDemo" after="yes" />
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="TopAttach">7</property>
-                                                        <property name="BottomAttach">8</property>
-                                                        <property name="AutoSize">False</property>
-                                                        <property name="XOptions">Shrink, Fill</property>
-                                                        <property name="YOptions">Fill</property>
-                                                        <property name="XExpand">False</property>
-                                                        <property name="XFill">True</property>
-                                                        <property name="XShrink">True</property>
-                                                        <property name="YExpand">False</property>
-                                                        <property name="YFill">True</property>
-                                                        <property name="YShrink">False</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="Gtk.Entry" id="entryCustom3Val">
-                                                        <property name="MemberName" />
-                                                        <property name="CanFocus">True</property>
-                                                        <property name="IsEditable">True</property>
-                                                        <property name="InvisibleChar">●</property>
-                                                        <signal name="Changed" handler="ChangedDemo" after="yes" />
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="TopAttach">7</property>
-                                                        <property name="BottomAttach">8</property>
                                                         <property name="LeftAttach">1</property>
                                                         <property name="RightAttach">2</property>
                                                         <property name="AutoSize">False</property>
