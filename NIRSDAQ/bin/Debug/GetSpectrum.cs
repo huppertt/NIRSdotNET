@@ -23,7 +23,7 @@ namespace nirs
             if (lambda == null)
             {
                 XmlDocument doc = new XmlDocument();
-                XmlDocument doc2= new XmlDocument();
+                XmlDocument doc2 = new XmlDocument();
 
                 doc.Load(@"HemoglobinSpectrum.xml");
                 XmlNodeList elemList;

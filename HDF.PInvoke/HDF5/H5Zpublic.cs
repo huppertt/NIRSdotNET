@@ -18,7 +18,6 @@ using System.Runtime.InteropServices;
 using System.Security;
 
 using herr_t = System.Int32;
-using hsize_t = System.UInt64;
 using htri_t = System.Int32;
 using size_t = System.IntPtr;
 
@@ -145,11 +144,11 @@ namespace HDF.PInvoke
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate herr_t set_local_func_t
         (hid_t dcpl_id, hid_t type_id, hid_t space_id);
-        
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate size_t func_t
         (uint flags, size_t cd_nelmts, uint[] cd_values, size_t nbytes,
-			     ref size_t buf_size, ref IntPtr buf);
+                 ref size_t buf_size, ref IntPtr buf);
 
         /// <summary>
         /// The filter table maps filter identification numbers to structs that

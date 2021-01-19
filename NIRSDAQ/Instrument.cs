@@ -1,7 +1,4 @@
-﻿using System;
-
-
-namespace NIRSDAQ
+﻿namespace NIRSDAQ
 {
 
     public struct info
@@ -35,7 +32,7 @@ namespace NIRSDAQ
                     devicetype = 0;
                     device = new NIRSDAQ.Instrument.Devices.Simulator();
                 }
-                else if(type.ToLower().Equals("btnirs"))
+                else if (type.ToLower().Equals("btnirs"))
                 {
                     devicename = "BTNIRS";
                     devicetype = 1;
@@ -43,7 +40,7 @@ namespace NIRSDAQ
                 }
             }
 
-            
+
 
             // deconstructor
             ~instrument()
@@ -124,7 +121,7 @@ namespace NIRSDAQ
                         break;
                     case 1:
                         ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).Connect(port);
-                      //  devicename += " " + port;
+                        //  devicename += " " + port;
                         break;
                 }
                 AllOff();
@@ -139,7 +136,7 @@ namespace NIRSDAQ
                 switch (devicetype)
                 {
                     case 0:
-                       // ((NIRSDAQ.Instrument.Devices.Simulator)device).Connect(port);
+                        // ((NIRSDAQ.Instrument.Devices.Simulator)device).Connect(port);
                         //devicename += " " + port;
                         break;
                     case 1:
@@ -147,7 +144,7 @@ namespace NIRSDAQ
                         //  devicename += " " + port;
                         break;
                 }
-                
+
 
             }
 
@@ -190,7 +187,7 @@ namespace NIRSDAQ
                         battery = ((NIRSDAQ.Instrument.Devices.Simulator)device).GetBatteryInfo();
                         break;
                     case 1:
-                        battery=((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).GetBatteryInfo();
+                        battery = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).GetBatteryInfo();
                         break;
                 }
                 return battery;
@@ -198,11 +195,11 @@ namespace NIRSDAQ
 
             public int GetSampleRate()
             {
-                int fs=0;
+                int fs = 0;
                 switch (devicetype)
                 {
                     case 0:
-                        fs= ((NIRSDAQ.Instrument.Devices.Simulator)device).sample_rate;
+                        fs = ((NIRSDAQ.Instrument.Devices.Simulator)device).sample_rate;
                         break;
                     case 1:
                         fs = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).sample_rate;
@@ -271,10 +268,10 @@ namespace NIRSDAQ
                 switch (devicetype)
                 {
                     case 0:
-                        flag= ((NIRSDAQ.Instrument.Devices.Simulator)device).SamplesAvaliable();
+                        flag = ((NIRSDAQ.Instrument.Devices.Simulator)device).SamplesAvaliable();
                         break;
                     case 1:
-                        flag= ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).SamplesAvaliable();
+                        flag = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).SamplesAvaliable();
                         break;
                 }
                 return flag;
@@ -283,7 +280,7 @@ namespace NIRSDAQ
 
             public void SetLaserPower(int sIdx, int pwr)
             {
-                
+
                 switch (devicetype)
                 {
                     case 0:
@@ -298,7 +295,7 @@ namespace NIRSDAQ
 
             public void SetLaserState(int sIdx, bool state)
             {
-                
+
                 switch (devicetype)
                 {
                     case 0:
@@ -347,11 +344,11 @@ namespace NIRSDAQ
                 switch (devicetype)
                 {
                     case 0:
-                        flag=((NIRSDAQ.Instrument.Devices.Simulator)device).isrunning;
+                        flag = ((NIRSDAQ.Instrument.Devices.Simulator)device).isrunning;
 
                         break;
                     case 1:
-                        flag=((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).isrunning;
+                        flag = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).isrunning;
                         break;
 
                 }
@@ -360,7 +357,7 @@ namespace NIRSDAQ
 
 
 
-            public nirs.core.Data GetNewData(nirs.core.Data data,double dt=0)
+            public nirs.core.Data GetNewData(nirs.core.Data data, double dt = 0)
             {
                 int nsamples = 0;
                 switch (devicetype)
@@ -369,13 +366,13 @@ namespace NIRSDAQ
                         nsamples = ((NIRSDAQ.Instrument.Devices.Simulator)device).SamplesAvaliable();
                         for (int i = 0; i < nsamples; i++)
                         {
-                            double[] d =((NIRSDAQ.Instrument.Devices.Simulator)device).Getdata();
-                            for(int j=0; j<d.Length; j++)
+                            double[] d = ((NIRSDAQ.Instrument.Devices.Simulator)device).Getdata();
+                            for (int j = 0; j < d.Length; j++)
                             {
                                 data.data[j].Add(d[j]);
                             }
                             double fs = ((NIRSDAQ.Instrument.Devices.Simulator)device).getsamplerate();
-                            data.time.Add(data.time.Count / fs+dt);
+                            data.time.Add(data.time.Count / fs + dt);
                             data.numsamples = data.time.Count;
                         }
                         break;
@@ -393,7 +390,7 @@ namespace NIRSDAQ
                             data.numsamples = data.time.Count;
                         }
 
-                        
+
                         break;
                 }
 

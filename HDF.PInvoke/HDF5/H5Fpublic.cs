@@ -26,7 +26,6 @@ using hssize_t = System.Int64;
 using htri_t = System.Int32;
 using size_t = System.IntPtr;
 using ssize_t = System.IntPtr;
-using uint32_t = System.UInt32;
 
 #if HDF5_VER1_10
 using hid_t = System.Int64;
@@ -124,7 +123,7 @@ namespace HDF.PInvoke
         /// file)
         /// </summary>
         public const uint OBJ_LOCAL = 0x0020u;
-        
+
 
         public hsize_t FAMILY_DEFAULT = 0;
 
@@ -148,7 +147,7 @@ namespace HDF.PInvoke
         /// Unlimited file size for H5P.set_external()
         /// </summary>
         public const hsize_t H5F_UNLIMITED = unchecked((hsize_t)(-1));
-        
+
         /// <summary>
         /// Flags that control the behavior of H5F.close()
         /// </summary>
@@ -595,7 +594,7 @@ namespace HDF.PInvoke
         /// <returns>If successful, returns the size in bytes of the buffer
         /// required to store the file image if successful; otherwise returns
         /// a negative value.</returns>
-        [DllImport(Constants.DLLFileName, EntryPoint = "H5Fget_file_image", 
+        [DllImport(Constants.DLLFileName, EntryPoint = "H5Fget_file_image",
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public extern static ssize_t get_file_image
@@ -647,7 +646,7 @@ namespace HDF.PInvoke
         /// file</param>
         /// <returns>Returns the amount of free space in the file if
         /// successful; otherwise returns a negative value.</returns>
-        [DllImport(Constants.DLLFileName, EntryPoint = "H5Fget_freespace", 
+        [DllImport(Constants.DLLFileName, EntryPoint = "H5Fget_freespace",
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public extern static hssize_t get_freespace(hid_t file_id);
@@ -662,15 +661,15 @@ namespace HDF.PInvoke
         /// information.</param>
         /// <returns>Returns a non-negative value if successful; otherwise
         /// returns a negative value.</returns>
- #if HDF5_VER1_10
+#if HDF5_VER1_10
         [DllImport(Constants.DLLFileName, EntryPoint = "H5Fget_info2",
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
- #else
+#else
         [DllImport(Constants.DLLFileName, EntryPoint = "H5Fget_info",
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
- #endif
+#endif
         public extern static herr_t get_info
             (hid_t obj_id, ref H5F.info_t bh_info);
 

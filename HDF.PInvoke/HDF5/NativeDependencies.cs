@@ -4,7 +4,7 @@ using System.IO;
 using System.Security;
 
 namespace HDF.PInvoke
-{    
+{
     public static class NativeDependencies
     {
         public const string NativePathSetting = "NativeDependenciesAbsolutePath";
@@ -14,9 +14,9 @@ namespace HDF.PInvoke
             string NativeDllPath;
             if (!GetDllPathFromAppConfig(out NativeDllPath))
             {
-               GetDllPathFromAssembly(out NativeDllPath);
+                GetDllPathFromAssembly(out NativeDllPath);
             }
-            
+
             AddPathStringToEnvironment(NativeDllPath);
         }
 
@@ -35,7 +35,7 @@ namespace HDF.PInvoke
 
                 foreach (var c in Path.GetInvalidPathChars())
                 {
-                    if (pathFromAppSettings.Contains( new string(c, 1) ))
+                    if (pathFromAppSettings.Contains(new string(c, 1)))
                         return false;
                 }
 
@@ -60,14 +60,14 @@ namespace HDF.PInvoke
         {
             switch (IntPtr.Size)
             {
-            case 8:
-                aPath = Path.Combine(Path.GetDirectoryName(GetAssemblyName()), Constants.DLL64bitPath);
-                break;
-            case 4:
-                aPath = Path.Combine(Path.GetDirectoryName(GetAssemblyName()), Constants.DLL32bitPath);
-                break;
-            default:
-                throw new NotImplementedException();
+                case 8:
+                    aPath = Path.Combine(Path.GetDirectoryName(GetAssemblyName()), Constants.DLL64bitPath);
+                    break;
+                case 4:
+                    aPath = Path.Combine(Path.GetDirectoryName(GetAssemblyName()), Constants.DLL32bitPath);
+                    break;
+                default:
+                    throw new NotImplementedException();
             }
         }
 
@@ -77,15 +77,15 @@ namespace HDF.PInvoke
             {
                 string EnvPath = Environment.GetEnvironmentVariable("PATH");
                 if (EnvPath.Contains(aPath)) return;
-                
+
                 Environment.SetEnvironmentVariable("PATH", aPath + ";" + EnvPath);
 
 
                 System.Diagnostics.Trace.WriteLine(string.Format(
                     "{0} added to Path.", aPath));
             }
-            catch(SecurityException) 
-            { 
+            catch (SecurityException)
+            {
                 System.Diagnostics.Trace.WriteLine(
                     "Changing PATH not allowed");
             }

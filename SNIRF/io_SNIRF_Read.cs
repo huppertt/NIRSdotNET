@@ -11,7 +11,6 @@ using hid_t = System.Int64;
     using hid_t = System.Int32;
 #endif
 
-using herr_t = System.Int32;
 using hsize_t = System.UInt64;
 
 
@@ -28,7 +27,7 @@ namespace nirs
 
             hid_t fileId = H5F.open(filename, H5F.ACC_RDONLY);
             string formatVersion = nirs.io.ReadDataString(fileId, "/formatVersion");
-          
+
 
             List<string> dataLst = new List<string>();
             List<string> nirsLst = new List<string>();
@@ -38,7 +37,7 @@ namespace nirs
                 {
 
                     int cnt = info[i].field.IndexOf("/");
-                  
+
                     cnt = info[i].field.IndexOf("/", cnt + 1);
                     int cnt2 = cnt;
                     cnt = info[i].field.IndexOf("/", cnt + 1);  // find the third instance
@@ -77,8 +76,8 @@ namespace nirs
                 {
                     if (info[j].field.Contains(string.Format("{0}/metaDataTags", nirsLst[i])))
                     {
-                        
-                        string fld = info[j].field.Substring(string.Format("{0}/metaDataTags", nirsLst[i]).Length+1);
+
+                        string fld = info[j].field.Substring(string.Format("{0}/metaDataTags", nirsLst[i]).Length + 1);
 
                         if (nirs.io.IsHDF5String(fileId, info[j].field))
                         {
@@ -91,7 +90,7 @@ namespace nirs
                             demographics[i].set(fld, val);
                         }
 
-                        
+
                     }
 
                 }
@@ -108,7 +107,7 @@ namespace nirs
                     }
                 }
                 aux[i] = new auxillary[auxList.Count];
-                for(int j=0; j<auxList.Count; j++)
+                for (int j = 0; j < auxList.Count; j++)
                 {
                     aux[i][j] = new auxillary();
                     aux[i][j].name = nirs.io.ReadDataString(fileId, string.Format("{0}/name", auxList[j]));
@@ -127,10 +126,10 @@ namespace nirs
                         info[j].field.Contains("/name"))
                     {
                         string str = info[j].field.Substring(0, info[j].field.LastIndexOf("/"));
-                        string stimname = nirs.io.ReadDataString(fileId, string.Format("{0}/name",str));
+                        string stimname = nirs.io.ReadDataString(fileId, string.Format("{0}/name", str));
 
                         double[,] times = nirs.io.ReadDataArray(fileId, string.Format("{0}/data", str));
-                        if(times.GetLength(0)==3 & times.GetLength(1) != 3)
+                        if (times.GetLength(0) == 3 & times.GetLength(1) != 3)
                         {
                             times = nirs.io.ReadDataArray(fileId, string.Format("{0}/data", str), true);
                         }
@@ -140,7 +139,7 @@ namespace nirs
                         stim.duration = new List<double>();
                         stim.amplitude = new List<double>();
 
-                        for(int ii=0; ii < times.GetLength(0); ii++)
+                        for (int ii = 0; ii < times.GetLength(0); ii++)
                         {
                             stim.onsets.Add(times[ii, 0]);
                             stim.duration.Add(times[ii, 1]);
@@ -153,22 +152,24 @@ namespace nirs
                 }
 
 
-                    // read the probe
-                    probes[i] = new core.Probe();
+                // read the probe
+                probes[i] = new core.Probe();
 
                 double[] wav;
                 if (nirs.io.groupexists(fileId, String.Format("{0}/probe/wavelengths", nirsLst[i])))
                 {
                     wav = nirs.io.ReadDataVector(fileId, String.Format("{0}/probe/wavelengths", nirsLst[i]));
-                } else {
+                }
+                else
+                {
                     wav = new double[0];
-                 }
+                }
 
 
                 if (nirs.io.groupexists(fileId, String.Format("{0}/probe/sourcePos2D", nirsLst[i])))
                 {
                     probes[i].SrcPos = nirs.io.ReadDataArray(fileId, String.Format("{0}/probe/sourcePos2D", nirsLst[i]));
-                    if (probes[i].SrcPos.GetLength(0)==3 & probes[i].SrcPos.GetLength(1)!=3)
+                    if (probes[i].SrcPos.GetLength(0) == 3 & probes[i].SrcPos.GetLength(1) != 3)
                     {
                         probes[i].SrcPos = nirs.io.ReadDataArray(fileId, String.Format("{0}/probe/sourcePos2D", nirsLst[i]), true);
                     }
@@ -199,28 +200,30 @@ namespace nirs
                     }
                 }
 
-                
-                if (nirs.io.groupexists(fileId,String.Format( "{0}/probe/landmarkPos2D", nirsLst[i]))){
+
+                if (nirs.io.groupexists(fileId, String.Format("{0}/probe/landmarkPos2D", nirsLst[i])))
+                {
                     probes[i].LandmarkPos = nirs.io.ReadDataArray(fileId, String.Format("{0}/probe/landmarkPos2D", nirsLst[i]));
                     if (probes[i].LandmarkPos.GetLength(0) == 3 & probes[i].LandmarkPos.GetLength(1) != 3)
                     {
-                        probes[i].LandmarkPos = nirs.io.ReadDataArray(fileId, String.Format("{0}/probe/landmarkPos2D", nirsLst[i]),true);
+                        probes[i].LandmarkPos = nirs.io.ReadDataArray(fileId, String.Format("{0}/probe/landmarkPos2D", nirsLst[i]), true);
                     }
                 }
-                else if(nirs.io.groupexists(fileId, String.Format("{0}/probe/landmarkPos", nirsLst[i]))){
+                else if (nirs.io.groupexists(fileId, String.Format("{0}/probe/landmarkPos", nirsLst[i])))
+                {
 
                     probes[i].LandmarkPos = nirs.io.ReadDataArray(fileId, String.Format("{0}/probe/landmarkPos", nirsLst[i]));
                     if (probes[i].LandmarkPos.GetLength(0) == 3 & probes[i].LandmarkPos.GetLength(1) != 3)
                     {
-                        probes[i].LandmarkPos = nirs.io.ReadDataArray(fileId, String.Format("{0}/probe/landmarkPos", nirsLst[i]),true);
+                        probes[i].LandmarkPos = nirs.io.ReadDataArray(fileId, String.Format("{0}/probe/landmarkPos", nirsLst[i]), true);
                     }
                 }
-                
+
 
                 if (nirs.io.groupexists(fileId, String.Format("{0}/probe/sourcePos3D", nirsLst[i])))
                 {
                     probes[i].SrcPos3D = nirs.io.ReadDataArray(fileId, String.Format("{0}/probe/sourcePos3D", nirsLst[i]));
-                    if(probes[i].SrcPos3D.GetLength(0)==3 & probes[i].SrcPos3D.GetLength(1) != 3)
+                    if (probes[i].SrcPos3D.GetLength(0) == 3 & probes[i].SrcPos3D.GetLength(1) != 3)
                     {
                         probes[i].SrcPos3D = nirs.io.ReadDataArray(fileId, String.Format("{0}/probe/sourcePos3D", nirsLst[i]), true);
                     }
@@ -230,7 +233,7 @@ namespace nirs
                     probes[i].DetPos3D = nirs.io.ReadDataArray(fileId, String.Format("{0}/probe/detectorPos3D", nirsLst[i]));
                     if (probes[i].DetPos3D.GetLength(0) == 3 & probes[i].DetPos3D.GetLength(1) != 3)
                     {
-                        probes[i].DetPos3D = nirs.io.ReadDataArray(fileId, String.Format("{0}/probe/detectorPos3D", nirsLst[i]),true);
+                        probes[i].DetPos3D = nirs.io.ReadDataArray(fileId, String.Format("{0}/probe/detectorPos3D", nirsLst[i]), true);
                     }
                 }
                 if (nirs.io.groupexists(fileId, String.Format("{0}/probe/landmarkPos3D", nirsLst[i])))
@@ -244,7 +247,7 @@ namespace nirs
                         }
                     }
                 }
-               
+
 
                 probes[i].numDet = probes[i].DetPos.GetLength(0);
                 probes[i].numSrc = probes[i].SrcPos.GetLength(0);
@@ -369,13 +372,13 @@ namespace nirs
                         data[i].probe.ChannelMap[j].wavelength = wav[(int)nirs.io.ReadDataValue(fileId,
                                                                     String.Format("{0}/measurementList{1}/wavelengthIndex", dataLst[i], j + 1)) - 1];
                     }
-                    
+
                     int datatypeIdx = (int)nirs.io.ReadDataValue(fileId, String.Format("{0}/measurementList{1}/dataType", dataLst[i], j + 1));
 
 
                     data[i].probe.ChannelMap[j].datatype = (datatype)Enum.ToObject(typeof(datatype), datatypeIdx);
 
-                    if (wav.Length>0)
+                    if (wav.Length > 0)
                     {
                         data[i].probe.ChannelMap[j].datasubtype = String.Format("{0}nm", data[i].probe.ChannelMap[j].wavelength);
                     }
@@ -399,9 +402,9 @@ namespace nirs
                     }
                     if (nirs.io.groupexists(fileId, String.Format("{0}/measurementList{1}/sourcePower", dataLst[i], j + 1)))
                     {
-                        data[i].probe.ChannelMap[j].SourcePower= nirs.io.ReadDataValue(fileId, String.Format("{0}/measurementList{1}/sourcePower", dataLst[i], j + 1));
+                        data[i].probe.ChannelMap[j].SourcePower = nirs.io.ReadDataValue(fileId, String.Format("{0}/measurementList{1}/sourcePower", dataLst[i], j + 1));
                     }
-           
+
 
 
                 }
@@ -441,19 +444,19 @@ namespace nirs
             hid_t dset = H5D.open(fileLoc, name);
             hid_t type = H5D.get_type(dset);
 
-            H5T.class_t cl=H5T.get_class(type);
+            H5T.class_t cl = H5T.get_class(type);
 
 
-            return (cl== H5T.class_t.STRING) ;
+            return (cl == H5T.class_t.STRING);
         }
 
         private static string ReadDataString(hid_t fileLoc, string name)
         {
 
             hid_t dset = H5D.open(fileLoc, name);
-             hid_t type = H5D.get_type(dset);
+            hid_t type = H5D.get_type(dset);
             // H5T.is_variable_str(type);
-            IntPtr size= H5T.get_size(type);
+            IntPtr size = H5T.get_size(type);
 
             hid_t fspace = H5D.get_space(dset);
             hid_t mem_type = H5T.copy(type);
@@ -494,38 +497,38 @@ namespace nirs
 
             hid_t type = H5D.get_type(dset);
 
-            
-                hsize_t[] dims = new hsize_t[count];
-                hsize_t[] maxdims = new hsize_t[count];
 
-                H5S.get_simple_extent_dims(fspace, dims, maxdims);
-                H5S.close(fspace);
+            hsize_t[] dims = new hsize_t[count];
+            hsize_t[] maxdims = new hsize_t[count];
 
-
-                byte[] rdata = new byte[dims[0]];
-
-                hid_t mem_type = H5T.copy(type);
-                H5T.set_size(mem_type, new IntPtr(1));
-
-                GCHandle hnd = GCHandle.Alloc(rdata, GCHandleType.Pinned);
-                H5D.read(dset, mem_type, H5S.ALL,
-                H5S.ALL, H5P.DEFAULT, hnd.AddrOfPinnedObject());
-
-                hnd.Free();
-
-                H5T.close(mem_type);
-
-                char[] val = new char[dims[0]];
-                for (int i = 0; i < (int)dims[0]; i += 2)
-                {
-                    val[i] = BitConverter.ToChar(rdata, i);
-
-                }
+            H5S.get_simple_extent_dims(fspace, dims, maxdims);
+            H5S.close(fspace);
 
 
-                return val.ToString();
-            
-            
+            byte[] rdata = new byte[dims[0]];
+
+            hid_t mem_type = H5T.copy(type);
+            H5T.set_size(mem_type, new IntPtr(1));
+
+            GCHandle hnd = GCHandle.Alloc(rdata, GCHandleType.Pinned);
+            H5D.read(dset, mem_type, H5S.ALL,
+            H5S.ALL, H5P.DEFAULT, hnd.AddrOfPinnedObject());
+
+            hnd.Free();
+
+            H5T.close(mem_type);
+
+            char[] val = new char[dims[0]];
+            for (int i = 0; i < (int)dims[0]; i += 2)
+            {
+                val[i] = BitConverter.ToChar(rdata, i);
+
+            }
+
+
+            return val.ToString();
+
+
         }
 
 
@@ -551,7 +554,7 @@ namespace nirs
         }
 
 
-        private static double[,] ReadDataArray(hid_t fileLoc, string name,bool transpose=false)
+        private static double[,] ReadDataArray(hid_t fileLoc, string name, bool transpose = false)
         {
 
             hid_t dset = H5D.open(fileLoc, name);
@@ -580,7 +583,8 @@ namespace nirs
 
             H5T.close(mem_type);
 
-            if (transpose) {
+            if (transpose)
+            {
                 double[,] val = new double[dims[1], dims[0]];
                 int cnt = 0;
                 for (int i = 0; i < (int)dims[0]; i++)
@@ -608,7 +612,7 @@ namespace nirs
                 return val;
             }
 
-            
+
         }
 
         private static double[] ReadDataVector(hid_t fileLoc, string name)

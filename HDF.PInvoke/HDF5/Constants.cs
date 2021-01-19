@@ -13,9 +13,6 @@
  * access to either file, you may request a copy from help@hdfgroup.org.     *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-using System;
-using hid_t = System.Int32;
-
 namespace HDF.PInvoke
 {
     public static class Constants
@@ -25,7 +22,7 @@ namespace HDF.PInvoke
         public const string HLDLLFileName = "hdf5_hl.dll";
 
         public const string DLL32bitPath = "bin32";
-        
+
         public const string DLL64bitPath = "bin64";
     }
 }

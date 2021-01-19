@@ -1,8 +1,8 @@
 ﻿using System;
-using System.IO.Ports;
-using System.Collections.Generic;
-using System.Threading;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO.Ports;
+using System.Threading;
 
 namespace NIRSDAQ
 {
@@ -22,7 +22,7 @@ namespace NIRSDAQ
 
                 public bool[] laserstates;
                 public int[] laserpower;
-                public  int[] detgains;
+                public int[] detgains;
 
                 public bool usefilter;
                 public int sample_rate;
@@ -77,7 +77,7 @@ namespace NIRSDAQ
 
                 public void Destroy()
                 {
-                    
+
                 }
 
                 public Simulator()
@@ -128,7 +128,7 @@ namespace NIRSDAQ
                 {
                     newthread = new Thread(adddata);
                     isrunning = true;
-                 
+
                     newthread.Start();
                 }
 

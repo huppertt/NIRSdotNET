@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-namespace nirs
+﻿namespace nirs
 {
     public enum datatype
     {

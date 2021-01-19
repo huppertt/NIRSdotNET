@@ -1,6 +1,6 @@
-﻿using System;
-using Gtk;
+﻿using Gtk;
 using nirs;
+using System;
 using System.Collections.Generic;
 
 public partial class MainWindow : Gtk.Window
@@ -135,12 +135,12 @@ public partial class MainWindow : Gtk.Window
             List<nirs.HDF5info> info = nirs.io.SNIRFinfo(fc.Filename);
             List<string> invalid = new List<string>();
             bool isvalid = nirs.io.SNIRFValidate(info, ref invalid);
-            
+
             textview1.Buffer.Text = "";
             for (int i = 0; i < info.Count; i++)
             {
 
-                
+
                 textview1.Buffer.Text += string.Format("{0} [ {1} ]  : {2}\r", info[i].field, info[i].HDFclass, info[i].description); ;
             }
 
@@ -153,7 +153,7 @@ public partial class MainWindow : Gtk.Window
                     data[i] = (nirs.core.Data)tmp[i].Clone();
                 }
 
-     
+
 
 
                 if (data.Length == 1)
@@ -241,13 +241,13 @@ public partial class MainWindow : Gtk.Window
             data[idx].auxillaries.Length);
         textview5.Buffer.Text += string.Format("\rNumber of Stimulus types = {0}",
             data[idx].stimulus.Count);
-        for (int i=0; i<data[idx].stimulus.Count; i++)
+        for (int i = 0; i < data[idx].stimulus.Count; i++)
         {
             textview5.Buffer.Text += string.Format("\r\t{0} : {1} events",
-            data[idx].stimulus[i].name,data[idx].stimulus[i].onsets.Count);
+            data[idx].stimulus[i].name, data[idx].stimulus[i].onsets.Count);
         }
 
-        textview3.Buffer.Text = string.Format("Demographics: {0}",data[idx].description);
+        textview3.Buffer.Text = string.Format("Demographics: {0}", data[idx].description);
         foreach (string demo in data[idx].demographics.Keys)
         {
             object val = data[idx].demographics.get(demo);

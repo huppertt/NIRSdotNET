@@ -124,3 +124,32 @@
 /Users/theodorehuppert/NIRSdotNET/SNIRF/obj/Debug/NIRSdotNET.csproj.CopyComplete
 /Users/theodorehuppert/NIRSdotNET/SNIRF/obj/Debug/SNIRF.dll
 /Users/theodorehuppert/NIRSdotNET/SNIRF/obj/Debug/SNIRF.pdb
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\obj\Debug\NIRSdotNET.csprojAssemblyReference.cache
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\obj\Debug\NIRSdotNET.csproj.CoreCompileInputs.cache
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\pts1020.xml
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\HemoglobinSpectrum.xml
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\io_SNIRF.cs
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\GetSpectrum.cs
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\DefaultConfig.xml
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\SNIRF.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\SNIRF.pdb
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\csmatio.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\gdk-sharp.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\glib-sharp.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\gtk-sharp.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\HDF.PInvoke.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\MathNet.Numerics.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\MonoGame.Framework.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\pango-sharp.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\zlib.net.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\atk-sharp.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\HDF.PInvoke.dll.config
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\gdk-sharp.pdb
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\MathNet.Numerics.xml
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\MonoGame.Framework.xml
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\glib-sharp.pdb
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\pango-sharp.pdb
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\atk-sharp.pdb
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\obj\Debug\NIRSdotNET.csproj.CopyComplete
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\obj\Debug\SNIRF.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\obj\Debug\SNIRF.pdb

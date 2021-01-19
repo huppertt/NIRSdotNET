@@ -43,7 +43,7 @@ namespace HDF.PInvoke
         /// Maximum length of a link's name
         /// (encoded in a 32-bit unsigned integer: 4GB - 1)
         /// </summary>
-        public const UInt32 MAX_LINK_NAME_LEN = unchecked((UInt32) (-1));
+        public const UInt32 MAX_LINK_NAME_LEN = unchecked((UInt32)(-1));
 
         /// <summary>
         /// Constant to indicate operation occurs on same location
@@ -417,7 +417,7 @@ namespace HDF.PInvoke
         /// <param name="lapl_id">Link access property list identifier</param>
         /// <returns>Returns a non-negative value if successful; otherwise
         /// returns a negative value.</returns>
-        [DllImport(Constants.DLLFileName, EntryPoint="H5Lcopy",
+        [DllImport(Constants.DLLFileName, EntryPoint = "H5Lcopy",
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public extern static herr_t copy
@@ -842,7 +842,7 @@ namespace HDF.PInvoke
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public extern static ssize_t get_name_by_idx
             (hid_t loc_id, byte[] group_name, H5.index_t idx_type,
-            H5.iter_order_t order, hsize_t n, [In][Out]byte[] name, size_t size,
+            H5.iter_order_t order, hsize_t n, [In][Out] byte[] name, size_t size,
             hid_t lapl_id = H5P.DEFAULT);
 
         /// <summary>
@@ -868,7 +868,7 @@ namespace HDF.PInvoke
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public extern static ssize_t get_name_by_idx
             (hid_t loc_id, string group_name, H5.index_t idx_type,
-            H5.iter_order_t order, hsize_t n, [In][Out]StringBuilder name, size_t size,
+            H5.iter_order_t order, hsize_t n, [In][Out] StringBuilder name, size_t size,
             hid_t lapl_id = H5P.DEFAULT);
 
         /// <summary>
@@ -894,7 +894,7 @@ namespace HDF.PInvoke
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public extern static ssize_t get_name_by_idx(hid_t loc_id, string group_name,
             H5.index_t idx_type, H5.iter_order_t order, hsize_t n,
-            IntPtr name /*out*/, size_t size, hid_t lapl_id);        
+            IntPtr name /*out*/, size_t size, hid_t lapl_id);
 
         /// <summary>
         /// Returns the value of a symbolic link.
@@ -1077,7 +1077,7 @@ namespace HDF.PInvoke
             (hid_t loc_id, string group_name, H5.index_t idx_type,
             H5.iter_order_t order, ref hsize_t idx, iterate_t op,
             IntPtr op_data, hid_t lapl_id = H5P.DEFAULT);
-        
+
         /// <summary>
         /// Moves a link within an HDF5 file.
         /// See https://www.hdfgroup.org/HDF5/doc/RM/RM_H5L.html#Link-Move
@@ -1167,7 +1167,7 @@ namespace HDF.PInvoke
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public extern static herr_t unregister(type_t id);
-        
+
         /// <summary>
         /// Recursively visits all links starting from a specified group.
         /// See https://www.hdfgroup.org/HDF5/doc/RM/RM_H5L.html#Link-Visit
@@ -1191,7 +1191,7 @@ namespace HDF.PInvoke
         public extern static herr_t visit
             (hid_t grp_id, H5.index_t idx_type, H5.iter_order_t order,
             iterate_t op, IntPtr op_data);
-        
+
         /// <summary>
         /// Recursively visits all links starting from a specified group.
         /// See https://www.hdfgroup.org/HDF5/doc/RM/RM_H5L.html#Link-VisitByName

@@ -1,10 +1,8 @@
-﻿using System;
-using Gtk;
+﻿using Gtk;
 using nirs;
-using System.Windows.Forms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 /*
  * This is a simple file type conversion program.  This loads NIRS data using my 
@@ -24,7 +22,7 @@ public partial class MainWindow : Gtk.Window
         Build();
         data = new nirs.core.Data();
 
-       
+
         // This sets the drawing functions for the time-course and probe windows
         this.drawingareaSDG.ExposeEvent += sdgdraw;
         this.drawingarea_main.ExposeEvent += datadraw;
@@ -48,7 +46,8 @@ public partial class MainWindow : Gtk.Window
     protected void updateInfoText()
     {
 
-        if(data==null){
+        if (data == null)
+        {
             return;
         }
 
@@ -67,7 +66,7 @@ public partial class MainWindow : Gtk.Window
         {
             this.combobox1.AppendText(item);
         }
-       this.combobox1.Active = 0;
+        this.combobox1.Active = 0;
 
 
         //  TODO- make this more useful.  This is just a placeholder for now
@@ -91,7 +90,8 @@ public partial class MainWindow : Gtk.Window
         this.textFileInfo.Buffer.Text = fileInfo;
 
         string eventInfo = "Stimulus information";
-        for (int i = 0; i < data.stimulus.Count; i++){
+        for (int i = 0; i < data.stimulus.Count; i++)
+        {
             eventInfo = eventInfo + String.Format("\n{0}:\n\t {1} events\n\t {2}-{3}s",
                                                 data.stimulus[i].name, data.stimulus[i].onsets.Count,
                                                 data.stimulus[i].onsets.Min(), data.stimulus[i].onsets.Max());
@@ -100,9 +100,12 @@ public partial class MainWindow : Gtk.Window
 
         this.textEventInfo.Buffer.Text = eventInfo;
 
-        if(data.probe.isregistered){
+        if (data.probe.isregistered)
+        {
             this.ViewAction.Visible = true;
-        }else{
+        }
+        else
+        {
             this.ViewAction.Visible = false;
             this.TwoDimensionalAction.Active = true;
             this.TenTwentyViewAction.Active = false;
@@ -123,9 +126,12 @@ public partial class MainWindow : Gtk.Window
             return;
         }
 
-        if(this.TwoDimensionalAction.Active){
+        if (this.TwoDimensionalAction.Active)
+        {
             data.probe.default_display = probedisplay.TwoDimensional;
-        }else{
+        }
+        else
+        {
             data.probe.default_display = probedisplay.TenTwenty;
         }
 
@@ -336,7 +342,7 @@ public partial class MainWindow : Gtk.Window
         return;
     }
 
-   
+
 
     // Exit the program
     protected void Exit(object sender, EventArgs e)

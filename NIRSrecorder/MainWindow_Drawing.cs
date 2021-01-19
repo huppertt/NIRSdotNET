@@ -1,12 +1,5 @@
-﻿using System;
-using Gtk;
-using NIRSrecorder;
-using System.Threading;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Xml;
-using MathNet.Filtering;
-using System.Linq;
+﻿using Gtk;
+using System;
 
 public partial class MainWindow : Window
 {
@@ -61,7 +54,8 @@ public partial class MainWindow : Window
 
             nirsdata[combobox_device2.Active].probe.draw(drawingarea_SDG2.GdkWindow);
             drawingarea_SDG2.QueueDraw();
-        } else
+        }
+        else
         {
             fixed_device2.Visible = false;
             combobox_device2.Visible = false;
@@ -196,7 +190,7 @@ public partial class MainWindow : Window
         }
 
         // This is evoked on exposure of the main data window to update the drawing
-        nirsdata[combobox_device1.Active].draw(drawingarea_Data.GdkWindow, combobox_whichdata.ActiveText, autoscale, tMin,autoscaleYmin,minY,autoscaleYmax,maxY);
+        nirsdata[combobox_device1.Active].draw(drawingarea_Data.GdkWindow, combobox_whichdata.ActiveText, autoscale, tMin, autoscaleYmin, minY, autoscaleYmax, maxY);
         if (DualViewAction.Active)
         {
             nirsdata[combobox_device2.Active].draw(drawingarea_Data2.GdkWindow, combobox_whichdata.ActiveText, autoscale, tMin);

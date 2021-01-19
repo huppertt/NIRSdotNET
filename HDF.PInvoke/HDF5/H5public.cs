@@ -24,7 +24,6 @@ using hsize_t = System.UInt64;
 using hssize_t = System.Int64;
 
 #if HDF5_VER1_10
-using hid_t = System.Int64;
 #else
 using hid_t = System.Int32;
 #endif
@@ -42,7 +41,7 @@ namespace HDF.PInvoke
 
         public const hsize_t HADDR_UNDEF = unchecked((haddr_t)(Int64)(-1));
 
-        public const hsize_t HADDR_MAX = HADDR_UNDEF-1;
+        public const hsize_t HADDR_MAX = HADDR_UNDEF - 1;
 
         /// <summary>
         /// Common iteration orders
@@ -160,7 +159,7 @@ namespace HDF.PInvoke
         /// Returns a non-negative value if successful; otherwise returns a
         /// negative value.
         /// </returns>
-        [DllImport(Constants.DLLFileName, EntryPoint="H5close",
+        [DllImport(Constants.DLLFileName, EntryPoint = "H5close",
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern herr_t close();
@@ -224,7 +223,7 @@ namespace HDF.PInvoke
         /// Returns a non-negative value if successful; otherwise returns a
         /// negative value.
         /// </returns>
-        [DllImport(Constants.DLLFileName, EntryPoint = "H5get_libversion", 
+        [DllImport(Constants.DLLFileName, EntryPoint = "H5get_libversion",
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern herr_t get_libversion
@@ -256,7 +255,7 @@ namespace HDF.PInvoke
         /// Returns a non-negative value if successful; otherwise returns a
         /// negative value.
         /// </returns>
-        [DllImport(Constants.DLLFileName, EntryPoint="H5open",
+        [DllImport(Constants.DLLFileName, EntryPoint = "H5open",
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern herr_t open();
@@ -321,6 +320,6 @@ namespace HDF.PInvoke
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern herr_t set_free_list_limits
             (int reg_global_lim, int reg_list_lim, int arr_global_lim,
-            int arr_list_lim,int blk_global_lim, int blk_list_lim);
+            int arr_list_lim, int blk_global_lim, int blk_list_lim);
     }
 }

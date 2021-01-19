@@ -18,12 +18,9 @@ using System.Runtime.InteropServices;
 using System.Security;
 
 using haddr_t = System.UInt64;
-using hbool_t = System.UInt32;
 using herr_t = System.Int32;
 using hsize_t = System.UInt64;
-using htri_t = System.Int32;
 using size_t = System.IntPtr;
-using ssize_t = System.IntPtr;
 using uint32_t = System.UInt32;
 
 #if HDF5_VER1_10
@@ -221,8 +218,8 @@ namespace HDF.PInvoke
         public delegate herr_t operator_t
         (
         IntPtr elem,
-        hid_t  type_id,
-        uint   ndim,
+        hid_t type_id,
+        uint ndim,
         [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)]
         hsize_t[] point,
         IntPtr op_data
@@ -274,7 +271,7 @@ namespace HDF.PInvoke
         /// <param name="dapl_id">Dataset access property list</param>
         /// <returns>Returns a dataset identifier if successful; otherwise
         /// returns a negative value.</returns>
-        [DllImport(Constants.DLLFileName, EntryPoint="H5Dcreate2",
+        [DllImport(Constants.DLLFileName, EntryPoint = "H5Dcreate2",
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern hid_t create

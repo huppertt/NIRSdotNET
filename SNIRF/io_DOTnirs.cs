@@ -1,7 +1,6 @@
-﻿using System;
-
-using csmatio.io;
+﻿using csmatio.io;
 using csmatio.types;
+using System;
 using System.Collections.Generic;
 
 namespace nirs
@@ -23,15 +22,15 @@ namespace nirs
 
                 double[] dd = d[0];
                 data.data = new List<double>[dd.Length];
-                for (int i=0; i<dd.Length; i++)
+                for (int i = 0; i < dd.Length; i++)
                 {
                     data.data[i] = new List<double>();
                 }
 
-                
+
                 for (int i = 0; i < d.Length; i++)
                 {
-                   
+
                     double[] dd3 = d[i];
                     for (int j = 0; j < dd3.Length; j++)
                     {
@@ -148,7 +147,8 @@ namespace nirs
 
             data.probe.numChannels = data.probe.ChannelMap.Length;
             data.probe.measlistAct = new bool[data.probe.numChannels];
-            for (int i = 0; i < data.probe.numChannels; i++){
+            for (int i = 0; i < data.probe.numChannels; i++)
+            {
                 data.probe.measlistAct[i] = false;
             }
             data.probe.measlistAct[0] = true;
@@ -165,7 +165,7 @@ namespace nirs
             return data;
         }
 
-        public static void writeDOTnirs(core.Data data, string filename,int startIdx=0,int endIdx= Int32.MaxValue)
+        public static void writeDOTnirs(core.Data data, string filename, int startIdx = 0, int endIdx = Int32.MaxValue)
         {
 
             // Store the data into the *.nirs matlab format
@@ -173,7 +173,7 @@ namespace nirs
             int numsamples = data.numsamples;
             int numch = data.probe.numChannels;
 
-            numsamples = Math.Min(endIdx - startIdx, numsamples-startIdx);
+            numsamples = Math.Min(endIdx - startIdx, numsamples - startIdx);
 
 
             // save the structure as mat file using MatFileWriter
@@ -182,7 +182,7 @@ namespace nirs
             double[][] d = new double[numsamples][];
             double[][] t = new double[numsamples][];
 
-            for (int j = startIdx; j < startIdx+numsamples; j++)
+            for (int j = startIdx; j < startIdx + numsamples; j++)
             {
                 double[] dloc = new double[numch];
 
@@ -192,7 +192,7 @@ namespace nirs
                 }
                 double[] tt = new double[1];
                 tt[0] = data.time[j];
-                t[j-startIdx] = tt;
+                t[j - startIdx] = tt;
                 d[j - startIdx] = dloc;
             }
 
@@ -280,11 +280,11 @@ namespace nirs
 
 
                 double[] onset = new double[data.stimulus[i].onsets.Count];
-                for (int ii = 0; ii < data.stimulus[i].onsets.Count; ii++) { onset[ii]=data.stimulus[i].onsets[ii]; }
+                for (int ii = 0; ii < data.stimulus[i].onsets.Count; ii++) { onset[ii] = data.stimulus[i].onsets[ii]; }
                 double[] dur = new double[data.stimulus[i].duration.Count];
-                for (int ii = 0; ii < data.stimulus[i].duration.Count; ii++) {dur[ii]=data.stimulus[i].duration[ii]; }
+                for (int ii = 0; ii < data.stimulus[i].duration.Count; ii++) { dur[ii] = data.stimulus[i].duration[ii]; }
                 double[] amp = new double[data.stimulus[i].amplitude.Count];
-                for (int ii = 0; ii < data.stimulus[i].amplitude.Count; ii++) {amp[ii]=data.stimulus[i].amplitude[ii]; }
+                for (int ii = 0; ii < data.stimulus[i].amplitude.Count; ii++) { amp[ii] = data.stimulus[i].amplitude[ii]; }
 
 
                 mlStim["onset", i] = new MLDouble("", onset, 1);

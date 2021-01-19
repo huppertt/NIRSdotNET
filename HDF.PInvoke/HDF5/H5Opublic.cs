@@ -19,7 +19,7 @@ using System.Security;
 using System.Text;
 
 using haddr_t = System.UInt64;
-using hbool_t = System.UInt32; 
+using hbool_t = System.UInt32;
 using herr_t = System.Int32;
 using hsize_t = System.UInt64;
 using htri_t = System.Int32;
@@ -108,7 +108,7 @@ namespace HDF.PInvoke
         /// Attribute Message.
         /// </summary>
         public const uint SHMESG_ATTR_FLAG = ((uint)1 << 0x000c);
-        
+
         public const uint SHMESG_ALL_FLAG = (SHMESG_SDSPACE_FLAG |
             SHMESG_DTYPE_FLAG | SHMESG_FILL_FLAG | SHMESG_PLINE_FLAG |
             SHMESG_ATTR_FLAG);
@@ -536,7 +536,7 @@ namespace HDF.PInvoke
             CharSet = CharSet.Ansi),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public extern static ssize_t get_comment
-            (hid_t obj_id, [In][Out]StringBuilder comment, size_t size);
+            (hid_t obj_id, [In][Out] StringBuilder comment, size_t size);
 
         /// <summary>
         /// Retrieves comment for specified object.
@@ -559,7 +559,7 @@ namespace HDF.PInvoke
             CharSet = CharSet.Ansi),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public extern static ssize_t get_comment_by_name
-            (hid_t loc_id, byte[] name, [In][Out]StringBuilder comment, size_t size,
+            (hid_t loc_id, byte[] name, [In][Out] StringBuilder comment, size_t size,
             hid_t lapl_id = H5P.DEFAULT);
 
         /// <summary>
@@ -584,7 +584,7 @@ namespace HDF.PInvoke
             CharSet = CharSet.Ansi),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public extern static ssize_t get_comment_by_name
-            (hid_t loc_id, string name, [In][Out]StringBuilder comment, size_t size,
+            (hid_t loc_id, string name, [In][Out] StringBuilder comment, size_t size,
             hid_t lapl_id = H5P.DEFAULT);
 
 #if HDF5_VER1_10
@@ -893,7 +893,7 @@ namespace HDF.PInvoke
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public extern static hid_t open
             (hid_t loc_id, string name, hid_t lapl_id = H5P.DEFAULT);
-        
+
         /// <summary>
         /// Opens an object using its address within an HDF5 file.
         /// See https://www.hdfgroup.org/HDF5/doc/RM/RM_H5O.html#Object-OpenByAddr
@@ -909,7 +909,7 @@ namespace HDF.PInvoke
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public extern static hid_t open_by_addr(hid_t loc_id, haddr_t addr);
-        
+
         /// <summary>
         /// Open the n-th object in a group.
         /// See https://www.hdfgroup.org/HDF5/doc/RM/RM_H5O.html#Object-OpenByIdx

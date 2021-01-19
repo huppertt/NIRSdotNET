@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -106,6 +106,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HDF.PInvoke\HDF.PInvoke.csproj">
+      <Project>{4450f800-93e2-4d4a-b224-966e2338cded}</Project>
+      <Name>HDF.PInvoke</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SNIRF\NIRSdotNET.csproj">
       <Project>{66CEE40B-4A70-4432-A819-AA5C63994685}</Project>
       <Name>NIRSdotNET</Name>

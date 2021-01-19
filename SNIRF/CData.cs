@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections;
-using Gdk;
-using Gtk;
+﻿using Gdk;
+using System;
 using System.Collections.Generic;
-using MathNet.Numerics;
 
 namespace nirs
 {
     public partial class core
     {
-    
+
 
         public class Data : ICloneable
         {
@@ -47,7 +44,8 @@ namespace nirs
 
             }
 
-            public object Clone(){
+            public object Clone()
+            {
                 return this.MemberwiseClone();
             }
 
@@ -55,7 +53,7 @@ namespace nirs
             {
                 // resets the time and data to empty
                 time.Clear();
-                for(int i=0; i<data.Length; i++)
+                for (int i = 0; i < data.Length; i++)
                 {
                     data[i].Clear();
                 }
@@ -63,7 +61,7 @@ namespace nirs
             }
 
             //-------------------------------------------------------------
-            public void draw(Gdk.Drawable da,bool autoscale= false, double tMin = 0, bool manualscaleMin = false, double manualMin = -999999, bool manualscaleMax = false, double manualMax = 99999999)
+            public void draw(Gdk.Drawable da, bool autoscale = false, double tMin = 0, bool manualscaleMin = false, double manualMin = -999999, bool manualscaleMax = false, double manualMax = 99999999)
             {
 
                 if (data == null)
@@ -72,14 +70,15 @@ namespace nirs
                 }
 
                 string datasubtype = this.probe.ChannelMap[0].datasubtype;
-                draw(da,datasubtype,autoscale,tMin,manualscaleMin, manualMin,manualscaleMax,manualMax);
+                draw(da, datasubtype, autoscale, tMin, manualscaleMin, manualMin, manualscaleMax, manualMax);
             }
 
 
 
             public void draw(Gdk.Drawable da, string datasubtype, bool autoscale = false, double tMin = 0, bool manualscaleMin = false, double manualMin = -999999, bool manualscaleMax = false, double manualMax = 99999999)
             {
-                try {
+                try
+                {
 
                     if (data == null)
                     {
@@ -107,8 +106,8 @@ namespace nirs
                         }
                     }
 
-                    int skip = (int)Math.Max(1,Math.Floor((double)((this.time.Count - startIdx) / 3000)));
-                    
+                    int skip = (int)Math.Max(1, Math.Floor((double)((this.time.Count - startIdx) / 100)));
+
 
                     if (this.probe.measlistAct == null)
                     {
@@ -135,7 +134,8 @@ namespace nirs
                                         maxY = d;
                                     if (minY > d)
                                         minY = d;
-                                } else if (!autoscale) // This will include all the data in defining the scale
+                                }
+                                else if (!autoscale) // This will include all the data in defining the scale
                                 {
                                     double d = this.data[i][j];
                                     if (maxY < d)
@@ -147,10 +147,12 @@ namespace nirs
                         }
                     }
 
-                    if (manualscaleMax) {
+                    if (manualscaleMax)
+                    {
                         maxY = manualMax;
                     }
-                    if (manualscaleMin) {
+                    if (manualscaleMin)
+                    {
                         minY = manualMin;
                     }
                     double rangeY = maxY - minY;
@@ -197,7 +199,8 @@ namespace nirs
                             if (stimulus[j].amplitude[k] > 0 & stimulus[j].onsets[k] + stimulus[j].duration[k] >= this.time[startIdx])
                             {
                                 area.Width = (int)(stimulus[j].duration[k] / rangeX * width);
-                                if (area.Width == 0) {
+                                if (area.Width == 0)
+                                {
                                     area.Width = 1;
                                 }
                                 area.Height = height;
@@ -210,7 +213,7 @@ namespace nirs
                     }
 
 
-                
+
 
 
 
@@ -231,7 +234,7 @@ namespace nirs
                                 }
                             }
 
-                            for (int j = startIdx + skip; j < Math.Min(this.data[i].Count, this.time.Count); j=j+skip)
+                            for (int j = startIdx + skip; j < Math.Min(this.data[i].Count, this.time.Count); j = j + skip)
                             {
 
                                 double y2 = (this.data[i][j] - minY) / rangeY * height;
@@ -329,9 +332,9 @@ namespace nirs
                 }
                 catch
                 {
-                    
+
                 }
-             
+
 
             }
         }
@@ -342,4 +345,4 @@ namespace nirs
 }
 
 
-   
+

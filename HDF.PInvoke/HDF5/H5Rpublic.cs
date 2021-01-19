@@ -20,10 +20,8 @@ using System.Text;
 
 using haddr_t = System.UInt64;
 using herr_t = System.Int32;
-using hsize_t = System.UInt64;
 using size_t = System.IntPtr;
 using ssize_t = System.IntPtr;
-using uint32_t = System.UInt32;
 
 #if HDF5_VER1_10
 using hid_t = System.Int64;
@@ -110,7 +108,7 @@ namespace HDF.PInvoke
             (IntPtr refer, hid_t loc_id, string name, type_t ref_type,
             hid_t space_id);
 
-        #if HDF5_VER1_10
+#if HDF5_VER1_10
         /// <summary>
         /// Opens the HDF5 object referenced.
         /// </summary>
@@ -127,7 +125,7 @@ namespace HDF.PInvoke
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern hid_t dereference
             (hid_t obj_id, hid_t oapl_id, type_t ref_type, IntPtr refer);
-        #else
+#else
         /// <summary>
         /// Opens the HDF5 object referenced.
         /// See https://www.hdfgroup.org/HDF5/doc/RM/RM_H5R.html#Reference-Dereference
@@ -144,7 +142,7 @@ namespace HDF.PInvoke
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern hid_t dereference
             (hid_t obj_id, type_t ref_type, IntPtr refer);
-        #endif
+#endif
 
         /// <summary>
         /// Retrieves a name for a referenced object.
@@ -166,7 +164,7 @@ namespace HDF.PInvoke
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern ssize_t get_name
-            (hid_t loc_id, type_t ref_type, IntPtr refer, [In][Out]byte[] name,
+            (hid_t loc_id, type_t ref_type, IntPtr refer, [In][Out] byte[] name,
             size_t size);
 
         /// <summary>
@@ -191,7 +189,7 @@ namespace HDF.PInvoke
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern ssize_t get_name
-            (hid_t loc_id, type_t ref_type, IntPtr refer, [In][Out]StringBuilder name,
+            (hid_t loc_id, type_t ref_type, IntPtr refer, [In][Out] StringBuilder name,
             size_t size);
 
         /// <summary>

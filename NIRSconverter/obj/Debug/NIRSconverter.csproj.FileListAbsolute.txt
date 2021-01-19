@@ -47,3 +47,32 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/obj/Debug/NIRSconverter.csproj.CopyComplete
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/obj/Debug/NIRSconverter.exe
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/obj/Debug/NIRSconverter.pdb
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\obj\Debug\NIRSconverter.csprojAssemblyReference.cache
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\obj\Debug\NIRSconverter.csproj.CoreCompileInputs.cache
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\pts1020.xml
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\HemoglobinSpectrum.xml
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\io_SNIRF.cs
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\GetSpectrum.cs
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\DefaultConfig.xml
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\NIRSconverter.exe
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\NIRSconverter.pdb
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\atk-sharp.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\gdk-sharp.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\glade-sharp.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\glib-sharp.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\gtk-sharp.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\HDF.PInvoke.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\Mono.Posix.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\pango-sharp.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\SNIRF.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\csmatio.dll
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\SNIRF.pdb
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\HDF.PInvoke.dll.config
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\gdk-sharp.pdb
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\glib-sharp.pdb
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\glade-sharp.pdb
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\pango-sharp.pdb
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\atk-sharp.pdb
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\obj\Debug\NIRSconverter.csproj.CopyComplete
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\obj\Debug\NIRSconverter.exe
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\obj\Debug\NIRSconverter.pdb

@@ -1,18 +1,17 @@
-﻿using System;
-using System.IO;
+﻿using Gtk;
+using System;
 using System.Collections.Generic;
-using Gtk;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
-using System.Windows.Forms;
 
 namespace NIRSrecorder
 {
     public partial class RegisterSubjectDialog : Gtk.Dialog
     {
-        
-         
+
+
         public nirs.core.Probe probe;
         private nirs.Dictionary[] demo;
         private int device_previous;
@@ -21,8 +20,8 @@ namespace NIRSrecorder
         public RegisterSubjectDialog()
         {
 
-          
-  
+
+
             // Populate the investigator/study/subjid folders
             string rootfolder = MainClass.win.settings.DATADIR;
 
@@ -334,7 +333,7 @@ namespace NIRSrecorder
 
         protected void RegisterCancel(object sender, EventArgs e)
         {
-            
+
             Dispose();
             Destroy();
         }

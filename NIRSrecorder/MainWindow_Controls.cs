@@ -1,12 +1,11 @@
-﻿using System;
-using Gtk;
+﻿using Gtk;
 using NIRSrecorder;
-using System.Threading;
+using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Xml;
 using System.Linq;
-using System.Collections;
+using System.Reflection;
+using System.Threading;
+using System.Xml;
 
 public partial class MainWindow : Window
 {
@@ -61,9 +60,9 @@ public partial class MainWindow : Window
     {
         NIRSrecorder.RegisterSubjectDialog registerSubjectDialog = new RegisterSubjectDialog();
         registerSubjectDialog.Run();
-    //    RegisterSubject registerSubject = new RegisterSubject();
-    //    registerSubject.Show();
-     //   Application.Run();
+        //    RegisterSubject registerSubject = new RegisterSubject();
+        //    registerSubject.Show();
+        //   Application.Run();
 
     }
 
@@ -90,8 +89,8 @@ public partial class MainWindow : Window
         NIRSrecorder.AboutDialog aboutDialog = new NIRSrecorder.AboutDialog();
         aboutDialog.Run();
         // HelpDLG dlg = new HelpDLG();
-       // dlg.Show();
-       // Application.Run();
+        // dlg.Show();
+        // Application.Run();
     }
 
 
@@ -257,7 +256,7 @@ public partial class MainWindow : Window
         }
 
 
-        #if ADDLSL
+#if ADDLSL
         MainClass.win.dataLSL = new LSL.liblsl.StreamOutlet[MainClass.devices.Length];
         for (int ii = 0; ii < MainClass.devices.Length; ii++)
         {
@@ -267,7 +266,7 @@ public partial class MainWindow : Window
                 (double)fs, LSL.liblsl.channel_format_t.cf_int32);
             MainClass.win.dataLSL[ii] = new LSL.liblsl.StreamOutlet(info);
         }
-        #endif
+#endif
 
         comboboxdeviceDemo.Active = 0;
 
@@ -293,7 +292,7 @@ public partial class MainWindow : Window
         double time = nirsdata[0].time[nirsdata[0].time.Count - 1];
         string condname = comboboxentry_stimtype.ActiveText;
 
-        #if ADDLSL
+#if ADDLSL
         if (checkbutton_LSLStimOutlet.Active)
         {
             string[] stim = new string[2];
@@ -302,7 +301,7 @@ public partial class MainWindow : Window
 
             stimulusLSL.push_sample(stim);
         }
-        #endif
+#endif
 
         int index = 0;
         bool found = false;
@@ -383,7 +382,7 @@ public partial class MainWindow : Window
                     ev.amplitude.Add(1);
                     ev.duration.Add(999);
 
-                    #if ADDLSL
+#if ADDLSL
                     if (checkbutton_LSLStimOutlet.Active)
                     {
                         string[] stim = new string[2];
@@ -392,7 +391,7 @@ public partial class MainWindow : Window
 
                         stimulusLSL.push_sample(stim);
                     }
-                    #endif
+#endif
 
                     label_numstim.Text = string.Format("Marks: {0}", ev.amplitude.Count);
                 }
@@ -404,7 +403,7 @@ public partial class MainWindow : Window
                         ev.duration[ev.duration.Count - 1], ev.amplitude[ev.amplitude.Count - 1]);
 
 
-                    #if ADDLSL
+#if ADDLSL
                     if (checkbutton_LSLStimOutlet.Active)
                     {
                         string[] stim = new string[2];
@@ -413,7 +412,7 @@ public partial class MainWindow : Window
 
                         stimulusLSL.push_sample(stim);
                     }
-                    #endif
+#endif
 
                 }
                 nirsdata[0].stimulus[i] = ev;
@@ -449,7 +448,7 @@ public partial class MainWindow : Window
 
     private void EditStimName(object sender, Gtk.EditedArgs args)
     {
-        EditStimTable(sender,args,"name");
+        EditStimTable(sender, args, "name");
     }
     private void EditStimOnset(object sender, Gtk.EditedArgs args)
     {
@@ -485,24 +484,24 @@ public partial class MainWindow : Window
 
         if (type.Equals("name"))
         {
-            name=args.NewText;
+            name = args.NewText;
         }
         else if (type.Equals("onset"))
         {
-            onset=Convert.ToDouble(args.NewText);
+            onset = Convert.ToDouble(args.NewText);
         }
         else if (type.Equals("dur"))
         {
-            dur=Convert.ToDouble(args.NewText);
+            dur = Convert.ToDouble(args.NewText);
         }
         else if (type.Equals("amp"))
         {
-           amp=Convert.ToDouble(args.NewText);
+            amp = Convert.ToDouble(args.NewText);
         }
         _handles.stimListStore.AppendValues(name, onset, dur, amp);
         _handles.stimListStore.SetSortColumnId(1, SortType.Ascending);
 
-       nirs.Stimulus ev;
+        nirs.Stimulus ev;
         nirs.Stimulus ev2 = new nirs.Stimulus(); ;
         for (int i = 0; i < nirsdata[0].stimulus.Count; i++)
         {
@@ -602,7 +601,7 @@ public partial class MainWindow : Window
             {
                 nirs.core.Data[] datas = nirs.io.readSNIRF(result);
                 nirsdata.Add(datas[0]);
-                
+
             }
             for (int i = 0; i < nirsdata[0].probe.ChannelMap.Length; i++)
             {

@@ -6,7 +6,7 @@ namespace nirs
     {
         TwoDimensional = 1,
         TenTwenty = 2
-      //  ThreeDimensional = 3   // TODO not implimented yet
+        //  ThreeDimensional = 3   // TODO not implimented yet
     }
 
     public struct ROI
@@ -23,7 +23,8 @@ namespace nirs
         StimVector = 1
     }
 
-    public struct ChannelMap{
+    public struct ChannelMap
+    {
         public datatype datatype;
         public int sourceindex;  // number of the Source Optode
         public int detectorindex; // number of the Detector Optode
@@ -37,7 +38,8 @@ namespace nirs
         public int? moduleIndex;
     }
 
-    public struct Stimulus{
+    public struct Stimulus
+    {
         public stimtypes type;
         public string name;
         public List<double> onsets;   // if event, then holds descret start times/ else sample times
@@ -46,7 +48,8 @@ namespace nirs
         public List<string> metadatalabels;
     }
 
-    public struct auxillary{
+    public struct auxillary
+    {
         public string name;
         public double[] time;
         public double[] data;
@@ -54,7 +57,7 @@ namespace nirs
     }
 
 
-    
+
 
     public class Dictionary
     {
@@ -90,7 +93,8 @@ namespace nirs
                 Values[index] = value;
             }
         }
-        public int length(){
+        public int length()
+        {
             return Values.Count;
         }
 

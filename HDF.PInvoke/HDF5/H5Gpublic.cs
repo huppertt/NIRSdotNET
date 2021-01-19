@@ -13,7 +13,6 @@
  * access to either file, you may request a copy from help@hdfgroup.org.     *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
@@ -22,8 +21,6 @@ using System.Text;
 using hbool_t = System.UInt32;
 using herr_t = System.Int32;
 using hsize_t = System.UInt64;
-
-using size_t = System.IntPtr;
 using ssize_t = System.IntPtr;
 
 #if HDF5_VER1_10
@@ -342,7 +339,7 @@ namespace HDF.PInvoke
         CallingConvention = CallingConvention.Cdecl,
         CharSet = CharSet.Ansi),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
-        public extern static herr_t get_num_objs(hid_t group_id,ref hsize_t nobj);
+        public extern static herr_t get_num_objs(hid_t group_id, ref hsize_t nobj);
 
 
         [DllImport(Constants.DLLFileName, EntryPoint = "H5Gget_objname_by_idx",
@@ -359,7 +356,7 @@ namespace HDF.PInvoke
         public extern static int get_objtype_by_idx(hid_t group_id, hsize_t idx);
 
 
-        
+
 
     }
 }

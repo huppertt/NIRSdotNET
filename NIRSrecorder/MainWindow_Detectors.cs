@@ -1,12 +1,6 @@
-﻿using System;
-using Gtk;
+﻿using Gtk;
 using NIRSrecorder;
-using System.Threading;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Xml;
-using MathNet.Filtering;
-using System.Linq;
+using System;
 
 public partial class MainWindow : Window
 {

@@ -19,7 +19,6 @@ using System.Security;
 using System.Text;
 
 using herr_t = System.Int32;
-using hsize_t = System.UInt64;
 using size_t = System.IntPtr;
 
 using ssize_t = System.IntPtr;
@@ -127,7 +126,7 @@ namespace HDF.PInvoke
         public delegate herr_t walk_t
         (
         uint n,
-        [In]ref error_t err_desc,
+        [In] ref error_t err_desc,
         IntPtr client_data
         );
 
@@ -214,7 +213,7 @@ namespace HDF.PInvoke
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern hid_t create_msg
             (hid_t cls, type_t msg_type,
-            [MarshalAs(UnmanagedType.LPStr)]string msg);
+            [MarshalAs(UnmanagedType.LPStr)] string msg);
 
         /// <summary>
         /// Creates a new empty error stack.
@@ -261,7 +260,7 @@ namespace HDF.PInvoke
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern ssize_t get_class_name(
-            hid_t class_id, [In][Out]StringBuilder name, size_t size);
+            hid_t class_id, [In][Out] StringBuilder name, size_t size);
 
         /// <summary>
         /// Returns copy of current error stack.
@@ -289,7 +288,7 @@ namespace HDF.PInvoke
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern ssize_t get_msg(
-            hid_t msg_id, ref type_t msg_type, [In][Out]StringBuilder msg, size_t size);
+            hid_t msg_id, ref type_t msg_type, [In][Out] StringBuilder msg, size_t size);
 
         /// <summary>
         /// Retrieves the number of error messages in an error stack.
@@ -375,9 +374,9 @@ namespace HDF.PInvoke
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern hid_t register_class
-            ([MarshalAs(UnmanagedType.LPStr)]string cls_name,
-            [MarshalAs(UnmanagedType.LPStr)]string lib_name,
-            [MarshalAs(UnmanagedType.LPStr)]string version);
+            ([MarshalAs(UnmanagedType.LPStr)] string cls_name,
+            [MarshalAs(UnmanagedType.LPStr)] string lib_name,
+            [MarshalAs(UnmanagedType.LPStr)] string version);
 
         /// <summary>
         /// Turns automatic error printing on or off.

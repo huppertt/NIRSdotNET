@@ -1,6 +1,5 @@
-﻿using System;
-using System.IO.Ports;
-using NIRSDAQ;
+﻿using NIRSDAQ;
+using System;
 using System.Collections.Generic;
 
 namespace NIRSrecorder
@@ -19,18 +18,18 @@ namespace NIRSrecorder
 
             Gtk.ListStore ClearList = new Gtk.ListStore(typeof(string));
             combobox_selectSerial.Model = ClearList;
-             foreach (string s in ports)
-                {
-                   combobox_selectSerial.AppendText(s);
-                }
-                combobox_selectSerial.Active = 0;
+            foreach (string s in ports)
+            {
+                combobox_selectSerial.AppendText(s);
+            }
+            combobox_selectSerial.Active = 0;
 
             if (!MainClass.win.settings.DEBUG)
             {
                 frame_debug.Destroy();
             }
 
-         
+
         }
 
         protected void ClickedTestCOM(object sender, EventArgs e)
@@ -41,7 +40,8 @@ namespace NIRSrecorder
             if (status)
             {
                 textview_Debug.Buffer.Text += "\nOpened Port";
-            }else
+            }
+            else
             {
                 textview_Debug.Buffer.Text += "\nError.  Unable to open port";
             }
@@ -51,7 +51,7 @@ namespace NIRSrecorder
 
         }
 
-      
+
 
 
         protected void EditComboChanged(object sender, EventArgs e)
@@ -59,7 +59,7 @@ namespace NIRSrecorder
             device.FlushBuffer();
 
             string cmd = comboboxentry_debug.ActiveText;
-            if(cmd.Contains("Lasers All On"))
+            if (cmd.Contains("Lasers All On"))
             {
                 device.AllOn();
             }
@@ -69,7 +69,7 @@ namespace NIRSrecorder
             }
             else if (cmd.Contains("Laser 1 On"))
             {
-                device.SetLaserState(0,true);
+                device.SetLaserState(0, true);
                 device.SetLaserState(1, true);
             }
             else if (cmd.Contains("Laser 1 Off"))
@@ -119,7 +119,7 @@ namespace NIRSrecorder
             {
                 textview_Debug.Buffer.Text += "\n" + msg;
             }
-            
+
 
 
 

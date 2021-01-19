@@ -1,11 +1,10 @@
-﻿using System;
-using Gtk;
+﻿using Gtk;
 using NIRSrecorder;
-using System.Threading;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading;
 using System.Xml;
-using LSL;
 
 
 public partial class MainWindow : Window
@@ -29,11 +28,11 @@ public partial class MainWindow : Window
         MainClass.obj_Splash.ShowNow();
 
 #if !ADDLSL
-            checkbutton_LSLStimInlet.Sensitive = false;
-            checkbutton_LSLStimOutlet.Sensitive = false;
-            combobox_LSLOutType.Sensitive = false;
-            combobox_selectLSLStimInlet.Sensitive = false;
-            textview_LSLIn.Sensitive = false;
+        checkbutton_LSLStimInlet.Sensitive = false;
+        checkbutton_LSLStimOutlet.Sensitive = false;
+        combobox_LSLOutType.Sensitive = false;
+        combobox_selectLSLStimInlet.Sensitive = false;
+        textview_LSLIn.Sensitive = false;
 #endif
 
 #if !AllowHDF5
@@ -473,7 +472,7 @@ public partial class MainWindow : Window
             combobox_device1.AppendText(MainClass.devices[i].devicename);
             combobox_device2.AppendText(MainClass.devices[i].devicename);
             comboboxdeviceDemo.AppendText(MainClass.devices[i].devicename);
-           
+
         }
 
         combobox_device1.Active = 0;
@@ -826,7 +825,7 @@ public partial class MainWindow : Window
             return;
         }
 
-        if (nirsdata == null || nirsdata.Count<dID+1)
+        if (nirsdata == null || nirsdata.Count < dID + 1)
         {
             return;
         }
@@ -945,10 +944,10 @@ public partial class MainWindow : Window
 
         }
 
-   
+
     }
 
-  
+
 }
 
 

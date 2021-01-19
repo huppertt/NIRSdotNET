@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace LSL
 {
 
-     /// <summary>
+    /// <summary>
     /// C# API for the lab streaming layer.
     /// 
     /// The lab streaming layer provides a set of functions to make instrument data accessible 

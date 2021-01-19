@@ -1,12 +1,12 @@
-﻿using System;
-using Gtk;
-using NIRSrecorder;
-using System.Threading;
-using System.Collections.Generic;
+﻿using Gtk;
 using MathNet.Filtering;
 using MathNet.Numerics.IntegralTransforms;
-using System.IO;
+using NIRSrecorder;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Threading;
 
 public partial class MainWindow : Window
 {
@@ -28,7 +28,7 @@ public partial class MainWindow : Window
             nirsdata[i].stimulus = nirsdata[0].stimulus;
         }
 
-      
+
         realtimeEngine = new RealtimeEngine();
 
         // Reset the stimulus information
@@ -99,9 +99,9 @@ public partial class MainWindow : Window
             }
             colorbutton1.Color = new Gdk.Color(128, 128, 128);
 
-            SaveDataNow(0,2147483647);
+            SaveDataNow(0, 2147483647);
 
- 
+
 
             if (checkbuttonSaveTemp.Active)
             {
@@ -122,7 +122,7 @@ public partial class MainWindow : Window
         }
         else
         {
-            now=DateTime.Now;
+            now = DateTime.Now;
             lastscantime = now;
         }
 
@@ -169,7 +169,7 @@ public partial class MainWindow : Window
             if (SaveNirsFormatAction.Active)
             {
                 string filename = System.IO.Path.Combine(pathname, string.Format("{0}.nirs", file));
-                nirs.io.writeDOTnirs(nirsdata[i], filename,startIdx,endIdx);
+                nirs.io.writeDOTnirs(nirsdata[i], filename, startIdx, endIdx);
                 _handles.dataListStore.AppendValues(string.Format("{0}.nirs", file), "  ");
                 DebugMessage(string.Format("Saving file {0}", filename));
             }
@@ -219,95 +219,99 @@ public partial class MainWindow : Window
 
     protected void UpdateSCI()
     {
-        int nFFT = 32;
-        while (maindisplaythread.IsAlive)
+        try // We had put this in earlier today.  Not sure why it went away??
         {
-            Thread.Sleep(3000);  // update rate (default 500ms)
-
-            for(int i=0; i<nirsdata.Count; i++)
+            int nFFT = 32;
+            while (maindisplaythread.IsAlive)
             {
+                Thread.Sleep(10000);  // update rate (default 500ms)
 
-                if (nirsdata[i].data[0].Count > nFFT+5)
+                for (int i = 0; i < nirsdata.Count; i++)
                 {
-                    double fs = MainClass.devices[i].GetSampleRate();
-                    double[] SCI = new double[realtimeEngine.mBLLmappings[i].distances.Length];
 
-                    for (int ch = 0; ch < realtimeEngine.mBLLmappings[i].distances.Length; ch++)
+                    if (nirsdata[i].data[0].Count > nFFT + 5)
                     {
-                        MathNet.Numerics.Complex32[] w1 = new MathNet.Numerics.Complex32[nFFT];
-                        MathNet.Numerics.Complex32[] w2 = new MathNet.Numerics.Complex32[nFFT];
-                        int ntps = nirsdata[i].data[realtimeEngine.mBLLmappings[i].measurementPairs[ch][0]].Count-1;
-                        double a = 0;
-                        double b = 0;
-                        int cc = 0;
-                        for (int tpt = ntps - nFFT; tpt < ntps; tpt++)
+                        double fs = MainClass.devices[i].GetSampleRate();
+                        double[] SCI = new double[realtimeEngine.mBLLmappings[i].distances.Length];
+
+                        for (int ch = 0; ch < realtimeEngine.mBLLmappings[i].distances.Length; ch++)
                         {
-                            w1[cc] = new MathNet.Numerics.Complex32((float)nirsdata[i].data[realtimeEngine.mBLLmappings[i].measurementPairs[ch][0]][tpt], 0f);
-                            w2[cc] = new MathNet.Numerics.Complex32((float)nirsdata[i].data[realtimeEngine.mBLLmappings[i].measurementPairs[ch][1]][tpt], 0f);
-                            a += nirsdata[i].data[realtimeEngine.mBLLmappings[i].measurementPairs[ch][0]][tpt] * nirsdata[i].data[realtimeEngine.mBLLmappings[i].measurementPairs[ch][0]][tpt];
-                            b += nirsdata[i].data[realtimeEngine.mBLLmappings[i].measurementPairs[ch][1]][tpt] * nirsdata[i].data[realtimeEngine.mBLLmappings[i].measurementPairs[ch][1]][tpt];
-                            cc++;
-                        }
-                        Fourier.Forward(w1);
-                        Fourier.Forward(w2);
-                        cc = 0;
-                        for (double ii = -fs / 2; ii < fs / 2; ii += fs / nFFT)
-                        {
-                            if (Math.Abs(ii) < 0.5 | Math.Abs(ii) > 2)
+                            MathNet.Numerics.Complex32[] w1 = new MathNet.Numerics.Complex32[nFFT];
+                            MathNet.Numerics.Complex32[] w2 = new MathNet.Numerics.Complex32[nFFT];
+                            int ntps = nirsdata[i].data[realtimeEngine.mBLLmappings[i].measurementPairs[ch][0]].Count - 1;
+                            double a = 0;
+                            double b = 0;
+                            int cc = 0;
+                            for (int tpt = ntps - nFFT; tpt < ntps; tpt++)
                             {
-                                w1[cc] = new MathNet.Numerics.Complex32(0f, w1[cc].Imaginary);
-                                w2[cc] = new MathNet.Numerics.Complex32(0f, w2[cc].Imaginary);
-
+                                w1[cc] = new MathNet.Numerics.Complex32((float)nirsdata[i].data[realtimeEngine.mBLLmappings[i].measurementPairs[ch][0]][tpt], 0f);
+                                w2[cc] = new MathNet.Numerics.Complex32((float)nirsdata[i].data[realtimeEngine.mBLLmappings[i].measurementPairs[ch][1]][tpt], 0f);
+                                a += nirsdata[i].data[realtimeEngine.mBLLmappings[i].measurementPairs[ch][0]][tpt] * nirsdata[i].data[realtimeEngine.mBLLmappings[i].measurementPairs[ch][0]][tpt];
+                                b += nirsdata[i].data[realtimeEngine.mBLLmappings[i].measurementPairs[ch][1]][tpt] * nirsdata[i].data[realtimeEngine.mBLLmappings[i].measurementPairs[ch][1]][tpt];
+                                cc++;
                             }
-                            w1[cc] = w1[cc] * w2[cc].Conjugate();
-                        }
-                        Fourier.Inverse(w1);
-                        SCI[ch] = w1[(int)Math.Round((double)nFFT / 2)].Real / Math.Sqrt(a * b);
+                            Fourier.Forward(w1);
+                            Fourier.Forward(w2);
+                            cc = 0;
+                            for (double ii = -fs / 2; ii < fs / 2; ii += fs / nFFT)
+                            {
+                                if (Math.Abs(ii) < 0.5 | Math.Abs(ii) > 2)
+                                {
+                                    w1[cc] = new MathNet.Numerics.Complex32(0f, w1[cc].Imaginary);
+                                    w2[cc] = new MathNet.Numerics.Complex32(0f, w2[cc].Imaginary);
 
-                    }
+                                }
+                                w1[cc] = w1[cc] * w2[cc].Conjugate();
+                            }
+                            Fourier.Inverse(w1);
+                            SCI[ch] = w1[(int)Math.Round((double)nFFT / 2)].Real / Math.Sqrt(a * b);
 
-                    double[] avgDetVal = new double[nirsdata[i].probe.numDet];
-                    int[] cnt = new int[nirsdata[i].probe.numDet];
-                    for (int ch = 0; ch < nirsdata[i].probe.numDet; ch++)
-                    {
-                        cnt[ch] = 0;
-                        avgDetVal[ch] = 0;
-                    }
-                    for (int ch = 0; ch < nirsdata[i].probe.numChannels / nirsdata[i].probe.numWavelengths; ch++)
-                    {
-                        int dIDx = nirsdata[i].probe.ChannelMap[ch].detectorindex;
-                        cnt[dIDx]++;
-                        avgDetVal[dIDx] += SCI[ch];
-                    }
-                    for (int ch = 0; ch < nirsdata[i].probe.numDet; ch++)
-                    {
-                        Gdk.Color col;
-                        if (SCI[ch] < .3)
-                        {
-                            col = new Gdk.Color(255, 0, 0);
-                        }
-                        else if (SCI[ch] < .6)
-                        {
-                            col = new Gdk.Color(255, 255, 0);
-                        }else 
-                        {
-                            col = new Gdk.Color(0,255,0);
                         }
 
-                        MainClass.win._handles.detectors[ch].led.Color = col;
+                        double[] avgDetVal = new double[nirsdata[i].probe.numDet];
+                        int[] cnt = new int[nirsdata[i].probe.numDet];
+                        for (int ch = 0; ch < nirsdata[i].probe.numDet; ch++)
+                        {
+                            cnt[ch] = 0;
+                            avgDetVal[ch] = 0;
+                        }
+                        for (int ch = 0; ch < nirsdata[i].probe.numChannels / nirsdata[i].probe.numWavelengths; ch++)
+                        {
+                            int dIDx = nirsdata[i].probe.ChannelMap[ch].detectorindex;
+                            cnt[dIDx]++;
+                            avgDetVal[dIDx] += SCI[ch];
+                        }
+                        for (int ch = 0; ch < nirsdata[i].probe.numDet; ch++)
+                        {
+                            Gdk.Color col;
+                            if (SCI[ch] < .3)
+                            {
+                                col = new Gdk.Color(255, 0, 0);
+                            }
+                            else if (SCI[ch] < .6)
+                            {
+                                col = new Gdk.Color(255, 255, 0);
+                            }
+                            else
+                            {
+                                col = new Gdk.Color(0, 255, 0);
+                            }
+
+                            MainClass.win._handles.detectors[ch].led.Color = col;
+
+
+                        }
+
 
 
                     }
-
-
 
                 }
 
+
             }
-
-
-
         }
+        catch { }
     }
 
     protected void CheckBattery()
@@ -490,8 +494,8 @@ public partial class MainWindow : Window
             fs[i] = info.sample_rate;
         }
 
-        double hpf=0.016;
-        double lpf=0.5;
+        double hpf = 0.016;
+        double lpf = 0.5;
 
         try
         {
@@ -514,17 +518,17 @@ public partial class MainWindow : Window
             if (hpf < 0)
             {
                 hpf = 0;
-                MainClass.win._handles.editHPF.Text = string.Format("{0}",0);
+                MainClass.win._handles.editHPF.Text = string.Format("{0}", 0);
             }
             if (hpf > lpf)
             {
-                hpf = lpf/2;
+                hpf = lpf / 2;
                 MainClass.win._handles.editHPF.Text = string.Format("{0}", hpf);
             }
         }
         catch
         {
-            MainClass.win._handles.editHPF.Text = string.Format("{0}",0.016);
+            MainClass.win._handles.editHPF.Text = string.Format("{0}", 0.016);
             hpf = 0.016;
         }
 

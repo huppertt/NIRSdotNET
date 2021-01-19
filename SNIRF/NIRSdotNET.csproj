@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\NuGet.Build.Packaging.0.2.5-dev.8\build\NuGet.Build.Packaging.props" Condition="Exists('..\packages\NuGet.Build.Packaging.0.2.5-dev.8\build\NuGet.Build.Packaging.props')" />
   <PropertyGroup>
@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>SNIRF</RootNamespace>
     <AssemblyName>SNIRF</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <ReleaseVersion>1.0</ReleaseVersion>
     <PackageVersion>0.0.0.1</PackageVersion>
     <Authors>Theodore Huppert</Authors>
@@ -19,6 +19,7 @@
     <Description>This is a specialized scientific toolset for import/export and visualization of functional near-infrared spectroscopy (fNIRS) brain imaging</Description>
     <PackageProjectUrl>www.github.com/huppertt/NIRSdotNET</PackageProjectUrl>
     <PackageId>NIRSdotNET</PackageId>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,6 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -39,7 +41,8 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
     <StartAction>Project</StartAction>
-    <TargetRuntimeId></TargetRuntimeId>
+    <TargetRuntimeId>
+    </TargetRuntimeId>
     <MonoArchitecture>Default</MonoArchitecture>
   </PropertyGroup>
   <ItemGroup>
@@ -99,7 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HDF.PInvoke\HDF.PInvoke.csproj">
-      <Project>{4450F800-93E2-4D4A-B224-966E2338CDED}</Project>
+      <Project>{4450f800-93e2-4d4a-b224-966e2338cded}</Project>
       <Name>HDF.PInvoke</Name>
     </ProjectReference>
   </ItemGroup>

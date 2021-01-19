@@ -17,8 +17,6 @@ using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
-
-using haddr_t = System.UInt64;
 using hbool_t = System.UInt32;
 using herr_t = System.Int32;
 using hsize_t = System.UInt64;
@@ -75,7 +73,7 @@ namespace HDF.PInvoke
         /* Define property list callback function pointer types */
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl,
-            CharSet=CharSet.Ansi)]
+            CharSet = CharSet.Ansi)]
         public delegate herr_t prp_cb1_t
         (string name, size_t size, IntPtr value);
 
@@ -369,7 +367,7 @@ namespace HDF.PInvoke
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern herr_t get_append_flush
             (hid_t dapl_id, uint ndims,
-            [In][Out]hsize_t[] boundary,
+            [In][Out] hsize_t[] boundary,
             ref H5D.append_cb_t func, ref IntPtr udata);
 
 #endif
@@ -495,7 +493,7 @@ namespace HDF.PInvoke
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern int get_chunk
-            (hid_t plist_id, int max_ndims, [In][Out]hsize_t[] dims);
+            (hid_t plist_id, int max_ndims, [In][Out] hsize_t[] dims);
 
         /// <summary>
         /// Retrieves the raw data chunk cache parameters.
@@ -636,7 +634,7 @@ namespace HDF.PInvoke
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern ssize_t get_data_transform
-            (hid_t plist_id, [In][Out]StringBuilder expression, size_t size);
+            (hid_t plist_id, [In][Out] StringBuilder expression, size_t size);
 
 #if HDF5_VER1_10
         /// <summary>
@@ -713,7 +711,7 @@ namespace HDF.PInvoke
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern ssize_t get_efile_prefix
-            (hid_t dapl, [In][Out]byte[] prefix, size_t size);
+            (hid_t dapl, [In][Out] byte[] prefix, size_t size);
 
         /// <summary>
         /// Retrieves the external link traversal file access flag from the
@@ -831,7 +829,7 @@ namespace HDF.PInvoke
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern herr_t get_external
-            (hid_t plist, uint idx, size_t name_size, [In][Out]byte[] name,
+            (hid_t plist, uint idx, size_t name_size, [In][Out] byte[] name,
             ref off_t offset, ref hsize_t size);
 
         /// <summary>
@@ -1080,7 +1078,7 @@ namespace HDF.PInvoke
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern H5Z.filter_t get_filter
             (hid_t plist_id, uint idx, ref uint flags, ref size_t cd_nelmts,
-            uint[] cd_values, size_t namelen, [In][Out]byte[] name,
+            uint[] cd_values, size_t namelen, [In][Out] byte[] name,
             ref uint filter_config);
 
 
@@ -1107,7 +1105,7 @@ namespace HDF.PInvoke
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern H5Z.filter_t get_filter2(hid_t plist_id, uint filter, ref uint flags, ref hsize_t cd_nelmts, uint* cd_values, size_t namelen, string name, ref uint filter_config);
-        
+
 
         /// <summary>
         /// Returns information about the specified filter.
@@ -1132,8 +1130,8 @@ namespace HDF.PInvoke
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern herr_t get_filter_by_id
             (hid_t plist_id, H5Z.filter_t filter_id, ref uint flags,
-            ref size_t cd_nelmts, [In][Out]uint[] cd_values, size_t namelen,
-            [In][Out]byte[] name, ref uint filter_config);
+            ref size_t cd_nelmts, [In][Out] uint[] cd_values, size_t namelen,
+            [In][Out] byte[] name, ref uint filter_config);
 
         /// <summary>
         /// Returns garbage collecting references setting.
@@ -1298,7 +1296,7 @@ namespace HDF.PInvoke
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern herr_t get_mdc_config
             (hid_t plist_id, IntPtr config_ptr);
-  
+
 #if HDF5_VER1_10
 
         /// <summary>
@@ -1336,7 +1334,7 @@ namespace HDF.PInvoke
             CharSet = CharSet.Ansi),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern herr_t get_mdc_log_options
-            (hid_t fapl_id, ref hbool_t is_enabled, [In][Out]StringBuilder location,
+            (hid_t fapl_id, ref hbool_t is_enabled, [In][Out] StringBuilder location,
             ref size_t location_size, ref hbool_t start_on_access);
 
 #endif
@@ -1719,7 +1717,7 @@ namespace HDF.PInvoke
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern ssize_t get_virtual_dsetname
-            (hid_t dcpl_id, size_t index, [In][Out]StringBuilder name, size_t size);
+            (hid_t dcpl_id, size_t index, [In][Out] StringBuilder name, size_t size);
 
         /// <summary>
         /// Gets the filename of a source dataset used in the mapping.
@@ -1740,7 +1738,7 @@ namespace HDF.PInvoke
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern ssize_t get_virtual_filename
-            (hid_t dcpl_id, size_t index, [In][Out]StringBuilder name, size_t size);
+            (hid_t dcpl_id, size_t index, [In][Out] StringBuilder name, size_t size);
 
         /// <summary>
         /// Retrieves prefix applied to VDS source file paths
@@ -1757,7 +1755,7 @@ namespace HDF.PInvoke
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern ssize_t get_virtual_prefix
-            (hid_t dapl, [In][Out]StringBuilder prefix, size_t size);
+            (hid_t dapl, [In][Out] StringBuilder prefix, size_t size);
 
         /// <summary>
         /// Returns the maximum number of missing source files and/or datasets
@@ -2199,7 +2197,7 @@ namespace HDF.PInvoke
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern herr_t set_chunk
             (hid_t plist_id, int ndims,
-            [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)]hsize_t[] dims);
+            [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] hsize_t[] dims);
 
         /// <summary>
         /// Sets the size of the chunks used to store a chunked layout dataset.
@@ -2610,7 +2608,7 @@ namespace HDF.PInvoke
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern herr_t set_fapl_log
-            ( hid_t fapl_id, string logfile, UInt64 flags, size_t buf_size );
+            (hid_t fapl_id, string logfile, UInt64 flags, size_t buf_size);
 
         /// <summary>
         /// Modifies the file access property list to use the
@@ -2753,7 +2751,7 @@ namespace HDF.PInvoke
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern herr_t set_file_space_page_size
             (hid_t fcpl, hsize_t fsp_size);
-        
+
         /// <summary>
         /// Sets the file space handling strategy and persisting free-space
         /// values for a file creation property list.
@@ -3025,7 +3023,7 @@ namespace HDF.PInvoke
 
 #if HDF5_VER1_10
 
-         /// <summary>
+        /// <summary>
         /// Sets the metadata cache image option for a file access property list.
         /// See https://support.hdfgroup.org/HDF5/doc/RM/RM_H5P.html#Property-SetMDCImageConfig
         /// </summary>

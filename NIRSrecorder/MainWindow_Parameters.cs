@@ -1,11 +1,10 @@
 ﻿//#define C
-using System;
 using Gtk;
 using NIRSrecorder;
-using System.Threading;
+using System;
 using System.Collections.Generic;
-using LSL;
 using System.IO;
+using System.Threading;
 
 
 public partial class MainWindow : Window

@@ -15,7 +15,6 @@
 
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 
 #if HDF5_VER1_10
 using hid_t = System.Int64;
@@ -25,7 +24,7 @@ using hid_t = System.Int32;
 
 namespace HDF.PInvoke
 {
-    internal delegate T Converter<T>( IntPtr address );
+    internal delegate T Converter<T>(IntPtr address);
 
     /// <summary>
     /// Helper class used to fetch public variables (e.g. native type values)
@@ -41,22 +40,22 @@ namespace HDF.PInvoke
 
             switch (Environment.OSVersion.Platform)
             {
-            case PlatformID.Win32NT:
-            case PlatformID.Win32S:
-            case PlatformID.Win32Windows:
-            case PlatformID.WinCE:
+                case PlatformID.Win32NT:
+                case PlatformID.Win32S:
+                case PlatformID.Win32Windows:
+                case PlatformID.WinCE:
                     Instance = new H5WindowsDLLImporter(Constants.DLLFileName);
                     break;
-            case PlatformID.Xbox:
-            case PlatformID.MacOSX:
+                case PlatformID.Xbox:
+                case PlatformID.MacOSX:
                     Instance = new H5UnixDllImporter(Constants.DLLFileName);
                     break;
-            case PlatformID.Unix:
-                  //  Instance = new H5WindowsDLLImporter(Constants.DLLFileName);
+                case PlatformID.Unix:
+                    //  Instance = new H5WindowsDLLImporter(Constants.DLLFileName);
                     Instance = new H5UnixDllImporter(Constants.DLLFileName);
-                break;
-            default:
-                throw new NotImplementedException();;
+                    break;
+                default:
+                    throw new NotImplementedException(); ;
             }
         }
 
@@ -93,7 +92,7 @@ namespace HDF.PInvoke
 
         public unsafe hid_t GetHid(string varName)
         {
-            return *(hid_t*) this.GetAddress(varName);
+            return *(hid_t*)this.GetAddress(varName);
         }
     }
 
@@ -139,51 +138,55 @@ namespace HDF.PInvoke
     }
     #endregion
 
-	internal class H5UnixDllImporter : H5DLLImporter{
+    internal class H5UnixDllImporter : H5DLLImporter
+    {
 
-		[DllImport("libdl.dylib")]
-		protected static extern IntPtr dlopen(string filename, int flags);
+        [DllImport("libdl.dylib")]
+        protected static extern IntPtr dlopen(string filename, int flags);
 
-		[DllImport("libdl.dylib")]
-		protected static extern IntPtr dlsym(IntPtr handle, string symbol);
+        [DllImport("libdl.dylib")]
+        protected static extern IntPtr dlsym(IntPtr handle, string symbol);
 
-		    [DllImport("libdl.dylib")]
-		    protected static extern IntPtr dlerror ();
+        [DllImport("libdl.dylib")]
+        protected static extern IntPtr dlerror();
 
-            private IntPtr hLib;
+        private IntPtr hLib;
 
-            public H5UnixDllImporter(string libName)
+        public H5UnixDllImporter(string libName)
+        {
+            if (libName == "hdf5.dll")
             {
-	        if (libName == "hdf5.dll") {
-			    libName = "libhdf5.dylib";
+                libName = "libhdf5.dylib";
 
-		    }
-	    if (libName == "hdf5_hd.dll") {
-	    libName = "libhdf5_hl.dylib";
+            }
+            if (libName == "hdf5_hd.dll")
+            {
+                libName = "libhdf5_hl.dylib";
+            }
+
+
+
+            hLib = dlopen(libName, RTLD_NOW);
+            if (hLib == IntPtr.Zero)
+            {
+                throw new ArgumentException(
+                    String.Format(
+                        "Unable to load unmanaged module \"{0}\"",
+                        libName));
+            }
         }
-				
 
+        const int RTLD_NOW = 2; // for dlopen's flags
+        protected override IntPtr _GetAddress(string varName)
+        {
+            var address = dlsym(hLib, varName);
+            var errPtr = dlerror();
+            if (errPtr != IntPtr.Zero)
+            {
+                throw new Exception("dlsym: " + Marshal.PtrToStringAnsi(errPtr));
+            }
 
-			hLib = dlopen(libName, RTLD_NOW);
-			if (hLib==IntPtr.Zero)
-			{
-				throw new ArgumentException(
-					String.Format(
-						"Unable to load unmanaged module \"{0}\"",
-						libName));
-			}
+            return address;
         }
-
-		const int RTLD_NOW = 2; // for dlopen's flags
-		protected override IntPtr _GetAddress(string varName)
-		{
-			var address = dlsym(hLib, varName);
-			var errPtr = dlerror();
-			if(errPtr != IntPtr.Zero){
-				throw new Exception("dlsym: " + Marshal.PtrToStringAnsi(errPtr));
-			}
-
-			return address;
-		}
-	}
+    }
 }

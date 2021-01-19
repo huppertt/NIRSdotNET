@@ -1,7 +1,6 @@
-﻿using System;
-
-using csmatio.io;
+﻿using csmatio.io;
 using csmatio.types;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -30,20 +29,25 @@ namespace nirs
             System.IO.StreamReader file = new System.IO.StreamReader(filename + ".hdr");
             while ((line = file.ReadLine()) != null)
             {
-                if (line.Contains("=")) {
+                if (line.Contains("="))
+                {
                     int found = line.IndexOf("=", StringComparison.Ordinal);
                     hdrFields.Add(line.Substring(0, found));
                     string value = line.Substring(found + 1);
-                    if (value.Contains("#")) {
+                    if (value.Contains("#"))
+                    {
                         value = "";
-                        while ((line = file.ReadLine()) != null) {
-                            if (line.Contains("#")) {
+                        while ((line = file.ReadLine()) != null)
+                        {
+                            if (line.Contains("#"))
+                            {
                                 break;
                             }
                             value = value + "\r" + line;
                         }
                     }
-                    if (value.Contains("\"")) {
+                    if (value.Contains("\""))
+                    {
                         value = value.Substring(1, value.Length - 2);
                     }
                     hdrValues.Add(value);
@@ -55,8 +59,10 @@ namespace nirs
             string targetDirectory = Path.GetDirectoryName(filename + ".hdr");
             string[] fileEntries = Directory.GetFiles(targetDirectory);
             string probeFile = Path.Combine(targetDirectory, "Standard_probeInfo.mat");
-            foreach (string i in fileEntries) {
-                if (i.Contains("probeInfo.mat")) {
+            foreach (string i in fileEntries)
+            {
+                if (i.Contains("probeInfo.mat"))
+                {
                     probeFile = Path.Combine(targetDirectory, i);
                     break;
                 }
@@ -152,27 +158,34 @@ namespace nirs
             int LambdaIdx = hdrFields.IndexOf("Wavelengths");
             string[] lam = hdrValues[LambdaIdx].Split('\t');
             double[] lambda = new double[lam.Length];
-            for (int i = 0; i < lam.Length; i++) {
+            for (int i = 0; i < lam.Length; i++)
+            {
                 lambda[i] = Convert.ToDouble(lam[i]);
             }
 
             int SDmaskIdx = hdrFields.IndexOf("S-D-Mask");
             string[] mask = hdrValues[SDmaskIdx].Split('\r');
             bool[,] SDMask = new bool[data.probe.numSrc, data.probe.numDet];
-            for (int i = 1; i < data.probe.numSrc + 1; i++) {
+            for (int i = 1; i < data.probe.numSrc + 1; i++)
+            {
                 string[] mask2 = mask[i].Split('\t');
-                for (int j = 0; j < data.probe.numDet; j++) {
+                for (int j = 0; j < data.probe.numDet; j++)
+                {
                     SDMask[i - 1, j] = false;
-                    if (mask2[j].Contains("1")) {
+                    if (mask2[j].Contains("1"))
+                    {
                         SDMask[i - 1, j] = true;
                     }
                 }
             }
 
             int cnt = 0;
-            for (int i = 0; i < SDMask.GetLength(0); i++) {
-                for (int j = 0; j < SDMask.GetLength(1); j++) {
-                    if (SDMask[i, j]) {
+            for (int i = 0; i < SDMask.GetLength(0); i++)
+            {
+                for (int j = 0; j < SDMask.GetLength(1); j++)
+                {
+                    if (SDMask[i, j])
+                    {
                         cnt++;
                     }
                 }
@@ -229,13 +242,15 @@ namespace nirs
             string lines = file2.ReadToEnd();
             string[] tpts = lines.Split('\r');
             data.data = new List<double>[data.probe.numChannels];
-            for(int i=0; i<data.data.Length; i++)
+            for (int i = 0; i < data.data.Length; i++)
             {
                 data.data[i] = new List<double>();
             }
-            for (int i = 0; i < tpts.Length-1; i++){
-                if(tpts[i].Contains("\n")){
-                    tpts[i] = tpts[i].Substring(1, tpts[i].Length-1);
+            for (int i = 0; i < tpts.Length - 1; i++)
+            {
+                if (tpts[i].Contains("\n"))
+                {
+                    tpts[i] = tpts[i].Substring(1, tpts[i].Length - 1);
                 }
                 string[] pts = tpts[i].Split(' ');
                 for (int j = 0; j < ChanIdx.Count; j++)
@@ -246,16 +261,16 @@ namespace nirs
             file2 = new System.IO.StreamReader(filename + ".wl2");
             lines = file2.ReadToEnd();
             tpts = lines.Split('\r');
-             for (int i = 0; i < tpts.Length-1; i++)
+            for (int i = 0; i < tpts.Length - 1; i++)
             {
                 if (tpts[i].Contains("\n"))
                 {
-                    tpts[i] = tpts[i].Substring(1, tpts[i].Length-1);
+                    tpts[i] = tpts[i].Substring(1, tpts[i].Length - 1);
                 }
                 string[] pts = tpts[i].Split(' ');
                 for (int j = 0; j < ChanIdx.Count; j++)
                 {
-                    data.data[j+ data.probe.numChannels/2].Add(Convert.ToDouble(pts[ChanIdx[j]]));
+                    data.data[j + data.probe.numChannels / 2].Add(Convert.ToDouble(pts[ChanIdx[j]]));
                 }
             }
 
@@ -266,48 +281,55 @@ namespace nirs
 
             data.numsamples = data.data.GetLength(1);
             data.time = new List<double>();
-            for (int i = 0; i < data.numsamples; i++){
-                data.time.Add( i/fs);
+            for (int i = 0; i < data.numsamples; i++)
+            {
+                data.time.Add(i / fs);
             }
 
 
             // TODO add stimulus information
             int EventIdx = hdrFields.IndexOf("Events");
             string[] eventline = hdrValues[EventIdx].Split('\r');
-            double[,] events = new double[eventline.Length-1,3];
+            double[,] events = new double[eventline.Length - 1, 3];
 
             for (int i = 1; i < eventline.Length; i++)
             {
                 string[] eventline2 = eventline[i].Split('\t');
-                for (int j = 0; j < 2; j++){
-                    events[i-1, j] = Convert.ToDouble(eventline2[j]);
+                for (int j = 0; j < 2; j++)
+                {
+                    events[i - 1, j] = Convert.ToDouble(eventline2[j]);
                 }
             }
             List<double> uniqEvents = new List<double>();
             int[] uniqEventCount = new int[events.GetLength(0)];
-            for (int i = 0; i < events.GetLength(0); i++){
+            for (int i = 0; i < events.GetLength(0); i++)
+            {
                 uniqEventCount[i] = 0;
-                if (!uniqEvents.Contains(events[i,1])){
+                if (!uniqEvents.Contains(events[i, 1]))
+                {
                     uniqEvents.Add(events[i, 1]);
-                   
+
                 }
                 int ii = uniqEvents.IndexOf(events[i, 1]);
                 uniqEventCount[ii]++;
             }
 
             data.stimulus = new List<Stimulus>();
-            for (int i = 0; i < uniqEvents.Count; i++){
+            for (int i = 0; i < uniqEvents.Count; i++)
+            {
                 Stimulus stimulus = new Stimulus();
-                
+
                 stimulus.name = String.Format("Event-{0}", uniqEvents[i]);
                 stimulus.onsets = new List<double>();
                 stimulus.duration = new List<double>();
                 stimulus.amplitude = new List<double>();
 
                 int n = 0;
-                for (int j = 0; j < events.GetLength(0); j++){
-                    if(Math.Abs(events[j,1]-uniqEvents[i])<0.0001){
-                        stimulus.onsets.Add( events[j, 0]);
+                for (int j = 0; j < events.GetLength(0); j++)
+                {
+                    if (Math.Abs(events[j, 1] - uniqEvents[i]) < 0.0001)
+                    {
+                        stimulus.onsets.Add(events[j, 0]);
                         stimulus.duration.Add(1);
                         stimulus.amplitude.Add(1);
                         n++;
@@ -325,9 +347,11 @@ namespace nirs
             "Subject","notes","FileName","Date","Device","Source",
                 "Mod","APD","NIRStar","Mod Amp"};
 
-            for (int i = 0; i < Fields.Count; i++){
+            for (int i = 0; i < Fields.Count; i++)
+            {
                 int idx = hdrFields.IndexOf(Fields[i]);
-                if(idx>-1){
+                if (idx > -1)
+                {
                     data.demographics.set(Fields[i], hdrValues[idx]);
                 }
             }

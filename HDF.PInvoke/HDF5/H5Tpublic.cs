@@ -414,7 +414,7 @@ namespace HDF.PInvoke
             DESCEND = 2
         }
 
-        
+
         /// <summary>
         /// The return value from conversion callback function
         /// conv_except_func_t
@@ -456,13 +456,13 @@ namespace HDF.PInvoke
         /// Indicate that a string is variable length (null-terminated in C,
         /// instead of fixed length)
         /// </summary>
-        public static readonly IntPtr VARIABLE = new IntPtr(-1); 
-        
+        public static readonly IntPtr VARIABLE = new IntPtr(-1);
+
         /// <summary>
         /// Maximum length of an opaque tag
         /// </summary>
         public const int OPAQUE_TAG_MAX = 256;
-      
+
         /// <summary>
         /// Exception handler.  If an exception like overflow happenes during
         /// conversion, this function is called if it's registered through
@@ -501,7 +501,7 @@ namespace HDF.PInvoke
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern hid_t array_create
             (hid_t base_type_id, uint rank,
-            [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)]hsize_t[] dims);
+            [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] hsize_t[] dims);
 
         /// <summary>
         /// Releases a datatype.
@@ -591,7 +591,7 @@ namespace HDF.PInvoke
         [DllImport(Constants.DLLFileName, EntryPoint = "H5Tcommitted",
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
-        public static extern htri_t committed( hid_t dtype_id );
+        public static extern htri_t committed(hid_t dtype_id);
 
         /// <summary>
         /// Check whether the library’s default conversion is hard conversion.
@@ -650,7 +650,7 @@ namespace HDF.PInvoke
         [DllImport(Constants.DLLFileName, EntryPoint = "H5Tcreate",
             CallingConvention = CallingConvention.Cdecl),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
-        public static extern hid_t create( class_t cls, size_t size);
+        public static extern hid_t create(class_t cls, size_t size);
 
         /// <summary>
         /// Decode a binary object description of datatype and return a new
@@ -745,7 +745,7 @@ namespace HDF.PInvoke
             CharSet = CharSet.Ansi),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
         public static extern herr_t enum_nameof
-            (hid_t dtype_id, IntPtr value, [In][Out]StringBuilder name, size_t size);
+            (hid_t dtype_id, IntPtr value, [In][Out] StringBuilder name, size_t size);
 
         /// <summary>
         /// Returns the value corresponding to a specified member of an
@@ -1485,7 +1485,7 @@ namespace HDF.PInvoke
             CallingConvention = CallingConvention.Cdecl,
             CharSet = CharSet.Ansi),
         SuppressUnmanagedCodeSecurity, SecuritySafeCritical]
-        public static extern herr_t set_tag( hid_t dtype_id, string tag);
+        public static extern herr_t set_tag(hid_t dtype_id, string tag);
 
         /// <summary>
         /// Removes a conversion function.

@@ -1,9 +1,9 @@
 ﻿using System;
-using System.IO.Ports;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Text;
 using System.Threading;
-using System.Collections;
 
 namespace NIRSDAQ
 {
@@ -57,13 +57,13 @@ namespace NIRSDAQ
                         _nmeas = probe.numChannels;
 
                         MLorder = new List<int>();
-                        for(int i=0; i<probe.numChannels; i++)
+                        for (int i = 0; i < probe.numChannels; i++)
                         {
                             int found = -1;
-                            for (int j=0; j < DetIdx.Length; j++)
+                            for (int j = 0; j < DetIdx.Length; j++)
                             {
-                                if(probe.ChannelMap[i].sourceindex==SrcIdx[j]-1 &
-                                   probe.ChannelMap[i].detectorindex==DetIdx[j]-1 &
+                                if (probe.ChannelMap[i].sourceindex == SrcIdx[j] - 1 &
+                                   probe.ChannelMap[i].detectorindex == DetIdx[j] - 1 &
                                    probe.ChannelMap[i].wavelength == wavelengths[TypIdx[j] - 1])
                                 {
                                     found = j;
@@ -140,7 +140,7 @@ namespace NIRSDAQ
                         laserstates = new bool[_nsrcs];
                         laserpower = new int[_nsrcs];
 
-                     
+
                         dataqueue = new Queue[_nmeas];
                         for (int i = 0; i < _nmeas; i++)
                         {
@@ -180,7 +180,7 @@ namespace NIRSDAQ
                                     _serialPort[i].ReadTimeout = 10;
                                     _serialPort[i].WriteTimeout = 10;
                                     _serialPort[i].NewLine = string.Format("{0}", (char)13);
-                                    
+
                                     _serialPort[i].Open();
                                     //_serialPort[i].Close();
 
@@ -194,7 +194,7 @@ namespace NIRSDAQ
                                         foundports.Add(ports[i]);
                                     }
 
-                                    
+
                                 }
                                 catch
                                 {
@@ -257,7 +257,7 @@ namespace NIRSDAQ
                         }
 
                         sample_rate = fs;
-                        SendCommMsg(String.Format("SSR {0}", fs/10));
+                        SendCommMsg(String.Format("SSR {0}", fs / 10));
 
                         wordsperrecord = 5 + 64 * fs / 10 + 11;
 
@@ -326,8 +326,8 @@ namespace NIRSDAQ
 
                     private string BatteryString(byte msg)
                     {
-                        int stim = (int)(msg & 0b11110000 );
-                       int bat = (int)(msg & 0b00001111 );
+                        int stim = (int)(msg & 0b11110000);
+                        int bat = (int)(msg & 0b00001111);
 
                         string b = "";
                         if (bat == 0b1010) { b = "100%"; }
@@ -386,19 +386,19 @@ namespace NIRSDAQ
 
                     public void FlushBuffer()
                     {
-                    
-                            while (_serialPort.BytesToRead > 0)
-                            {
-                                _serialPort.DiscardInBuffer();
-                                _serialPort.DiscardOutBuffer();
 
-                                Thread.Sleep(50);
-                                if (_serialPort.BytesToRead > 0)
-                                {
-                                    _ = _serialPort.ReadExisting();
-                                }
+                        while (_serialPort.BytesToRead > 0)
+                        {
+                            _serialPort.DiscardInBuffer();
+                            _serialPort.DiscardOutBuffer();
+
+                            Thread.Sleep(50);
+                            if (_serialPort.BytesToRead > 0)
+                            {
+                                _ = _serialPort.ReadExisting();
                             }
-                       
+                        }
+
 
                     }
 
@@ -408,11 +408,11 @@ namespace NIRSDAQ
                     {
 
                         int cnt = 9999;
-                        for (int i=0; i<dataqueue.Length; i++)
+                        for (int i = 0; i < dataqueue.Length; i++)
                         {
-                            if(cnt> dataqueue[i].Count) { cnt = dataqueue[i].Count; }
+                            if (cnt > dataqueue[i].Count) { cnt = dataqueue[i].Count; }
                         }
-                       
+
 
                         double[] thisdata = new double[_nmeas];
                         for (int i = 0; i < _nmeas; i++)
@@ -515,10 +515,10 @@ namespace NIRSDAQ
                                 Thread.Sleep(wait);
                             }
                         }
-                      
+
                     }
 
-               
+
 
 
                     // Connect to device
@@ -527,9 +527,9 @@ namespace NIRSDAQ
                         bool flag = false;
 
                         // Check that the port is already open
-                        if (_serialPort.IsOpen & isconnected) 
+                        if (_serialPort.IsOpen & isconnected)
                         {
-                           return true;
+                            return true;
                         }
 
                         if (_serialPort.IsOpen)
@@ -550,17 +550,17 @@ namespace NIRSDAQ
                                     _serialPort.Handshake = Handshake.None;
                                     _serialPort.ReadBufferSize = 1024 * 1024;
                                     _serialPort.ReadTimeout = 50;
-                                //    _serialPort.WriteTimeout = 50;
+                                    //    _serialPort.WriteTimeout = 50;
                                     _serialPort.NewLine = string.Format("{0}", (char)13);
                                     _serialPort.Open();
                                     isconnected = true;
 
                                     SendCommMsg("STP");
                                     AllOff();
-                                   
+
                                     SendCommMsg("PID");
                                     Thread.Sleep(250);
-                                   if (_serialPort.BytesToRead > 0)
+                                    if (_serialPort.BytesToRead > 0)
                                     {
                                         string msg = ReadCommMsg();
                                         flag = true;
@@ -597,7 +597,7 @@ namespace NIRSDAQ
                             }
 
                         }
-                        
+
                         return flag;
                     }
 
@@ -606,7 +606,7 @@ namespace NIRSDAQ
                     // Helper function for safe comm write 
                     public bool SendCommMsg(string msg)
                     {
-                        
+
                         bool flag = false;
                         if (isconnected)
                         {
@@ -661,7 +661,7 @@ namespace NIRSDAQ
                                 }
                                 else
                                 {
-                                   // Console.WriteLine("Read Failed: No bytes avalaiable/n");
+                                    // Console.WriteLine("Read Failed: No bytes avalaiable/n");
 
                                 }
                             }
@@ -671,7 +671,7 @@ namespace NIRSDAQ
                                 Console.WriteLine("Failed Serial Read/n");
                             }
 
-                            
+
                         }
                         return msg;
                     }

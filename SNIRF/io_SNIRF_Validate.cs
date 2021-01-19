@@ -1,18 +1,12 @@
 ﻿#define HDF5_VER1_10
-using System;
-using HDF.PInvoke;
-using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 #if HDF5_VER1_10
-using hid_t = System.Int64;
 #else
     using hid_t = System.Int32;
 #endif
 
-using herr_t = System.Int32;
-using hsize_t = System.UInt64;
 
 namespace nirs
 {
@@ -24,7 +18,7 @@ namespace nirs
         {
             List<nirs.HDF5info> info = nirs.io.SNIRFinfo(filename);
             List<string> invalid = new List<string>();
-            return SNIRFValidate(info,ref invalid);
+            return SNIRFValidate(info, ref invalid);
         }
 
         public static bool SNIRFValidation(List<nirs.HDF5info> info)
@@ -37,7 +31,7 @@ namespace nirs
 
         public static bool SNIRFValidate(List<nirs.HDF5info> info, ref List<string> invalid)
         {
-            bool flag = false; 
+            bool flag = false;
 
             List<Regex> Required = new List<Regex>();
             List<Regex> Optional = new List<Regex>();
@@ -50,7 +44,7 @@ namespace nirs
             Required.Add(new Regex(@"/nirs\d*/data\d*/measurementList\d*/wavelengthIndex"));
             Required.Add(new Regex(@"/nirs\d*/data\d*/measurementList\d*/dataType"));
             Required.Add(new Regex(@"/nirs\d*/data\d*/measurementList\d*/dataTypeIndex"));
-             Required.Add(new Regex(@"/nirs\d*/probe/wavelengths"));
+            Required.Add(new Regex(@"/nirs\d*/probe/wavelengths"));
             Required.Add(new Regex(@"/nirs\d*/probe/sourcePos\d*"));
             Required.Add(new Regex(@"/nirs\d*/probe/detectorPos\d*"));
 
@@ -87,27 +81,27 @@ namespace nirs
 
 
             bool[] IsValid = new bool[info.Count];
-            for(int i=0; i<info.Count; i++)
+            for (int i = 0; i < info.Count; i++)
             {
                 IsValid[i] = false;
             }
             bool[] RequiredFound = new bool[Required.Count];
-            for(int i=0; i<Required.Count; i++)
+            for (int i = 0; i < Required.Count; i++)
             {
                 RequiredFound[i] = false;
             }
 
             bool[] OptionalFound = new bool[Optional.Count];
-            for(int i = 0; i<Optional.Count; i++)
+            for (int i = 0; i < Optional.Count; i++)
             {
                 OptionalFound[i] = false;
             }
 
-       
 
-            for (int i=0; i<info.Count; i++)
+
+            for (int i = 0; i < info.Count; i++)
             {
-                for(int j=0; j<Required.Count; j++)
+                for (int j = 0; j < Required.Count; j++)
                 {
 
 
@@ -138,7 +132,7 @@ namespace nirs
             }
 
 
-                return flag;
+            return flag;
 
         }
     }

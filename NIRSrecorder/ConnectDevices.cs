@@ -17,7 +17,7 @@ namespace NIRSrecorder
             {
                 checkbutton_simMode.Active = true;
                 vbox_devices.Sensitive = false;
-                if ( MainClass.devices == null)
+                if (MainClass.devices == null)
                 {
                     spinbutton_numSimDevices.Value = 1;
                 }
@@ -25,7 +25,8 @@ namespace NIRSrecorder
                 {
                     spinbutton_numSimDevices.Value = MainClass.devices.Length;
                 }
-            }else if (MainClass.win.settings.SYSTEM.Trim().ToLower().Equals("simulatorhyperscan"))
+            }
+            else if (MainClass.win.settings.SYSTEM.Trim().ToLower().Equals("simulatorhyperscan"))
             {
                 checkbutton_simMode.Active = true;
                 vbox_devices.Sensitive = false;
@@ -60,12 +61,12 @@ namespace NIRSrecorder
                 }
             }
             Gtk.ListStore ClearList = new Gtk.ListStore(typeof(string));
-            combobox_connected.Model=ClearList;
+            combobox_connected.Model = ClearList;
             foreach (string s in connected)
             {
                 combobox_connected.AppendText(s);
             }
-           
+
             Gtk.ListStore ClearList2 = new Gtk.ListStore(typeof(string));
             combobox_avail.Model = ClearList2;
             foreach (string s in ports)
@@ -159,7 +160,7 @@ namespace NIRSrecorder
                 for (int i = 0; i < MainClass.devices.Length; i++)
                 {
                     NIRSDAQ.info info = MainClass.devices[i].GetInfo();
-                    if(port == info.PortName)
+                    if (port == info.PortName)
                     {
                         MainClass.devices[i].IDmode(true);
                         Thread.Sleep(3000);
@@ -167,7 +168,7 @@ namespace NIRSrecorder
                         found = true;
                     }
                 }
-                if(!found)
+                if (!found)
                 {
                     NIRSDAQ.Instrument.Devices.TechEn.BTnirs bTnirs = new NIRSDAQ.Instrument.Devices.TechEn.BTnirs();
                     bTnirs.Connect(port);
@@ -226,17 +227,17 @@ namespace NIRSrecorder
                 MainClass.win.settings.SYSTEM = "Simulator";
                 for (int i = 0; i < spinbutton_numSimDevices.Value; i++)
                 {
-                    simdev.Add(string.Format("{0}",i+1));
+                    simdev.Add(string.Format("{0}", i + 1));
                 }
                 MainClass.win.SetupGUI(simdev);
 
             }
-            else if(connected.Count>0)
+            else if (connected.Count > 0)
             {
                 MainClass.win.SetupGUI(connected);
             }
 
-            if(MainClass.win.nirsdata.Count > 0)
+            if (MainClass.win.nirsdata.Count > 0)
             {
                 MainClass.win.RegisterQuickStart(sender, e);
             }
