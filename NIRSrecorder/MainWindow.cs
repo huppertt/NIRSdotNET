@@ -112,7 +112,10 @@ public partial class MainWindow : Window
             SetupGUI(ports);
         }
 
-
+        // Set the laser settings to 50% power
+        spinbutton3.Value = 64;
+        // Set the detector gain for all to 32
+        spinbutton1.Value = 32;
 
 
         Gtk.ListStore ClearList = new Gtk.ListStore(typeof(string));

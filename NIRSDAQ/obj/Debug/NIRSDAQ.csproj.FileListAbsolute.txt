@@ -80,8 +80,6 @@
 /Users/theodorehuppert/NIRSdotNET/NIRSDAQ/obj/Debug/NIRSDAQ.csproj.CopyComplete
 /Users/theodorehuppert/NIRSdotNET/NIRSDAQ/obj/Debug/NIRSDAQ.dll
 /Users/theodorehuppert/NIRSdotNET/NIRSDAQ/obj/Debug/NIRSDAQ.pdb
-C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSDAQ\obj\Debug\NIRSDAQ.csproj.CoreCompileInputs.cache
-C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSDAQ\obj\Debug\NIRSDAQ.csprojAssemblyReference.cache
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSDAQ\bin\Debug\pts1020.xml
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSDAQ\bin\Debug\HemoglobinSpectrum.xml
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSDAQ\bin\Debug\io_SNIRF.cs
@@ -114,6 +112,8 @@ C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSDAQ\bin\Debug\gdk-sharp.pdb
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSDAQ\bin\Debug\pango-sharp.pdb
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSDAQ\bin\Debug\glib-sharp.pdb
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSDAQ\bin\Debug\atk-sharp.pdb
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSDAQ\obj\Debug\NIRSDAQ.csprojAssemblyReference.cache
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSDAQ\obj\Debug\NIRSDAQ.csproj.CoreCompileInputs.cache
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSDAQ\obj\Debug\NIRSDAQ.csproj.CopyComplete
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSDAQ\obj\Debug\NIRSDAQ.dll
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSDAQ\obj\Debug\NIRSDAQ.pdb

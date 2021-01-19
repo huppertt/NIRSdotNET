@@ -15,8 +15,6 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRFvalidator/obj/Debug/SNIRFvalidator.csproj.CopyComplete
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRFvalidator/obj/Debug/SNIRFvalidator.exe
 /Users/theodorehuppert/Projects/NIRSdotNET/SNIRFvalidator/obj/Debug/SNIRFvalidator.pdb
-C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRFvalidator\obj\Debug\SNIRFvalidator.csprojAssemblyReference.cache
-C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRFvalidator\obj\Debug\SNIRFvalidator.csproj.CoreCompileInputs.cache
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRFvalidator\bin\Debug\pts1020.xml
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRFvalidator\bin\Debug\HemoglobinSpectrum.xml
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRFvalidator\bin\Debug\io_SNIRF.cs
@@ -42,6 +40,8 @@ C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRFvalidator\bin\Debug\glib-sharp.pdb
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRFvalidator\bin\Debug\glade-sharp.pdb
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRFvalidator\bin\Debug\pango-sharp.pdb
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRFvalidator\bin\Debug\atk-sharp.pdb
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRFvalidator\obj\Debug\SNIRFvalidator.csprojAssemblyReference.cache
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRFvalidator\obj\Debug\SNIRFvalidator.csproj.CoreCompileInputs.cache
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRFvalidator\obj\Debug\SNIRFvalidator.csproj.CopyComplete
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRFvalidator\obj\Debug\SNIRFvalidator.exe
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRFvalidator\obj\Debug\SNIRFvalidator.pdb

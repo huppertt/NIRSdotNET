@@ -124,8 +124,6 @@
 /Users/theodorehuppert/NIRSdotNET/SNIRF/obj/Debug/NIRSdotNET.csproj.CopyComplete
 /Users/theodorehuppert/NIRSdotNET/SNIRF/obj/Debug/SNIRF.dll
 /Users/theodorehuppert/NIRSdotNET/SNIRF/obj/Debug/SNIRF.pdb
-C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\obj\Debug\NIRSdotNET.csprojAssemblyReference.cache
-C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\obj\Debug\NIRSdotNET.csproj.CoreCompileInputs.cache
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\pts1020.xml
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\HemoglobinSpectrum.xml
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\io_SNIRF.cs
@@ -150,6 +148,8 @@ C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\MonoGame.Framework.xml
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\glib-sharp.pdb
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\pango-sharp.pdb
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\bin\Debug\atk-sharp.pdb
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\obj\Debug\NIRSdotNET.csprojAssemblyReference.cache
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\obj\Debug\NIRSdotNET.csproj.CoreCompileInputs.cache
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\obj\Debug\NIRSdotNET.csproj.CopyComplete
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\obj\Debug\SNIRF.dll
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\SNIRF\obj\Debug\SNIRF.pdb

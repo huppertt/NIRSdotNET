@@ -91,7 +91,9 @@ public partial class MainWindow : Window
         // the reset flag controls if the measurement is expanded from the existing 
         // channels shown or if the list is reset.
         bool reset = true;
-        if (args.Event.Button == 3)
+
+        //if (args.Event.Button == 3)
+        if (System.Windows.Forms.Control.ModifierKeys == System.Windows.Forms.Keys.Shift)
         {
             reset = false;  // right clicked
         }
@@ -138,7 +140,8 @@ public partial class MainWindow : Window
         // the reset flag controls if the measurement is expanded from the existing 
         // channels shown or if the list is reset.
         bool reset = true;
-        if (args.Event.Button == 3)
+        //  if (args.Event.Button == 3)
+        if (System.Windows.Forms.Control.ModifierKeys == System.Windows.Forms.Keys.Shift)
         {
             reset = false;  // right clicked
         }

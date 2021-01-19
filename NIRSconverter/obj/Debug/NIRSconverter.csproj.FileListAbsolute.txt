@@ -47,8 +47,6 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/obj/Debug/NIRSconverter.csproj.CopyComplete
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/obj/Debug/NIRSconverter.exe
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/obj/Debug/NIRSconverter.pdb
-C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\obj\Debug\NIRSconverter.csprojAssemblyReference.cache
-C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\obj\Debug\NIRSconverter.csproj.CoreCompileInputs.cache
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\pts1020.xml
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\HemoglobinSpectrum.xml
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\io_SNIRF.cs
@@ -73,6 +71,8 @@ C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\glib-sharp.pdb
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\glade-sharp.pdb
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\pango-sharp.pdb
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\bin\Debug\atk-sharp.pdb
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\obj\Debug\NIRSconverter.csprojAssemblyReference.cache
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\obj\Debug\NIRSconverter.csproj.CoreCompileInputs.cache
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\obj\Debug\NIRSconverter.csproj.CopyComplete
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\obj\Debug\NIRSconverter.exe
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSconverter\obj\Debug\NIRSconverter.pdb

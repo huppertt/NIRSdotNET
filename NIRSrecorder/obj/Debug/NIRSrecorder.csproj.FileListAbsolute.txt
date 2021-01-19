@@ -64,8 +64,6 @@
 /Users/theodorehuppert/NIRSdotNET/NIRSrecorder/obj/Debug/NIRSrecorder.csproj.CopyComplete
 /Users/theodorehuppert/NIRSdotNET/NIRSrecorder/obj/Debug/NIRSrecorder.exe
 /Users/theodorehuppert/NIRSdotNET/NIRSrecorder/obj/Debug/NIRSrecorder.pdb
-C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSrecorder\obj\Debug\NIRSrecorder.csprojAssemblyReference.cache
-C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSrecorder\obj\Debug\NIRSrecorder.csproj.CoreCompileInputs.cache
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSrecorder\bin\Debug\pts1020.xml
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSrecorder\bin\Debug\HemoglobinSpectrum.xml
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSrecorder\bin\Debug\Config.xml
@@ -108,6 +106,8 @@ C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSrecorder\bin\Debug\MathNet.Numerics.x
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSrecorder\bin\Debug\MathNet.Filtering.xml
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSrecorder\bin\Debug\MathNet.Filtering.Kalman.xml
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSrecorder\bin\Debug\System.ValueTuple.xml
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSrecorder\obj\Debug\NIRSrecorder.csprojAssemblyReference.cache
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSrecorder\obj\Debug\NIRSrecorder.csproj.CoreCompileInputs.cache
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSrecorder\obj\Debug\NIRSrecorder.csproj.CopyComplete
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSrecorder\obj\Debug\NIRSrecorder.exe
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\NIRSrecorder\obj\Debug\NIRSrecorder.pdb
