@@ -304,23 +304,28 @@ namespace NIRSDAQ
 
                     public string GetBatteryInfo()
                     {
-                        if (isconnected)
+                        try
                         {
-                            if (!isrunning)
+                            if (isconnected)
                             {
-
-                                SendCommMsg("BAT");
-                                string msg = ReadCommMsg();
-
-                                if (msg == null)
+                                if (!isrunning)
                                 {
-                                    return battery;
+
+                                    SendCommMsg("BAT");
+                                    string msg = ReadCommMsg();
+
+                                    if (msg == null)
+                                    {
+                                        return battery;
+                                    }
+                                    byte bat = Convert.ToByte(msg[6]);
+                                    byte bat2 = Convert.ToByte(msg[7]);
+                                    battery = BatteryString(bat);
                                 }
-                                byte bat = Convert.ToByte(msg[6]);
-                                byte bat2 = Convert.ToByte(msg[7]);
-                                battery = BatteryString(bat);
                             }
                         }
+                        catch { }
+
                         return battery;
                     }
 
@@ -456,64 +461,71 @@ namespace NIRSDAQ
 
                     public void adddata()
                     {
-                        if (isconnected)
+                        try
                         {
-                            // TODO
-                            int wait;
-                            wait = 500 / sample_rate;
-
-                            while (isrunning)
+                            if (isconnected)
                             {
-                                if (_serialPort.BytesToRead > wordsperrecord)
+                                // TODO
+                                int wait;
+                                wait = 500 / sample_rate;
+
+                                while (isrunning)
                                 {
-                                    uint startPack1 = new uint();
-                                    uint startPack2 = 0;
-                                    while (startPack1 != 160 | startPack2 != 162)
+                                    if (_serialPort.BytesToRead > wordsperrecord)
                                     {
-                                        startPack1 = startPack2;  // should be 160 = 0xA0
-                                        startPack2 = (uint)_serialPort.ReadByte(); // should be 162 = 0xA2
-                                    }
-
-                                    uint seqnum = (uint)_serialPort.ReadByte();
-                                    uint lenPack = 256 * (uint)_serialPort.ReadByte() + (uint)_serialPort.ReadByte();
-                                    uint nsamp = (lenPack - 16) / 64;
-                                    //int nsamp = sample_rate / 10;
-
-                                    byte[] data = new byte[64 * nsamp + 11];
-                                    _ = _serialPort.Read(data, 0, data.Length);
-
-                                    int count = 0;
-                                    for (int pack = 0; pack < nsamp; pack++)
-                                    {
-                                        for (int i = 0; i < _nmeas; i++)
+                                        uint startPack1 = new uint();
+                                        uint startPack2 = 0;
+                                        while (startPack1 != 160 | startPack2 != 162)
                                         {
-                                            double value = data[count] * 256 + data[count + 1];
-                                            dataqueue[i].Enqueue(value);
-                                            count += 2;
-
+                                            startPack1 = startPack2;  // should be 160 = 0xA0
+                                            startPack2 = (uint)_serialPort.ReadByte(); // should be 162 = 0xA2
                                         }
+
+                                        uint seqnum = (uint)_serialPort.ReadByte();
+                                        uint lenPack = 256 * (uint)_serialPort.ReadByte() + (uint)_serialPort.ReadByte();
+                                        uint nsamp = (lenPack - 16) / 64;
+                                        //int nsamp = sample_rate / 10;
+
+                                        byte[] data = new byte[64 * nsamp + 11];
+                                        _ = _serialPort.Read(data, 0, data.Length);
+
+                                        int count = 0;
+                                        for (int pack = 0; pack < nsamp; pack++)
+                                        {
+                                            for (int i = 0; i < _nmeas; i++)
+                                            {
+                                                double value = data[count] * 256 + data[count + 1];
+                                                dataqueue[i].Enqueue(value);
+                                                count += 2;
+
+                                            }
+                                        }
+                                        //uint bat = (uint)data[64 * nsamp];
+                                        battery = BatteryString(data[64 * nsamp]);
+                                        int temp = (int)data[64 * nsamp + 1];
+                                        uint reserve1 = (uint)data[64 * nsamp + 2];
+                                        uint reserve2 = (uint)data[64 * nsamp + 3];
+
+                                        uint ACCX = (uint)data[64 * nsamp + 4];
+                                        uint ACCY = (uint)data[64 * nsamp + 5];
+                                        uint ACCZ = (uint)data[64 * nsamp + 6];
+
+                                        uint CRC1 = (uint)data[64 * nsamp + 7];
+                                        uint CRC2 = (uint)data[64 * nsamp + 8];
+
+                                        int endPack1 = data[64 * nsamp + 9]; // should be 176 = 0xB0
+                                        int endPack2 = data[64 * nsamp + 10]; // should be 179 = 0xB3
+
+
                                     }
-                                    //uint bat = (uint)data[64 * nsamp];
-                                    battery = BatteryString(data[64 * nsamp]);
-                                    int temp = (int)data[64 * nsamp + 1];
-                                    uint reserve1 = (uint)data[64 * nsamp + 2];
-                                    uint reserve2 = (uint)data[64 * nsamp + 3];
 
-                                    uint ACCX = (uint)data[64 * nsamp + 4];
-                                    uint ACCY = (uint)data[64 * nsamp + 5];
-                                    uint ACCZ = (uint)data[64 * nsamp + 6];
-
-                                    uint CRC1 = (uint)data[64 * nsamp + 7];
-                                    uint CRC2 = (uint)data[64 * nsamp + 8];
-
-                                    int endPack1 = data[64 * nsamp + 9]; // should be 176 = 0xB0
-                                    int endPack2 = data[64 * nsamp + 10]; // should be 179 = 0xB3
-
-
+                                    Thread.Sleep(wait);
                                 }
-
-                                Thread.Sleep(wait);
                             }
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Error getting data from device");
                         }
 
                     }

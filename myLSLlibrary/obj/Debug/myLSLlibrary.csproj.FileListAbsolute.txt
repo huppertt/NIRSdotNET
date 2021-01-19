@@ -18,7 +18,7 @@ C:\Users\CW 52611-1\Desktop\NIRSdotNET\myLSLlibrary\bin\Debug\liblsl.1.14.0.dyli
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\myLSLlibrary\bin\Debug\liblsl.dylib
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\myLSLlibrary\bin\Debug\myLSLlibrary.dll
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\myLSLlibrary\bin\Debug\myLSLlibrary.pdb
+C:\Users\CW 52611-1\Desktop\NIRSdotNET\myLSLlibrary\obj\Debug\myLSLlibrary.csprojAssemblyReference.cache
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\myLSLlibrary\obj\Debug\myLSLlibrary.csproj.CoreCompileInputs.cache
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\myLSLlibrary\obj\Debug\myLSLlibrary.dll
 C:\Users\CW 52611-1\Desktop\NIRSdotNET\myLSLlibrary\obj\Debug\myLSLlibrary.pdb
-C:\Users\CW 52611-1\Desktop\NIRSdotNET\myLSLlibrary\obj\Debug\myLSLlibrary.csprojAssemblyReference.cache

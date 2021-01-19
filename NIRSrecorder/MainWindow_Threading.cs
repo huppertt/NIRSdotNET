@@ -432,10 +432,7 @@ public partial class MainWindow : Window
 #endif
 
 
-
-
-
-                drawingarea_Data.QueueDraw();
+                                drawingarea_Data.QueueDraw();
                 drawingarea_Data2.QueueDraw();
 
                 progressbar1.Pulse();

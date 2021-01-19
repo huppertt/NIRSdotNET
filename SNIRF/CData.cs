@@ -77,6 +77,7 @@ namespace nirs
 
             public void draw(Gdk.Drawable da, string datasubtype, bool autoscale = false, double tMin = 0, bool manualscaleMin = false, double manualMin = -999999, bool manualscaleMax = false, double manualMax = 99999999)
             {
+               
                 try
                 {
 
@@ -332,7 +333,7 @@ namespace nirs
                 }
                 catch
                 {
-
+                    Console.WriteLine("Line drawing failed");
                 }
 
 

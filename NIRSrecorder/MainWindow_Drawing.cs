@@ -178,15 +178,27 @@ public partial class MainWindow : Window
         bool autoscaleYmax = checkbuttonYmax.Active;
         bool autoscaleYmin = checkbuttonYmin.Active;
 
-        double minY = Convert.ToDouble(entryYmin.Text);
-        double maxY = Convert.ToDouble(entryYmax.Text);
+        double minY = 0;
+        double maxY = 999;
 
+        try
+        {
+            minY = Convert.ToDouble(entryYmin.Text);
+            maxY = Convert.ToDouble(entryYmax.Text);
+        }
+        catch { }
 
         if (nirsdata[0].time.Count < 1)
         {
             return;
         }
-        double tMin = Math.Max(nirsdata[0].time[nirsdata[0].time.Count - 1] - Convert.ToDouble(entry_timeWindow.Text), 0);
+        double tMin = 0;
+        try
+        {
+            tMin=Math.Max(nirsdata[0].time[nirsdata[0].time.Count - 1] - Convert.ToDouble(entry_timeWindow.Text), 0);
+        }
+        catch { }
+
         if (!checkbutton_timeWindow.Active)
         {
             tMin = 0;

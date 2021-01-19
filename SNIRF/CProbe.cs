@@ -170,194 +170,199 @@ namespace nirs
 
             public void draw2D(Gdk.Drawable da)
             {
-
-                if (SrcPos == null)
+                try
                 {
-                    return;
-                }
-
-                int width, height;
-                da.GetSize(out width, out height);
-
-                double dx, dy;
-                dx = 20;
-                dy = 20;
-                width = width - 2 * (int)dy;
-                height = height - 2 * (int)dx;
-
-                double maxX, minX, maxY, minY;
-                maxX = -999; maxY = -999;
-                minX = 999; minY = 999;
-                for (int i = 0; i < this.numDet; i++)
-                {
-                    if (maxX < this.DetPos[i, 0])
-                        maxX = this.DetPos[i, 0];
-                    if (maxY < this.DetPos[i, 1])
-                        maxY = this.DetPos[i, 1];
-                    if (minX > this.DetPos[i, 0])
-                        minX = this.DetPos[i, 0];
-                    if (minY > this.DetPos[i, 1])
-                        minY = this.DetPos[i, 1];
-                }
-
-
-                for (int i = 0; i < this.numSrc; i++)
-                {
-
-                    if (maxX < this.SrcPos[i, 0])
-                        maxX = this.SrcPos[i, 0];
-                    if (maxY < this.SrcPos[i, 1])
-                        maxY = this.SrcPos[i, 1];
-                    if (minX > this.SrcPos[i, 0])
-                        minX = this.SrcPos[i, 0];
-                    if (minY > this.SrcPos[i, 1])
-                        minY = this.SrcPos[i, 1];
-                }
-
-
-                ROIdrawPos = new double[ROIs.Count, 2];
-                for (int i = 0; i < ROIs.Count; i++)
-                {
-                    ROIdrawPos[i, 0] = minX - .1 * (maxX - minX);
-                    ROIdrawPos[i, 1] = minY - .2 * (i) * (maxY - minY);
-                }
-                if (ROIs.Count > 0)
-                {
-                    minY = minY - (ROIs.Count) * .2 * (maxY - minY);
-                    minX = minX - .1 * (maxX - minX);
-                }
-
-                double rangeX = maxX - minX;
-                double rangeY = maxY - minY;
-
-                Gdk.GC gc = new Gdk.GC(da);
-
-                gc.RgbBgColor = new Gdk.Color(0, 0, 0);
-                gc.RgbFgColor = new Gdk.Color(0, 0, 0);
-                Rectangle rarea = new Rectangle();
-                rarea.Height = height + 2 * (int)dy;
-                rarea.Width = width + 2 * (int)dx;
-                da.DrawRectangle(gc, true, rarea);
-
-                gc.RgbBgColor = new Gdk.Color(0, 0, 0);
-                gc.RgbFgColor = new Gdk.Color(255, 255, 255);
-                rarea = new Rectangle();
-                rarea.Height = height - 2 + 2 * (int)dx; ;
-                rarea.Width = width - 2 + 2 * (int)dx; ;
-                rarea.X = 1;
-                rarea.Y = 1;
-
-                da.DrawRectangle(gc, true, rarea);
-
-                int sz = 10;
-
-                if (this.measlistAct == null)
-                {
-                    this.measlistAct = new bool[this.ChannelMap.Length];
-                    for (int i = 0; i < this.ChannelMap.Length; i++)
+                    if (SrcPos == null)
                     {
-                        this.measlistAct[i] = false;
+                        return;
                     }
-                    this.measlistAct[0] = true;
-                }
 
+                    int width, height;
+                    da.GetSize(out width, out height);
 
-                gc.RgbFgColor = new Gdk.Color(0, 0, 0);
-                gc.SetLineAttributes(3, LineStyle.Solid, CapStyle.Projecting, JoinStyle.Round);
-                for (int i = 0; i < this.numChannels; i++)
-                {
-                    if (this.ChannelMap[i].datasubtype.Equals(this.ChannelMap[0].datasubtype))
+                    double dx, dy;
+                    dx = 20;
+                    dy = 20;
+                    width = width - 2 * (int)dy;
+                    height = height - 2 * (int)dx;
+
+                    double maxX, minX, maxY, minY;
+                    maxX = -999; maxY = -999;
+                    minX = 999; minY = 999;
+                    for (int i = 0; i < this.numDet; i++)
                     {
-                        if (this.measlistAct[i])
-                        {
-                            gc.RgbFgColor = colormap[i]; //new Gdk.Color (0, 0, 0);
-                        }
-                        else
-                        {
-                            gc.RgbFgColor = new Gdk.Color(230, 230, 230);
-                        }
-                        int si = this.ChannelMap[i].sourceindex;
-                        int di = this.ChannelMap[i].detectorindex;
+                        if (maxX < this.DetPos[i, 0])
+                            maxX = this.DetPos[i, 0];
+                        if (maxY < this.DetPos[i, 1])
+                            maxY = this.DetPos[i, 1];
+                        if (minX > this.DetPos[i, 0])
+                            minX = this.DetPos[i, 0];
+                        if (minY > this.DetPos[i, 1])
+                            minY = this.DetPos[i, 1];
+                    }
 
-                        double x1 = (this.DetPos[di, 0] - minX) / rangeX * width;
-                        double y1 = height - ((this.DetPos[di, 1] - minY) / rangeY * height) + dy;
-                        double x2 = (this.SrcPos[si, 0] - minX) / rangeX * width;
-                        double y2 = height - ((this.SrcPos[si, 1] - minY) / rangeY * height) + dy;
-                        da.DrawLine(gc, (int)x1, (int)y1, (int)x2, (int)y2);
+
+                    for (int i = 0; i < this.numSrc; i++)
+                    {
+
+                        if (maxX < this.SrcPos[i, 0])
+                            maxX = this.SrcPos[i, 0];
+                        if (maxY < this.SrcPos[i, 1])
+                            maxY = this.SrcPos[i, 1];
+                        if (minX > this.SrcPos[i, 0])
+                            minX = this.SrcPos[i, 0];
+                        if (minY > this.SrcPos[i, 1])
+                            minY = this.SrcPos[i, 1];
+                    }
+
+
+                    ROIdrawPos = new double[ROIs.Count, 2];
+                    for (int i = 0; i < ROIs.Count; i++)
+                    {
+                        ROIdrawPos[i, 0] = minX - .1 * (maxX - minX);
+                        ROIdrawPos[i, 1] = minY - .2 * (i) * (maxY - minY);
+                    }
+                    if (ROIs.Count > 0)
+                    {
+                        minY = minY - (ROIs.Count) * .2 * (maxY - minY);
+                        minX = minX - .1 * (maxX - minX);
+                    }
+
+                    double rangeX = maxX - minX;
+                    double rangeY = maxY - minY;
+
+                    Gdk.GC gc = new Gdk.GC(da);
+
+                    gc.RgbBgColor = new Gdk.Color(0, 0, 0);
+                    gc.RgbFgColor = new Gdk.Color(0, 0, 0);
+                    Rectangle rarea = new Rectangle();
+                    rarea.Height = height + 2 * (int)dy;
+                    rarea.Width = width + 2 * (int)dx;
+                    da.DrawRectangle(gc, true, rarea);
+
+                    gc.RgbBgColor = new Gdk.Color(0, 0, 0);
+                    gc.RgbFgColor = new Gdk.Color(255, 255, 255);
+                    rarea = new Rectangle();
+                    rarea.Height = height - 2 + 2 * (int)dx; ;
+                    rarea.Width = width - 2 + 2 * (int)dx; ;
+                    rarea.X = 1;
+                    rarea.Y = 1;
+
+                    da.DrawRectangle(gc, true, rarea);
+
+                    int sz = 10;
+
+                    if (this.measlistAct == null)
+                    {
+                        this.measlistAct = new bool[this.ChannelMap.Length];
+                        for (int i = 0; i < this.ChannelMap.Length; i++)
+                        {
+                            this.measlistAct[i] = false;
+                        }
+                        this.measlistAct[0] = true;
+                    }
+
+
+                    gc.RgbFgColor = new Gdk.Color(0, 0, 0);
+                    gc.SetLineAttributes(3, LineStyle.Solid, CapStyle.Projecting, JoinStyle.Round);
+                    for (int i = 0; i < this.numChannels; i++)
+                    {
+                        if (this.ChannelMap[i].datasubtype.Equals(this.ChannelMap[0].datasubtype))
+                        {
+                            if (this.measlistAct[i])
+                            {
+                                gc.RgbFgColor = colormap[i]; //new Gdk.Color (0, 0, 0);
+                            }
+                            else
+                            {
+                                gc.RgbFgColor = new Gdk.Color(230, 230, 230);
+                            }
+                            int si = this.ChannelMap[i].sourceindex;
+                            int di = this.ChannelMap[i].detectorindex;
+
+                            double x1 = (this.DetPos[di, 0] - minX) / rangeX * width;
+                            double y1 = height - ((this.DetPos[di, 1] - minY) / rangeY * height) + dy;
+                            double x2 = (this.SrcPos[si, 0] - minX) / rangeX * width;
+                            double y2 = height - ((this.SrcPos[si, 1] - minY) / rangeY * height) + dy;
+                            da.DrawLine(gc, (int)x1, (int)y1, (int)x2, (int)y2);
+                            //pts[cnt]=new Gdk.Point((int)x,(int)y);
+
+                        }
+                    }
+
+
+                    gc.RgbFgColor = new Gdk.Color(0, 255, 0);
+                    gc.SetLineAttributes(3, LineStyle.Solid, CapStyle.Round, JoinStyle.Round);
+                    //  Gdk.Point[] pts = new Gdk.Point[this.numdet+this.numsrc];
+                    for (int i = 0; i < this.numDet; i++)
+                    {
+                        double x = (this.DetPos[i, 0] - minX) / rangeX * width - sz / 2;
+                        double y = height - ((this.DetPos[i, 1] - minY) / rangeY * height) - sz / 2 + dy;
+                        da.DrawArc(gc, true, (int)x, (int)y, sz, sz, 0, 360 * 64);
                         //pts[cnt]=new Gdk.Point((int)x,(int)y);
 
+
                     }
+                    gc.RgbFgColor = new Gdk.Color(0, 0, 0);
+                    for (int i = 0; i < this.numDet; i++)
+                    {
+                        double x = (this.DetPos[i, 0] - minX) / rangeX * width - sz / 2;
+                        double y = height - ((this.DetPos[i, 1] - minY) / rangeY * height) - sz / 2 + dy;
+
+                        Gtk.Label lab = new Gtk.Label();
+                        lab.Text = string.Format("D{0}", i + 1);
+                        da.DrawLayout(gc, (int)x, (int)y, lab.Layout);
+                    }
+
+
+                    gc.RgbBgColor = new Gdk.Color(0, 255, 0);
+                    gc.RgbFgColor = new Gdk.Color(255, 0, 0);
+                    gc.SetLineAttributes(3, LineStyle.Solid, CapStyle.Round, JoinStyle.Round);
+                    for (int i = 0; i < this.numSrc; i++)
+                    {
+                        double x = (this.SrcPos[i, 0] - minX) / rangeX * width - sz / 2;
+                        double y = height - ((this.SrcPos[i, 1] - minY) / rangeY * height) - sz / 2 + dy;
+                        da.DrawArc(gc, true, (int)x, (int)y, sz, sz, 0, 360 * 64);
+
+                    }
+
+                    gc.RgbFgColor = new Gdk.Color(0, 0, 0);
+                    for (int i = 0; i < this.numSrc; i++)
+                    {
+                        double x = (this.SrcPos[i, 0] - minX) / rangeX * width - sz / 2;
+                        double y = height - ((this.SrcPos[i, 1] - minY) / rangeY * height) - sz / 2 + dy;
+
+                        Gtk.Label lab = new Gtk.Label();
+                        lab.Text = string.Format("S{0}", i + 1);
+                        da.DrawLayout(gc, (int)x, (int)y, lab.Layout);
+                    }
+
+                    gc.RgbFgColor = new Gdk.Color(255, 0, 255);
+                    for (int i = 0; i < ROIs.Count; i++)
+                    {
+                        double x = (ROIdrawPos[i, 0] - minX) / rangeX * width + sz / 2;
+                        double y = height - ((ROIdrawPos[i, 1] - minY) / rangeY * height) + dy;
+                        da.DrawArc(gc, true, (int)x, (int)y, sz, sz, 0, 360 * 64);
+                    }
+
+                    gc.RgbFgColor = new Gdk.Color(0, 0, 0);
+                    for (int i = 0; i < ROIs.Count; i++)
+                    {
+                        double x = (ROIdrawPos[i, 0] - minX) / rangeX * width + sz;
+                        double y = height - ((ROIdrawPos[i, 1] - minY) / rangeY * height) + dy;
+                        Gtk.Label lab = new Gtk.Label();
+                        lab.Text = ROIs[i].name;
+                        da.DrawLayout(gc, (int)(x), (int)y, lab.Layout);
+                    }
+
+                    Gtk.Label lab2 = new Gtk.Label();
+                    lab2.Text = "L";
+                    da.DrawLayout(gc, (int)(width - 5), (int)(height - 5), lab2.Layout);
                 }
-
-
-                gc.RgbFgColor = new Gdk.Color(0, 255, 0);
-                gc.SetLineAttributes(3, LineStyle.Solid, CapStyle.Round, JoinStyle.Round);
-                //  Gdk.Point[] pts = new Gdk.Point[this.numdet+this.numsrc];
-                for (int i = 0; i < this.numDet; i++)
+                catch
                 {
-                    double x = (this.DetPos[i, 0] - minX) / rangeX * width - sz / 2;
-                    double y = height - ((this.DetPos[i, 1] - minY) / rangeY * height) - sz / 2 + dy;
-                    da.DrawArc(gc, true, (int)x, (int)y, sz, sz, 0, 360 * 64);
-                    //pts[cnt]=new Gdk.Point((int)x,(int)y);
-
-
+                    Console.WriteLine("SDG draw error");
                 }
-                gc.RgbFgColor = new Gdk.Color(0, 0, 0);
-                for (int i = 0; i < this.numDet; i++)
-                {
-                    double x = (this.DetPos[i, 0] - minX) / rangeX * width - sz / 2;
-                    double y = height - ((this.DetPos[i, 1] - minY) / rangeY * height) - sz / 2 + dy;
-
-                    Gtk.Label lab = new Gtk.Label();
-                    lab.Text = string.Format("D{0}", i + 1);
-                    da.DrawLayout(gc, (int)x, (int)y, lab.Layout);
-                }
-
-
-                gc.RgbBgColor = new Gdk.Color(0, 255, 0);
-                gc.RgbFgColor = new Gdk.Color(255, 0, 0);
-                gc.SetLineAttributes(3, LineStyle.Solid, CapStyle.Round, JoinStyle.Round);
-                for (int i = 0; i < this.numSrc; i++)
-                {
-                    double x = (this.SrcPos[i, 0] - minX) / rangeX * width - sz / 2;
-                    double y = height - ((this.SrcPos[i, 1] - minY) / rangeY * height) - sz / 2 + dy;
-                    da.DrawArc(gc, true, (int)x, (int)y, sz, sz, 0, 360 * 64);
-
-                }
-
-                gc.RgbFgColor = new Gdk.Color(0, 0, 0);
-                for (int i = 0; i < this.numSrc; i++)
-                {
-                    double x = (this.SrcPos[i, 0] - minX) / rangeX * width - sz / 2;
-                    double y = height - ((this.SrcPos[i, 1] - minY) / rangeY * height) - sz / 2 + dy;
-
-                    Gtk.Label lab = new Gtk.Label();
-                    lab.Text = string.Format("S{0}", i + 1);
-                    da.DrawLayout(gc, (int)x, (int)y, lab.Layout);
-                }
-
-                gc.RgbFgColor = new Gdk.Color(255, 0, 255);
-                for (int i = 0; i < ROIs.Count; i++)
-                {
-                    double x = (ROIdrawPos[i, 0] - minX) / rangeX * width + sz / 2;
-                    double y = height - ((ROIdrawPos[i, 1] - minY) / rangeY * height) + dy;
-                    da.DrawArc(gc, true, (int)x, (int)y, sz, sz, 0, 360 * 64);
-                }
-
-                gc.RgbFgColor = new Gdk.Color(0, 0, 0);
-                for (int i = 0; i < ROIs.Count; i++)
-                {
-                    double x = (ROIdrawPos[i, 0] - minX) / rangeX * width + sz;
-                    double y = height - ((ROIdrawPos[i, 1] - minY) / rangeY * height) + dy;
-                    Gtk.Label lab = new Gtk.Label();
-                    lab.Text = ROIs[i].name;
-                    da.DrawLayout(gc, (int)(x), (int)y, lab.Layout);
-                }
-
-                Gtk.Label lab2 = new Gtk.Label();
-                lab2.Text = "L";
-                da.DrawLayout(gc, (int)(width - 5), (int)(height - 5), lab2.Layout);
-
 
 
                 return;
