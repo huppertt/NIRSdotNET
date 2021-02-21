@@ -2,7 +2,6 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/myLSLlibrary/bin/Debug/liblsl.dylib
 /Users/theodorehuppert/Projects/NIRSdotNET/myLSLlibrary/bin/Debug/myLSLlibrary.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/myLSLlibrary/bin/Debug/myLSLlibrary.pdb
-/Users/theodorehuppert/Projects/NIRSdotNET/myLSLlibrary/obj/Debug/myLSLlibrary.csprojAssemblyReference.cache
 /Users/theodorehuppert/Projects/NIRSdotNET/myLSLlibrary/obj/Debug/myLSLlibrary.csproj.CoreCompileInputs.cache
 /Users/theodorehuppert/Projects/NIRSdotNET/myLSLlibrary/obj/Debug/myLSLlibrary.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/myLSLlibrary/obj/Debug/myLSLlibrary.pdb

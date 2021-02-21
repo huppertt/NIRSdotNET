@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<system>
+    
+    <numsrc> 8 </numsrc>
+    <numdet> 2 </numdet>
+    <numaux> 0 </numaux>
+    <laseradjustable> true </laseradjustable>
+    <maxgain> 127 </maxgain>
+    <maxpower> 127 </maxpower>
+    <samplerate> 20 </samplerate>
+    
+    <allowedsamplerates>10</allowedsamplerates>
+    <allowedsamplerates>20</allowedsamplerates>
+    <allowedsamplerates>30</allowedsamplerates>
+    <allowedsamplerates>40</allowedsamplerates>
+    <allowedsamplerates>50</allowedsamplerates>
+    <allowedsamplerates>60</allowedsamplerates>
+    <allowedsamplerates>70</allowedsamplerates>
+    <allowedsamplerates>80</allowedsamplerates>
+ 
+
+</system>

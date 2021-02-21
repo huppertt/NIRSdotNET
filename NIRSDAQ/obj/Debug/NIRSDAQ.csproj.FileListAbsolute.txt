@@ -38,11 +38,6 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/System.Threading.ThreadPool.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/csmatio.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/HDF.PInvoke.dll
-/Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/gdk-sharp.dll
-/Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/gtk-sharp.dll
-/Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/pango-sharp.dll
-/Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/glib-sharp.dll
-/Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/atk-sharp.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/SNIRF.pdb
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/Microsoft.Win32.Registry.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/RJCP.SerialPortStream.pdb
@@ -51,10 +46,6 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/System.Security.Principal.Windows.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/System.Security.AccessControl.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/HDF.PInvoke.dll.config
-/Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/gdk-sharp.pdb
-/Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/pango-sharp.pdb
-/Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/glib-sharp.pdb
-/Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/atk-sharp.pdb
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/obj/Debug/NIRSDAQ.csprojAssemblyReference.cache
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/obj/Debug/NIRSDAQ.csproj.CoreCompileInputs.cache
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/obj/Debug/NIRSDAQ.csproj.CopyComplete

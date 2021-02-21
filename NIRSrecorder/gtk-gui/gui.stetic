@@ -311,14 +311,14 @@
       </action>
     </action-group>
     <property name="MemberName" />
-    <property name="WidthRequest">2000</property>
-    <property name="HeightRequest">800</property>
+    <property name="WidthRequest">1700</property>
+    <property name="HeightRequest">900</property>
     <property name="CanFocus">True</property>
     <property name="Title" translatable="yes">NIRS RecordIR</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Modal">True</property>
     <property name="BorderWidth">6</property>
-    <property name="AllowShrink">True</property>
+    <property name="AllowGrow">False</property>
     <property name="DefaultWidth">1400</property>
     <property name="DefaultHeight">800</property>
     <property name="DestroyWithParent">True</property>
