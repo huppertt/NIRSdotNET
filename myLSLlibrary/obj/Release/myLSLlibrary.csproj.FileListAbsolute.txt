@@ -1,0 +1,6 @@
+C:\Users\NIRS\Desktop\NIRSdotNET\myLSLlibrary\bin\Release\liblsl.1.14.0.dylib
+C:\Users\NIRS\Desktop\NIRSdotNET\myLSLlibrary\bin\Release\liblsl.dylib
+C:\Users\NIRS\Desktop\NIRSdotNET\myLSLlibrary\bin\Release\myLSLlibrary.dll
+C:\Users\NIRS\Desktop\NIRSdotNET\myLSLlibrary\obj\Release\myLSLlibrary.csprojAssemblyReference.cache
+C:\Users\NIRS\Desktop\NIRSdotNET\myLSLlibrary\obj\Release\myLSLlibrary.csproj.CoreCompileInputs.cache
+C:\Users\NIRS\Desktop\NIRSdotNET\myLSLlibrary\obj\Release\myLSLlibrary.dll

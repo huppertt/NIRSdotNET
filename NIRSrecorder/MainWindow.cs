@@ -23,6 +23,7 @@ public partial class MainWindow : Window
     public void IntializeGUI()
     {
 
+
         SaveSnirfFormatAction.Active = false;
         MainClass.obj_Splash.label.Text = string.Format("Finding Devices: {0}", settings.SYSTEM);
         MainClass.obj_Splash.QueueDraw();
@@ -233,13 +234,22 @@ public partial class MainWindow : Window
         }
 #endif
 
+       // MainClass.win.Fullscreen();
+        
+        MainClass.win.Resize(1700, 900);
+        MainClass.win.ResizeChildren();
+        
+        MainClass.win.Resizable = false;
+        //MainClass.win.ResizeMode = Gtk.ResizeMode.Queue;
         ShowAll();
-
+        
     }
+
+   
 
     private void EditStimTableName(object o, EditedArgs args)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void SetupGUI(List<string> ports)

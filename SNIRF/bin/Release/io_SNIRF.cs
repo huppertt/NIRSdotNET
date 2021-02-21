@@ -1,264 +1,455 @@
-﻿using System;
+﻿#define HDF5_VER1_10
+using System;
 using HDF.PInvoke;
 
+using System.Text;
+using System.Runtime.InteropServices;
 using System.Collections.Generic;
+
+#if HDF5_VER1_10
+    using hid_t = System.Int64;
+#else
+    using hid_t = System.Int32;
+#endif
+
+using herr_t = System.Int32;
+using hsize_t = System.UInt64;
+
+
 
 namespace nirs
 {
     public static partial class io
     {  // methods devoted to file I/O
-        public static void writeSNIRF(core.Data data, string filename)
+
+        public static void writeSNIRF(core.Data[] data, string filename, int nirs_index = -1)
         {
 
-
-            long fileId = H5F.create(filename, H5F.ACC_TRUNC);
-
-                              
-            long IDnirs = H5G.create(fileId, "/nirs");
-            long IDdata = H5G.create(IDnirs, "data");
-            long IDprobe = H5G.create(IDnirs, "probe");
-
-
-            H5G.close(IDdata);
-            H5G.close(IDprobe);
-            H5G.close(IDnirs);
-
-
-
-            return;
-        }
-        public static core.Data readSNIRF(string filename)
-        {
-            core.Data data = new core.Data();
-            return data;
-        }
-
-
-
-
-    }
-}
-
-
-
-
-/*
-using System;
-using HDF5DotNet;
-
-namespace CSharpExample1
-{
-    class Program
-    {
-        // Function used with 
-        static int myFunction(H5GroupId id, string objectName, Object param)
-        {
-            Console.WriteLine("The object name is {0}", objectName);
-            Console.WriteLine("The object parameter is {0}", param);
-            return 0;
-        }
-
-        static void Main(string[] args)
-        {
-            try
+            for(int i=0; i<data.Length; i++)
             {
-                // We will write and read an int array of this length.
-                const int DATA_ARRAY_LENGTH = 12;
+                writeSNIRF(data[i],filename, nirs_index, i);
+            }
 
-                // Rank is the number of dimensions of the data array.
-                const int RANK = 1;
-
-                // Create an HDF5 file.
-                // The enumeration type H5F.CreateMode provides only the legal 
-                // creation modes.  Missing H5Fcreate parameters are provided
-                // with default values.
-                H5FileId fileId = H5F.create("myCSharp.h5",
-                                             H5F.CreateMode.ACC_TRUNC);
-
-                // Create a HDF5 group.  
-                H5GroupId groupId = H5G.create(fileId, "/cSharpGroup", 0);
-                H5GroupId subGroup = H5G.create(groupId, "mySubGroup", 0);
-
-                // Demonstrate getObjectInfo
-                ObjectInfo info = H5G.getObjectInfo(fileId, "/cSharpGroup", true);
-                Console.WriteLine("cSharpGroup header size is {0}", info.headerSize);
-                Console.WriteLine("cSharpGroup nlinks is {0}", info.nHardLinks);
-                Console.WriteLine("cSharpGroup fileno is {0} {1}",
-                     info.fileNumber[0], info.fileNumber[1]);
-                Console.WriteLine("cSharpGroup objno is {0} {1}",
-                     info.objectNumber[0], info.objectNumber[1]);
-                Console.WriteLine("cSharpGroup type is {0}", info.objectType);
+        }
 
 
-                H5G.close(subGroup);
+        public static void writeSNIRF(List<core.Data> data, string filename, int nirs_index = -1, int data_index = 0)
+        {
 
-                // Prepare to create a data space for writing a 1-dimensional 
-                // signed integer array.
-                ulong[] dims = new ulong[RANK];
-                dims[0] = DATA_ARRAY_LENGTH;
+            for (int i = 0; i < data.Count; i++)
+            {
+                writeSNIRF(data[i], filename, i,data_index);
+            }
 
-                // Put descending ramp data in an array so that we can
-                // write it to the file.
-                int[] dset_data = new int[DATA_ARRAY_LENGTH];
-                for (int i = 0; i < DATA_ARRAY_LENGTH; i++)
-                    dset_data[i] = DATA_ARRAY_LENGTH - i;
+        }
 
-                // Create a data space to accommodate our 1-dimensional array.
-                // The resulting H5DataSpaceId will be used to create the 
-                // data set.
-                H5DataSpaceId spaceId = H5S.create_simple(RANK, dims);
+        public static void writeSNIRF(core.Data data, string filename,int nirs_index=-1, int data_index = 0)
+        {
+            hid_t tmp;
+            hid_t fileId = H5F.create(filename, H5F.ACC_TRUNC);
+            hid_t IDnirs;
 
-                // Create a copy of a standard data type.  We will use the 
-                // resulting H5DataTypeId to create the data set.  We could
-                // have  used the HST.H5Type data directly in the call to 
-                // H5D.create, but this demonstrates the use of H5T.copy 
-                // and the use of a H5DataTypeId in H5D.create.
-                H5DataTypeId typeId = H5T.copy(H5T.H5Type.NATIVE_INT);
+            if (nirs_index == -1)
+            {
+               IDnirs = H5G.create(fileId, "/nirs");
+            }else
+            {
+               IDnirs = H5G.create(fileId, String.Format("/nirs{0}",nirs_index));
+            }
 
-                // Find the size of the type
-                uint typeSize = H5T.getSize(typeId);
-                Console.WriteLine("typeSize is {0}", typeSize);
 
-                // Set the order to big endian
-                H5T.setOrder(typeId, H5T.Order.BE);
+            // formatVersion-  [string] = "1.0"
+            tmp = nirs.io.AddDataString(fileId,"formatVersion","1.0");
 
-                // Set the order to little endian
-                H5T.setOrder(typeId, H5T.Order.LE);
 
-                // Create the data set.
-                H5DataSetId dataSetId = H5D.create(fileId, "/csharpExample",
-                                                   typeId, spaceId);
+            // Metadatatags
+            hid_t metaIdx = H5G.create(IDnirs,"metaDataTags");
+            for (int i = 0; i < data.demographics.Keys.Count; i++)
+            {
+             tmp = nirs.io.AddDataString(metaIdx, data.demographics.Keys[i],
+                                        string.Format("{0}",data.demographics.get(data.demographics.Keys[i])));
+            }
+            tmp = nirs.io.AddDataString(metaIdx, "SNIRF_createDate", DateTime.Now.ToString("YYYY-MM-dd"));
+            tmp = nirs.io.AddDataString(metaIdx, "SNIRF_createTime", DateTime.Now.ToString("HH:mm:ss")+"Z");
+            tmp = nirs.io.AddDataString(metaIdx, "LengthUnit", "mm");
+            tmp = nirs.io.AddDataString(metaIdx, "TimeUnit", "s");
+            if (!data.demographics.Keys.Contains("MeasurementDate"))
+            {
+                tmp = nirs.io.AddDataString(metaIdx, "MeasurementDate", "?");
+            }
+            if (!data.demographics.Keys.Contains("MeasurementTime"))
+            {
+                tmp = nirs.io.AddDataString(metaIdx, "MeasurementDate", "?");
+            }
+            if (!data.demographics.Keys.Contains("SubjectID"))
+            {
+                tmp = nirs.io.AddDataString(metaIdx, "SubjectID", "annonymous");
+            }
+            H5G.close(metaIdx);
 
-                // Write the integer data to the data set.
 
-                H5D.write(dataSetId, new H5DataTypeId(H5T.H5Type.NATIVE_INT),
-                                  new H5Array<int>(dset_data));
+            // Probe
 
-                // If we were writing a single value it might look like this.
-                //  int singleValue = 100;
-                //  H5D.writeScalar(dataSetId, new H5DataTypeId(H5T.H5Type.NATIVE_INT),
-                //     ref singleValue);
+            hid_t probeIdx = H5G.create(IDnirs, "probe"); // used to be IDdata
 
-                // Create an integer array to receive the read data.
-                int[] readDataBack = new int[DATA_ARRAY_LENGTH];
 
-                // Read the integer data back from the data set
-                H5D.read(dataSetId, new H5DataTypeId(H5T.H5Type.NATIVE_INT),
-                    new H5Array<int>(readDataBack));
-
-                // Echo the data
-                for (int i = 0; i < DATA_ARRAY_LENGTH; i++)
+            List<double> lambda = new List<double>();
+            for (int i = 0; i < data.probe.numChannels; i++)
+            {
+                if (!lambda.Contains(data.probe.ChannelMap[i].wavelength))
                 {
-                    Console.WriteLine(readDataBack[i]);
+                    lambda.Add(data.probe.ChannelMap[i].wavelength);
+                }
+            }
+            double[] wav = new double[lambda.Count];
+            for (int i = 0; i < lambda.Count; i++)
+            {
+                wav[i] = lambda[i];
+            }
+            // data#/probe/wavelengths [numeric]
+            tmp = nirs.io.AddDataVector(probeIdx, "wavelengths", wav);
+
+            // TODO data#/probe/wavelengthsEmissions [numeric] 
+
+            // data#/probe/sourcePos [numeric] 
+            tmp = nirs.io.AddDataArray(probeIdx, "sourcePos2D", data.probe.SrcPos);
+
+            // data#/probe/detectorPos [numeric] 
+            tmp = nirs.io.AddDataArray(probeIdx, "detectorPos2D", data.probe.DetPos);
+
+            if (data.probe.SrcPos3D != null)
+            {
+                // data#/probe/sourcePos [numeric] 
+                tmp = nirs.io.AddDataArray(probeIdx, "sourcePos3D", data.probe.SrcPos3D);
+            }
+
+            if (data.probe.DetPos3D != null)
+            {
+                // data#/probe/detectorPos [numeric] 
+                tmp = nirs.io.AddDataArray(probeIdx, "detectorPos3D", data.probe.DetPos3D);
+            }
+
+            // data#/probe/sourceLabels [string] 
+           if (data.probe.SourceLabels == null)
+            {
+                data.probe.SourceLabels = new string[data.probe.numSrc];
+                for (int i = 0; i < data.probe.numSrc; i++)
+                {
+                    data.probe.SourceLabels[i] = string.Format("Source-{0}", i + 1);
+                }
+            }
+
+            for (int i = 0; i < data.probe.numSrc; i++)
+            {
+                tmp = nirs.io.AddDataString(probeIdx, String.Format("sourceLabels{0}", i),
+                                            data.probe.SourceLabels[i]);
+            }
+
+            // data#/probe/detectorLabels [string]
+            if (data.probe.DetectorLabels == null)
+            {
+                data.probe.DetectorLabels = new string[data.probe.numDet];
+                for (int i = 0; i < data.probe.numDet; i++)
+                {
+                    data.probe.DetectorLabels[i] = string.Format("Detector-{0}", i + 1);
+                }
+            }
+
+
+            for (int i = 0; i < data.probe.numDet; i++)
+            {
+                tmp = nirs.io.AddDataString(probeIdx, String.Format("detectorLabels{0}", i),
+                                            data.probe.DetectorLabels[i]);
+            }
+            // data#/probe/landmarkLabels [string]
+            if (data.probe.LandmarkLabels != null)
+            {
+                for (int i = 0; i < data.probe.LandmarkLabels.Length; i++)
+                {
+                    tmp = nirs.io.AddDataString(probeIdx, String.Format("landmarkLabels{0}", i),
+                                                data.probe.LandmarkLabels[i]);
+                }
+            }
+            // data#/probe/landmark [numeric array]
+            if (data.probe.LandmarkPos != null)
+            {
+                tmp = nirs.io.AddDataArray(probeIdx, "landmarkPos2D", data.probe.LandmarkPos);
+            }
+
+
+
+            if (data.probe.LandmarkPos3D != null)
+            {
+                tmp = nirs.io.AddDataArray(probeIdx, "landmarkPos3D", data.probe.LandmarkPos3D);
+            }
+
+            // data#/probe/useLocalIndex [int] = 0
+            if (data.probe.uselocalIndex != null)
+            {
+                tmp = nirs.io.AddDataValue(probeIdx, "useLocalIndex", data.probe.uselocalIndex.Value);
+            }
+            H5G.close(probeIdx);
+
+
+            hid_t IDdata = H5G.create(IDnirs, String.Format("data{0}",data_index+1));
+
+            double[,] d = new double[data.data.Length, data.data[0].Count];
+            for(int i=0;i< data.data.Length; i++)
+            {
+                for(int j=0; j< data.data[i].Count; j++)
+                {
+                    d[i,j] = data.data[i][j];
+                }
+            }
+            tmp = nirs.io.AddDataArray(IDdata, "dataTimeSeries", d);
+            // data_#/time [numeric]  time x 1
+
+            double[] time = new double[data.time.Count];
+            for(int i=0; i<data.time.Count; i++)
+            {
+                time[i] = data.time[i];
+            }
+            tmp = nirs.io.AddDataVector(IDdata, "time", time);
+
+
+
+            // MeasurementList
+            hid_t[] IDmeas = new hid_t[data.probe.numChannels];
+            for (int ch = 0; ch < data.probe.numChannels; ch++)
+            {
+                IDmeas[ch] = H5G.create(IDdata, String.Format("measurementList{0}",ch+1));
+                //data_#/measurementList_#/sourceIndex [int; index from 1]
+                tmp = nirs.io.AddDataValue(IDmeas[ch],"sourceIndex",data.probe.ChannelMap[ch].sourceindex + 1);
+                //data_#/measurementList_#detectorIndex [int; index from 1]
+                tmp = nirs.io.AddDataValue(IDmeas[ch], "detectorIndex", data.probe.ChannelMap[ch].detectorindex + 1);
+                //data_#/measurementList_#/wavelengthIndex [int; index from 1]
+                tmp = nirs.io.AddDataValue(IDmeas[ch], "wavelengthIndex",
+                                           lambda.IndexOf(data.probe.ChannelMap[ch].wavelength) + 1);
+                //data_#/measurementList_#/dataType [int]
+                tmp = nirs.io.AddDataValue(IDmeas[ch], "dataType", (int)data.probe.ChannelMap[ch].datatype);
+                //data_#/measurementList_#/dataTypeIndex [int; index from 1]
+                tmp = nirs.io.AddDataValue(IDmeas[ch], "dataTypeIndex", data.probe.ChannelMap[ch].dataindex + 1);
+
+
+                //{optional}
+                //data_#/measurementList_#/sourcePower [int]
+                if(data.probe.ChannelMap[ch].SourcePower!=null){
+                    tmp = nirs.io.AddDataValue(IDmeas[ch], "sourcePower", data.probe.ChannelMap[ch].SourcePower.Value);
                 }
 
-                // Close all the open resources.
-                H5D.close(dataSetId);
+                //data_#/measurementList_#/detectorGain [int]
+                if(data.probe.ChannelMap[ch].DetectorGain!=null){
+                    tmp = nirs.io.AddDataValue(IDmeas[ch], "detectorGain", data.probe.ChannelMap[ch].DetectorGain.Value);
+                }
+                //data_#/measurementList_#/moduleIndex [int]
+                if(data.probe.ChannelMap[ch].moduleIndex!=null){
+                    tmp = nirs.io.AddDataValue(IDmeas[ch], "moduleIndex", data.probe.ChannelMap[ch].moduleIndex.Value);
+                }
 
-                // Reopen and close the data sets to show that we can.
-                dataSetId = H5D.open(fileId, "/csharpExample");
-                H5D.close(dataSetId);
-                dataSetId = H5D.open(groupId, "/csharpExample");
-                H5D.close(dataSetId);
 
-                H5S.close(spaceId);
-                H5T.close(typeId);
-                H5G.close(groupId);
-
-                //int x = 10;
-                //H5T.enumInsert<int>(typeId, "myString", ref x);
-                //H5G.close(groupId);
-                H5GIterateDelegate myDelegate;
-                myDelegate = myFunction;
-                int x = 9;
-                int index = H5G.iterate(fileId, "/cSharpGroup",
-                    myDelegate, x, 0);
-
-                // Reopen the group id to show that we can.
-                groupId = H5G.open(fileId, "/cSharpGroup");
-                H5G.close(groupId);
-
-                H5F.close(fileId);
-
-                // Reopen and reclose the file.
-                H5FileId openId = H5F.open("myCSharp.h5",
-                                           H5F.OpenMode.ACC_RDONLY);
-                H5F.close(openId);
+                H5G.close(IDmeas[ch]);
             }
-            // This catches all the HDF exception classes.  Because each call
-            // generates unique exception, different exception can be handled
-            // separately.  For example, to catch open errors we could have used
-            // catch (H5FopenException openException).
-            catch (HDFException e)
+            H5G.close(IDdata);
+
+
+            hid_t[] IDstim = new hid_t[data.stimulus.Count];
+           for (int st = 0; st < data.stimulus.Count; st++)
             {
-                Console.WriteLine(e.Message);
+                IDstim[st] = H5G.create(IDnirs, String.Format("stim{0}", st+1));
+                // data_#/stim#/name [string]
+
+                tmp = nirs.io.AddDataString(IDstim[st], "name",
+                                            data.stimulus[st].name);
+
+                // data_#/stim#/data [numeric] <#events x 3>  onset,dur,amp
+
+                int n = data.stimulus[st].onsets.Count;
+                double[,] evt = new double[n,3];
+
+                for (int i = 0; i < n; i++){
+                    evt[i, 0] = data.stimulus[st].onsets[i];
+                    evt[i, 1] = data.stimulus[st].duration[i];
+                    evt[i, 2] = data.stimulus[st].amplitude[i];
+                    
+                }
+                tmp = nirs.io.AddDataArray(IDstim[st], "data", evt);
+
+                H5G.close(IDstim[st]);
             }
 
-            Console.WriteLine("Processing complete!");
-            Console.ReadLine();
+
+
+
+
+
+
+            if (data.auxillaries != null)
+            {
+                hid_t[] IDaux = new hid_t[data.auxillaries.Length];
+                for (int st = 0; st < data.auxillaries.Length; st++)
+                {
+                    IDaux[st] = H5G.create(IDnirs, String.Format("aux{0}", st+1));
+                    // data_#/aux#/name [string]
+                    tmp = nirs.io.AddDataString(IDaux[st], "name", data.auxillaries[st].name);
+                    // data_#/aux#/dataTimeSeries
+                    tmp = nirs.io.AddDataVector(IDaux[st], "dataTimeSeries", data.auxillaries[st].data);
+                    // data_#/aux#/time
+                    tmp = nirs.io.AddDataVector(IDaux[st], "time", data.auxillaries[st].time);
+                    // data_#/aux#/timeOffset
+                    if(data.auxillaries[st].timeOffset!=null){
+                        tmp = nirs.io.AddDataValue(IDaux[st], "timeOffset", data.auxillaries[st].timeOffset.Value);
+
+                    }
+
+
+                    H5G.close(IDaux[st]);
+                }
+            }
+
+            H5G.close(IDnirs);
+            H5F.close(fileId);
+            return;
         }
+      
+        /// Helper functions to add values, strings, and arrays
+
+        private static hid_t AddDataArray(hid_t parentLoc,string name, double[,] data){
+            // Write the data to the parent field
+
+            hid_t type = H5T.NATIVE_DOUBLE;
+
+            hsize_t[] dims = new hsize_t[2];
+            dims[0] = (hsize_t)data.GetLength(0);
+            dims[1] = (hsize_t)data.GetLength(1);
+
+            hid_t spaceId = H5S.create_simple(2, dims, null);
+            hid_t dataSetId = H5D.create(parentLoc, name, type, spaceId);
+
+
+            // Write the integer data to the data set.
+            GCHandle hnd = GCHandle.Alloc(data, GCHandleType.Pinned);
+            H5D.write(dataSetId, type, H5S.ALL, H5S.ALL, H5P.DEFAULT, hnd.AddrOfPinnedObject());
+            hnd.Free();
+            H5D.close(dataSetId);
+
+            return dataSetId;
+        }
+
+
+        private static hid_t AddDataVector(hid_t parentLoc, string name, double[] data)
+        {
+            // Write the data to the /nirs/data field
+            hid_t type = H5T.NATIVE_DOUBLE;
+
+            hsize_t[] dims = new hsize_t[1];
+            dims[0] = (hsize_t)data.Length;
+
+            hid_t spaceId = H5S.create_simple(1, dims, null);
+            hid_t dataSetId = H5D.create(parentLoc, name, type, spaceId);
+
+
+            // Write the integer data to the data set.
+            GCHandle hnd = GCHandle.Alloc(data, GCHandleType.Pinned);
+            H5D.write(dataSetId, type, H5S.ALL, H5S.ALL, H5P.DEFAULT, hnd.AddrOfPinnedObject());
+            hnd.Free();
+            H5D.close(dataSetId);
+
+            return dataSetId;
+        }
+
+
+        private static hid_t AddDataValue(hid_t parentLoc, string name, double data)
+        {
+            // Write the data to the /nirs/data field
+            hid_t type = H5T.NATIVE_DOUBLE;
+            hsize_t[] dims = new hsize_t[1];
+            dims[0] = 1;
+
+            hid_t spaceId = H5S.create_simple(1, dims, null);
+            hid_t dataSetId = H5D.create(parentLoc, name, type, spaceId);
+
+
+            // Write the integer data to the data set.
+            GCHandle hnd = GCHandle.Alloc(data, GCHandleType.Pinned);
+            H5D.write(dataSetId, type, H5S.ALL, H5S.ALL, H5P.DEFAULT, hnd.AddrOfPinnedObject());
+            hnd.Free();
+            H5D.close(dataSetId);
+
+            return dataSetId;
+        }
+        private static hid_t AddDataValue(hid_t parentLoc, string name, int data)
+        {
+            // Write the data to the /nirs/data field
+            hid_t type = H5T.NATIVE_INT;
+            hsize_t[] dims = new hsize_t[1];
+            dims[0] = 1;
+
+            hid_t spaceId = H5S.create_simple(1, dims, null);
+            hid_t dataSetId = H5D.create(parentLoc, name, type, spaceId);
+
+
+            // Write the integer data to the data set.
+            GCHandle hnd = GCHandle.Alloc(data, GCHandleType.Pinned);
+            H5D.write(dataSetId, type, H5S.ALL, H5S.ALL, H5P.DEFAULT, hnd.AddrOfPinnedObject());
+            hnd.Free();
+            H5D.close(dataSetId);
+            
+            return dataSetId;
+        }
+
+        private static hid_t AddDataString(hid_t parentLoc, string name, string data)
+        {
+            
+            
+            byte[][] wdata = new byte[1][];
+            wdata[0] = ASCIIEncoding.ASCII.GetBytes(data);
+            int n = wdata[0].Length +1;
+            /*
+             * Create file and memory datatypes.  For this example we will save
+             * the strings as FORTRAN strings, therefore they do not need space
+             * for the null terminator in the file.
+             */
+
+
+            hsize_t[] dims = new hsize_t[1];
+            dims[0] = (hsize_t)1;
+            hid_t filetype = H5T.copy(H5T.FORTRAN_S1);
+            herr_t status = H5T.set_size(filetype, new IntPtr(n - 1));
+            hid_t memtype = H5T.copy(H5T.C_S1);
+            status = H5T.set_size(memtype, new IntPtr(n));
+
+            /*
+             * Create dataspace.  Setting maximum size to NULL sets the maximum
+             * size to be the current size.
+             */
+            hid_t space = H5S.create_simple(1, dims, null);
+
+            /*
+             * Create the dataset and write the string data to it.
+             */
+            hid_t dset = H5D.create(parentLoc, name, filetype, space, H5P.DEFAULT, H5P.DEFAULT,
+                        H5P.DEFAULT);
+            GCHandle hnd = GCHandle.Alloc(wdata[0], GCHandleType.Pinned);
+            // herr_t flag= H5D.write(dataSetId, type, H5S.ALL, H5S.ALL, H5P.DEFAULT, hnd.AddrOfPinnedObject());
+            status = H5D.write(dset, memtype, H5S.ALL, H5S.ALL, H5P.DEFAULT, hnd.AddrOfPinnedObject());
+
+            /*
+             * Close and release resources.
+             */
+            status = H5D.close(dset);
+            status = H5S.close(space);
+            status = H5T.close(filetype);
+            status = H5T.close(memtype);
+
+            return dset;
+
+
+
+        }
+
+
     }
 }
-/// <summary>
-/// The h5 file identifier.
-/// </summary>
-
-H5.Open();
-var h5FileId = H5F.open("example.h5");
-double[,] dataArray = h5FileId.Read2DArray<double>("/Timings/aaPCBTimes");
-// or more generically...
-T[,] dataArray = h5FileId.Read2DArray<T>("/Timings/aaPCBTimes");
 
 
 
-public static class HdfExtensions
-{
-    // thank you http://stackoverflow.com/questions/4133377/splitting-a-string-number-every-nth-character-number
-    public static IEnumerable<String> SplitInParts(this String s, Int32 partLength)
-    {
-        if (s == null)
-            throw new ArgumentNullException("s");
-        if (partLength <= 0)
-            throw new ArgumentException("Part length has to be positive.", "partLength");
-
-        for (var i = 0; i < s.Length; i += partLength)
-            yield return s.Substring(i, Math.Min(partLength, s.Length - i));
-    }
-
-    public static T[] Read1DArray<T>(this H5FileId fileId, string dataSetName)
-    {
-        var dataset = H5D.open(fileId, dataSetName);
-        var space = H5D.getSpace(dataset);
-        var dims = H5S.getSimpleExtentDims(space);
-        var dataType = H5D.getType(dataset);
-        if (typeof(T) == typeof(string))
-        {
-            int stringLength = H5T.getSize(dataType);
-            byte[] buffer = new byte[dims[0] * stringLength];
-            H5D.read(dataset, dataType, new H5Array<byte>(buffer));
-            string stuff = System.Text.ASCIIEncoding.ASCII.GetString(buffer);
-            return stuff.SplitInParts(stringLength).Select(ss => (T)(object)ss).ToArray();
-        }
-        T[] dataArray = new T[dims[0]];
-        var wrapArray = new H5Array<T>(dataArray);
-        H5D.read(dataset, dataType, wrapArray);
-        return dataArray;
-    }
-
-    public static T[,] Read2DArray<T>(this H5FileId fileId, string dataSetName)
-    {
-        var dataset = H5D.open(fileId, dataSetName);
-        var space = H5D.getSpace(dataset);
-        var dims = H5S.getSimpleExtentDims(space);
-        var dataType = H5D.getType(dataset);
-        if (typeof(T) == typeof(string))
-        {
-            // this will also need a string hack...
-        }
-        T[,] dataArray = new T[dims[0], dims[1]];
-        var wrapArray = new H5Array<T>(dataArray);
-        H5D.read(dataset, dataType, wrapArray);
-        return dataArray;
-    }
-}
-*/
