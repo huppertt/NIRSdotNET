@@ -20,6 +20,7 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/bin64/zlib.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/liblsl.1.14.0.dylib
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/liblsl.dylib
+/Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/liblsl.1.14.0.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/NIRSrecorder.exe.config
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/NIRSrecorder.exe
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/NIRSrecorder.pdb
