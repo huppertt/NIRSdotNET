@@ -254,8 +254,8 @@ public partial class MainWindow : Window
         MainClass.win.Resize(1700, 900);
         MainClass.win.ResizeChildren();
         
-        MainClass.win.Resizable = false;
-        //MainClass.win.ResizeMode = Gtk.ResizeMode.Queue;
+       // MainClass.win.Resizable = false;
+       MainClass.win.ResizeMode = Gtk.ResizeMode.Queue;
         ShowAll();
         
     }
@@ -369,6 +369,7 @@ public partial class MainWindow : Window
 
                 det.frame = new Frame(det.name);
                 VBox _box = new VBox(false, 0);
+                _box.PackStart(new Gtk.Fixed());
                 det.led = new ColorButton(new Gdk.Color(0, 255, 0))
                 {
                     HeightRequest = 25,
@@ -417,6 +418,7 @@ public partial class MainWindow : Window
                     gain = new int[_info.numwavelengths],
                     state = new bool[_info.numwavelengths],
                     buttons = new Button[_info.numwavelengths],
+                    led = new ColorButton[_info.numwavelengths],
                     spinButtons = new SpinButton[_info.numwavelengths],
                     deviceIdx = i,
                     frame = frame
@@ -433,7 +435,22 @@ public partial class MainWindow : Window
                     {
                         Label = src.name
                     };
-                    _hbx2.PackStart(src.buttons[k]);
+
+                    VBox _vbx3 = new VBox(true, 0);
+                    _vbx3.PackStart(src.buttons[k]);
+                    _vbx3.PackStart(new Gtk.Fixed());
+                    _hbx2.PackStart(_vbx3);
+
+                    VBox _vbx2 = new VBox(true, 0);
+
+
+                    src.led[k] = new ColorButton(new Gdk.Color(128,128,128))
+                    {
+                        HeightRequest = 25,
+                        Sensitive = false
+                    };
+                    _vbx2.PackStart(src.led[k]);
+
                     src.spinButtons[k] = new SpinButton(0, settings.system_Info.maxpower, 1)
                     {
                         Value = 0
@@ -451,8 +468,15 @@ public partial class MainWindow : Window
                     src.buttons[k].ModifyBg(StateType.Active, new Gdk.Color(128, 128, 128));
                     src.spinButtons[k].ValueChanged += SrcValueChanged;
 
-                    _hbx2.PackStart(src.spinButtons[k]);
+                    _vbx2.PackStart(src.spinButtons[k]);
+                    _hbx2.PackStart(_vbx2);
                     _hbx.PackStart(_hbx2);
+
+                    if(k < _info.numwavelengths - 1)
+                    {
+                        _hbx.PackStart(new Gtk.VSeparator());
+                    }
+
                 }
                 src.frame.Add(_hbx);
                 _vbx.PackStart(src.frame);

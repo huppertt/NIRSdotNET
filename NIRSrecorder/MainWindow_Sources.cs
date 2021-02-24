@@ -47,12 +47,14 @@ public partial class MainWindow : Window
                     laser.buttons[i].ModifyBg(StateType.Normal, new Gdk.Color(255, 0, 0));
                     laser.buttons[i].ModifyBg(StateType.Selected, new Gdk.Color(255, 0, 0));
                     laser.buttons[i].ModifyBg(StateType.Active, new Gdk.Color(255, 0, 0));
+                    laser.led[i].Color = new Gdk.Color(255, 0, 0);
                 }
                 else
                 {
                     laser.buttons[i].ModifyBg(StateType.Normal, new Gdk.Color(128, 128, 128));
                     laser.buttons[i].ModifyBg(StateType.Selected, new Gdk.Color(128, 128, 128));
                     laser.buttons[i].ModifyBg(StateType.Active, new Gdk.Color(128, 128, 128));
+                    laser.led[i].Color = new Gdk.Color(128,128,128);
                 }
             }
         }
@@ -65,12 +67,14 @@ public partial class MainWindow : Window
                 laser.buttons[laserIdx].ModifyBg(StateType.Normal, new Gdk.Color(255, 0, 0));
                 laser.buttons[laserIdx].ModifyBg(StateType.Selected, new Gdk.Color(255, 0, 0));
                 laser.buttons[laserIdx].ModifyBg(StateType.Active, new Gdk.Color(255, 0, 0));
+                laser.led[laserIdx].Color = new Gdk.Color(255, 0, 0);
             }
             else
             {
                 laser.buttons[laserIdx].ModifyBg(StateType.Normal, new Gdk.Color(128, 128, 128));
                 laser.buttons[laserIdx].ModifyBg(StateType.Selected, new Gdk.Color(128, 128, 128));
                 laser.buttons[laserIdx].ModifyBg(StateType.Active, new Gdk.Color(128, 128, 128));
+                laser.led[laserIdx].Color = new Gdk.Color(128,128,128);
             }
         }
         laser.state = state;
@@ -85,6 +89,7 @@ public partial class MainWindow : Window
         {
             label_srcbottom.Text = "Sources are On";
             colorbutton_srcbottom.Color = new Gdk.Color(255, 0, 0);
+            colorbutton4.Color = new Gdk.Color(255, 0, 0);
             button_srcOnOff.Label = "Turn Sources Off";
 
         }
@@ -92,6 +97,7 @@ public partial class MainWindow : Window
         {
             label_srcbottom.Text = "Sources are Off";
             colorbutton_srcbottom.Color = new Gdk.Color(128, 128, 128);
+            colorbutton4.Color = new Gdk.Color(128, 128, 128);
             button_srcOnOff.Label = "Turn Sources On";
         }
 
@@ -138,6 +144,7 @@ public partial class MainWindow : Window
             ((Button)sender).Label = "Turn Sources Off";
             label_srcbottom.Text = "Sources are On";
             colorbutton_srcbottom.Color = new Gdk.Color(255, 0, 0);
+            colorbutton4.Color = new Gdk.Color(255, 0, 0);
 
             for (int i = 0; i < _handles.lasers.Count; i++)
             {
@@ -150,6 +157,7 @@ public partial class MainWindow : Window
                     lasers.buttons[j].ModifyBg(StateType.Normal, new Gdk.Color(255, 0, 0));
                     lasers.buttons[j].ModifyBg(StateType.Selected, new Gdk.Color(255, 0, 0));
                     lasers.buttons[j].ModifyBg(StateType.Active, new Gdk.Color(255, 0, 0));
+                    lasers.led[j].Color = new Gdk.Color(255,0,0);
                 }
                 _handles.lasers[i] = lasers;
             }
@@ -160,7 +168,7 @@ public partial class MainWindow : Window
             ((Button)sender).Label = "Turn Sources On";
             label_srcbottom.Text = "Sources are Off";
             colorbutton_srcbottom.Color = new Gdk.Color(128, 128, 128);
-
+            colorbutton4.Color = new Gdk.Color(128, 128, 128);
 
             for (int i = 0; i < _handles.lasers.Count; i++)
             {
@@ -173,6 +181,7 @@ public partial class MainWindow : Window
                     lasers.buttons[j].ModifyBg(StateType.Normal, new Gdk.Color(128, 128, 128));
                     lasers.buttons[j].ModifyBg(StateType.Selected, new Gdk.Color(128, 128, 128));
                     lasers.buttons[j].ModifyBg(StateType.Active, new Gdk.Color(128, 128, 128));
+                    lasers.led[j].Color = new Gdk.Color(128,128,128);
                 }
                 _handles.lasers[i] = lasers;
             }

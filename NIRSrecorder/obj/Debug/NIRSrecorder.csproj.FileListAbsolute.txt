@@ -40,7 +40,6 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/MathNet.Filtering.Kalman.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/bin/Debug/System.ValueTuple.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/obj/Debug/NIRSrecorder.csprojAssemblyReference.cache
-/Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/obj/Debug/NIRSrecorder.exe.config
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/obj/Debug/NIRSrecorder.csproj.CoreCompileInputs.cache
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/obj/Debug/NIRSrecorder.csproj.CopyComplete
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/obj/Debug/NIRSrecorder.exe

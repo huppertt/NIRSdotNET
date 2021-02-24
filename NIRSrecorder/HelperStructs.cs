@@ -35,6 +35,7 @@ public struct Lasers
     public SpinButton[] spinButtons;
     public Button[] buttons;
     public Frame frame;
+    public ColorButton[] led;
 }
 
 // Struct to hold info about the GUI-Detector to instrument mappings (including the GUI-controls)
