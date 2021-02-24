@@ -35,6 +35,7 @@ namespace NIRSDAQ
 
                 // num measurements
                 private int _nmeas = 24;
+                private nirs.core.Probe Probe;
 
                 public void Initialize(nirs.core.Probe probe)
                 {
@@ -44,6 +45,7 @@ namespace NIRSDAQ
                     {
                         dataqueue[i] = new Queue();
                     }
+                    Probe = probe;
 
                 }
 
@@ -265,7 +267,8 @@ namespace NIRSDAQ
 
                             for (int i = 0; i < _nmeas; i++)
                             {
-                                dataqueue[i].Enqueue(rnd.NextDouble() * 100 + i * 10 + 50 * detgains[0]);
+                                int dI = Probe.ChannelMap[i].detectorindex;
+                                dataqueue[i].Enqueue(rnd.NextDouble() * 100 + i * 10 + 50 * detgains[dI]);
                             }
                             Thread.Sleep(wait);
                         }

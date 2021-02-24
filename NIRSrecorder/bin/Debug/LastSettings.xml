@@ -1,5 +1,5 @@
 ﻿<settings>
-    <probefile>C:\Users\NIRS\Desktop\NIRSRecordIR\Data\TechEn\Wireless\Probe.xml</probefile>
+    <probefile>/Users/theodorehuppert/Desktop/NIRSRecordIR/Data/TechEn/Wireless/Probe.xml</probefile>
     <Investigator>TechEn</Investigator>
     <Study>Wireless</Study>
 </settings>

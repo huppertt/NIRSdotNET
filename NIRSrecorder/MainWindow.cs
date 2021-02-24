@@ -107,6 +107,11 @@ public partial class MainWindow : Window
         }
 
 
+        // Default set the detector to 32
+        spinbutton1.Value = 32;
+        // set the laser powers to 50%
+        spinbutton3.Value = 50;
+
 
 
         Gtk.ListStore ClearList = new Gtk.ListStore(typeof(string));
@@ -233,9 +238,19 @@ public partial class MainWindow : Window
             checkbutton_LSLStimInlet.Active = false;
         }
 #endif
+#if !ADDLSL
+        checkbutton_LSLdata.Sensitive = false;
+        combobox_selectLSLStimInlet.Sensitive = false;
+        checkbutton_LSLStimInlet.Active = false;
+        checkbutton_LSLdata.Active = false;
+        frame25.Sensitive = false;
+        frame25.Visible = false;
+        vbox15.Sensitive = false;
+        vbox15.Visible = false;
+#endif
 
-       // MainClass.win.Fullscreen();
-        
+        // MainClass.win.Fullscreen();
+
         MainClass.win.Resize(1700, 900);
         MainClass.win.ResizeChildren();
         
@@ -565,7 +580,8 @@ public partial class MainWindow : Window
         entryYmax.Sensitive = flag;
         entryYmin.Sensitive = flag;
 
-
+        // TODO - 
+        button_autoadjust.Sensitive = false;
     }
 
     protected void ConnectDevices(object sender, EventArgs e)

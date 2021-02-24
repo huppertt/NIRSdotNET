@@ -6,8 +6,10 @@
     
 <!-- These folders need to reflect where the data is stored on yor computer -->
     <default_folders>
-        <datadir>C:\Users\NIRS\Desktop\NIRSRecordIR\Data</datadir>
-        <probedir>C:\Users\NIRS\Desktop\NIRSRecordIR\Probe</probedir>
+        <datadir>/Users/theodorehuppert/Desktop/NIRSRecordIR/Data</datadir>
+        <probedir>/Users/theodorehuppert/Desktop/NIRSRecordIR/Probe</probedir>
+      <!--  <datadir>C:\Users\NIRS\Desktop\NIRSRecordIR\Data</datadir> -->
+      <!--  <probedir>C:\Users\NIRS\Desktop\NIRSRecordIR\Probe</probedir> -->
     </default_folders>
     
 <!-- UNCOMMENT one of the instrument types {BTNIRS,CW6,Simulator,SimulatorHyperScan} -->

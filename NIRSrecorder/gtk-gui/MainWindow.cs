@@ -215,7 +215,7 @@ public partial class MainWindow
 
 	private global::Gtk.Entry entryYmin;
 
-	private global::Gtk.Label GtkLabel8;
+	private global::Gtk.Label GtkLabel12;
 
 	private global::Gtk.Frame frame11;
 
@@ -479,19 +479,31 @@ public partial class MainWindow
 
 	private global::Gtk.CheckButton checkbutton3;
 
-	private global::Gtk.HBox hbox20;
+	private global::Gtk.Frame frame9;
+
+	private global::Gtk.Alignment GtkAlignment13;
+
+	private global::Gtk.VBox vbox22;
 
 	private global::Gtk.CheckButton checkbutton4;
+
+	private global::Gtk.HBox hbox20;
+
+	private global::Gtk.Label label25;
 
 	private global::Gtk.Entry entry3;
 
 	private global::Gtk.CheckButton checkbuttonReset;
+
+	private global::Gtk.Label GtkLabel33;
 
 	private global::Gtk.HBox hbox17;
 
 	private global::Gtk.Label label23;
 
 	private global::Gtk.ComboBoxEntry comboboxentry1;
+
+	private global::Gtk.CheckButton checkbutton5;
 
 	private global::Gtk.Label GtkLabel35;
 
@@ -636,61 +648,61 @@ public partial class MainWindow
 		this.Device1.Visible = false;
 		w1.Add(this.Device1, null);
 		this.Device2 = new global::Gtk.RadioAction("Device2", global::Mono.Unix.Catalog.GetString("2"), null, null, 0);
-		this.Device2.Group = this.Device1.Group;
+		this.Device2.Group = this.DualViewAction.Group;
 		this.Device2.Sensitive = false;
 		this.Device2.ShortLabel = global::Mono.Unix.Catalog.GetString("2");
 		this.Device2.Visible = false;
 		w1.Add(this.Device2, null);
 		this.Device3 = new global::Gtk.RadioAction("Device3", global::Mono.Unix.Catalog.GetString("3"), null, null, 0);
-		this.Device3.Group = this.Device1.Group;
+		this.Device3.Group = this.DualViewAction.Group;
 		this.Device3.Sensitive = false;
 		this.Device3.ShortLabel = global::Mono.Unix.Catalog.GetString("3");
 		this.Device3.Visible = false;
 		w1.Add(this.Device3, null);
 		this.Device4 = new global::Gtk.RadioAction("Device4", global::Mono.Unix.Catalog.GetString("4"), null, null, 0);
-		this.Device4.Group = this.Device1.Group;
+		this.Device4.Group = this.DualViewAction.Group;
 		this.Device4.Sensitive = false;
 		this.Device4.ShortLabel = global::Mono.Unix.Catalog.GetString("4");
 		this.Device4.Visible = false;
 		w1.Add(this.Device4, null);
 		this.Device5 = new global::Gtk.RadioAction("Device5", global::Mono.Unix.Catalog.GetString("5"), null, null, 0);
-		this.Device5.Group = this.Device1.Group;
+		this.Device5.Group = this.Device4.Group;
 		this.Device5.Sensitive = false;
 		this.Device5.ShortLabel = global::Mono.Unix.Catalog.GetString("5");
 		this.Device5.Visible = false;
 		w1.Add(this.Device5, null);
 		this.Device6 = new global::Gtk.RadioAction("Device6", global::Mono.Unix.Catalog.GetString("6"), null, null, 0);
-		this.Device6.Group = this.Device1.Group;
+		this.Device6.Group = this.Device5.Group;
 		this.Device6.Sensitive = false;
 		this.Device6.ShortLabel = global::Mono.Unix.Catalog.GetString("6");
 		this.Device6.Visible = false;
 		w1.Add(this.Device6, null);
 		this.Device7 = new global::Gtk.RadioAction("Device7", global::Mono.Unix.Catalog.GetString("7"), null, null, 0);
-		this.Device7.Group = this.Device1.Group;
+		this.Device7.Group = this.Device5.Group;
 		this.Device7.Sensitive = false;
 		this.Device7.ShortLabel = global::Mono.Unix.Catalog.GetString("7");
 		this.Device7.Visible = false;
 		w1.Add(this.Device7, null);
 		this.Device8 = new global::Gtk.RadioAction("Device8", global::Mono.Unix.Catalog.GetString("8"), null, null, 0);
-		this.Device8.Group = this.Device1.Group;
+		this.Device8.Group = this.Device5.Group;
 		this.Device8.Sensitive = false;
 		this.Device8.ShortLabel = global::Mono.Unix.Catalog.GetString("8");
 		this.Device8.Visible = false;
 		w1.Add(this.Device8, null);
 		this.Device9 = new global::Gtk.RadioAction("Device9", global::Mono.Unix.Catalog.GetString("9"), null, null, 0);
-		this.Device9.Group = this.Device1.Group;
+		this.Device9.Group = this.Device5.Group;
 		this.Device9.Sensitive = false;
 		this.Device9.ShortLabel = global::Mono.Unix.Catalog.GetString("9");
 		this.Device9.Visible = false;
 		w1.Add(this.Device9, null);
 		this.Device10 = new global::Gtk.RadioAction("Device10", global::Mono.Unix.Catalog.GetString("10"), null, null, 0);
-		this.Device10.Group = this.Device1.Group;
+		this.Device10.Group = this.Device5.Group;
 		this.Device10.Sensitive = false;
 		this.Device10.ShortLabel = global::Mono.Unix.Catalog.GetString("10");
 		this.Device10.Visible = false;
 		w1.Add(this.Device10, null);
 		this.CombineSnirfFilesAction = new global::Gtk.RadioAction("CombineSnirfFilesAction", global::Mono.Unix.Catalog.GetString("Combine snirf files"), null, null, 0);
-		this.CombineSnirfFilesAction.Group = this.Device1.Group;
+		this.CombineSnirfFilesAction.Group = this.Device5.Group;
 		this.CombineSnirfFilesAction.ShortLabel = global::Mono.Unix.Catalog.GetString("Combine snirf files");
 		w1.Add(this.CombineSnirfFilesAction, null);
 		this.UIManager.InsertActionGroup(w1, 0);
@@ -1052,6 +1064,7 @@ public partial class MainWindow
 		this.vbox7.Spacing = 6;
 		// Container child vbox7.Gtk.Box+BoxChild
 		this.button_autoadjust = new global::Gtk.Button();
+		this.button_autoadjust.Sensitive = false;
 		this.button_autoadjust.CanFocus = true;
 		this.button_autoadjust.Name = "button_autoadjust";
 		this.button_autoadjust.UseUnderline = true;
@@ -1126,7 +1139,7 @@ public partial class MainWindow
 		this.notebook1.HeightRequest = 200;
 		this.notebook1.CanFocus = true;
 		this.notebook1.Name = "notebook1";
-		this.notebook1.CurrentPage = 7;
+		this.notebook1.CurrentPage = 0;
 		this.notebook1.TabPos = ((global::Gtk.PositionType)(0));
 		this.notebook1.BorderWidth = ((uint)(6));
 		// Container child notebook1.Gtk.Notebook+NotebookChild
@@ -1177,7 +1190,7 @@ public partial class MainWindow
 		this.checkbutton_autoscaleY = new global::Gtk.CheckButton();
 		this.checkbutton_autoscaleY.CanFocus = true;
 		this.checkbutton_autoscaleY.Name = "checkbutton_autoscaleY";
-		this.checkbutton_autoscaleY.Label = global::Mono.Unix.Catalog.GetString("Auto-scale Y-axis");
+		this.checkbutton_autoscaleY.Label = global::Mono.Unix.Catalog.GetString("Scale to Current Data Only");
 		this.checkbutton_autoscaleY.DrawIndicator = true;
 		this.checkbutton_autoscaleY.UseUnderline = true;
 		this.vbox21.Add(this.checkbutton_autoscaleY);
@@ -1245,11 +1258,11 @@ public partial class MainWindow
 		w52.Fill = false;
 		this.GtkAlignment14.Add(this.vbox21);
 		this.frame10.Add(this.GtkAlignment14);
-		this.GtkLabel8 = new global::Gtk.Label();
-		this.GtkLabel8.Name = "GtkLabel8";
-		this.GtkLabel8.LabelProp = global::Mono.Unix.Catalog.GetString("<b>Y-axis Scaling</b>");
-		this.GtkLabel8.UseMarkup = true;
-		this.frame10.LabelWidget = this.GtkLabel8;
+		this.GtkLabel12 = new global::Gtk.Label();
+		this.GtkLabel12.Name = "GtkLabel12";
+		this.GtkLabel12.LabelProp = global::Mono.Unix.Catalog.GetString("<b>Y-axis Scaling</b>");
+		this.GtkLabel12.UseMarkup = true;
+		this.frame10.LabelWidget = this.GtkLabel12;
 		this.vbox9.Add(this.frame10);
 		global::Gtk.Box.BoxChild w55 = ((global::Gtk.Box.BoxChild)(this.vbox9[this.frame10]));
 		w55.Position = 1;
@@ -1492,7 +1505,7 @@ public partial class MainWindow
 		this.notebook3 = new global::Gtk.Notebook();
 		this.notebook3.CanFocus = true;
 		this.notebook3.Name = "notebook3";
-		this.notebook3.CurrentPage = 0;
+		this.notebook3.CurrentPage = 1;
 		this.notebook3.TabPos = ((global::Gtk.PositionType)(1));
 		// Container child notebook3.Gtk.Notebook+NotebookChild
 		this.PlaceHolderStim = new global::Gtk.Alignment(0F, 0F, 1F, 1F);
@@ -2222,7 +2235,7 @@ public partial class MainWindow
 		// Container child table2.Gtk.Table+TableChild
 		this.label19 = new global::Gtk.Label();
 		this.label19.Name = "label19";
-		this.label19.LabelProp = global::Mono.Unix.Catalog.GetString("Head Circm");
+		this.label19.LabelProp = global::Mono.Unix.Catalog.GetString("Head Circumferance");
 		this.table2.Add(this.label19);
 		global::Gtk.Table.TableChild w152 = ((global::Gtk.Table.TableChild)(this.table2[this.label19]));
 		w152.TopAttach = ((uint)(4));
@@ -2365,19 +2378,41 @@ public partial class MainWindow
 		w167.Expand = false;
 		w167.Fill = false;
 		// Container child vbox20.Gtk.Box+BoxChild
-		this.hbox20 = new global::Gtk.HBox();
-		this.hbox20.Name = "hbox20";
-		this.hbox20.Spacing = 6;
-		// Container child hbox20.Gtk.Box+BoxChild
+		this.frame9 = new global::Gtk.Frame();
+		this.frame9.Name = "frame9";
+		// Container child frame9.Gtk.Container+ContainerChild
+		this.GtkAlignment13 = new global::Gtk.Alignment(0F, 0F, 1F, 1F);
+		this.GtkAlignment13.Name = "GtkAlignment13";
+		this.GtkAlignment13.LeftPadding = ((uint)(12));
+		// Container child GtkAlignment13.Gtk.Container+ContainerChild
+		this.vbox22 = new global::Gtk.VBox();
+		this.vbox22.Name = "vbox22";
+		this.vbox22.Spacing = 6;
+		// Container child vbox22.Gtk.Box+BoxChild
 		this.checkbutton4 = new global::Gtk.CheckButton();
 		this.checkbutton4.CanFocus = true;
 		this.checkbutton4.Name = "checkbutton4";
 		this.checkbutton4.Label = global::Mono.Unix.Catalog.GetString("Save Data in intervals");
 		this.checkbutton4.DrawIndicator = true;
 		this.checkbutton4.UseUnderline = true;
-		this.hbox20.Add(this.checkbutton4);
-		global::Gtk.Box.BoxChild w168 = ((global::Gtk.Box.BoxChild)(this.hbox20[this.checkbutton4]));
+		this.vbox22.Add(this.checkbutton4);
+		global::Gtk.Box.BoxChild w168 = ((global::Gtk.Box.BoxChild)(this.vbox22[this.checkbutton4]));
 		w168.Position = 0;
+		w168.Expand = false;
+		w168.Fill = false;
+		// Container child vbox22.Gtk.Box+BoxChild
+		this.hbox20 = new global::Gtk.HBox();
+		this.hbox20.Name = "hbox20";
+		this.hbox20.Spacing = 6;
+		// Container child hbox20.Gtk.Box+BoxChild
+		this.label25 = new global::Gtk.Label();
+		this.label25.Name = "label25";
+		this.label25.LabelProp = global::Mono.Unix.Catalog.GetString("Data FIle Length (seconds)");
+		this.hbox20.Add(this.label25);
+		global::Gtk.Box.BoxChild w169 = ((global::Gtk.Box.BoxChild)(this.hbox20[this.label25]));
+		w169.Position = 0;
+		w169.Expand = false;
+		w169.Fill = false;
 		// Container child hbox20.Gtk.Box+BoxChild
 		this.entry3 = new global::Gtk.Entry();
 		this.entry3.CanFocus = true;
@@ -2386,23 +2421,37 @@ public partial class MainWindow
 		this.entry3.IsEditable = true;
 		this.entry3.InvisibleChar = '●';
 		this.hbox20.Add(this.entry3);
-		global::Gtk.Box.BoxChild w169 = ((global::Gtk.Box.BoxChild)(this.hbox20[this.entry3]));
-		w169.Position = 1;
-		// Container child hbox20.Gtk.Box+BoxChild
+		global::Gtk.Box.BoxChild w170 = ((global::Gtk.Box.BoxChild)(this.hbox20[this.entry3]));
+		w170.Position = 1;
+		this.vbox22.Add(this.hbox20);
+		global::Gtk.Box.BoxChild w171 = ((global::Gtk.Box.BoxChild)(this.vbox22[this.hbox20]));
+		w171.Position = 1;
+		w171.Expand = false;
+		w171.Fill = false;
+		// Container child vbox22.Gtk.Box+BoxChild
 		this.checkbuttonReset = new global::Gtk.CheckButton();
 		this.checkbuttonReset.CanFocus = true;
 		this.checkbuttonReset.Name = "checkbuttonReset";
-		this.checkbuttonReset.Label = global::Mono.Unix.Catalog.GetString(" Reset      ");
+		this.checkbuttonReset.Label = global::Mono.Unix.Catalog.GetString(" Reset Memory after save");
 		this.checkbuttonReset.DrawIndicator = true;
 		this.checkbuttonReset.UseUnderline = true;
-		this.hbox20.Add(this.checkbuttonReset);
-		global::Gtk.Box.BoxChild w170 = ((global::Gtk.Box.BoxChild)(this.hbox20[this.checkbuttonReset]));
-		w170.Position = 2;
-		this.vbox20.Add(this.hbox20);
-		global::Gtk.Box.BoxChild w171 = ((global::Gtk.Box.BoxChild)(this.vbox20[this.hbox20]));
-		w171.Position = 2;
-		w171.Expand = false;
-		w171.Fill = false;
+		this.vbox22.Add(this.checkbuttonReset);
+		global::Gtk.Box.BoxChild w172 = ((global::Gtk.Box.BoxChild)(this.vbox22[this.checkbuttonReset]));
+		w172.Position = 2;
+		w172.Expand = false;
+		w172.Fill = false;
+		this.GtkAlignment13.Add(this.vbox22);
+		this.frame9.Add(this.GtkAlignment13);
+		this.GtkLabel33 = new global::Gtk.Label();
+		this.GtkLabel33.Name = "GtkLabel33";
+		this.GtkLabel33.LabelProp = global::Mono.Unix.Catalog.GetString("Long Data File Saving");
+		this.GtkLabel33.UseMarkup = true;
+		this.frame9.LabelWidget = this.GtkLabel33;
+		this.vbox20.Add(this.frame9);
+		global::Gtk.Box.BoxChild w175 = ((global::Gtk.Box.BoxChild)(this.vbox20[this.frame9]));
+		w175.Position = 2;
+		w175.Expand = false;
+		w175.Fill = false;
 		// Container child vbox20.Gtk.Box+BoxChild
 		this.hbox17 = new global::Gtk.HBox();
 		this.hbox17.Name = "hbox17";
@@ -2412,10 +2461,10 @@ public partial class MainWindow
 		this.label23.Name = "label23";
 		this.label23.LabelProp = global::Mono.Unix.Catalog.GetString("Instrument Sample Rate");
 		this.hbox17.Add(this.label23);
-		global::Gtk.Box.BoxChild w172 = ((global::Gtk.Box.BoxChild)(this.hbox17[this.label23]));
-		w172.Position = 0;
-		w172.Expand = false;
-		w172.Fill = false;
+		global::Gtk.Box.BoxChild w176 = ((global::Gtk.Box.BoxChild)(this.hbox17[this.label23]));
+		w176.Position = 0;
+		w176.Expand = false;
+		w176.Fill = false;
 		// Container child hbox17.Gtk.Box+BoxChild
 		this.comboboxentry1 = global::Gtk.ComboBoxEntry.NewText();
 		this.comboboxentry1.AppendText(global::Mono.Unix.Catalog.GetString("10Hz"));
@@ -2423,15 +2472,27 @@ public partial class MainWindow
 		this.comboboxentry1.Name = "comboboxentry1";
 		this.comboboxentry1.Active = 0;
 		this.hbox17.Add(this.comboboxentry1);
-		global::Gtk.Box.BoxChild w173 = ((global::Gtk.Box.BoxChild)(this.hbox17[this.comboboxentry1]));
-		w173.Position = 1;
-		w173.Expand = false;
-		w173.Fill = false;
+		global::Gtk.Box.BoxChild w177 = ((global::Gtk.Box.BoxChild)(this.hbox17[this.comboboxentry1]));
+		w177.Position = 1;
+		w177.Expand = false;
+		w177.Fill = false;
 		this.vbox20.Add(this.hbox17);
-		global::Gtk.Box.BoxChild w174 = ((global::Gtk.Box.BoxChild)(this.vbox20[this.hbox17]));
-		w174.Position = 3;
-		w174.Expand = false;
-		w174.Fill = false;
+		global::Gtk.Box.BoxChild w178 = ((global::Gtk.Box.BoxChild)(this.vbox20[this.hbox17]));
+		w178.Position = 3;
+		w178.Expand = false;
+		w178.Fill = false;
+		// Container child vbox20.Gtk.Box+BoxChild
+		this.checkbutton5 = new global::Gtk.CheckButton();
+		this.checkbutton5.CanFocus = true;
+		this.checkbutton5.Name = "checkbutton5";
+		this.checkbutton5.Label = global::Mono.Unix.Catalog.GetString("Disable data display updates");
+		this.checkbutton5.DrawIndicator = true;
+		this.checkbutton5.UseUnderline = true;
+		this.vbox20.Add(this.checkbutton5);
+		global::Gtk.Box.BoxChild w179 = ((global::Gtk.Box.BoxChild)(this.vbox20[this.checkbutton5]));
+		w179.Position = 4;
+		w179.Expand = false;
+		w179.Fill = false;
 		this.GtkAlignment12.Add(this.vbox20);
 		this.frame6.Add(this.GtkAlignment12);
 		this.GtkLabel35 = new global::Gtk.Label();
@@ -2440,10 +2501,10 @@ public partial class MainWindow
 		this.GtkLabel35.UseMarkup = true;
 		this.frame6.LabelWidget = this.GtkLabel35;
 		this.vbox19.Add(this.frame6);
-		global::Gtk.Box.BoxChild w177 = ((global::Gtk.Box.BoxChild)(this.vbox19[this.frame6]));
-		w177.Position = 0;
-		w177.Expand = false;
-		w177.Fill = false;
+		global::Gtk.Box.BoxChild w182 = ((global::Gtk.Box.BoxChild)(this.vbox19[this.frame6]));
+		w182.Position = 0;
+		w182.Expand = false;
+		w182.Fill = false;
 		// Container child vbox19.Gtk.Box+BoxChild
 		this.frame3 = new global::Gtk.Frame();
 		this.frame3.Name = "frame3";
@@ -2471,11 +2532,11 @@ public partial class MainWindow
 		this.GtkLabel36.UseMarkup = true;
 		this.frame3.LabelWidget = this.GtkLabel36;
 		this.vbox19.Add(this.frame3);
-		global::Gtk.Box.BoxChild w181 = ((global::Gtk.Box.BoxChild)(this.vbox19[this.frame3]));
-		w181.Position = 1;
+		global::Gtk.Box.BoxChild w186 = ((global::Gtk.Box.BoxChild)(this.vbox19[this.frame3]));
+		w186.Position = 1;
 		this.notebook1.Add(this.vbox19);
-		global::Gtk.Notebook.NotebookChild w182 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1[this.vbox19]));
-		w182.Position = 7;
+		global::Gtk.Notebook.NotebookChild w187 = ((global::Gtk.Notebook.NotebookChild)(this.notebook1[this.vbox19]));
+		w187.Position = 7;
 		// Notebook tab
 		this.label24 = new global::Gtk.Label();
 		this.label24.Name = "label24";
@@ -2490,16 +2551,16 @@ public partial class MainWindow
 		this.GtkLabel69.UseMarkup = true;
 		this.frame7.LabelWidget = this.GtkLabel69;
 		this.vbox1.Add(this.frame7);
-		global::Gtk.Box.BoxChild w185 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.frame7]));
-		w185.Position = 4;
+		global::Gtk.Box.BoxChild w190 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.frame7]));
+		w190.Position = 4;
 		this.hbox1.Add(this.vbox1);
-		global::Gtk.Box.BoxChild w186 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.vbox1]));
-		w186.Position = 2;
-		w186.Expand = false;
-		w186.Fill = false;
+		global::Gtk.Box.BoxChild w191 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.vbox1]));
+		w191.Position = 2;
+		w191.Expand = false;
+		w191.Fill = false;
 		this.vbox5.Add(this.hbox1);
-		global::Gtk.Box.BoxChild w187 = ((global::Gtk.Box.BoxChild)(this.vbox5[this.hbox1]));
-		w187.Position = 2;
+		global::Gtk.Box.BoxChild w192 = ((global::Gtk.Box.BoxChild)(this.vbox5[this.hbox1]));
+		w192.Position = 2;
 		// Container child vbox5.Gtk.Box+BoxChild
 		this.statusbar1 = new global::Gtk.Statusbar();
 		this.statusbar1.Name = "statusbar1";
@@ -2511,19 +2572,19 @@ public partial class MainWindow
 		this.colorbutton3.Events = ((global::Gdk.EventMask)(784));
 		this.colorbutton3.Name = "colorbutton3";
 		this.statusbar1.Add(this.colorbutton3);
-		global::Gtk.Box.BoxChild w188 = ((global::Gtk.Box.BoxChild)(this.statusbar1[this.colorbutton3]));
-		w188.Position = 1;
-		w188.Expand = false;
-		w188.Fill = false;
+		global::Gtk.Box.BoxChild w193 = ((global::Gtk.Box.BoxChild)(this.statusbar1[this.colorbutton3]));
+		w193.Position = 1;
+		w193.Expand = false;
+		w193.Fill = false;
 		// Container child statusbar1.Gtk.Box+BoxChild
 		this.label_deviceConnected = new global::Gtk.Label();
 		this.label_deviceConnected.Name = "label_deviceConnected";
 		this.label_deviceConnected.LabelProp = global::Mono.Unix.Catalog.GetString("No Devices Connected");
 		this.statusbar1.Add(this.label_deviceConnected);
-		global::Gtk.Box.BoxChild w189 = ((global::Gtk.Box.BoxChild)(this.statusbar1[this.label_deviceConnected]));
-		w189.Position = 2;
-		w189.Expand = false;
-		w189.Fill = false;
+		global::Gtk.Box.BoxChild w194 = ((global::Gtk.Box.BoxChild)(this.statusbar1[this.label_deviceConnected]));
+		w194.Position = 2;
+		w194.Expand = false;
+		w194.Fill = false;
 		// Container child statusbar1.Gtk.Box+BoxChild
 		this.combobox_statusBattery = global::Gtk.ComboBox.NewText();
 		this.combobox_statusBattery.AppendText(global::Mono.Unix.Catalog.GetString("------------------------"));
@@ -2532,10 +2593,10 @@ public partial class MainWindow
 		this.combobox_statusBattery.Name = "combobox_statusBattery";
 		this.combobox_statusBattery.Active = 0;
 		this.statusbar1.Add(this.combobox_statusBattery);
-		global::Gtk.Box.BoxChild w190 = ((global::Gtk.Box.BoxChild)(this.statusbar1[this.combobox_statusBattery]));
-		w190.Position = 3;
-		w190.Expand = false;
-		w190.Fill = false;
+		global::Gtk.Box.BoxChild w195 = ((global::Gtk.Box.BoxChild)(this.statusbar1[this.combobox_statusBattery]));
+		w195.Position = 3;
+		w195.Expand = false;
+		w195.Fill = false;
 		// Container child statusbar1.Gtk.Box+BoxChild
 		this.colorbutton_srcbottom = new global::Gtk.ColorButton();
 		this.colorbutton_srcbottom.Sensitive = false;
@@ -2543,25 +2604,25 @@ public partial class MainWindow
 		this.colorbutton_srcbottom.Events = ((global::Gdk.EventMask)(784));
 		this.colorbutton_srcbottom.Name = "colorbutton_srcbottom";
 		this.statusbar1.Add(this.colorbutton_srcbottom);
-		global::Gtk.Box.BoxChild w191 = ((global::Gtk.Box.BoxChild)(this.statusbar1[this.colorbutton_srcbottom]));
-		w191.Position = 4;
-		w191.Expand = false;
-		w191.Fill = false;
+		global::Gtk.Box.BoxChild w196 = ((global::Gtk.Box.BoxChild)(this.statusbar1[this.colorbutton_srcbottom]));
+		w196.Position = 4;
+		w196.Expand = false;
+		w196.Fill = false;
 		// Container child statusbar1.Gtk.Box+BoxChild
 		this.label_srcbottom = new global::Gtk.Label();
 		this.label_srcbottom.Name = "label_srcbottom";
 		this.label_srcbottom.LabelProp = global::Mono.Unix.Catalog.GetString("Sources Off");
 		this.statusbar1.Add(this.label_srcbottom);
-		global::Gtk.Box.BoxChild w192 = ((global::Gtk.Box.BoxChild)(this.statusbar1[this.label_srcbottom]));
-		w192.PackType = ((global::Gtk.PackType)(1));
-		w192.Position = 5;
-		w192.Expand = false;
-		w192.Fill = false;
+		global::Gtk.Box.BoxChild w197 = ((global::Gtk.Box.BoxChild)(this.statusbar1[this.label_srcbottom]));
+		w197.PackType = ((global::Gtk.PackType)(1));
+		w197.Position = 5;
+		w197.Expand = false;
+		w197.Fill = false;
 		this.vbox5.Add(this.statusbar1);
-		global::Gtk.Box.BoxChild w193 = ((global::Gtk.Box.BoxChild)(this.vbox5[this.statusbar1]));
-		w193.Position = 3;
-		w193.Expand = false;
-		w193.Fill = false;
+		global::Gtk.Box.BoxChild w198 = ((global::Gtk.Box.BoxChild)(this.vbox5[this.statusbar1]));
+		w198.Position = 3;
+		w198.Expand = false;
+		w198.Fill = false;
 		this.Add(this.vbox5);
 		if ((this.Child != null))
 		{
@@ -2584,31 +2645,14 @@ public partial class MainWindow
 		this.buttonStartDAQ.Clicked += new global::System.EventHandler(this.ClickedStartDAQ);
 		this.button_markevent.Clicked += new global::System.EventHandler(this.MarkStim);
 		this.togglebutton_stim.Toggled += new global::System.EventHandler(this.ToggleStim);
-		this.button_autoadjust.Clicked += new global::System.EventHandler(this.AutoAdjust);
 		this.button_srcOnOff.Clicked += new global::System.EventHandler(this.LasersAllOnOff);
 		this.combobox_whichdata.Changed += new global::System.EventHandler(this.ChangeViewDisplay);
 		this.spinbutton1.ValueChanged += new global::System.EventHandler(this.DetGain_SetAll);
 		this.spinbutton3.ValueChanged += new global::System.EventHandler(this.SourcePower_SetAll);
-		this.checkbutton_LSLStimInlet.Toggled += new global::System.EventHandler(this.ToggleLSLStimInlet);
-		this.button305.Clicked += new global::System.EventHandler(this.ResaveFile);
 		this.checkbutton_hpf.Clicked += new global::System.EventHandler(this.ChangeBPF);
 		this.entry_hpf.Changed += new global::System.EventHandler(this.ChangeBPF);
 		this.checkbutton_lpf.Clicked += new global::System.EventHandler(this.ChangeBPF);
 		this.entry_lpf.Changed += new global::System.EventHandler(this.ChangeBPF);
 		this.button_reloaddata.Clicked += new global::System.EventHandler(this.ReloadData);
-		this.comboboxdeviceDemo.Changed += new global::System.EventHandler(this.ChangedDemoDevice);
-		this.buttonIDdemo.Clicked += new global::System.EventHandler(this.DemoIDdevice);
-		this.entrysubjid.Changed += new global::System.EventHandler(this.ChangedDemo);
-		this.entryheadcirm.Changed += new global::System.EventHandler(this.ChangedDemo);
-		this.entryCustom3Val.Changed += new global::System.EventHandler(this.ChangedDemo);
-		this.entryCustom3Name.Changed += new global::System.EventHandler(this.ChangedDemo);
-		this.entryCustom2Val.Changed += new global::System.EventHandler(this.ChangedDemo);
-		this.entrycustom2Name.Changed += new global::System.EventHandler(this.ChangedDemo);
-		this.entryCustom1Val.Changed += new global::System.EventHandler(this.ChangedDemo);
-		this.entrycustom1Name.Changed += new global::System.EventHandler(this.ChangedDemo);
-		this.entryage.Changed += new global::System.EventHandler(this.ChangedDemo);
-		this.comboboxentrygender.Changed += new global::System.EventHandler(this.ChangedDemo);
-		this.button306.Clicked += new global::System.EventHandler(this.ResaveFile);
-		this.comboboxentry1.Changed += new global::System.EventHandler(this.SetInstrumentSampleRate);
 	}
 }

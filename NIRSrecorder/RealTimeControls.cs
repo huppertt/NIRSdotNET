@@ -22,7 +22,7 @@ namespace NIRSrecorder
 		readonly DiscreteKalmanFilter[][] MocoKalman;
         public int[] nsamples;
 		public MBLLmapping[] mBLLmappings;
-
+		public double[] fs;
 
 		public RealtimeEngine()
 		{
@@ -31,11 +31,28 @@ namespace NIRSrecorder
 
 			bool usehpf = MainClass.win._handles.useHPF.Active;
 			bool uselpf = MainClass.win._handles.useLPF.Active;
-	
-			double hpf = Convert.ToDouble(MainClass.win._handles.editHPF.Text);
-			double lpf = Convert.ToDouble(MainClass.win._handles.editLPF.Text);
 
-			double[] fs = new double[MainClass.devices.Length];
+
+			double hpf = 0.016;
+			try
+			{
+				hpf = Convert.ToDouble(MainClass.win._handles.editHPF.Text);
+            }
+            catch
+            {
+				usehpf = false;
+            }
+			double lpf = 0.5;
+			try
+			{
+				lpf = Convert.ToDouble(MainClass.win._handles.editLPF.Text);
+            }
+            catch
+            {
+				uselpf = false;
+            }
+
+			fs = new double[MainClass.devices.Length];
 			OnlineFIRFiltersHPF = new OnlineFilter[MainClass.devices.Length][];
 			OnlineFIRFiltersHPF2 = new OnlineFilter[MainClass.devices.Length][];
 			OnlineFIRFiltersLPF = new OnlineFilter[MainClass.devices.Length][];
@@ -200,7 +217,7 @@ namespace NIRSrecorder
 							}
 							if (uselpf)
 							{
-								d = OnlineFIRFiltersLPF[i][j].ProcessSample(d);
+								d = OnlineFIRFiltersLPF[i][j].ProcessSample(d)/fs[i];
 							}
 							else
 							{

@@ -245,6 +245,8 @@ namespace NIRSrecorder
             probe.ChannelMap = ChannelMap;
 
 
+
+
             for (int dId = 0; dId < MainClass.devices.Length; dId++)
             {
 
@@ -272,8 +274,8 @@ namespace NIRSrecorder
                 }
                 data.probe.colormap = cmap;
 
-                Gtk.ListStore ClearList = new Gtk.ListStore(typeof(string));
-                MainClass.win._handles.whichdata.Model = ClearList;
+                Gtk.ListStore ClearList2 = new Gtk.ListStore(typeof(string));
+                MainClass.win._handles.whichdata.Model = ClearList2;
 
                 List<string> datatypes = new List<string>();
                 for (int ii = 0; ii < data.probe.ChannelMap.Length; ii++)
@@ -292,6 +294,27 @@ namespace NIRSrecorder
                 MainClass.win.nirsdata.Add(data);
 
             }
+
+
+            for(int dI=probe.numDet; dI<MainClass.win._handles.detectors.Count; dI++)
+            {
+                MainClass.win._handles.detectors[dI].frame.Sensitive = false;
+                MainClass.win._handles.detectors[dI].vScale.Sensitive = false;
+                MainClass.win._handles.detectors[dI].vScale.Value = 0;
+                MainClass.win._handles.detectors[dI].led.Color= new Gdk.Color(93,93,93);
+            }
+            for(int sI=probe.numSrc; sI<MainClass.win._handles.lasers.Count; sI++)
+            {
+                MainClass.win._handles.lasers[sI].frame.Sensitive = false;
+                for (int wI = 0; wI < MainClass.win._handles.lasers[sI].buttons.Length; wI++)
+                {
+                    MainClass.win._handles.lasers[sI].spinButtons[wI].Sensitive = false;
+                    MainClass.win._handles.lasers[sI].buttons[wI].Sensitive = false;
+                }
+
+            }
+
+
             // Save the tmp file for quick reload
             string path = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
             path = System.IO.Path.Combine(path, "LastSettings.xml");

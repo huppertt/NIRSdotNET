@@ -89,6 +89,7 @@ C:/Users/NIRS/Desktop/NIRSdotNET/NIRSconverter/obj/Debug/NIRSconverter.pdb
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/bin/Debug/bin64/hdf5_hl.pdb
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/bin/Debug/bin64/szip.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/bin/Debug/bin64/zlib.dll
+/Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/bin/Debug/NIRSconverter.exe.config
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/bin/Debug/NIRSconverter.exe
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/bin/Debug/NIRSconverter.pdb
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/bin/Debug/HDF.PInvoke.dll
@@ -97,6 +98,7 @@ C:/Users/NIRS/Desktop/NIRSdotNET/NIRSconverter/obj/Debug/NIRSconverter.pdb
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/bin/Debug/SNIRF.pdb
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/bin/Debug/HDF.PInvoke.dll.config
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/obj/Debug/NIRSconverter.csprojAssemblyReference.cache
+/Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/obj/Debug/NIRSconverter.exe.config
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/obj/Debug/NIRSconverter.csproj.CoreCompileInputs.cache
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/obj/Debug/NIRSconverter.csproj.CopyComplete
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSconverter/obj/Debug/NIRSconverter.exe

@@ -1,19 +1,31 @@
 ﻿<Properties StartupConfiguration="{1B6462A9-7434-490C-B65C-91498B6FFA3F}|Default">
   <MonoDevelop.Ide.ItemProperties.NIRSrecorder PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.ItemProperties.SNIRFvalidator PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="myLSLlibrary/LSL.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSDAQ/Instrument.cs">
     <Files>
-      <File FileName="NIRSrecorder/MainWindow.cs" Line="1" Column="1" />
-      <File FileName="myLSLlibrary/LSL.cs" Line="1" Column="1" />
-      <File FileName="myLSLlibrary/Environment/OSVersion/Platform.cs" Line="1" Column="1" />
+      <File FileName="NIRSrecorder/MainWindow_Controls.cs" Line="145" Column="6" />
+      <File FileName="NIRSrecorder/MainWindow.cs" Line="570" Column="43" />
+      <File FileName="NIRSrecorder/MainWindow_Drawing.cs" />
+      <File FileName="NIRSrecorder/MainWindow_Threading.cs" Line="30" Column="1" />
+      <File FileName="NIRSrecorder/RealTimeControls.cs" />
+      <File FileName="SNIRF/CData.cs" Line="18" Column="20" />
+      <File FileName="NIRSDAQ/Simulator.cs" Line="218" Column="53" />
+      <File FileName="NIRSDAQ/BTNIRS.cs" Line="55" Column="89" />
+      <File FileName="NIRSrecorder/RegisterSubjectDialog.cs" Line="366" Column="47" />
+      <File FileName="NIRSrecorder/HelperStructs.cs" Line="23" Column="41" />
+      <File FileName="SNIRF/CProbe.cs" Line="49" Column="1" />
+      <File FileName="NIRSDAQ/Instrument.cs" Line="81" Column="51" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="NIRSdotNET" expanded="True">
-            <Node name="myLSLlibrary" expanded="True">
-              <Node name="LSL.cs" selected="True" />
+            <Node name="myLSLlibrary" expanded="True" />
+            <Node name="NIRSDAQ" expanded="True">
+              <Node name="Instrument.cs" selected="True" />
             </Node>
+            <Node name="NIRSdotNET" expanded="True" />
+            <Node name="NIRSrecorder" expanded="True" />
           </Node>
         </State>
       </Pad>
@@ -24,7 +36,10 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="HDF5 1.10 Release" />
   <Debugger.DebugSourceFolders />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/BTNIRS.cs" relfile="NIRSDAQ/BTNIRS.cs" line="301" column="1" />
+      <Breakpoint file="/Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/BTNIRS.cs" relfile="NIRSDAQ/BTNIRS.cs" line="350" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
   <AuthorInfo Name="Theodore Huppert" Email="HUPPERT1@pitt.edu" Copyright="2020" Company="University of Pittsburgh" Trademark="" />

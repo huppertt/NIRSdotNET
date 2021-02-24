@@ -298,7 +298,7 @@ namespace NIRSDAQ
                         if (pwr > 127) { pwr = 127; }
 
                         laserpower[sIdx] = pwr;
-                        SendCommMsg(string.Format("SLE {0} {1}", sIdx, pwr));
+                        SendCommMsg(string.Format("SLE {0} {1}", sIdx+1, pwr));
                     }
 
 
@@ -350,11 +350,11 @@ namespace NIRSDAQ
                         laserstates[sIdx] = state;
                         if (state)
                         {
-                            SendCommMsg(String.Format("SSO {0} 1", sIdx));
+                            SendCommMsg(String.Format("SSO {0} 1", sIdx+1));
                         }
                         else
                         {
-                            SendCommMsg(String.Format("SSO {0} 0", sIdx));
+                            SendCommMsg(String.Format("SSO {0} 0", sIdx+1));
                         }
 
 
@@ -365,7 +365,7 @@ namespace NIRSDAQ
                         if (gain > 127) { gain = 127; }
                         detgains[dIdx] = gain;
 
-                        SendCommMsg(String.Format("SDG {0} {1}", dIdx, gain));
+                        SendCommMsg(String.Format("SDG {0} {1}", dIdx+1, gain));
 
                     }
 

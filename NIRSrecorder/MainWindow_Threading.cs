@@ -356,16 +356,22 @@ public partial class MainWindow : Window
         int startIdx = 0;
         int dataIdx = 0;
 
-        double intervaltime = Convert.ToDouble(entry3.Text);
+            double intervaltime = 600;
+            try
+            {
+                intervaltime = Convert.ToDouble(entry3.Text);
+            } catch { }
+
         Thread.Sleep(MainClass.win.settings.UPDATETIME);  // update rate (default 500ms)
-        // float cnt = 0;
-        
+                                                          // float cnt = 0;
+
             while (maindisplaythread.IsAlive)
             {
 
-
-                intervaltime = Convert.ToDouble(entry3.Text);
-
+                try
+                {
+                    intervaltime = Convert.ToDouble(entry3.Text);
+                } catch { }
 
 
                 // Get data from the instrument
@@ -425,10 +431,11 @@ public partial class MainWindow : Window
 
 
 
-
-
-                drawingarea_Data.QueueDraw();
-                drawingarea_Data2.QueueDraw();
+                if (!checkbutton5.Active) // disable display controls
+                {
+                    drawingarea_Data.QueueDraw();
+                    drawingarea_Data2.QueueDraw();
+                }
 
                 progressbar1.Pulse();
                 progressbar1.QueueDraw();

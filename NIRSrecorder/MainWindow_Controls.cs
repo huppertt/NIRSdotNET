@@ -253,7 +253,25 @@ public partial class MainWindow : Window
         }
 
 
-        #if ADDLSL
+        for (int dI = probe.numDet; dI < MainClass.win._handles.detectors.Count; dI++)
+        {
+            MainClass.win._handles.detectors[dI].frame.Sensitive = false;
+            MainClass.win._handles.detectors[dI].vScale.Sensitive = false;
+            MainClass.win._handles.detectors[dI].vScale.Value = 0;
+            MainClass.win._handles.detectors[dI].led.Color = new Gdk.Color(93, 93, 93);
+        }
+        for (int sI = probe.numSrc; sI < MainClass.win._handles.lasers.Count; sI++)
+        {
+            MainClass.win._handles.lasers[sI].frame.Sensitive = false;
+            for (int wI = 0; wI < MainClass.win._handles.lasers[sI].buttons.Length; wI++)
+            {
+                MainClass.win._handles.lasers[sI].spinButtons[wI].Sensitive = false;
+                MainClass.win._handles.lasers[sI].buttons[wI].Sensitive = false;
+            }
+
+        }
+
+#if ADDLSL
         MainClass.win.dataLSL = new LSL.liblsl.StreamOutlet[MainClass.devices.Length];
         for (int ii = 0; ii < MainClass.devices.Length; ii++)
         {
@@ -263,7 +281,7 @@ public partial class MainWindow : Window
                 (double)fs, LSL.liblsl.channel_format_t.cf_int32);
             MainClass.win.dataLSL[ii] = new LSL.liblsl.StreamOutlet(info);
         }
-        #endif
+#endif
 
         comboboxdeviceDemo.Active = 0;
 

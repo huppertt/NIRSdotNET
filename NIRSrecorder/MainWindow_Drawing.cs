@@ -97,7 +97,9 @@ public partial class MainWindow : Window
         // the reset flag controls if the measurement is expanded from the existing 
         // channels shown or if the list is reset.
         bool reset = true;
-        if (args.Event.Button == 3)
+      
+        if (((Gdk.EventButton)args.Event).State == (Gdk.ModifierType.Button1Mask
+            |Gdk.ModifierType.ShiftMask))
         {
             reset = false;  // right clicked
         }
@@ -144,7 +146,8 @@ public partial class MainWindow : Window
         // the reset flag controls if the measurement is expanded from the existing 
         // channels shown or if the list is reset.
         bool reset = true;
-        if (args.Event.Button == 3)
+        if (((Gdk.EventButton)args.Event).State == (Gdk.ModifierType.Button1Mask
+           | Gdk.ModifierType.ShiftMask))
         {
             reset = false;  // right clicked
         }
@@ -168,7 +171,14 @@ public partial class MainWindow : Window
     //-----------------------------------------------------------------------
     protected void Datadraw(object sender, EventArgs e)
     {
-        if (nirsdata.Count == 0)
+
+        if (checkbutton5.Active)
+        { // disable display controls
+            return;
+        }
+
+
+            if (nirsdata.Count == 0)
         {
             return;
         }
@@ -181,15 +191,40 @@ public partial class MainWindow : Window
         bool autoscaleYmax = checkbuttonYmax.Active;
         bool autoscaleYmin = checkbuttonYmin.Active;
 
-        double minY = Convert.ToDouble(entryYmin.Text);
-        double maxY = Convert.ToDouble(entryYmax.Text);
-
+        double minY = 0;
+        try
+        {
+            minY = Convert.ToDouble(entryYmin.Text);
+        }
+        catch {
+            autoscaleYmin = false;
+        }
+        double maxY = 9999;
+        try
+        {
+            maxY = Convert.ToDouble(entryYmax.Text);
+        }
+        catch
+        {
+            autoscaleYmax = false;
+        }
 
         if (nirsdata[0].time.Count < 1)
         {
             return;
         }
-        double tMin = Math.Max(nirsdata[0].time[nirsdata[0].time.Count - 1] - Convert.ToDouble(entry_timeWindow.Text), 0);
+
+        double tMin=0;
+        try
+        {
+            tMin = Math.Max(nirsdata[0].time[nirsdata[0].time.Count - 1] - Convert.ToDouble(entry_timeWindow.Text), 0);
+        }
+        catch
+        {
+            tMin = 0;
+        }
+
+        
         if (!checkbutton_timeWindow.Active)
         {
             tMin = 0;

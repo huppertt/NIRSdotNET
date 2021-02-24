@@ -803,11 +803,11 @@ Type 4</property>
                                     <child>
                                       <widget class="Gtk.Button" id="button_autoadjust">
                                         <property name="MemberName" />
+                                        <property name="Sensitive">False</property>
                                         <property name="CanFocus">True</property>
                                         <property name="Type">TextOnly</property>
                                         <property name="Label" translatable="yes">Auto-Adjust</property>
                                         <property name="UseUnderline">True</property>
-                                        <signal name="Clicked" handler="AutoAdjust" />
                                       </widget>
                                       <packing>
                                         <property name="Position">0</property>
@@ -910,7 +910,7 @@ Type 4</property>
                             <property name="WidthRequest">524</property>
                             <property name="HeightRequest">200</property>
                             <property name="CanFocus">True</property>
-                            <property name="CurrentPage">7</property>
+                            <property name="CurrentPage">0</property>
                             <property name="TabPos">Left</property>
                             <property name="BorderWidth">6</property>
                             <child>
@@ -970,7 +970,7 @@ Deoxy-Hemoglobin (filtered)</property>
                                                           <widget class="Gtk.CheckButton" id="checkbutton_autoscaleY">
                                                             <property name="MemberName" />
                                                             <property name="CanFocus">True</property>
-                                                            <property name="Label" translatable="yes">Auto-scale Y-axis</property>
+                                                            <property name="Label" translatable="yes">Scale to Current Data Only</property>
                                                             <property name="DrawIndicator">True</property>
                                                             <property name="HasLabel">True</property>
                                                             <property name="UseUnderline">True</property>
@@ -1065,7 +1065,7 @@ Deoxy-Hemoglobin (filtered)</property>
                                                   </widget>
                                                 </child>
                                                 <child>
-                                                  <widget class="Gtk.Label" id="GtkLabel8">
+                                                  <widget class="Gtk.Label" id="GtkLabel12">
                                                     <property name="MemberName" />
                                                     <property name="LabelProp" translatable="yes">&lt;b&gt;Y-axis Scaling&lt;/b&gt;</property>
                                                     <property name="UseMarkup">True</property>
@@ -1414,7 +1414,7 @@ Deoxy-Hemoglobin (filtered)</property>
                                   <widget class="Gtk.Notebook" id="notebook3">
                                     <property name="MemberName" />
                                     <property name="CanFocus">True</property>
-                                    <property name="CurrentPage">0</property>
+                                    <property name="CurrentPage">1</property>
                                     <property name="TabPos">Right</property>
                                     <child>
                                       <widget class="Gtk.Alignment" id="PlaceHolderStim">
@@ -1498,7 +1498,6 @@ Deoxy-Hemoglobin (filtered)</property>
                                                             <property name="DrawIndicator">True</property>
                                                             <property name="HasLabel">True</property>
                                                             <property name="UseUnderline">True</property>
-                                                            <signal name="Toggled" handler="ToggleLSLStimInlet" />
                                                           </widget>
                                                           <packing>
                                                             <property name="Position">1</property>
@@ -1606,7 +1605,6 @@ Deoxy-Hemoglobin (filtered)</property>
                                         <property name="Type">TextOnly</property>
                                         <property name="Label" translatable="yes">Commit Changes</property>
                                         <property name="UseUnderline">True</property>
-                                        <signal name="Clicked" handler="ResaveFile" />
                                       </widget>
                                       <packing>
                                         <property name="Position">2</property>
@@ -2106,7 +2104,6 @@ Hemoglobin (filtered)</property>
                                         <property name="IsTextCombo">True</property>
                                         <property name="Items" translatable="yes">----------------------------</property>
                                         <property name="Active">0</property>
-                                        <signal name="Changed" handler="ChangedDemoDevice" />
                                       </widget>
                                       <packing>
                                         <property name="Position">1</property>
@@ -2122,7 +2119,6 @@ Hemoglobin (filtered)</property>
                                         <property name="Type">TextOnly</property>
                                         <property name="Label" translatable="yes">Identify</property>
                                         <property name="UseUnderline">True</property>
-                                        <signal name="Clicked" handler="DemoIDdevice" />
                                       </widget>
                                       <packing>
                                         <property name="Position">2</property>
@@ -2186,7 +2182,6 @@ Hemoglobin (filtered)</property>
 Female
 Other
 Unknown</property>
-                                                        <signal name="Changed" handler="ChangedDemo" after="yes" />
                                                       </widget>
                                                       <packing>
                                                         <property name="TopAttach">2</property>
@@ -2233,7 +2228,6 @@ Unknown</property>
                                                         <property name="CanFocus">True</property>
                                                         <property name="IsEditable">True</property>
                                                         <property name="InvisibleChar">●</property>
-                                                        <signal name="Changed" handler="ChangedDemo" after="yes" />
                                                       </widget>
                                                       <packing>
                                                         <property name="TopAttach">3</property>
@@ -2258,7 +2252,6 @@ Unknown</property>
                                                         <property name="Text" translatable="yes">Custom1</property>
                                                         <property name="IsEditable">True</property>
                                                         <property name="InvisibleChar">●</property>
-                                                        <signal name="Changed" handler="ChangedDemo" after="yes" />
                                                       </widget>
                                                       <packing>
                                                         <property name="TopAttach">5</property>
@@ -2280,7 +2273,6 @@ Unknown</property>
                                                         <property name="CanFocus">True</property>
                                                         <property name="IsEditable">True</property>
                                                         <property name="InvisibleChar">●</property>
-                                                        <signal name="Changed" handler="ChangedDemo" after="yes" />
                                                       </widget>
                                                       <packing>
                                                         <property name="TopAttach">5</property>
@@ -2305,7 +2297,6 @@ Unknown</property>
                                                         <property name="Text" translatable="yes">Custom2</property>
                                                         <property name="IsEditable">True</property>
                                                         <property name="InvisibleChar">●</property>
-                                                        <signal name="Changed" handler="ChangedDemo" after="yes" />
                                                       </widget>
                                                       <packing>
                                                         <property name="TopAttach">6</property>
@@ -2327,7 +2318,6 @@ Unknown</property>
                                                         <property name="CanFocus">True</property>
                                                         <property name="IsEditable">True</property>
                                                         <property name="InvisibleChar">●</property>
-                                                        <signal name="Changed" handler="ChangedDemo" after="yes" />
                                                       </widget>
                                                       <packing>
                                                         <property name="TopAttach">6</property>
@@ -2352,7 +2342,6 @@ Unknown</property>
                                                         <property name="Text" translatable="yes">Custom3</property>
                                                         <property name="IsEditable">True</property>
                                                         <property name="InvisibleChar">●</property>
-                                                        <signal name="Changed" handler="ChangedDemo" after="yes" />
                                                       </widget>
                                                       <packing>
                                                         <property name="TopAttach">7</property>
@@ -2374,7 +2363,6 @@ Unknown</property>
                                                         <property name="CanFocus">True</property>
                                                         <property name="IsEditable">True</property>
                                                         <property name="InvisibleChar">●</property>
-                                                        <signal name="Changed" handler="ChangedDemo" after="yes" />
                                                       </widget>
                                                       <packing>
                                                         <property name="TopAttach">7</property>
@@ -2398,7 +2386,6 @@ Unknown</property>
                                                         <property name="CanFocus">True</property>
                                                         <property name="IsEditable">True</property>
                                                         <property name="InvisibleChar">●</property>
-                                                        <signal name="Changed" handler="ChangedDemo" after="yes" />
                                                       </widget>
                                                       <packing>
                                                         <property name="TopAttach">4</property>
@@ -2422,7 +2409,6 @@ Unknown</property>
                                                         <property name="CanFocus">True</property>
                                                         <property name="IsEditable">True</property>
                                                         <property name="InvisibleChar">●</property>
-                                                        <signal name="Changed" handler="ChangedDemo" after="yes" />
                                                       </widget>
                                                       <packing>
                                                         <property name="LeftAttach">1</property>
@@ -2515,7 +2501,7 @@ Unknown</property>
                                                     <child>
                                                       <widget class="Gtk.Label" id="label19">
                                                         <property name="MemberName" />
-                                                        <property name="LabelProp" translatable="yes">Head Circm</property>
+                                                        <property name="LabelProp" translatable="yes">Head Circumferance</property>
                                                       </widget>
                                                       <packing>
                                                         <property name="TopAttach">4</property>
@@ -2627,7 +2613,6 @@ Unknown</property>
                                         <property name="Type">TextOnly</property>
                                         <property name="Label" translatable="yes">Commit Changes</property>
                                         <property name="UseUnderline">True</property>
-                                        <signal name="Clicked" handler="ResaveFile" />
                                       </widget>
                                       <packing>
                                         <property name="Position">2</property>
@@ -2724,48 +2709,99 @@ Unknown</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="Gtk.HBox" id="hbox20">
+                                              <widget class="Gtk.Frame" id="frame9">
                                                 <property name="MemberName" />
-                                                <property name="Spacing">6</property>
                                                 <child>
-                                                  <widget class="Gtk.CheckButton" id="checkbutton4">
+                                                  <widget class="Gtk.Alignment" id="GtkAlignment13">
                                                     <property name="MemberName" />
-                                                    <property name="CanFocus">True</property>
-                                                    <property name="Label" translatable="yes">Save Data in intervals</property>
-                                                    <property name="DrawIndicator">True</property>
-                                                    <property name="HasLabel">True</property>
-                                                    <property name="UseUnderline">True</property>
+                                                    <property name="Xalign">0</property>
+                                                    <property name="Yalign">0</property>
+                                                    <property name="LeftPadding">12</property>
+                                                    <child>
+                                                      <widget class="Gtk.VBox" id="vbox22">
+                                                        <property name="MemberName" />
+                                                        <property name="Spacing">6</property>
+                                                        <child>
+                                                          <widget class="Gtk.CheckButton" id="checkbutton4">
+                                                            <property name="MemberName" />
+                                                            <property name="CanFocus">True</property>
+                                                            <property name="Label" translatable="yes">Save Data in intervals</property>
+                                                            <property name="DrawIndicator">True</property>
+                                                            <property name="HasLabel">True</property>
+                                                            <property name="UseUnderline">True</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="Position">0</property>
+                                                            <property name="AutoSize">True</property>
+                                                            <property name="Expand">False</property>
+                                                            <property name="Fill">False</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="Gtk.HBox" id="hbox20">
+                                                            <property name="MemberName" />
+                                                            <property name="Spacing">6</property>
+                                                            <child>
+                                                              <widget class="Gtk.Label" id="label25">
+                                                                <property name="MemberName" />
+                                                                <property name="LabelProp" translatable="yes">Data FIle Length (seconds)</property>
+                                                              </widget>
+                                                              <packing>
+                                                                <property name="Position">0</property>
+                                                                <property name="AutoSize">True</property>
+                                                                <property name="Expand">False</property>
+                                                                <property name="Fill">False</property>
+                                                              </packing>
+                                                            </child>
+                                                            <child>
+                                                              <widget class="Gtk.Entry" id="entry3">
+                                                                <property name="MemberName" />
+                                                                <property name="CanFocus">True</property>
+                                                                <property name="Text" translatable="yes">600</property>
+                                                                <property name="IsEditable">True</property>
+                                                                <property name="InvisibleChar">●</property>
+                                                              </widget>
+                                                              <packing>
+                                                                <property name="Position">1</property>
+                                                                <property name="AutoSize">True</property>
+                                                              </packing>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="Position">1</property>
+                                                            <property name="AutoSize">True</property>
+                                                            <property name="Expand">False</property>
+                                                            <property name="Fill">False</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="Gtk.CheckButton" id="checkbuttonReset">
+                                                            <property name="MemberName" />
+                                                            <property name="CanFocus">True</property>
+                                                            <property name="Label" translatable="yes"> Reset Memory after save</property>
+                                                            <property name="DrawIndicator">True</property>
+                                                            <property name="HasLabel">True</property>
+                                                            <property name="UseUnderline">True</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="Position">2</property>
+                                                            <property name="AutoSize">True</property>
+                                                            <property name="Expand">False</property>
+                                                            <property name="Fill">False</property>
+                                                          </packing>
+                                                        </child>
+                                                      </widget>
+                                                    </child>
                                                   </widget>
-                                                  <packing>
-                                                    <property name="Position">0</property>
-                                                    <property name="AutoSize">True</property>
-                                                  </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="Gtk.Entry" id="entry3">
+                                                  <widget class="Gtk.Label" id="GtkLabel33">
                                                     <property name="MemberName" />
-                                                    <property name="CanFocus">True</property>
-                                                    <property name="Text" translatable="yes">600</property>
-                                                    <property name="IsEditable">True</property>
-                                                    <property name="InvisibleChar">●</property>
+                                                    <property name="LabelProp" translatable="yes">Long Data File Saving</property>
+                                                    <property name="UseMarkup">True</property>
                                                   </widget>
                                                   <packing>
-                                                    <property name="Position">1</property>
-                                                    <property name="AutoSize">True</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="Gtk.CheckButton" id="checkbuttonReset">
-                                                    <property name="MemberName" />
-                                                    <property name="CanFocus">True</property>
-                                                    <property name="Label" translatable="yes"> Reset      </property>
-                                                    <property name="DrawIndicator">True</property>
-                                                    <property name="HasLabel">True</property>
-                                                    <property name="UseUnderline">True</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="Position">2</property>
-                                                    <property name="AutoSize">True</property>
+                                                    <property name="type">label_item</property>
                                                   </packing>
                                                 </child>
                                               </widget>
@@ -2799,7 +2835,6 @@ Unknown</property>
                                                     <property name="Items" translatable="yes">10Hz
 50Hz</property>
                                                     <property name="Active">0</property>
-                                                    <signal name="Changed" handler="SetInstrumentSampleRate" />
                                                   </widget>
                                                   <packing>
                                                     <property name="Position">1</property>
@@ -2811,6 +2846,22 @@ Unknown</property>
                                               </widget>
                                               <packing>
                                                 <property name="Position">3</property>
+                                                <property name="AutoSize">True</property>
+                                                <property name="Expand">False</property>
+                                                <property name="Fill">False</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="Gtk.CheckButton" id="checkbutton5">
+                                                <property name="MemberName" />
+                                                <property name="CanFocus">True</property>
+                                                <property name="Label" translatable="yes">Disable data display updates</property>
+                                                <property name="DrawIndicator">True</property>
+                                                <property name="HasLabel">True</property>
+                                                <property name="UseUnderline">True</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="Position">4</property>
                                                 <property name="AutoSize">True</property>
                                                 <property name="Expand">False</property>
                                                 <property name="Fill">False</property>

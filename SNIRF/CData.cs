@@ -107,7 +107,7 @@ namespace nirs
                         }
                     }
 
-                    int skip = (int)Math.Max(1,Math.Floor((double)((this.time.Count - startIdx) / 3000)));
+                    int skip = (int)Math.Max(1,Math.Floor((double)((this.time.Count - startIdx) / 1000)));
                     
 
                     if (this.probe.measlistAct == null)

@@ -77,8 +77,8 @@ namespace NIRSDAQ
                         _info.Manufacturer = ((NIRSDAQ.Instrument.Devices.Simulator)device).Manufacturer;
                         _info.numwavelengths = 2;
                         _info.wavelengths = new int[2];
-                        _info.wavelengths[0] = 690;
-                        _info.wavelengths[1] = 830;
+                        _info.wavelengths[0] = 735;
+                        _info.wavelengths[1] = 850;
                         _info.sample_rate = ((NIRSDAQ.Instrument.Devices.Simulator)device).sample_rate;
                         break;
                     case 1:
