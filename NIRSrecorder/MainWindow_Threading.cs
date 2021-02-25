@@ -26,7 +26,21 @@ public partial class MainWindow : Window
             }
             nirsdata[i].time = new List<double>();
             nirsdata[i].stimulus = nirsdata[0].stimulus;
+
+            NIRSDAQ.info _info= MainClass.devices[i].GetInfo();
+            nirsdata[i].auxillaries = new nirs.auxillary[_info.numAux];
+            for(int ii=0; ii< _info.numAux; ii++)
+            {
+                nirsdata[i].auxillaries[ii] = new nirs.auxillary();
+                nirsdata[i].auxillaries[ii].data = new List<double>();
+                nirsdata[i].auxillaries[ii].time = new List<double>();
+                nirsdata[i].auxillaries[ii].timeOffset = 0;
+                nirsdata[i].auxillaries[ii].name = string.Format("Aux-{0}", ii + 1);
+            }
+
         }
+
+
 
       
         realtimeEngine = new RealtimeEngine();
@@ -121,12 +135,15 @@ public partial class MainWindow : Window
             lastscantime = now;
         }
 
+        string comments = textview_comments.Buffer.Text;
+
+
         for (int i = 0; i < nirsdata.Count; i++)
         {
 
             NIRSDAQ.info info = MainClass.devices[i].GetInfo();
 
-
+            nirsdata[i].demographics.set("comments", comments);
             nirsdata[i].demographics.set("scan_date", now.ToString("MM-dd-yyyy_HH:mm:ss"));
             nirsdata[i].demographics.set("device", info.DeviceName);
             nirsdata[i].demographics.set("manufacturer", info.Manufacturer);

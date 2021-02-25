@@ -1,25 +1,24 @@
 ﻿<Properties StartupConfiguration="{1B6462A9-7434-490C-B65C-91498B6FFA3F}|Default">
   <MonoDevelop.Ide.ItemProperties.NIRSrecorder PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.ItemProperties.SNIRFvalidator PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/MainWindow_Sources.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SNIRF/io_DOTnirs.cs">
     <Files>
-      <File FileName="NIRSrecorder/MainWindow.cs" Line="372" Column="49" />
-      <File FileName="NIRSrecorder/HelperStructs.cs" Line="38" Column="25" />
-      <File FileName="NIRSrecorder/MainWindow_Sources.cs" Line="85" Column="10" />
-      <File FileName="NIRSrecorder/MainWindow_Threading.cs" Line="322" Column="12" />
+      <File FileName="SNIRF/io_DOTnirs.cs" Line="184" Column="53" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="NIRSdotNET" expanded="True">
-            <Node name="myLSLlibrary" expanded="True" />
             <Node name="NIRSDAQ" expanded="True" />
-            <Node name="NIRSdotNET" expanded="True" />
-            <Node name="NIRSrecorder" expanded="True">
-              <Node name="MainWindow_Sources.cs" selected="True" />
+            <Node name="NIRSdotNET" expanded="True">
+              <Node name="io_DOTnirs.cs" selected="True" />
             </Node>
+            <Node name="NIRSrecorder" expanded="True" />
           </Node>
         </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
@@ -28,9 +27,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="HDF5 1.10 Release" />
   <Debugger.DebugSourceFolders />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint enabled="false" file="/Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/BTNIRS.cs" relfile="NIRSDAQ/BTNIRS.cs" line="301" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
   <AuthorInfo Name="Theodore Huppert" Email="HUPPERT1@pitt.edu" Copyright="2020" Company="University of Pittsburgh" Trademark="" />

@@ -172,6 +172,7 @@ namespace nirs
 
             int numsamples = data.numsamples;
             int numch = data.probe.numChannels;
+            int naux = data.auxillaries.Length;
 
             numsamples = Math.Min(endIdx - startIdx, numsamples-startIdx);
 
@@ -181,6 +182,7 @@ namespace nirs
 
             double[][] d = new double[numsamples][];
             double[][] t = new double[numsamples][];
+            double[][] aux = new double[numsamples][];
 
             for (int j = startIdx; j < startIdx+numsamples; j++)
             {
@@ -190,18 +192,75 @@ namespace nirs
                 {
                     dloc[i] = data.data[i][j];
                 }
+
+                if (naux > 0)
+                {
+                    double[] aloc = new double[naux];
+                    for (int i = 0; i < naux; i++)
+                    {
+                        aloc[i] = data.auxillaries[i].data[j];
+                    }
+                    aux[j - startIdx] = aloc;
+                }
+                else
+                {
+                    double[] aa = new double[1];
+                    aa[0] = 0;
+                    aux[j - startIdx] = aa;
+                }
+
                 double[] tt = new double[1];
+                double[] ss = new double[1];
+                ss[0] = 0;
                 tt[0] = data.time[j];
                 t[j-startIdx] = tt;
                 d[j - startIdx] = dloc;
+                
             }
 
             MLDouble mldata = new MLDouble("d", d);
             mlList.Add(mldata);
-            //    MLDouble mlaux = new MLDouble("aux", aux);
-            //    mlList.Add(mlaux);
+            MLDouble mlaux = new MLDouble("aux", aux);
+            mlList.Add(mlaux);
             MLDouble mltime = new MLDouble("t", t);
             mlList.Add(mltime);
+
+            
+            double[][] s = new double[numsamples][];
+            
+            for (int j = startIdx; j < startIdx + numsamples; j++)
+            {
+                double[] dloc = new double[data.stimulus.Count];
+                double thistime= data.time[j];
+                for (int i = 0; i < data.stimulus.Count; i++)
+                {
+                    dloc[i] = 0;
+                    for(int k=0; k<data.stimulus[i].onsets.Count; k++)
+                    {
+                        double onset = data.stimulus[i].onsets[k];
+                        double dur = data.stimulus[i].duration[k];
+                        if(thistime>=onset & thistime <= onset + dur)
+                        {
+                            dloc[i] = data.stimulus[i].amplitude[k];
+                        }
+                    }
+
+                }
+                s[j - startIdx] = dloc;
+            }
+
+
+            MLDouble mls = new MLDouble("s", s);
+            mlList.Add(mls);
+
+            MLCell condNames = new MLCell("CondNames", new int[] {1,data.stimulus.Count });
+            for(int i=0; i<data.stimulus.Count; i++)
+            {
+                condNames[0,i] = new MLChar(null, data.stimulus[i].name);
+            }
+            mlList.Add(condNames);
+
+
 
             // Probe 
             MLStructure mlSD = new MLStructure("SD", new int[] { 1, 1 });
@@ -246,17 +305,60 @@ namespace nirs
                 detpos[j] = dlo;
             }
 
+
+          
+
+
             mlSD["NumDet", 0] = new MLDouble("", new double[] { data.probe.numDet }, 1);
             mlSD["NumSrc", 0] = new MLDouble("", new double[] { data.probe.numSrc }, 1);
             mlSD["Lambda", 0] = new MLDouble("", lambda, 1);
             mlSD["SrcPos", 0] = new MLDouble("", srcpos);
             mlSD["DetPos", 0] = new MLDouble("", detpos);
 
-            mlList.Add(mlSD);
+            if (data.probe.isregistered)
+            {
+                double[][] srcpos3d = new double[data.probe.numSrc][];
+                for (int j = 0; j < data.probe.numSrc; j++)
+                {
+                    double[] slo = new double[3];
+                    for (int i = 0; i < 3; i++)
+                    {
+                        slo[i] = data.probe.SrcPos3D[j, i];
+                    }
+                    srcpos3d[j] = slo;
+                }
 
 
+                double[][] detpos3d = new double[data.probe.numDet][];
+                for (int j = 0; j < data.probe.numDet; j++)
+                {
+                    double[] dlo = new double[3];
+                    for (int i = 0; i < 3; i++)
+                    {
+                        dlo[i] = data.probe.DetPos3D[j, i];
+                    }
+                    detpos3d[j] = dlo;
+                }
+                mlSD["SrcPos3D", 0] = new MLDouble("", srcpos3d);
+                mlSD["DetPos3D", 0] = new MLDouble("", detpos3d);
+            }
 
+            // fixes for HOMER2
+            mlSD["SpatialUnit"]= new MLChar("", "mm");
+           
 
+            
+
+            // Add demographics as a struct
+            MLStructure demo = new MLStructure("demographics", new int[] { 1, 1 });
+            for(int i=0; i<data.demographics.Keys.Count; i++)
+            {
+                object val = data.demographics.get(data.demographics.Keys[i]);
+                string valstr = string.Format("{0}", val);
+
+                demo[data.demographics.Keys[i],0]= new MLChar("", valstr);
+            }
+            mlList.Add(demo);
 
             double[][] ml = new double[data.probe.numChannels][];
             for (int i = 0; i < data.probe.numChannels; i++)
@@ -271,6 +373,10 @@ namespace nirs
 
             MLDouble mlml = new MLDouble("ml", ml);
             mlList.Add(mlml);
+
+
+            mlSD["MeasList",0]= new MLDouble("", ml);
+            mlList.Add(mlSD);
 
 
             MLStructure mlStim = new MLStructure("StimDesign", new int[] { data.stimulus.Count, 1 });

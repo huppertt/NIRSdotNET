@@ -110,11 +110,19 @@ namespace nirs
                 aux[i] = new auxillary[auxList.Count];
                 for(int j=0; j<auxList.Count; j++)
                 {
+
+                    double[] daux = nirs.io.ReadDataVector(fileId, string.Format("{0}/dataTimeSeries", auxList[j]));
+                    double[] taux = nirs.io.ReadDataVector(fileId, string.Format("{0}/time", auxList[j]));
+
                     aux[i][j] = new auxillary();
                     aux[i][j].name = nirs.io.ReadDataString(fileId, string.Format("{0}/name", auxList[j]));
-                    aux[i][j].data = nirs.io.ReadDataVector(fileId, string.Format("{0}/dataTimeSeries", auxList[j]));
                     aux[i][j].timeOffset = nirs.io.ReadDataValue(fileId, string.Format("{0}/timeOffset", auxList[j]));
-                    aux[i][j].time = nirs.io.ReadDataVector(fileId, string.Format("{0}/time", auxList[j]));
+                    aux[i][j].data = new List<double>();
+                    aux[i][j].time = new List<double>();
+                    for (int k = 0; k < daux.Length; k++) {
+                        aux[i][j].data.Add(daux[k]);
+                        aux[i][j].time.Add(taux[k]);
+                    }
 
                 }
 

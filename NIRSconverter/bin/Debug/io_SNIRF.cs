@@ -288,13 +288,24 @@ namespace nirs
                 hid_t[] IDaux = new hid_t[data.auxillaries.Length];
                 for (int st = 0; st < data.auxillaries.Length; st++)
                 {
+                    double[] daux = new double[data.auxillaries[st].data.Count];
+                    double[] taux = new double[data.auxillaries[st].time.Count];
+                    for(int i=0; i<data.auxillaries[st].time.Count; i++)
+                    {
+                        daux[i] = data.auxillaries[st].data[i];
+                        taux[i] = data.auxillaries[st].time[i];
+                    }
+
+
+
+
                     IDaux[st] = H5G.create(IDnirs, String.Format("aux{0}", st+1));
                     // data_#/aux#/name [string]
                     tmp = nirs.io.AddDataString(IDaux[st], "name", data.auxillaries[st].name);
                     // data_#/aux#/dataTimeSeries
-                    tmp = nirs.io.AddDataVector(IDaux[st], "dataTimeSeries", data.auxillaries[st].data);
+                    tmp = nirs.io.AddDataVector(IDaux[st], "dataTimeSeries", daux);
                     // data_#/aux#/time
-                    tmp = nirs.io.AddDataVector(IDaux[st], "time", data.auxillaries[st].time);
+                    tmp = nirs.io.AddDataVector(IDaux[st], "time", taux);
                     // data_#/aux#/timeOffset
                     if(data.auxillaries[st].timeOffset!=null){
                         tmp = nirs.io.AddDataValue(IDaux[st], "timeOffset", data.auxillaries[st].timeOffset.Value);

@@ -28,10 +28,12 @@ namespace NIRSDAQ
                 public int sample_rate;
 
                 private Queue[] dataqueue;
+                private Queue[] auxqueue;
                 private Thread newthread;
 
                 public int _nsrcs = 32;
                 public int _ndets = 32;
+                public int _naux = 2;
 
                 // num measurements
                 private int _nmeas = 24;
@@ -45,6 +47,13 @@ namespace NIRSDAQ
                     {
                         dataqueue[i] = new Queue();
                     }
+
+                    auxqueue = new Queue[_naux];
+                    for(int i=0; i<_naux; i++)
+                    {
+                        auxqueue[i] = new Queue();
+                    }
+
                     Probe = probe;
 
                 }
@@ -67,6 +76,10 @@ namespace NIRSDAQ
                 public int nsrcs()
                 {
                     return _nsrcs;
+                }
+                public int naux()
+                {
+                    return _naux;
                 }
                 public int ndets()
                 {
@@ -109,6 +122,11 @@ namespace NIRSDAQ
                     for (int i = 0; i < _nmeas; i++)
                     {
                         dataqueue[i] = new Queue();
+                    }
+                    auxqueue = new Queue[_naux];
+                    for(int i=0; i<_naux; i++)
+                    {
+                        auxqueue[i] = new Queue();
                     }
 
                 }
@@ -242,6 +260,36 @@ namespace NIRSDAQ
                 }
 
 
+                // Get Data
+                public double[] GetdataAux()
+                {
+                    double[] thisdata = new double[_naux];
+                    for (int i = 0; i < _naux; i++)
+                    {
+                        if (auxqueue[i].Count > 0)
+                        {
+                            thisdata[i] = (double)auxqueue[i].Dequeue();
+                        }
+                        else
+                        {
+                            thisdata[i] = 999;
+                        }
+                    }
+                    return thisdata;
+                }
+
+
+                public int SamplesAvaliableAux()
+                {
+                    double cnt = 0;
+                    for (int i = 0; i < _naux; i++)
+                    {
+                        cnt = cnt + auxqueue[i].Count;
+                    }
+                    cnt = Math.Floor(cnt / _nmeas);
+                    return (int)cnt;
+                }
+
 
                 ~Simulator()
                 {
@@ -270,6 +318,12 @@ namespace NIRSDAQ
                                 int dI = Probe.ChannelMap[i].detectorindex;
                                 dataqueue[i].Enqueue(rnd.NextDouble() * 100 + i * 10 + 50 * detgains[dI]);
                             }
+
+                            for(int i=0; i<_naux; i++)
+                            {
+                                auxqueue[i].Enqueue(rnd.NextDouble());
+                            }
+
                             Thread.Sleep(wait);
                         }
 

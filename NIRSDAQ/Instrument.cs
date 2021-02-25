@@ -11,6 +11,7 @@ namespace NIRSDAQ
         public int numDet;
         public int numSrc;
         public int numMeas;
+        public int numAux;
         public int numwavelengths;
         public int[] wavelengths;
         public int sample_rate;
@@ -26,6 +27,7 @@ namespace NIRSDAQ
             private int devicetype;
             public string devicename;
             private object device;
+            private info _info;
 
             public instrument(string type)
             {
@@ -41,6 +43,7 @@ namespace NIRSDAQ
                     devicetype = 1;
                     device = new NIRSDAQ.Instrument.Devices.TechEn.BTnirs();
                 }
+                _info = this.GetInfo();
             }
 
             
@@ -73,6 +76,7 @@ namespace NIRSDAQ
                         _info.numDet = ((NIRSDAQ.Instrument.Devices.Simulator)device).ndets();
                         _info.numSrc = ((NIRSDAQ.Instrument.Devices.Simulator)device).nsrcs();
                         _info.numMeas = ((NIRSDAQ.Instrument.Devices.Simulator)device).nmeas();
+                        _info.numAux =  ((NIRSDAQ.Instrument.Devices.Simulator)device).naux();
                         _info.PortName = ((NIRSDAQ.Instrument.Devices.Simulator)device).portname();
                         _info.Manufacturer = ((NIRSDAQ.Instrument.Devices.Simulator)device).Manufacturer;
                         _info.numwavelengths = 2;
@@ -85,6 +89,7 @@ namespace NIRSDAQ
                         _info.numDet = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).ndets();
                         _info.numSrc = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).nsrcs();
                         _info.numMeas = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).nmeas();
+                        _info.numAux = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).naux();
                         _info.PortName = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).portname();
                         _info.Manufacturer = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).Manufacturer;
                         _info.numwavelengths = 2;
@@ -281,6 +286,23 @@ namespace NIRSDAQ
 
             }
 
+
+            public int SamplesAvaliableAux()
+            {
+                int flag = -1;
+                switch (devicetype)
+                {
+                    case 0:
+                        flag = ((NIRSDAQ.Instrument.Devices.Simulator)device).SamplesAvaliableAux();
+                        break;
+                    case 1:
+                        flag = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).SamplesAvaliableAux();
+                        break;
+                }
+                return flag;
+
+            }
+
             public void SetLaserPower(int sIdx, int pwr)
             {
                 
@@ -363,10 +385,13 @@ namespace NIRSDAQ
             public nirs.core.Data GetNewData(nirs.core.Data data,double dt=0)
             {
                 int nsamples = 0;
+                double fs;
                 switch (devicetype)
                 {
                     case 0:
                         nsamples = ((NIRSDAQ.Instrument.Devices.Simulator)device).SamplesAvaliable();
+                        fs = ((NIRSDAQ.Instrument.Devices.Simulator)device).getsamplerate();
+
                         for (int i = 0; i < nsamples; i++)
                         {
                             double[] d =((NIRSDAQ.Instrument.Devices.Simulator)device).Getdata();
@@ -374,13 +399,26 @@ namespace NIRSDAQ
                             {
                                 data.data[j].Add(d[j]);
                             }
-                            double fs = ((NIRSDAQ.Instrument.Devices.Simulator)device).getsamplerate();
-                            data.time.Add(data.time.Count / fs+dt);
+
+                            
+                            double time=data.time.Count / fs + dt;
+                            if (_info.numAux > 0)
+                            {
+                                double[] aux = ((NIRSDAQ.Instrument.Devices.Simulator)device).GetdataAux();
+                                for (int j = 0; j < aux.Length; j++)
+                                {
+                                    data.auxillaries[j].data.Add(aux[j]);
+                                    data.auxillaries[j].time.Add(time);
+                                }
+                            }
+                            data.time.Add(time);
                             data.numsamples = data.time.Count;
                         }
                         break;
                     case 1:
                         nsamples = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).SamplesAvaliable();
+                        fs = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).getsamplerate();
+
                         for (int i = 0; i < nsamples; i++)
                         {
                             double[] d = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).Getdata();
@@ -388,8 +426,18 @@ namespace NIRSDAQ
                             {
                                 data.data[j].Add(d[j]);
                             }
-                            double fs = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).getsamplerate();
-                            data.time.Add(data.time.Count / fs + dt);
+                           
+                             double time = data.time.Count / fs + dt;
+                            if (_info.numAux > 0)
+                            {
+                                double[] aux = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).GetdataAux();
+                                for (int j = 0; j < aux.Length; j++)
+                                {
+                                    data.auxillaries[j].data.Add(aux[j]);
+                                    data.auxillaries[j].time.Add(time);
+                                }
+                            }
+                            data.time.Add(time);
                             data.numsamples = data.time.Count;
                         }
 

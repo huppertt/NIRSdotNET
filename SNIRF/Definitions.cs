@@ -48,8 +48,8 @@ namespace nirs
 
     public struct auxillary{
         public string name;
-        public double[] time;
-        public double[] data;
+        public List<double> time;
+        public List<double> data;
         public double? timeOffset;
     }
 

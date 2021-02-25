@@ -31,12 +31,14 @@ namespace NIRSDAQ
 
                     private SerialPort _serialPort;
                     private Queue[] dataqueue;
+                    private Queue[] auxqueue;
                     private Thread newthread;
 
                     private int wordsperrecord;
 
                     public int _nsrcs = 8;
                     public int _ndets = 2;
+                    public int _naux = 7;
 
                     // num measurements
                     private int _nmeas = 32;
@@ -106,6 +108,11 @@ namespace NIRSDAQ
                         return _serialPort.PortName;
                     }
 
+                    public int naux()
+                    {
+                        return _naux;
+                    }
+
                     public int nsrcs()
                     {
                         return _nsrcs;
@@ -145,6 +152,12 @@ namespace NIRSDAQ
                         for (int i = 0; i < _nmeas; i++)
                         {
                             dataqueue[i] = new Queue();
+                        }
+
+                        auxqueue = new Queue[_naux];
+                        for(int i=0; i < _naux; i++)
+                        {
+                            auxqueue[i] = new Queue();
                         }
 
                     }
@@ -426,6 +439,43 @@ namespace NIRSDAQ
                     }
 
 
+                    // Get Data from the instrument and place in data queue
+                    public double[] GetdataAux()
+                    {
+
+                        int cnt = 9999;
+                        for (int i = 0; i < auxqueue.Length; i++)
+                        {
+                            if (cnt > auxqueue[i].Count) { cnt = auxqueue[i].Count; }
+                        }
+
+
+                        double[] thisdata = new double[_naux];
+                        for (int i = 0; i < _naux; i++)
+                        {
+                            if (cnt > 0)
+                            {
+                                thisdata[i] = (double)auxqueue[i].Dequeue();
+                            }
+                        }
+                        return thisdata;
+                    }
+
+
+                    // Return the number of samples in the data queue
+                    public int SamplesAvaliableAux()
+                    {
+                        double cnt = 0;
+                        for (int i = 0; i < _naux; i++)
+                        {
+                            cnt = cnt + auxqueue[i].Count;
+                        }
+                        cnt = Math.Floor(cnt / _nmeas);
+                        return (int)cnt;
+                    }
+
+
+
                     // Return the number of samples in the data queue
                     public int SamplesAvaliable()
                     {
@@ -509,6 +559,13 @@ namespace NIRSDAQ
                                     int endPack1 = data[64 * nsamp + 9]; // should be 176 = 0xB0
                                     int endPack2 = data[64 * nsamp + 10]; // should be 179 = 0xB3
 
+                                    auxqueue[0].Enqueue(reserve1);
+                                    auxqueue[1].Enqueue(reserve2);
+                                    auxqueue[2].Enqueue(ACCX);
+                                    auxqueue[3].Enqueue(ACCY);
+                                    auxqueue[4].Enqueue(ACCZ);
+                                    auxqueue[5].Enqueue(CRC1);
+                                    auxqueue[6].Enqueue(CRC2);
 
                                 }
 

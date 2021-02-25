@@ -982,6 +982,7 @@ public partial class MainWindow : Window
         Gtk.ResponseType result = (ResponseType)md.Run();
         md.Destroy();
 
+        
         if (result == Gtk.ResponseType.Yes)
         {
             SaveDataNow(0, Int32.MaxValue, 0, true);  // this will make a new file with the same scan #    
@@ -995,7 +996,6 @@ public partial class MainWindow : Window
    
     }
 
-  
 }
 
 
