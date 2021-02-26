@@ -83,12 +83,15 @@ namespace NIRSrecorder
                     //System.Windows.Forms.MessageBox.Show(String.Format("Folder {0} Not found. Using default Windows location. Please update the config.xml file", DATADIR),
                     //   "Data Folder does not exist");
                     DATADIR = "C:\\TechEn\\Data";
-                }else if (System.IO.Directory.Exists("/Users/theodorehuppert/Desktop/NIRSRecordIR/Data"))
+                    PROBEDIR = "C:\\TechEn\\Probe";
+                }
+                else if (System.IO.Directory.Exists("/Users/theodorehuppert/Desktop/NIRSRecordIR/Data"))
                 {
                     //System.Windows.Forms.MessageBox.Show(String.Format("Folder {0} Not found. Using default MacOS location. Please update the config.xml file", DATADIR),
                     //    "Data Folder does not exist");
 
                     DATADIR = "/Users/theodorehuppert/Desktop/NIRSRecordIR/Data";
+                    PROBEDIR= "/Users/theodorehuppert/Desktop/NIRSRecordIR/Probe";
                 }
                 else
                 {

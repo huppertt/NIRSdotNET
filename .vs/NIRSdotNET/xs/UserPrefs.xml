@@ -1,7 +1,7 @@
 ﻿<Properties StartupConfiguration="{1B6462A9-7434-490C-B65C-91498B6FFA3F}|Default">
   <MonoDevelop.Ide.ItemProperties.NIRSrecorder PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.ItemProperties.SNIRFvalidator PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/Config.xml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/Settings.cs">
     <Files>
       <File FileName="NIRSrecorder/MainWindow.cs" Line="270" Column="1" />
       <File FileName="NIRSrecorder/MainWindow_Sources.cs" Line="1" Column="1" />
@@ -12,17 +12,18 @@
       <File FileName="SNIRF/io_DOTnirs.cs" />
       <File FileName="NIRSDAQ/BTNIRS.cs" />
       <File FileName="NIRSDAQ/Instrument.cs" />
-      <File FileName="NIRSrecorder/Settings.cs" Line="79" Column="13" />
+      <File FileName="NIRSrecorder/Settings.cs" Line="86" Column="47" />
       <File FileName="SNIRF/CProbe.cs" />
       <File FileName="NIRSrecorder/MainWindow_Drawing.cs" Line="1" Column="1" />
       <File FileName="SNIRF/DefaultConfig.xml" Line="1" Column="1" />
+      <File FileName="NIRSrecorder/RegisterSubjectDialog.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="NIRSdotNET" expanded="True">
             <Node name="NIRSrecorder" expanded="True">
-              <Node name="Config.xml" selected="True" />
+              <Node name="Settings.cs" selected="True" />
             </Node>
           </Node>
         </State>
@@ -34,9 +35,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="HDF5 1.10 Release" />
   <Debugger.DebugSourceFolders />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/Settings.cs" relfile="NIRSrecorder/Settings.cs" line="79" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
   <AuthorInfo Name="Theodore Huppert" Email="HUPPERT1@pitt.edu" Copyright="2020" Company="University of Pittsburgh" Trademark="" />
