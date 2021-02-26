@@ -31,12 +31,15 @@ namespace NIRSrecorder
               
                 win.ShowAll();
                 win.IntializeGUI();
-                obj_Splash.Hide();
+
+                             obj_Splash.Hide();
                 return false;
             });
        
 
         Application.Run();
         }
+
+       
     }
 }

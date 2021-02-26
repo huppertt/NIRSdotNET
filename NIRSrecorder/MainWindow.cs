@@ -249,20 +249,20 @@ public partial class MainWindow : Window
         vbox15.Visible = false;
 #endif
 
-        // MainClass.win.Fullscreen();
+       
+       // MainClass.win.Fullscreen();
 
         MainClass.win.Resize(1700, 900);
         MainClass.win.ResizeChildren();
         
        // MainClass.win.Resizable = false;
        MainClass.win.ResizeMode = Gtk.ResizeMode.Queue;
-        ShowAll();
+       ShowAll();
         
     }
 
-   
 
-    private void EditStimTableName(object o, EditedArgs args)
+private void EditStimTableName(object o, EditedArgs args)
     {
         //throw new NotImplementedException();
     }
@@ -996,6 +996,30 @@ public partial class MainWindow : Window
    
     }
 
+    protected void ExitNow(object o, DeleteEventArgs args)
+    {
+
+        try 
+        {
+            if (MainClass.devices != null)
+            {
+                for (int i = 0; i < MainClass.devices.Length; i++)
+                {
+                    MainClass.devices[i].Stop();
+                    MainClass.devices[i].AllOff();
+                    MainClass.devices[i].FlushBuffer();
+                }
+            }
+            //  Dispose();
+            Destroy();
+        }
+        catch { }
+        System.Windows.Forms.Application.ExitThread();
+        System.Windows.Forms.Application.Exit();
+        System.Environment.Exit(0);
+
+
+    }
 }
 
 

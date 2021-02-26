@@ -324,7 +324,7 @@
     <property name="DefaultHeight">800</property>
     <property name="DestroyWithParent">True</property>
     <property name="Gravity">Center</property>
-    <signal name="DeleteEvent" handler="OnDeleteEvent" />
+    <signal name="DeleteEvent" handler="ExitNow" />
     <child>
       <widget class="Gtk.VBox" id="vbox5">
         <property name="MemberName" />

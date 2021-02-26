@@ -76,7 +76,14 @@ public partial class MainWindow : Window
                 MainClass.devices[i].FlushBuffer();
             }
         }
-        Destroy();
+      //  Dispose();
+      Destroy();
+
+     System.Windows.Forms.Application.ExitThread();
+     System.Windows.Forms.Application.Exit();
+     System.Environment.Exit(0);
+
+
 
     }
 

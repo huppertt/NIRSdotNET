@@ -169,241 +169,246 @@ namespace nirs
         {
 
             // Store the data into the *.nirs matlab format
-
-            int numsamples = data.numsamples;
-            int numch = data.probe.numChannels;
-            int naux = data.auxillaries.Length;
-
-            numsamples = Math.Min(endIdx - startIdx, numsamples-startIdx);
-
-
-            // save the structure as mat file using MatFileWriter
-            List<MLArray> mlList = new List<MLArray>();
-
-            double[][] d = new double[numsamples][];
-            double[][] t = new double[numsamples][];
-            double[][] aux = new double[numsamples][];
-
-            for (int j = startIdx; j < startIdx+numsamples; j++)
+            try
             {
-                double[] dloc = new double[numch];
+                int numsamples = data.numsamples;
+                int numch = data.probe.numChannels;
+                int naux = data.auxillaries.Length;
 
-                for (int i = 0; i < numch; i++)
-                {
-                    dloc[i] = data.data[i][j];
-                }
+                numsamples = Math.Min(endIdx - startIdx, numsamples - startIdx);
 
-                if (naux > 0)
+
+                // save the structure as mat file using MatFileWriter
+                List<MLArray> mlList = new List<MLArray>();
+
+                double[][] d = new double[numsamples][];
+                double[][] t = new double[numsamples][];
+                double[][] aux = new double[numsamples][];
+
+                for (int j = startIdx; j < startIdx + numsamples; j++)
                 {
-                    double[] aloc = new double[naux];
-                    for (int i = 0; i < naux; i++)
+                    double[] dloc = new double[numch];
+
+                    for (int i = 0; i < numch; i++)
                     {
-                        aloc[i] = data.auxillaries[i].data[j];
+                        dloc[i] = data.data[i][j];
                     }
-                    aux[j - startIdx] = aloc;
+
+                    if (naux > 0)
+                    {
+                        double[] aloc = new double[naux];
+                        for (int i = 0; i < naux; i++)
+                        {
+                            aloc[i] = data.auxillaries[i].data[j];
+                        }
+                        aux[j - startIdx] = aloc;
+                    }
+                    else
+                    {
+                        double[] aa = new double[1];
+                        aa[0] = 0;
+                        aux[j - startIdx] = aa;
+                    }
+
+                    double[] tt = new double[1];
+                    double[] ss = new double[1];
+                    ss[0] = 0;
+                    tt[0] = data.time[j];
+                    t[j - startIdx] = tt;
+                    d[j - startIdx] = dloc;
+
                 }
-                else
+
+                MLDouble mldata = new MLDouble("d", d);
+                mlList.Add(mldata);
+                MLDouble mlaux = new MLDouble("aux", aux);
+                mlList.Add(mlaux);
+                MLDouble mltime = new MLDouble("t", t);
+                mlList.Add(mltime);
+
+
+                double[][] s = new double[numsamples][];
+
+                for (int j = startIdx; j < startIdx + numsamples; j++)
                 {
-                    double[] aa = new double[1];
-                    aa[0] = 0;
-                    aux[j - startIdx] = aa;
+                    double[] dloc = new double[data.stimulus.Count];
+                    double thistime = data.time[j];
+                    for (int i = 0; i < data.stimulus.Count; i++)
+                    {
+                        dloc[i] = 0;
+                        for (int k = 0; k < data.stimulus[i].onsets.Count; k++)
+                        {
+                            double onset = data.stimulus[i].onsets[k];
+                            double dur = data.stimulus[i].duration[k];
+                            if (thistime >= onset & thistime <= onset + dur)
+                            {
+                                dloc[i] = data.stimulus[i].amplitude[k];
+                            }
+                        }
+
+                    }
+                    s[j - startIdx] = dloc;
                 }
 
-                double[] tt = new double[1];
-                double[] ss = new double[1];
-                ss[0] = 0;
-                tt[0] = data.time[j];
-                t[j-startIdx] = tt;
-                d[j - startIdx] = dloc;
-                
-            }
 
-            MLDouble mldata = new MLDouble("d", d);
-            mlList.Add(mldata);
-            MLDouble mlaux = new MLDouble("aux", aux);
-            mlList.Add(mlaux);
-            MLDouble mltime = new MLDouble("t", t);
-            mlList.Add(mltime);
+                MLDouble mls = new MLDouble("s", s);
+                mlList.Add(mls);
 
-            
-            double[][] s = new double[numsamples][];
-            
-            for (int j = startIdx; j < startIdx + numsamples; j++)
-            {
-                double[] dloc = new double[data.stimulus.Count];
-                double thistime= data.time[j];
+                MLCell condNames = new MLCell("CondNames", new int[] { 1, data.stimulus.Count });
                 for (int i = 0; i < data.stimulus.Count; i++)
                 {
-                    dloc[i] = 0;
-                    for(int k=0; k<data.stimulus[i].onsets.Count; k++)
+                    condNames[0, i] = new MLChar(null, data.stimulus[i].name);
+                }
+                mlList.Add(condNames);
+
+
+
+                // Probe 
+                MLStructure mlSD = new MLStructure("SD", new int[] { 1, 1 });
+
+
+                List<string> datasubtype = new List<string>();
+                for (int i = 0; i < data.probe.numChannels; i++)
+                {
+                    if (!datasubtype.Contains(data.probe.ChannelMap[i].datasubtype))
                     {
-                        double onset = data.stimulus[i].onsets[k];
-                        double dur = data.stimulus[i].duration[k];
-                        if(thistime>=onset & thistime <= onset + dur)
-                        {
-                            dloc[i] = data.stimulus[i].amplitude[k];
-                        }
+                        datasubtype.Add(data.probe.ChannelMap[i].datasubtype);
                     }
-
                 }
-                s[j - startIdx] = dloc;
-            }
-
-
-            MLDouble mls = new MLDouble("s", s);
-            mlList.Add(mls);
-
-            MLCell condNames = new MLCell("CondNames", new int[] {1,data.stimulus.Count });
-            for(int i=0; i<data.stimulus.Count; i++)
-            {
-                condNames[0,i] = new MLChar(null, data.stimulus[i].name);
-            }
-            mlList.Add(condNames);
-
-
-
-            // Probe 
-            MLStructure mlSD = new MLStructure("SD", new int[] { 1, 1 });
-
-
-            List<string> datasubtype = new List<string>();
-            for (int i = 0; i < data.probe.numChannels; i++)
-            {
-                if (!datasubtype.Contains(data.probe.ChannelMap[i].datasubtype))
+                double[] lambda = new double[datasubtype.Count];
+                for (int i = 0; i < data.probe.numChannels; i++)
                 {
-                    datasubtype.Add(data.probe.ChannelMap[i].datasubtype);
+                    lambda[datasubtype.IndexOf(data.probe.ChannelMap[i].datasubtype)] = data.probe.ChannelMap[i].wavelength;
                 }
-            }
-            double[] lambda = new double[datasubtype.Count];
-            for (int i = 0; i < data.probe.numChannels; i++)
-            {
-                lambda[datasubtype.IndexOf(data.probe.ChannelMap[i].datasubtype)] = data.probe.ChannelMap[i].wavelength;
-            }
 
-            double[][] srcpos = new double[data.probe.numSrc][];
-            for (int j = 0; j < data.probe.numSrc; j++)
-            {
-                double[] slo = new double[3];
-                for (int i = 0; i < 2; i++)
-                {
-                    slo[i] = data.probe.SrcPos[j, i];
-                }
-                slo[2] = 0;
-                srcpos[j] = slo;
-            }
-
-
-            double[][] detpos = new double[data.probe.numDet][];
-            for (int j = 0; j < data.probe.numDet; j++)
-            {
-                double[] dlo = new double[3];
-                for (int i = 0; i < 2; i++)
-                {
-                    dlo[i] = data.probe.DetPos[j, i];
-                }
-                dlo[2] = 0;
-                detpos[j] = dlo;
-            }
-
-
-          
-
-
-            mlSD["NumDet", 0] = new MLDouble("", new double[] { data.probe.numDet }, 1);
-            mlSD["NumSrc", 0] = new MLDouble("", new double[] { data.probe.numSrc }, 1);
-            mlSD["Lambda", 0] = new MLDouble("", lambda, 1);
-            mlSD["SrcPos", 0] = new MLDouble("", srcpos);
-            mlSD["DetPos", 0] = new MLDouble("", detpos);
-
-            if (data.probe.isregistered)
-            {
-                double[][] srcpos3d = new double[data.probe.numSrc][];
+                double[][] srcpos = new double[data.probe.numSrc][];
                 for (int j = 0; j < data.probe.numSrc; j++)
                 {
                     double[] slo = new double[3];
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 0; i < 2; i++)
                     {
-                        slo[i] = data.probe.SrcPos3D[j, i];
+                        slo[i] = data.probe.SrcPos[j, i];
                     }
-                    srcpos3d[j] = slo;
+                    slo[2] = 0;
+                    srcpos[j] = slo;
                 }
 
 
-                double[][] detpos3d = new double[data.probe.numDet][];
+                double[][] detpos = new double[data.probe.numDet][];
                 for (int j = 0; j < data.probe.numDet; j++)
                 {
                     double[] dlo = new double[3];
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 0; i < 2; i++)
                     {
-                        dlo[i] = data.probe.DetPos3D[j, i];
+                        dlo[i] = data.probe.DetPos[j, i];
                     }
-                    detpos3d[j] = dlo;
+                    dlo[2] = 0;
+                    detpos[j] = dlo;
                 }
-                mlSD["SrcPos3D", 0] = new MLDouble("", srcpos3d);
-                mlSD["DetPos3D", 0] = new MLDouble("", detpos3d);
+
+
+
+
+
+                mlSD["NumDet", 0] = new MLDouble("", new double[] { data.probe.numDet }, 1);
+                mlSD["NumSrc", 0] = new MLDouble("", new double[] { data.probe.numSrc }, 1);
+                mlSD["Lambda", 0] = new MLDouble("", lambda, 1);
+                mlSD["SrcPos", 0] = new MLDouble("", srcpos);
+                mlSD["DetPos", 0] = new MLDouble("", detpos);
+
+                if (data.probe.isregistered)
+                {
+                    double[][] srcpos3d = new double[data.probe.numSrc][];
+                    for (int j = 0; j < data.probe.numSrc; j++)
+                    {
+                        double[] slo = new double[3];
+                        for (int i = 0; i < 3; i++)
+                        {
+                            slo[i] = data.probe.SrcPos3D[j, i];
+                        }
+                        srcpos3d[j] = slo;
+                    }
+
+
+                    double[][] detpos3d = new double[data.probe.numDet][];
+                    for (int j = 0; j < data.probe.numDet; j++)
+                    {
+                        double[] dlo = new double[3];
+                        for (int i = 0; i < 3; i++)
+                        {
+                            dlo[i] = data.probe.DetPos3D[j, i];
+                        }
+                        detpos3d[j] = dlo;
+                    }
+                    mlSD["SrcPos3D", 0] = new MLDouble("", srcpos3d);
+                    mlSD["DetPos3D", 0] = new MLDouble("", detpos3d);
+                }
+
+                // fixes for HOMER2
+                mlSD["SpatialUnit"] = new MLChar("", "mm");
+
+
+
+
+                // Add demographics as a struct
+                MLStructure demo = new MLStructure("demographics", new int[] { 1, 1 });
+                for (int i = 0; i < data.demographics.Keys.Count; i++)
+                {
+                    object val = data.demographics.get(data.demographics.Keys[i]);
+                    string valstr = string.Format("{0}", val);
+
+                    demo[data.demographics.Keys[i], 0] = new MLChar("", valstr);
+                }
+                mlList.Add(demo);
+
+                double[][] ml = new double[data.probe.numChannels][];
+                for (int i = 0; i < data.probe.numChannels; i++)
+                {
+                    double[] m = new double[4];
+                    m[0] = data.probe.ChannelMap[i].sourceindex + 1;
+                    m[1] = data.probe.ChannelMap[i].detectorindex + 1;
+                    m[2] = 0;
+                    m[3] = 1 + datasubtype.IndexOf(data.probe.ChannelMap[i].datasubtype);
+                    ml[i] = m;
+                }
+
+                MLDouble mlml = new MLDouble("ml", ml);
+                mlList.Add(mlml);
+
+
+                mlSD["MeasList", 0] = new MLDouble("", ml);
+                mlList.Add(mlSD);
+
+
+                MLStructure mlStim = new MLStructure("StimDesign", new int[] { data.stimulus.Count, 1 });
+                for (int i = 0; i < data.stimulus.Count; i++)
+                {
+                    mlStim["name", i] = new MLChar("", data.stimulus[i].name);
+
+
+                    double[] onset = new double[data.stimulus[i].onsets.Count];
+                    for (int ii = 0; ii < data.stimulus[i].onsets.Count; ii++) { onset[ii] = data.stimulus[i].onsets[ii]; }
+                    double[] dur = new double[data.stimulus[i].duration.Count];
+                    for (int ii = 0; ii < data.stimulus[i].duration.Count; ii++) { dur[ii] = data.stimulus[i].duration[ii]; }
+                    double[] amp = new double[data.stimulus[i].amplitude.Count];
+                    for (int ii = 0; ii < data.stimulus[i].amplitude.Count; ii++) { amp[ii] = data.stimulus[i].amplitude[ii]; }
+
+
+                    mlStim["onset", i] = new MLDouble("", onset, 1);
+                    mlStim["dur", i] = new MLDouble("", dur, 1);
+                    mlStim["amp", i] = new MLDouble("", amp, 1);
+                }
+                if (data.stimulus.Count > 0)
+                {
+                    mlList.Add(mlStim);
+                }
+
+                new MatFileWriter(filename, mlList, false);
             }
-
-            // fixes for HOMER2
-            mlSD["SpatialUnit"]= new MLChar("", "mm");
-           
-
-            
-
-            // Add demographics as a struct
-            MLStructure demo = new MLStructure("demographics", new int[] { 1, 1 });
-            for(int i=0; i<data.demographics.Keys.Count; i++)
+            catch
             {
-                object val = data.demographics.get(data.demographics.Keys[i]);
-                string valstr = string.Format("{0}", val);
-
-                demo[data.demographics.Keys[i],0]= new MLChar("", valstr);
+                Console.WriteLine("Unable to save .nirs file");
             }
-            mlList.Add(demo);
-
-            double[][] ml = new double[data.probe.numChannels][];
-            for (int i = 0; i < data.probe.numChannels; i++)
-            {
-                double[] m = new double[4];
-                m[0] = data.probe.ChannelMap[i].sourceindex + 1;
-                m[1] = data.probe.ChannelMap[i].detectorindex + 1;
-                m[2] = 0;
-                m[3] = 1 + datasubtype.IndexOf(data.probe.ChannelMap[i].datasubtype);
-                ml[i] = m;
-            }
-
-            MLDouble mlml = new MLDouble("ml", ml);
-            mlList.Add(mlml);
-
-
-            mlSD["MeasList",0]= new MLDouble("", ml);
-            mlList.Add(mlSD);
-
-
-            MLStructure mlStim = new MLStructure("StimDesign", new int[] { data.stimulus.Count, 1 });
-            for (int i = 0; i < data.stimulus.Count; i++)
-            {
-                mlStim["name", i] = new MLChar("", data.stimulus[i].name);
-
-
-                double[] onset = new double[data.stimulus[i].onsets.Count];
-                for (int ii = 0; ii < data.stimulus[i].onsets.Count; ii++) { onset[ii]=data.stimulus[i].onsets[ii]; }
-                double[] dur = new double[data.stimulus[i].duration.Count];
-                for (int ii = 0; ii < data.stimulus[i].duration.Count; ii++) {dur[ii]=data.stimulus[i].duration[ii]; }
-                double[] amp = new double[data.stimulus[i].amplitude.Count];
-                for (int ii = 0; ii < data.stimulus[i].amplitude.Count; ii++) {amp[ii]=data.stimulus[i].amplitude[ii]; }
-
-
-                mlStim["onset", i] = new MLDouble("", onset, 1);
-                mlStim["dur", i] = new MLDouble("", dur, 1);
-                mlStim["amp", i] = new MLDouble("", amp, 1);
-            }
-            if (data.stimulus.Count > 0)
-            {
-                mlList.Add(mlStim);
-            }
-
-            new MatFileWriter(filename, mlList, false);
-
             return;
 
         }

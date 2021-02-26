@@ -1,13 +1,28 @@
 ﻿<Properties StartupConfiguration="{1B6462A9-7434-490C-B65C-91498B6FFA3F}|Default">
   <MonoDevelop.Ide.ItemProperties.NIRSrecorder PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.ItemProperties.SNIRFvalidator PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/MainWindow_Sources.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SNIRF/io_DOTnirs.cs">
     <Files>
-      <File FileName="NIRSrecorder/MainWindow.cs" Line="372" Column="49" />
-      <File FileName="NIRSrecorder/HelperStructs.cs" />
-      <File FileName="NIRSrecorder/MainWindow_Sources.cs" Line="84" Column="47" />
+      <File FileName="NIRSrecorder/MainWindow.cs" Line="1002" Column="13" />
+      <File FileName="NIRSrecorder/HelperStructs.cs" Line="1" Column="1" />
+      <File FileName="NIRSrecorder/MainWindow_Sources.cs" Line="85" Column="10" />
       <File FileName="NIRSrecorder/MainWindow_Threading.cs" />
+      <File FileName="NIRSrecorder/Config.xml" Line="15" Column="1" />
+      <File FileName="NIRSrecorder/MainWindow_Controls.cs" Line="84" Column="33" />
+      <File FileName="NIRSrecorder/Program.cs" Line="43" Column="8" />
+      <File FileName="SNIRF/io_DOTnirs.cs" Line="172" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="NIRSdotNET" expanded="True">
+            <Node name="NIRSdotNET" expanded="True">
+              <Node name="io_DOTnirs.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.NIRSconverter PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

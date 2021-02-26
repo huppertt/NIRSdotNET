@@ -694,19 +694,19 @@ public partial class MainWindow
 		this.Device8.Visible = false;
 		w1.Add(this.Device8, null);
 		this.Device9 = new global::Gtk.RadioAction("Device9", global::Mono.Unix.Catalog.GetString("9"), null, null, 0);
-		this.Device9.Group = this.DualViewAction.Group;
+		this.Device9.Group = this.Device8.Group;
 		this.Device9.Sensitive = false;
 		this.Device9.ShortLabel = global::Mono.Unix.Catalog.GetString("9");
 		this.Device9.Visible = false;
 		w1.Add(this.Device9, null);
 		this.Device10 = new global::Gtk.RadioAction("Device10", global::Mono.Unix.Catalog.GetString("10"), null, null, 0);
-		this.Device10.Group = this.DualViewAction.Group;
+		this.Device10.Group = this.Device8.Group;
 		this.Device10.Sensitive = false;
 		this.Device10.ShortLabel = global::Mono.Unix.Catalog.GetString("10");
 		this.Device10.Visible = false;
 		w1.Add(this.Device10, null);
 		this.CombineSnirfFilesAction = new global::Gtk.RadioAction("CombineSnirfFilesAction", global::Mono.Unix.Catalog.GetString("Combine snirf files"), null, null, 0);
-		this.CombineSnirfFilesAction.Group = this.DualViewAction.Group;
+		this.CombineSnirfFilesAction.Group = this.Device8.Group;
 		this.CombineSnirfFilesAction.ShortLabel = global::Mono.Unix.Catalog.GetString("Combine snirf files");
 		w1.Add(this.CombineSnirfFilesAction, null);
 		this.UIManager.InsertActionGroup(w1, 0);
@@ -2654,7 +2654,7 @@ public partial class MainWindow
 			this.Child.ShowAll();
 		}
 		this.Show();
-		this.DeleteEvent += new global::Gtk.DeleteEventHandler(this.OnDeleteEvent);
+		this.DeleteEvent += new global::Gtk.DeleteEventHandler(this.ExitNow);
 		this.NewSubjectAction.Activated += new global::System.EventHandler(this.RegisterSubject);
 		this.QuickStartAction.Activated += new global::System.EventHandler(this.RegisterQuickStart);
 		this.LoadPreviousAction.Activated += new global::System.EventHandler(this.ReloadData);
