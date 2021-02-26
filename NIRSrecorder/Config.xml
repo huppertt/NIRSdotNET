@@ -8,8 +8,8 @@
     <default_folders>
       <!--  <datadir>/Users/theodorehuppert/Desktop/NIRSRecordIR/Data</datadir> -->
       <!--   <probedir>/Users/theodorehuppert/Desktop/NIRSRecordIR/Probe</probedir> -->
-        <datadir>C:\TechEn\NIRSRecordIR\Data</datadir> 
-        <probedir>C:\TechEn\NIRSRecordIR\Probe</probedir> 
+        <datadir>C:\TechEn\Data</datadir> 
+        <probedir>C:\TechEn\Probe</probedir> 
     </default_folders>
     
 <!-- UNCOMMENT one of the instrument types {BTNIRS,CW6,Simulator,SimulatorHyperScan} -->
