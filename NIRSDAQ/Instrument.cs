@@ -402,7 +402,7 @@ namespace NIRSDAQ
 
                             
                             double time=data.time.Count / fs + dt;
-                            if (_info.numAux > 0)
+                            /*if (_info.numAux > 0)
                             {
                                 double[] aux = ((NIRSDAQ.Instrument.Devices.Simulator)device).GetdataAux();
                                 for (int j = 0; j < aux.Length; j++)
@@ -410,7 +410,7 @@ namespace NIRSDAQ
                                     data.auxillaries[j].data.Add(aux[j]);
                                     data.auxillaries[j].time.Add(time);
                                 }
-                            }
+                            }*/
                             data.time.Add(time);
                             data.numsamples = data.time.Count;
                         }
@@ -428,6 +428,7 @@ namespace NIRSDAQ
                             }
                            
                              double time = data.time.Count / fs + dt;
+                            /*
                             if (_info.numAux > 0)
                             {
                                 double[] aux = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).GetdataAux();
@@ -436,7 +437,7 @@ namespace NIRSDAQ
                                     data.auxillaries[j].data.Add(aux[j]);
                                     data.auxillaries[j].time.Add(time);
                                 }
-                            }
+                            } */
                             data.time.Add(time);
                             data.numsamples = data.time.Count;
                         }
