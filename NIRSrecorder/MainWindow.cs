@@ -252,11 +252,11 @@ public partial class MainWindow : Window
        
      // MainClass.win.Fullscreen();
 
-     //   MainClass.win.Resize(1700, 900);
-     //   MainClass.win.ResizeChildren();
+   //  MainClass.win.Resize(1700, 900);
+   //  MainClass.win.ResizeChildren();
         
      MainClass.win.Resizable = settings.RESIZABLE;
-     MainClass.win.ResizeMode = Gtk.ResizeMode.Queue;
+   //  MainClass.win.ResizeMode = Gtk.ResizeMode.Queue;
        ShowAll();
         
     }

@@ -311,8 +311,8 @@
       </action>
     </action-group>
     <property name="MemberName" />
-    <property name="WidthRequest">1700</property>
-    <property name="HeightRequest">900</property>
+    <property name="WidthRequest">1400</property>
+    <property name="HeightRequest">800</property>
     <property name="CanFocus">True</property>
     <property name="Title" translatable="yes">NIRS RecordIR</property>
     <property name="Icon">resource:NIRSrecorder.techen.ico</property>
@@ -321,7 +321,7 @@
     <property name="BorderWidth">6</property>
     <property name="Resizable">False</property>
     <property name="AllowGrow">False</property>
-    <property name="DefaultWidth">1200</property>
+    <property name="DefaultWidth">1400</property>
     <property name="DefaultHeight">800</property>
     <property name="DestroyWithParent">True</property>
     <property name="Gravity">Center</property>
