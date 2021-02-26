@@ -11,18 +11,21 @@ using LSL;
 public partial class MainWindow : Window
 {
 
+    Gdk.Size cursize;
 
     public MainWindow() : base(WindowType.Toplevel)
     {
         Build();
         settings = new NIRSrecorder.Settings();
         MainClass.obj_Splash.label.Text = "Loading GUI";
-
+        
     }
 
     public void IntializeGUI()
     {
 
+
+        cursize = MainClass.win.DefaultSize;
 
         SaveSnirfFormatAction.Active = false;
         MainClass.obj_Splash.label.Text = string.Format("Finding Devices: {0}", settings.SYSTEM);
@@ -249,15 +252,8 @@ public partial class MainWindow : Window
         vbox15.Visible = false;
 #endif
 
-       
-     // MainClass.win.Fullscreen();
-
-   //  MainClass.win.Resize(1700, 900);
-   //  MainClass.win.ResizeChildren();
-        
      MainClass.win.Resizable = settings.RESIZABLE;
-   //  MainClass.win.ResizeMode = Gtk.ResizeMode.Queue;
-       ShowAll();
+     ShowAll();
         
     }
 
@@ -491,21 +487,29 @@ private void EditStimTableName(object o, EditedArgs args)
         if (System.IO.File.Exists(path))
         {
 
-
-            QuickStartAction.Sensitive = true;
             // Read the Config.xml file
             XmlDocument doc = new XmlDocument();
-
             doc.Load(path);
             XmlNodeList elemList;
+            elemList = doc.GetElementsByTagName("probefile");
+            string probefile = elemList[0].InnerXml.Trim();
+            if (System.IO.File.Exists(probefile))
+            {
 
-            elemList = doc.GetElementsByTagName("Investigator");
-            string investigator = elemList[0].InnerXml.Trim();
-            elemList = doc.GetElementsByTagName("Study");
-            string study = elemList[0].InnerXml.Trim();
-            QuickStartAction.Label = "Quick Start: " + investigator + ":" + study;
+                QuickStartAction.Sensitive = true;
+                // Read the Config.xml file
+                elemList = doc.GetElementsByTagName("Investigator");
+                string investigator = elemList[0].InnerXml.Trim();
+                elemList = doc.GetElementsByTagName("Study");
+                string study = elemList[0].InnerXml.Trim();
+                QuickStartAction.Label = "Quick Start: " + investigator + ":" + study;
 
-            DebugMessage("Last Settings Avaliable  " + investigator + " : " + study);
+                DebugMessage("Last Settings Avaliable  " + investigator + " : " + study);
+            }
+            else
+            {
+                QuickStartAction.Sensitive = false;
+            }
 
         }
         else
@@ -1017,9 +1021,37 @@ private void EditStimTableName(object o, EditedArgs args)
         System.Windows.Forms.Application.ExitThread();
         System.Windows.Forms.Application.Exit();
         System.Environment.Exit(0);
-
-
+        
     }
+
+    protected override bool OnConfigureEvent(Gdk.EventConfigure evnt)
+    {
+        if (settings != null)
+        {
+            if (!settings.RESIZABLE)
+            {
+                if (evnt.Height != cursize.Height | evnt.Width != cursize.Width)
+                {
+                    if(MainClass.devices != null)
+                    {
+                        if (MainClass.devices[0].isrunning())
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        bool flag = base.OnConfigureEvent(evnt);
+        int width, height;
+        MainClass.win.GetSize(out width,out height);
+        cursize.Width = width;
+        cursize.Height = height;
+        return flag;
+    }
+
+
+
 }
 
 

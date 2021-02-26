@@ -3,25 +3,24 @@
   <MonoDevelop.Ide.ItemProperties.SNIRFvalidator PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/Config.xml">
     <Files>
-      <File FileName="NIRSrecorder/MainWindow.cs" Line="294" Column="10" />
-      <File FileName="NIRSrecorder/HelperStructs.cs" />
-      <File FileName="NIRSrecorder/MainWindow_Sources.cs" />
+      <File FileName="NIRSrecorder/MainWindow.cs" Line="270" Column="1" />
+      <File FileName="NIRSrecorder/MainWindow_Sources.cs" Line="1" Column="1" />
       <File FileName="NIRSrecorder/MainWindow_Threading.cs" />
-      <File FileName="NIRSrecorder/Config.xml" Line="14" Column="4" />
-      <File FileName="NIRSrecorder/MainWindow_Controls.cs" />
-      <File FileName="NIRSrecorder/Program.cs" />
+      <File FileName="NIRSrecorder/Config.xml" Line="23" Column="52" />
+      <File FileName="NIRSrecorder/MainWindow_Controls.cs" Line="178" Column="60" />
+      <File FileName="NIRSrecorder/Program.cs" Line="19" Column="32" />
       <File FileName="SNIRF/io_DOTnirs.cs" />
       <File FileName="NIRSDAQ/BTNIRS.cs" />
       <File FileName="NIRSDAQ/Instrument.cs" />
-      <File FileName="NIRSrecorder/Settings.cs" />
+      <File FileName="NIRSrecorder/Settings.cs" Line="79" Column="13" />
       <File FileName="SNIRF/CProbe.cs" />
-      <File FileName="NIRSrecorder/MainWindow_Drawing.cs" />
+      <File FileName="NIRSrecorder/MainWindow_Drawing.cs" Line="1" Column="1" />
+      <File FileName="SNIRF/DefaultConfig.xml" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="NIRSdotNET" expanded="True">
-            <Node name="NIRSdotNET" expanded="True" />
             <Node name="NIRSrecorder" expanded="True">
               <Node name="Config.xml" selected="True" />
             </Node>
@@ -35,7 +34,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="HDF5 1.10 Release" />
   <Debugger.DebugSourceFolders />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/theodorehuppert/Projects/NIRSdotNET/NIRSrecorder/Settings.cs" relfile="NIRSrecorder/Settings.cs" line="79" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
   <AuthorInfo Name="Theodore Huppert" Email="HUPPERT1@pitt.edu" Copyright="2020" Company="University of Pittsburgh" Trademark="" />

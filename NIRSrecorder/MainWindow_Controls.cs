@@ -161,122 +161,121 @@ public partial class MainWindow : Window
     // This restores the last Study/probe used
     public void RegisterQuickStart(object sender, EventArgs e)
     {
+            string path = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            path = System.IO.Path.Combine(path, "LastSettings.xml");
 
-        string path = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-        path = System.IO.Path.Combine(path, "LastSettings.xml");
+            // Read the Config.xml file
+            XmlDocument doc = new XmlDocument();
 
-        // Read the Config.xml file
-        XmlDocument doc = new XmlDocument();
+            doc.Load(path);
+            XmlNodeList elemList;
 
-        doc.Load(path);
-        XmlNodeList elemList;
+            elemList = doc.GetElementsByTagName("Investigator");
+            string investigator = elemList[0].InnerXml.Trim();
+            elemList = doc.GetElementsByTagName("Study");
+            string study = elemList[0].InnerXml.Trim();
+            elemList = doc.GetElementsByTagName("probefile");
+            string probefile = elemList[0].InnerXml.Trim();
 
-        elemList = doc.GetElementsByTagName("Investigator");
-        string investigator = elemList[0].InnerXml.Trim();
-        elemList = doc.GetElementsByTagName("Study");
-        string study = elemList[0].InnerXml.Trim();
-        elemList = doc.GetElementsByTagName("probefile");
-        string probefile = elemList[0].InnerXml.Trim();
+            nirs.core.Probe probe = nirs.io.LoadProbe(probefile);
+            // Add channels for Optical Density, HbO2, and HbR
 
-        nirs.core.Probe probe = nirs.io.LoadProbe(probefile);
-        // Add channels for Optical Density, HbO2, and HbR
-
-        int cnt = probe.ChannelMap.Length;
-        nirs.ChannelMap[] ChannelMap = new nirs.ChannelMap[cnt * 2 + 2 * cnt / probe.numWavelengths];
-        for (int ii = 0; ii < cnt; ii++)
-        {
-            ChannelMap[ii] = probe.ChannelMap[ii];
-        }
-        for (int ii = 0; ii < cnt; ii++)
-        {
-            ChannelMap[ii + cnt] = probe.ChannelMap[ii];
-            ChannelMap[ii + cnt].datasubtype = string.Format("ΔOD {0}nm", ChannelMap[ii].wavelength);
-        }
-        for (int ii = 0; ii < cnt / probe.numWavelengths; ii++)
-        {
-            ChannelMap[ii + 2 * cnt] = probe.ChannelMap[ii];
-            ChannelMap[ii + 2 * cnt].datasubtype = "HbO2";
-        }
-        for (int ii = cnt / probe.numWavelengths; ii < cnt; ii++)
-        {
-            ChannelMap[ii + 2 * cnt] = probe.ChannelMap[ii];
-            ChannelMap[ii + 2 * cnt].datasubtype = "Hb";
-        }
-
-        probe.ChannelMap = ChannelMap;
-        probe.measlistAct = new bool[probe.ChannelMap.Length];
-        for (int ii = 0; ii < probe.ChannelMap.Length; ii++)
-        {
-            probe.measlistAct[ii] = true;
-        }
-        Gdk.Color[] cmap = new Gdk.Color[probe.ChannelMap.Length];
-        for (int ii = 0; ii < probe.numChannels; ii++)
-        {
-            cmap[ii] = probe.colormap[ii];
-            cmap[probe.numChannels + ii] = probe.colormap[ii];
-            cmap[probe.numChannels * 2 + ii] = probe.colormap[ii];
-        }
-        probe.colormap = cmap;
-
-        nirsdata = new List<nirs.core.Data>();
-
-        for (int i = 0; i < MainClass.devices.Length; i++)
-        {
-            nirs.core.Data data = new nirs.core.Data
+            int cnt = probe.ChannelMap.Length;
+            nirs.ChannelMap[] ChannelMap = new nirs.ChannelMap[cnt * 2 + 2 * cnt / probe.numWavelengths];
+            for (int ii = 0; ii < cnt; ii++)
             {
-                demographics = new nirs.Dictionary()
-            };
-            data.demographics.set("SubjID", "");
-            data.demographics.set("Investigator", investigator);
-            data.demographics.set("Study", study);
-            data.demographics.set("Gender", "");
-            data.demographics.set("Group", "");
-            data.demographics.set("Age", "");
-            data.demographics.set("Instrument", MainClass.win.settings.SYSTEM);
-            data.demographics.set("head_circumference", "");
-            data.demographics.set("Technician", "");
-            data.demographics.set("comments", "");
-            DateTime now = DateTime.Now;
-            data.demographics.set("scan_date", now.ToString("F"));
-            data.probe = probe.Clone();
-            nirsdata.Add(data);
-        }
-
-
-
-        ListStore ClearList = new ListStore(typeof(string));
-        MainClass.win._handles.whichdata.Model = ClearList;
-
-        List<string> datatypes = new List<string>();
-        for (int ii = 0; ii < probe.ChannelMap.Length; ii++)
-        {
-            datatypes.Add(probe.ChannelMap[ii].datasubtype);
-        }
-        datatypes = datatypes.Distinct().ToList();
-
-        foreach (string s in datatypes)
-        {
-            MainClass.win._handles.whichdata.AppendText(s);
-        }
-
-
-        for (int dI = probe.numDet; dI < MainClass.win._handles.detectors.Count; dI++)
-        {
-            MainClass.win._handles.detectors[dI].frame.Sensitive = false;
-            MainClass.win._handles.detectors[dI].vScale.Sensitive = false;
-            MainClass.win._handles.detectors[dI].vScale.Value = 0;
-            MainClass.win._handles.detectors[dI].led.Color = new Gdk.Color(93, 93, 93);
-        }
-        for (int sI = probe.numSrc; sI < MainClass.win._handles.lasers.Count; sI++)
-        {
-            MainClass.win._handles.lasers[sI].frame.Sensitive = false;
-            for (int wI = 0; wI < MainClass.win._handles.lasers[sI].buttons.Length; wI++)
+                ChannelMap[ii] = probe.ChannelMap[ii];
+            }
+            for (int ii = 0; ii < cnt; ii++)
             {
-                MainClass.win._handles.lasers[sI].spinButtons[wI].Sensitive = false;
-                MainClass.win._handles.lasers[sI].buttons[wI].Sensitive = false;
+                ChannelMap[ii + cnt] = probe.ChannelMap[ii];
+                ChannelMap[ii + cnt].datasubtype = string.Format("ΔOD {0}nm", ChannelMap[ii].wavelength);
+            }
+            for (int ii = 0; ii < cnt / probe.numWavelengths; ii++)
+            {
+                ChannelMap[ii + 2 * cnt] = probe.ChannelMap[ii];
+                ChannelMap[ii + 2 * cnt].datasubtype = "HbO2";
+            }
+            for (int ii = cnt / probe.numWavelengths; ii < cnt; ii++)
+            {
+                ChannelMap[ii + 2 * cnt] = probe.ChannelMap[ii];
+                ChannelMap[ii + 2 * cnt].datasubtype = "Hb";
             }
 
-        }
+            probe.ChannelMap = ChannelMap;
+            probe.measlistAct = new bool[probe.ChannelMap.Length];
+            for (int ii = 0; ii < probe.ChannelMap.Length; ii++)
+            {
+                probe.measlistAct[ii] = true;
+            }
+            Gdk.Color[] cmap = new Gdk.Color[probe.ChannelMap.Length];
+            for (int ii = 0; ii < probe.numChannels; ii++)
+            {
+                cmap[ii] = probe.colormap[ii];
+                cmap[probe.numChannels + ii] = probe.colormap[ii];
+                cmap[probe.numChannels * 2 + ii] = probe.colormap[ii];
+            }
+            probe.colormap = cmap;
+
+            nirsdata = new List<nirs.core.Data>();
+
+            for (int i = 0; i < MainClass.devices.Length; i++)
+            {
+                nirs.core.Data data = new nirs.core.Data
+                {
+                    demographics = new nirs.Dictionary()
+                };
+                data.demographics.set("SubjID", "");
+                data.demographics.set("Investigator", investigator);
+                data.demographics.set("Study", study);
+                data.demographics.set("Gender", "");
+                data.demographics.set("Group", "");
+                data.demographics.set("Age", "");
+                data.demographics.set("Instrument", MainClass.win.settings.SYSTEM);
+                data.demographics.set("head_circumference", "");
+                data.demographics.set("Technician", "");
+                data.demographics.set("comments", "");
+                DateTime now = DateTime.Now;
+                data.demographics.set("scan_date", now.ToString("F"));
+                data.probe = probe.Clone();
+                nirsdata.Add(data);
+            }
+
+
+
+            ListStore ClearList = new ListStore(typeof(string));
+            MainClass.win._handles.whichdata.Model = ClearList;
+
+            List<string> datatypes = new List<string>();
+            for (int ii = 0; ii < probe.ChannelMap.Length; ii++)
+            {
+                datatypes.Add(probe.ChannelMap[ii].datasubtype);
+            }
+            datatypes = datatypes.Distinct().ToList();
+
+            foreach (string s in datatypes)
+            {
+                MainClass.win._handles.whichdata.AppendText(s);
+            }
+
+
+            for (int dI = probe.numDet; dI < MainClass.win._handles.detectors.Count; dI++)
+            {
+                MainClass.win._handles.detectors[dI].frame.Sensitive = false;
+                MainClass.win._handles.detectors[dI].vScale.Sensitive = false;
+                MainClass.win._handles.detectors[dI].vScale.Value = 0;
+                MainClass.win._handles.detectors[dI].led.Color = new Gdk.Color(93, 93, 93);
+            }
+            for (int sI = probe.numSrc; sI < MainClass.win._handles.lasers.Count; sI++)
+            {
+                MainClass.win._handles.lasers[sI].frame.Sensitive = false;
+                for (int wI = 0; wI < MainClass.win._handles.lasers[sI].buttons.Length; wI++)
+                {
+                    MainClass.win._handles.lasers[sI].spinButtons[wI].Sensitive = false;
+                    MainClass.win._handles.lasers[sI].buttons[wI].Sensitive = false;
+                }
+
+            }
 
 #if ADDLSL
         MainClass.win.dataLSL = new LSL.liblsl.StreamOutlet[MainClass.devices.Length];
@@ -290,16 +289,16 @@ public partial class MainWindow : Window
         }
 #endif
 
-        comboboxdeviceDemo.Active = 0;
+            comboboxdeviceDemo.Active = 0;
 
-        MainClass.win._handles.whichdata.Active = 0;
+            MainClass.win._handles.whichdata.Active = 0;
 
-        MainClass.win.EnableControls(true);
-
-
-        MainClass.win._handles.SDGplot.QueueDraw();
+            MainClass.win.EnableControls(true);
 
 
+            MainClass.win._handles.SDGplot.QueueDraw();
+
+      
 
     }
 
