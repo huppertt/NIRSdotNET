@@ -572,9 +572,12 @@ namespace nirs
             }
 
 
-            public void updateML(int DAx, int DAy, bool reset, int DAwidth, int DAheight)
+            public void updateML(int DAx, int DAy, bool reset, int DAwidth, int DAheight,double cutoff=8,double cutoff2=3)
             {
                 // This function is called whrn the user clicks on the SDG and used to update the MeasurementList
+
+               // double cutoff = 8;
+               // double cutoff2 = 3;
 
                 DAx -= 3;
                 DAy += 10;
@@ -629,8 +632,7 @@ namespace nirs
                 double rangeY = maxY - minY;
 
                 double distance;
-                double cutoff = 8;
-                double cutoff2 = 3;
+               
 
                 if (this.measlistAct == null)
                 {
@@ -777,7 +779,7 @@ namespace nirs
             }
 
 
-            public void updateML1020(int DAx, int DAy, bool reset, int DAwidth, int DAheight)
+            public void updateML1020(int DAx, int DAy, bool reset, int DAwidth, int DAheight,double cutoff = 8, double cutoff2 = 3)
             {
                 // This function is called whrn the user clicks on the SDG and used to update the MeasurementList
                 if (!this.isregistered)
@@ -785,6 +787,9 @@ namespace nirs
                     updateML(DAx,DAy,reset,DAwidth,DAheight);
                     return;
                 }
+
+                //double cutoff = 8;
+               // double cutoff2 = 3;
 
                 DAx -= 3;
                 DAy += 10;
@@ -822,8 +827,7 @@ namespace nirs
                 double rangeY = maxY - minY;
 
                 double distance;
-                double cutoff = 8;
-                double cutoff2 = 3;
+               
 
                 if (this.measlistAct == null)
                 {

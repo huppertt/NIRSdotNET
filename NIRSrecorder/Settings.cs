@@ -25,6 +25,10 @@ namespace NIRSrecorder
         public int UPDATETIME; // How often to update refreshes to the display window 
         public string DATADIR;
         public string PROBEDIR;
+        public bool RESIZABLE;
+        public double ProbeLineSensitivity;
+        public double ProbeOptodeSensitivity;
+
 
         public System_info system_Info;
 
@@ -44,7 +48,16 @@ namespace NIRSrecorder
 
             elemList = doc.GetElementsByTagName("debug");
             DEBUG = elemList[0].InnerXml.Trim().ToLower().Equals("true");
-      
+
+            elemList = doc.GetElementsByTagName("resizable");
+            RESIZABLE = elemList[0].InnerXml.Trim().ToLower().Equals("true");
+
+            elemList = doc.GetElementsByTagName("ProbeLineSensitivity");
+            ProbeLineSensitivity = Convert.ToInt32(elemList[0].InnerXml);
+
+            elemList = doc.GetElementsByTagName("ProbeOptodeSensitivity");
+            ProbeOptodeSensitivity = Convert.ToInt32(elemList[0].InnerXml);
+
             // default_folders
             elemList = doc.GetElementsByTagName("default_folders");
             doc2.LoadXml("<root>" + elemList[0].InnerXml + "</root>");

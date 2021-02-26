@@ -107,12 +107,12 @@ public partial class MainWindow : Window
         if (combobox_selectview.ActiveText.Equals("Flat View"))
         {
             // This NIRSdotNET toolbox updateML function handles changing the measurement Active list
-            nirsdata[combobox_device1.Active].probe.updateML((int)x, (int)y, reset, width, height);  // update the active measurement list
+            nirsdata[combobox_device1.Active].probe.updateML((int)x, (int)y, reset, width, height, settings.ProbeOptodeSensitivity, settings.ProbeLineSensitivity);  // update the active measurement list
         }
         else
         {
             // This NIRSdotNET toolbox updateML function handles changing the measurement Active list
-            nirsdata[combobox_device1.Active].probe.updateML1020((int)x, (int)y, reset, width, height);  // update the active measurement list
+            nirsdata[combobox_device1.Active].probe.updateML1020((int)x, (int)y, reset, width, height,settings.ProbeOptodeSensitivity,settings.ProbeLineSensitivity);  // update the active measurement list
         }
 
         // update the probe and the data on the the next cycle
@@ -155,12 +155,12 @@ public partial class MainWindow : Window
         if (combobox_selectview.ActiveText.Equals("Flat View"))
         {
             // This NIRSdotNET toolbox updateML function handles changing the measurement Active list
-            nirsdata[combobox_device2.Active].probe.updateML((int)x, (int)y, reset, width, height);  // update the active measurement list
+            nirsdata[combobox_device2.Active].probe.updateML((int)x, (int)y, reset, width, height,settings.ProbeOptodeSensitivity, settings.ProbeLineSensitivity);  // update the active measurement list
         }
         else
         {
             // This NIRSdotNET toolbox updateML function handles changing the measurement Active list
-            nirsdata[combobox_device2.Active].probe.updateML1020((int)x, (int)y, reset, width, height);  // update the active measurement list
+            nirsdata[combobox_device2.Active].probe.updateML1020((int)x, (int)y, reset, width, height, settings.ProbeOptodeSensitivity, settings.ProbeLineSensitivity);  // update the active measurement list
         }
         // update the probe and the data on the the next cycle
         drawingarea_SDG2.QueueDraw();

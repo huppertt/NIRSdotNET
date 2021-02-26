@@ -1,5 +1,5 @@
 ﻿<settings>
-    <probefile>/Users/theodorehuppert/Desktop/NIRSRecordIR/Data/TechEn/Wireless/Probe.xml</probefile>
+    <probefile>/Users/theodorehuppert/Desktop/TriPatchProbe.xml</probefile>
     <Investigator>TechEn</Investigator>
-    <Study>Wireless</Study>
+    <Study>wireless2</Study>
 </settings>

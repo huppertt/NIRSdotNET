@@ -250,13 +250,13 @@ public partial class MainWindow : Window
 #endif
 
        
-       // MainClass.win.Fullscreen();
+     // MainClass.win.Fullscreen();
 
-        MainClass.win.Resize(1700, 900);
-        MainClass.win.ResizeChildren();
+     //   MainClass.win.Resize(1700, 900);
+     //   MainClass.win.ResizeChildren();
         
-       // MainClass.win.Resizable = false;
-       MainClass.win.ResizeMode = Gtk.ResizeMode.Queue;
+     MainClass.win.Resizable = settings.RESIZABLE;
+     MainClass.win.ResizeMode = Gtk.ResizeMode.Queue;
        ShowAll();
         
     }

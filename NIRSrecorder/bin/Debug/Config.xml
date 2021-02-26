@@ -3,13 +3,21 @@
     
 <!-- The debug flag adds extra messaging and instrument control to the GUI --> 
     <debug> true </debug>
+    <resizable> false </resizable>
+    
+<!-- Settings for Probe Drawing-->
+   <!-- This controls the distance (in pixels) to count as a mouse click on a line or optode
+        If it is too small, its hard to click on the plot.  If it is too large, its hard to select just one line --> 
+    <ProbeLineSensitivity> 3 </ProbeLineSensitivity>
+    <ProbeOptodeSensitivity> 8 </ProbeOptodeSensitivity>
+    
     
 <!-- These folders need to reflect where the data is stored on yor computer -->
     <default_folders>
-      <!--  <datadir>/Users/theodorehuppert/Desktop/NIRSRecordIR/Data</datadir> -->
-      <!--   <probedir>/Users/theodorehuppert/Desktop/NIRSRecordIR/Probe</probedir> -->
-        <datadir>C:\TechEn\Data</datadir> 
-        <probedir>C:\TechEn\Probe</probedir> 
+      <datadir>/Users/theodorehuppert/Desktop/NIRSRecordIR/Data</datadir>
+       <probedir>/Users/theodorehuppert/Desktop/NIRSRecordIR/Probe</probedir> 
+      <!--    <datadir>C:\TechEn\Data</datadir>  -->
+      <!--    <probedir>C:\TechEn\Probe</probedir>  -->
     </default_folders>
     
 <!-- UNCOMMENT one of the instrument types {BTNIRS,CW6,Simulator,SimulatorHyperScan} -->
