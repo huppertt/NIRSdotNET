@@ -1026,27 +1026,18 @@ private void EditStimTableName(object o, EditedArgs args)
 
     protected override bool OnConfigureEvent(Gdk.EventConfigure evnt)
     {
-        if (settings != null)
+
+        if (maindisplaythread != null)
         {
-            if (!settings.RESIZABLE)
-            {
-                if (evnt.Height != cursize.Height | evnt.Width != cursize.Width)
-                {
-                    if(MainClass.devices != null)
-                    {
-                        if (MainClass.devices[0].isrunning())
-                        {
-                            return false;
-                        }
-                    }
-                }
-            }
+            maindisplaythread.Suspend();
         }
+
         bool flag = base.OnConfigureEvent(evnt);
-        int width, height;
-        MainClass.win.GetSize(out width,out height);
-        cursize.Width = width;
-        cursize.Height = height;
+        if (maindisplaythread != null)
+        {
+            maindisplaythread.Resume();
+        }
+
         return flag;
     }
 
