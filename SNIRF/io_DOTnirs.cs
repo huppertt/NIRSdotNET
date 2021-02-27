@@ -193,23 +193,32 @@ namespace nirs
                     {
                         dloc[i] = data.data[i][j];
                     }
-
-                    if (naux > 0)
+                    try
                     {
-                        double[] aloc = new double[naux];
-                        for (int i = 0; i < naux; i++)
+                        if (naux > 0)
                         {
-                            aloc[i] = data.auxillaries[i].data[j];
+                            double[] aloc = new double[naux];
+                            for (int ii = 0; ii < naux; ii++)
+                            {
+                                aloc[ii] = data.auxillaries[ii].data[j];
+                            }
+                            aux[j - startIdx] = aloc;
                         }
-                        aux[j - startIdx] = aloc;
+                        else
+                        {
+                            double[] aa = new double[1];
+                            aa[0] = 0;
+                            aux[j - startIdx] = aa;
+                        }
+
                     }
-                    else
+                    catch
                     {
+                      //  Console.WriteLine("error writing aux");
                         double[] aa = new double[1];
                         aa[0] = 0;
                         aux[j - startIdx] = aa;
                     }
-
                     double[] tt = new double[1];
                     double[] ss = new double[1];
                     ss[0] = 0;

@@ -216,13 +216,13 @@ namespace nirs
                 ROIdrawPos = new double[ROIs.Count, 2];
                 for(int i=0; i<ROIs.Count; i++)
                 {
-                    ROIdrawPos[i, 0] = minX - .1 * (maxX - minX);
-                    ROIdrawPos[i, 1] = minY - .2 * (i)*(maxY - minY);
+                    ROIdrawPos[i, 0] = minX - .15 * (maxX - minX);
+                    ROIdrawPos[i, 1] = minY - .25 * (i+1)*(maxY - minY);
                 }
                 if (ROIs.Count > 0)
                 {
-                    minY = minY - (ROIs.Count) * .2 * (maxY - minY);
-                    minX = minX - .1 * (maxX - minX);
+                    minY = minY - (ROIs.Count+1) * .25 * (maxY - minY);
+                    minX = minX - .15 * (maxX - minX);
                 }
 
                 double rangeX = maxX - minX;
@@ -619,13 +619,13 @@ namespace nirs
                 ROIdrawPos = new double[ROIs.Count, 2];
                 for (int i = 0; i < ROIs.Count; i++)
                 {
-                    ROIdrawPos[i, 0] = minX - .1 * (maxX - minX);
-                    ROIdrawPos[i, 1] = minY - .2 * (i) * (maxY - minY);
+                    ROIdrawPos[i, 0] = minX - .15 * (maxX - minX);
+                    ROIdrawPos[i, 1] = minY - .25 * (i+1) * (maxY - minY);
                 }
                 if (ROIs.Count > 0)
                 {
-                    minY = minY - (ROIs.Count) * .2 * (maxY - minY);
-                    minX = minX - .1 * (maxX - minX);
+                    minY = minY - (ROIs.Count+1) * .25 * (maxY - minY);
+                    minX = minX - .15 * (maxX - minX);
                 }
 
                 double rangeX = maxX - minX;

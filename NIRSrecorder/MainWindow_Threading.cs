@@ -497,8 +497,8 @@ public partial class MainWindow : Window
         }
         catch (ThreadAbortException e)
         {
-            Console.WriteLine("Thread - caught ThreadAbortException - resetting.");
-            Console.WriteLine("Exception message: {0}", e.Message);
+           // Console.WriteLine("Thread - caught ThreadAbortException - resetting.");
+           // Console.WriteLine("Exception message: {0}", e.Message);
             Thread.ResetAbort();
         }
     }
