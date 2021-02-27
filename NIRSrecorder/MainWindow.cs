@@ -1027,9 +1027,12 @@ private void EditStimTableName(object o, EditedArgs args)
     protected override bool OnConfigureEvent(Gdk.EventConfigure evnt)
     {
 
-        if (maindisplaythread != null & maindisplaythread.IsAlive)
+        if (maindisplaythread != null)
         {
-            displayHold = true;
+            if (maindisplaythread.IsAlive)
+            {
+                displayHold = true;
+            }
         }
 
         bool flag = base.OnConfigureEvent(evnt);
