@@ -448,17 +448,18 @@ public partial class MainWindow : Window
             }
 #endif
 
-
-
-                if (!checkbutton5.Active) // disable display controls
+                if (!displayHold)
                 {
-                    drawingarea_Data.QueueDraw();
-                    drawingarea_Data2.QueueDraw();
+
+                    if (!checkbutton5.Active) // disable display controls
+                    {
+                        drawingarea_Data.QueueDraw();
+                        drawingarea_Data2.QueueDraw();
+                    }
+
+                    progressbar1.Pulse();
+                    progressbar1.QueueDraw();
                 }
-
-                progressbar1.Pulse();
-                progressbar1.QueueDraw();
-
                 bool resetfileaftersave = checkbuttonReset.Active;
                 if (checkbutton4.Active & stopWatch.Elapsed.TotalSeconds > intervaltime)
                 {

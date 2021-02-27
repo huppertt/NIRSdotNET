@@ -11,7 +11,7 @@ using LSL;
 public partial class MainWindow : Window
 {
 
-    Gdk.Size cursize;
+    bool displayHold;
 
     public MainWindow() : base(WindowType.Toplevel)
     {
@@ -25,7 +25,7 @@ public partial class MainWindow : Window
     {
 
 
-        cursize = MainClass.win.DefaultSize;
+        displayHold = false;
 
         SaveSnirfFormatAction.Active = false;
         MainClass.obj_Splash.label.Text = string.Format("Finding Devices: {0}", settings.SYSTEM);
@@ -1029,13 +1029,14 @@ private void EditStimTableName(object o, EditedArgs args)
 
         if (maindisplaythread != null)
         {
-            maindisplaythread.Suspend();
+            displayHold = true;
         }
 
         bool flag = base.OnConfigureEvent(evnt);
+
         if (maindisplaythread != null)
         {
-            maindisplaythread.Resume();
+            displayHold = false;
         }
 
         return flag;
