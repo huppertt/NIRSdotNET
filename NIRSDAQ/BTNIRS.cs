@@ -38,7 +38,7 @@ namespace NIRSDAQ
 
                     public int _nsrcs = 8;
                     public int _ndets = 2;
-                    public int _naux = 7;
+                    public int _naux = 0;
 
                     // num measurements
                     private int _nmeas = 32;

@@ -226,7 +226,6 @@ namespace nirs
                 MLDouble mltime = new MLDouble("t", t);
                 mlList.Add(mltime);
 
-
                 double[][] s = new double[numsamples][];
 
                 for (int j = startIdx; j < startIdx + numsamples; j++)
