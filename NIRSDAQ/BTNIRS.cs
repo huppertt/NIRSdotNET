@@ -559,13 +559,13 @@ namespace NIRSDAQ
                                     int endPack1 = data[64 * nsamp + 9]; // should be 176 = 0xB0
                                     int endPack2 = data[64 * nsamp + 10]; // should be 179 = 0xB3
 
-                                    auxqueue[0].Enqueue(reserve1);
-                                    auxqueue[1].Enqueue(reserve2);
-                                    auxqueue[2].Enqueue(ACCX);
-                                    auxqueue[3].Enqueue(ACCY);
-                                    auxqueue[4].Enqueue(ACCZ);
-                                    auxqueue[5].Enqueue(CRC1);
-                                    auxqueue[6].Enqueue(CRC2);
+                                //    auxqueue[0].Enqueue(reserve1);
+                                //    auxqueue[1].Enqueue(reserve2);
+                                //    auxqueue[2].Enqueue(ACCX);
+                                //    auxqueue[3].Enqueue(ACCY);
+                                //    auxqueue[4].Enqueue(ACCZ);
+                                //    auxqueue[5].Enqueue(CRC1);
+                                //    auxqueue[6].Enqueue(CRC2);
 
                                 }
 
