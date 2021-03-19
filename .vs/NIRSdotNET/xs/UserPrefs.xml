@@ -3,13 +3,6 @@
   <MonoDevelop.Ide.ItemProperties.SNIRFvalidator PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="SNIRF/DefinitionsSNIRF.cs">
     <Files>
-      <File FileName="NIRSrecorder/MainWindow_Threading.cs" Line="508" Column="38" IsPinned="True" />
-      <File FileName="NIRSrecorder/Settings.cs" />
-      <File FileName="NIRSrecorder/Program.cs" />
-      <File FileName="NIRSrecorder/MainWindow_Parameters.cs" />
-      <File FileName="NIRSDAQ/BTNIRS.cs" Line="565" Column="1" />
-      <File FileName="SNIRF/CData.cs" />
-      <File FileName="NIRSDAQ/Simulator.cs" />
       <File FileName="NIRSDAQ/Instrument.cs" Line="457" Column="29" />
       <File FileName="SNIRF/io_DOTnirs.cs" />
       <File FileName="NIRSrecorder/MainWindow.cs" Line="1020" Column="18" />

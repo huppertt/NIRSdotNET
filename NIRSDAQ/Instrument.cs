@@ -434,11 +434,14 @@ namespace NIRSDAQ
                                 
                                 if (_info.numAux > 0)
                                 {
-                                    double[] aux = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).GetdataAux();
-                                    for (int j = 0; j < aux.Length; j++)
+                                    if (((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).canmeasureaux())
                                     {
-                                        data.auxillaries[j].data.Add(aux[j]);
-                                        data.auxillaries[j].time.Add(time);
+                                        double[] aux = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).GetdataAux();
+                                        for (int j = 0; j < aux.Length; j++)
+                                        {
+                                            data.auxillaries[j].data.Add(aux[j]);
+                                            data.auxillaries[j].time.Add(time);
+                                        }
                                     }
                                 } 
                                 data.time.Add(time);
