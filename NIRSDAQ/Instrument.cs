@@ -394,26 +394,28 @@ namespace NIRSDAQ
 
                         for (int i = 0; i < nsamples; i++)
                         {
-                            double[] d =((NIRSDAQ.Instrument.Devices.Simulator)device).Getdata();
-                            for(int j=0; j<d.Length; j++)
-                            {
-                                data.data[j].Add(d[j]);
-                            }
-
-                            
-                            double time=data.time.Count / fs + dt;
-                            /*if (_info.numAux > 0)
-                            {
-                                double[] aux = ((NIRSDAQ.Instrument.Devices.Simulator)device).GetdataAux();
-                                for (int j = 0; j < aux.Length; j++)
+                           
+                                double[] d = ((NIRSDAQ.Instrument.Devices.Simulator)device).Getdata();
+                                for (int j = 0; j < d.Length; j++)
                                 {
-                                    data.auxillaries[j].data.Add(aux[j]);
-                                    data.auxillaries[j].time.Add(time);
+                                    data.data[j].Add(d[j]);
                                 }
-                            }*/
-                            data.time.Add(time);
-                            data.numsamples = data.time.Count;
-                        }
+
+
+                                double time = data.time.Count / fs + dt;
+                                if (_info.numAux > 0)
+                                {
+                                    double[] aux = ((NIRSDAQ.Instrument.Devices.Simulator)device).GetdataAux();
+                                    for (int j = 0; j < aux.Length; j++)
+                                    {
+                                        data.auxillaries[j].data.Add(aux[j]);
+                                        data.auxillaries[j].time.Add(time);
+                                    }
+                                }
+                                data.time.Add(time);
+                                data.numsamples = data.time.Count;
+                            }
+                        
                         break;
                     case 1:
                         nsamples = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).SamplesAvaliable();
@@ -421,25 +423,27 @@ namespace NIRSDAQ
 
                         for (int i = 0; i < nsamples; i++)
                         {
-                            double[] d = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).Getdata();
-                            for (int j = 0; j < d.Length; j++)
-                            {
-                                data.data[j].Add(d[j]);
-                            }
-                           
-                             double time = data.time.Count / fs + dt;
-                            /*
-                            if (_info.numAux > 0)
-                            {
-                                double[] aux = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).GetdataAux();
-                                for (int j = 0; j < aux.Length; j++)
+                            if (((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).canmeasure()){
+                                double[] d = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).Getdata();
+                                for (int j = 0; j < d.Length; j++)
                                 {
-                                    data.auxillaries[j].data.Add(aux[j]);
-                                    data.auxillaries[j].time.Add(time);
+                                    data.data[j].Add(d[j]);
                                 }
-                            } */
-                            data.time.Add(time);
-                            data.numsamples = data.time.Count;
+
+                                double time = data.time.Count / fs + dt;
+                                
+                                if (_info.numAux > 0)
+                                {
+                                    double[] aux = ((NIRSDAQ.Instrument.Devices.TechEn.BTnirs)device).GetdataAux();
+                                    for (int j = 0; j < aux.Length; j++)
+                                    {
+                                        data.auxillaries[j].data.Add(aux[j]);
+                                        data.auxillaries[j].time.Add(time);
+                                    }
+                                } 
+                                data.time.Add(time);
+                                data.numsamples = data.time.Count;
+                            }
                         }
 
                         

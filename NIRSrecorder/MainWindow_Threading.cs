@@ -90,6 +90,7 @@ public partial class MainWindow : Window
             SCIupdate = new Thread(UpdateSCI);
 
             maindisplaythread = new Thread(Updatedata);
+            threadlock = false;
             maindisplaythread.Start(); // start the timing thread to update the display
             SCIupdate.Start();
             for (int i = 0; i < MainClass.devices.Length; i++)
@@ -366,6 +367,13 @@ public partial class MainWindow : Window
     //-----------------------------------------------------------------------
     protected void Updatedata()
     {
+        if (threadlock)
+        {
+            return;
+        }
+
+        threadlock = true;
+
         // This loop is evoked with the maindisplaythread is started and updates the data display
         try
         {
@@ -495,12 +503,13 @@ public partial class MainWindow : Window
 
             }
         }
-        catch (ThreadAbortException e)
+        catch
         {
            // Console.WriteLine("Thread - caught ThreadAbortException - resetting.");
            // Console.WriteLine("Exception message: {0}", e.Message);
             Thread.ResetAbort();
         }
+        threadlock = false;
     }
 
     protected void ChangeBPF(object sender, EventArgs e)

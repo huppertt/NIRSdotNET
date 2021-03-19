@@ -33,7 +33,7 @@ namespace NIRSDAQ
 
                 public int _nsrcs = 32;
                 public int _ndets = 32;
-                public int _naux = 0;
+                public int _naux = 4;
 
                 // num measurements
                 private int _nmeas = 24;
@@ -229,8 +229,13 @@ namespace NIRSDAQ
                 }
 
 
-                // Get Data
-                public double[] Getdata()
+                public bool canmeasure()
+                {
+                    return true;
+                }
+
+                    // Get Data
+                    public double[] Getdata()
                 {
                     double[] thisdata = new double[_nmeas];
                     for (int i = 0; i < _nmeas; i++)

@@ -38,7 +38,7 @@ namespace NIRSDAQ
 
                     public int _nsrcs = 8;
                     public int _ndets = 2;
-                    public int _naux = 0;
+                    public int _naux = 7;
 
                     // num measurements
                     private int _nmeas = 32;
@@ -47,11 +47,15 @@ namespace NIRSDAQ
                     private List<int> MLorder;
                     public int[] wavelengths;
 
+                    private bool COMlock;
+                   
                     public void Initialize(nirs.core.Probe probe)
                     {
                         // Sets the mapping between data and the probe.
 
-                        wavelengths = new int[] { 735, 850 };
+                        COMlock = false;
+
+                         wavelengths = new int[] { 735, 850 };
                         int[] DetIdx = new int[] { 1, 5, 1, 5, 1, 5, 1, 5, 2, 6, 2, 6, 2, 6, 2, 6, 3, 7, 3, 7, 3, 7, 3, 7, 4, 8, 4, 8, 4, 8, 4, 8 };
                         int[] SrcIdx = new int[] { 1, 3, 1, 3, 2, 4, 2, 4, 1, 3, 1, 3, 2, 4, 2, 4, 1, 3, 1, 3, 2, 4, 2, 4, 1, 3, 1, 3, 2, 4, 2, 4 };
                         int[] TypIdx = new int[] { 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2 };
@@ -207,7 +211,11 @@ namespace NIRSDAQ
                                         foundports.Add(ports[i]);
                                     }
 
-                                    
+                                
+
+
+
+
                                 }
                                 catch
                                 {
@@ -238,6 +246,14 @@ namespace NIRSDAQ
 
                         if (isconnected)
                         {
+
+                            Thread.Sleep(250);
+                            SendCommMsg("GGT");
+                            string msg = ReadCommMsg();
+                            SendCommMsg("SGT 14");
+
+                            SendCommMsg("SFT 1");
+
                             SetSampleRate(sample_rate);
 
                             isrunning = true;
@@ -378,7 +394,7 @@ namespace NIRSDAQ
                         if (gain > 127) { gain = 127; }
                         detgains[dIdx] = gain;
 
-                        SendCommMsg(String.Format("SDG {0} {1}", dIdx+1, gain));
+                        SendCommMsg(String.Format("SDG {0} {1}", dIdx+1, 128-gain));
 
                     }
 
@@ -415,25 +431,40 @@ namespace NIRSDAQ
 
                     }
 
+                    public bool canmeasure()
+                    {
+                        int cnt = 9999;
+                        for (int i = 0; i < dataqueue.Length; i++)
+                        {
+                            if (cnt > dataqueue[i].Count) { cnt = dataqueue[i].Count; }
+                        }
+                        return (cnt > 0);
+                    }
+
+
+                    public bool canmeasureaux()
+                    {
+                        int cnt = 9999;
+                        for (int i = 0; i < auxqueue.Length; i++)
+                        {
+                            if (cnt > auxqueue[i].Count) { cnt = auxqueue[i].Count; }
+                        }
+                        return (cnt > 0);
+                    }
+
 
                     // Get Data from the instrument and place in data queue
                     public double[] Getdata()
                     {
 
-                        int cnt = 9999;
-                        for (int i=0; i<dataqueue.Length; i++)
-                        {
-                            if(cnt> dataqueue[i].Count) { cnt = dataqueue[i].Count; }
-                        }
-                       
+
 
                         double[] thisdata = new double[_nmeas];
                         for (int i = 0; i < _nmeas; i++)
                         {
-                            if (cnt > 0)
-                            {
-                                thisdata[i] = (double)dataqueue[MLorder[i]].Dequeue();
-                            }
+
+                            thisdata[i] = (double)dataqueue[MLorder[i]].Dequeue();
+
                         }
                         return thisdata;
                     }
@@ -443,20 +474,10 @@ namespace NIRSDAQ
                     public double[] GetdataAux()
                     {
 
-                        int cnt = 9999;
-                        for (int i = 0; i < auxqueue.Length; i++)
-                        {
-                            if (cnt > auxqueue[i].Count) { cnt = auxqueue[i].Count; }
-                        }
-
-
                         double[] thisdata = new double[_naux];
                         for (int i = 0; i < _naux; i++)
                         {
-                            if (cnt > 0)
-                            {
                                 thisdata[i] = (double)auxqueue[i].Dequeue();
-                            }
                         }
                         return thisdata;
                     }
@@ -514,8 +535,16 @@ namespace NIRSDAQ
 
                             while (isrunning)
                             {
+
                                 if (_serialPort.BytesToRead > wordsperrecord)
                                 {
+
+                                    while (COMlock)
+                                    {
+                                        Thread.Sleep(1);
+                                    }
+                                    COMlock = true;
+
                                     uint startPack1 = new uint();
                                     uint startPack2 = 0;
                                     while (startPack1 != 160 | startPack2 != 162)
@@ -530,47 +559,71 @@ namespace NIRSDAQ
                                     //int nsamp = sample_rate / 10;
 
                                     byte[] data = new byte[64 * nsamp + 11];
-                                    _ = _serialPort.Read(data, 0, data.Length);
 
-                                    int count = 0;
-                                    for (int pack = 0; pack < nsamp; pack++)
+                                    int readbye = _serialPort.Read(data, 0, data.Length);
+                                    COMlock = false;
+
+                                    if (readbye != data.Length)
                                     {
-                                        for (int i = 0; i < _nmeas; i++)
-                                        {
-                                            double value = data[count] * 256 + data[count + 1];
-                                            dataqueue[i].Enqueue(value);
-                                            count += 2;
-
-                                        }
+                                        Console.WriteLine("Abnormal end of data message encountered");
                                     }
+
                                     //uint bat = (uint)data[64 * nsamp];
                                     battery = BatteryString(data[64 * nsamp]);
                                     int temp = (int)data[64 * nsamp + 1];
-                                    uint reserve1 = (uint)data[64 * nsamp + 2];
-                                    uint reserve2 = (uint)data[64 * nsamp + 3];
+                                    double reserve1 = (double)data[64 * nsamp + 2];
+                                    double reserve2 = (double)data[64 * nsamp + 3];
 
-                                    uint ACCX = (uint)data[64 * nsamp + 4];
-                                    uint ACCY = (uint)data[64 * nsamp + 5];
-                                    uint ACCZ = (uint)data[64 * nsamp + 6];
+                                    double ACCX = (double)data[64 * nsamp + 4];
+                                    double ACCY = (double)data[64 * nsamp + 5];
+                                    double ACCZ = (double)data[64 * nsamp + 6];
 
-                                    uint CRC1 = (uint)data[64 * nsamp + 7];
-                                    uint CRC2 = (uint)data[64 * nsamp + 8];
+                                    double CRC1 = (double)data[64 * nsamp + 7];
+                                    double CRC2 = (double)data[64 * nsamp + 8];
 
                                     int endPack1 = data[64 * nsamp + 9]; // should be 176 = 0xB0
                                     int endPack2 = data[64 * nsamp + 10]; // should be 179 = 0xB3
 
-                                //    auxqueue[0].Enqueue(reserve1);
-                                //    auxqueue[1].Enqueue(reserve2);
-                                //    auxqueue[2].Enqueue(ACCX);
-                                //    auxqueue[3].Enqueue(ACCY);
-                                //    auxqueue[4].Enqueue(ACCZ);
-                                //    auxqueue[5].Enqueue(CRC1);
-                                //    auxqueue[6].Enqueue(CRC2);
+                                    if (endPack1 == 176 & endPack2 == 179)
+                                    {
 
+                                        int count = 0;
+                                        for (int pack = 0; pack < nsamp; pack++)
+                                        {
+                                            for (int i = 0; i < _nmeas; i++)
+                                            {
+                                                double value = data[count] * 256 + data[count + 1];
+                                                dataqueue[i].Enqueue(value);
+                                                
+                                                //Console.Write(data[count]);
+                                                //Console.Write("&");
+                                                //Console.Write(data[count+1]);
+                                                //Console.Write(",");
+                                                count += 2;
+                                            }
+                                           // Console.WriteLine("");
+                                        }
+
+
+                                        auxqueue[0].Enqueue(reserve1);
+                                        auxqueue[1].Enqueue(reserve2);
+                                        auxqueue[2].Enqueue(ACCX);
+                                        auxqueue[3].Enqueue(ACCY);
+                                        auxqueue[4].Enqueue(ACCZ);
+                                        auxqueue[5].Enqueue(CRC1);
+                                        auxqueue[6].Enqueue(CRC2);
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Abnormal end of data message encountered");
+                                        COMlock = false;
+                                    }
+                                   
                                 }
-
+                                
                                 Thread.Sleep(wait);
                             }
+                            COMlock = false;
                         }
                       
                     }
@@ -654,7 +707,7 @@ namespace NIRSDAQ
                             }
 
                         }
-                        
+                        COMlock = false;
                         return flag;
                     }
 
@@ -663,7 +716,11 @@ namespace NIRSDAQ
                     // Helper function for safe comm write 
                     public bool SendCommMsg(string msg)
                     {
-                        
+                        while (COMlock)
+                        {
+                            Thread.Sleep(5);
+                        }
+                        COMlock = true;
                         bool flag = false;
                         if (isconnected)
                         {
@@ -692,12 +749,19 @@ namespace NIRSDAQ
                                 flag = false;
                             }
                         }
+                        COMlock = false;
                         return flag;
                     }
 
                     // Safe serial port read
                     public string ReadCommMsg()
                     {
+                        while (COMlock)
+                        {
+                            Thread.Sleep(5);
+                        }
+                        COMlock = true;
+
                         string msg = null;
                         if (isconnected)
                         {
@@ -730,6 +794,7 @@ namespace NIRSDAQ
 
                             
                         }
+                        COMlock = false;
                         return msg;
                     }
 

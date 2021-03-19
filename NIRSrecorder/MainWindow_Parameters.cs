@@ -31,6 +31,8 @@ public partial class MainWindow : Window
 
     public DateTime lastscantime;
 
+    private bool threadlock;
+
 #if ADDLSL
     public LSL.liblsl.StreamOutlet stimulusLSL;
     public LSL.liblsl.StreamInlet stimulusInLSL;

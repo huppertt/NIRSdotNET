@@ -123,7 +123,7 @@ public partial class MainWindow : Window
         combobox_statusBattery.Active = 0;
 
         batteryCheck = new Thread(CheckBatteryWrapper);
-        batteryCheck.Start();
+      //  batteryCheck.Start();
 
         ShowSystemMessagingAction.Active = settings.DEBUG;
 
@@ -628,7 +628,7 @@ private void EditStimTableName(object o, EditedArgs args)
     {
     }
 
-    [GLib.ConnectBeforeAttribute]
+    //[GLib.ConnectBeforeAttribute]
     protected void StimNode_Clicked(object o, ButtonPressEventArgs args)
     {
         if (args.Event.Button == 3)
@@ -646,7 +646,7 @@ private void EditStimTableName(object o, EditedArgs args)
         }
     }
 
-    [GLib.ConnectBeforeAttribute]
+   // [GLib.ConnectBeforeAttribute]
     private void SDcontextmenu(object o, ButtonPressEventArgs args)
     {
         if (args.Event.Button == 3)
@@ -679,7 +679,7 @@ private void EditStimTableName(object o, EditedArgs args)
         }
     }
 
-    [GLib.ConnectBeforeAttribute]
+  //  [GLib.ConnectBeforeAttribute]
     private void SDcontextmenu2(object o, ButtonPressEventArgs args)
     {
         if (args.Event.Button == 3)
@@ -1015,7 +1015,7 @@ private void EditStimTableName(object o, EditedArgs args)
                 }
             }
             //  Dispose();
-            Destroy();
+            //Destroy();
         }
         catch { }
         System.Windows.Forms.Application.ExitThread();
@@ -1027,13 +1027,13 @@ private void EditStimTableName(object o, EditedArgs args)
     protected override bool OnConfigureEvent(Gdk.EventConfigure evnt)
     {
 
-        if (maindisplaythread != null)
-        {
-            if (maindisplaythread.IsAlive)
-            {
-                displayHold = true;
-            }
-        }
+        //if (maindisplaythread != null)
+        //{
+        //    if (maindisplaythread.IsAlive)
+        //    {
+        //        displayHold = true;
+        //    }
+        //}
 
         bool flag = base.OnConfigureEvent(evnt);
 
