@@ -8,12 +8,13 @@ using MathNet.Numerics.IntegralTransforms;
 using System.IO;
 using System.Diagnostics;
 
+
 public partial class MainWindow : Window
 {
     protected void InitializeData()
     {
 
-
+     
         nirsdata[0].stimulus = new List<nirs.Stimulus>();
         int cnt = 0;
         for (int i = 0; i < MainClass.devices.Length; i++)
@@ -78,6 +79,12 @@ public partial class MainWindow : Window
                 TempFileName = System.IO.Path.Combine(paths);
                 TempfileStream = new FileStream(TempFileName, FileMode.OpenOrCreate);
                 TempStreamWriter = new StreamWriter(TempfileStream, System.Text.Encoding.ASCII);
+            }
+
+            bool flag = checkbutton1.Active;
+            for (int i = 0; i < MainClass.devices.Length; i++)
+            {
+                MainClass.devices[i].SetFilter(flag);
             }
 
             buttonStartDAQ.Label = "Stop";

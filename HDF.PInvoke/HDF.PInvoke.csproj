@@ -28,7 +28,6 @@
     <OutputPath>bin\HDF5 1.8 Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\HDF5 1.8 Debug\HDF.PInvoke.XML</DocumentationFile>

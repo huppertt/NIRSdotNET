@@ -1042,8 +1042,17 @@ private void EditStimTableName(object o, EditedArgs args)
         return flag;
     }
 
+    protected void ChangeHWfilter(object sender, EventArgs e)
+    {
 
+        bool flag = checkbutton1.Active;
 
+        for(int i=0; i<MainClass.devices.Length; i++)
+        {
+            MainClass.devices[i].SetFilter(flag);
+        }
+
+    }
 }
 
 

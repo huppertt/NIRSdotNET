@@ -72,14 +72,14 @@
       <HintPath>..\packages\MathNet.Filtering.Kalman.0.7.0\lib\net461\MathNet.Filtering.Kalman.dll</HintPath>
     </Reference>
     <Reference Include="System.Management" />
-    <Reference Include="HDF.PInvoke">
-      <HintPath>..\packages\HDF.PInvoke.NETStandard.1.10.502\lib\netstandard2.0\HDF.PInvoke.dll</HintPath>
-    </Reference>
     <Reference Include="System.ValueTuple">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="csmatio">
+      <HintPath>..\packages\csmatio.1.0.20\lib\netstandard2.0\csmatio.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -112,16 +112,28 @@
     <Compile Include="gtk-gui\NIRSrecorder.AboutDialog.cs" />
     <Compile Include="RegisterSubjectDialog.cs" />
     <Compile Include="gtk-gui\NIRSrecorder.RegisterSubjectDialog.cs" />
+    <Compile Include="CData.cs" />
+    <Compile Include="CProbe.cs" />
+    <Compile Include="Definitions.cs" />
+    <Compile Include="DefinitionsSNIRF.cs" />
+    <Compile Include="GetSpectrum.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="io_DOTnirs.cs" />
+    <Compile Include="io_loadProbe.cs" />
+    <Compile Include="io_NIRx.cs" />
+    <Compile Include="io_SNIRF.cs">
+      <IncludeInPackage>true</IncludeInPackage>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="io_SNIRF_info.cs" />
+    <Compile Include="io_SNIRF_Read.cs" />
+    <Compile Include="io_SNIRF_Validate.cs" />
+    <Compile Include="BTNIRS.cs" />
+    <Compile Include="Instrument.cs" />
+    <Compile Include="Simulator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NIRSDAQ\NIRSDAQ.csproj">
-      <Project>{AD341F6F-9ABF-4462-BD8D-4531A8113EA7}</Project>
-      <Name>NIRSDAQ</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SNIRF\NIRSdotNET.csproj">
-      <Project>{66CEE40B-4A70-4432-A819-AA5C63994685}</Project>
-      <Name>NIRSdotNET</Name>
-    </ProjectReference>
     <ProjectReference Include="..\myLSLlibrary\myLSLlibrary.csproj">
       <Project>{F8D3FE64-31F7-4934-BD69-4942DE6F5850}</Project>
       <Name>myLSLlibrary</Name>
@@ -147,6 +159,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="techen.ico" />
+    <None Include="DefaultConfig.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="pts1020.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
