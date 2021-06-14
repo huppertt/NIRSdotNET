@@ -3,14 +3,19 @@
   <MonoDevelop.Ide.ItemProperties.SNIRFvalidator PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="NIRSrecorder/MainWindow.cs">
     <Files>
-      <File FileName="NIRSrecorder/MainWindow.cs" Line="27" Column="1" />
+      <File FileName="NIRSrecorder/Config.xml" Line="1" Column="1" />
+      <File FileName="NIRSrecorder/AboutDialog.cs" />
+      <File FileName="NIRSrecorder/Program.cs" />
+      <File FileName="NIRSrecorder/Splash.cs" />
+      <File FileName="NIRSrecorder/gtk-gui/MainWindow.cs" />
+      <File FileName="NIRSrecorder/MainWindow.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="NIRSdotNET" expanded="True">
             <Node name="NIRSrecorder" expanded="True">
-              <Node name="MainWindow.cs" selected="True" />
+              <Node name="Splash.cs" selected="True" />
             </Node>
           </Node>
         </State>

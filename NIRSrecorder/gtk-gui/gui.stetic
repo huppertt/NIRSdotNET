@@ -313,7 +313,7 @@
     <property name="HeightRequest">800</property>
     <property name="CanFocus">True</property>
     <property name="Title" translatable="yes">NIRS RecordIR</property>
-    <property name="Icon">resource:NIRSrecorder.techen.ico</property>
+    <property name="Icon">resource:NIRSrecorder.bin.Debug.extra.techen.ico</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Modal">True</property>
     <property name="BorderWidth">6</property>
@@ -3503,7 +3503,7 @@ Laser 4 On
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="NIRSrecorder.Splash" design-size="1010 1211">
+  <widget class="Gtk.Window" id="NIRSrecorder.Splash" design-size="1165 1752">
     <property name="MemberName" />
     <property name="Title" translatable="yes">Splash</property>
     <property name="TypeHint">Splashscreen</property>
@@ -3522,6 +3522,7 @@ Laser 4 On
             <child>
               <widget class="Gtk.Image" id="image32">
                 <property name="MemberName" />
+                <property name="Pixbuf">resource:NIRSrecorder.bin.Debug.extra.Splash.gif</property>
               </widget>
               <packing>
                 <property name="X">435</property>
@@ -4002,7 +4003,7 @@ Laser 4 On
                     <property name="Editable">False</property>
                     <property name="CursorVisible">False</property>
                     <property name="Text" translatable="yes">
-Version 0.1  (April 22nd 2020)
+Version 0.2  (April 21nd 2021)
 
 Written by T. Huppert
 huppert1@pitt.edu
