@@ -104,6 +104,22 @@ namespace nirs
 
             }
 
+            public List<string> getTypes()
+            {
+                List<string> types = new List<string>();
+                for(int i=0; i<ChannelMap.Length; i++)
+                {
+                    if (!types.Contains(ChannelMap[i].datasubtype))
+                    {
+                        types.Add(ChannelMap[i].datasubtype);
+                    }
+
+                }
+                return types;
+
+            }
+
+
             public nirs.core.Probe Clone(){
                 nirs.core.Probe other = new Probe();
 

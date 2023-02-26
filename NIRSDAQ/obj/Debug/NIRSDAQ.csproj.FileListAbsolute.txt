@@ -46,7 +46,7 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/System.Security.Principal.Windows.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/System.Security.AccessControl.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/bin/Debug/HDF.PInvoke.dll.config
-/Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/obj/Debug/NIRSDAQ.csprojAssemblyReference.cache
+/Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/obj/Debug/NIRSDAQ.csproj.AssemblyReference.cache
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/obj/Debug/NIRSDAQ.csproj.CoreCompileInputs.cache
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/obj/Debug/NIRSDAQ.csproj.CopyComplete
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRSDAQ/obj/Debug/NIRSDAQ.dll

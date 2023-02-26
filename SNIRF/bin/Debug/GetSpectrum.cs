@@ -3,8 +3,7 @@ using System.Xml;
 
 namespace nirs
 {
-
-    public class Media
+    public partial class Media
     {
         private int[] lambda;
         private double[] Exthbo;

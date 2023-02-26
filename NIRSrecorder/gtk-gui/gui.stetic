@@ -936,7 +936,7 @@ Type 4</property>
                             <property name="WidthRequest">524</property>
                             <property name="HeightRequest">200</property>
                             <property name="CanFocus">True</property>
-                            <property name="CurrentPage">7</property>
+                            <property name="CurrentPage">5</property>
                             <property name="TabPos">Left</property>
                             <property name="BorderWidth">6</property>
                             <child>

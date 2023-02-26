@@ -124,24 +124,45 @@ namespace nirs
             {
                 lambda = MLlambda.GetArray();
 
-
-
-
-                MLDouble mlMeasList = (mfr.Content["ml"] as MLDouble);
-                if (mlMeasList != null)
+                if (mfr.Content.ContainsKey("ml"))
                 {
-                    double[][] ml = mlMeasList.GetArray();
-                    data.probe.ChannelMap = new ChannelMap[ml.Length];
-                    for (int i = 0; i < ml.Length; i++)
+
+
+                    MLDouble mlMeasList = (mfr.Content["ml"] as MLDouble);
+                    if (mlMeasList != null)
                     {
-                        data.probe.ChannelMap[i] = new ChannelMap();
-                        data.probe.ChannelMap[i].sourceindex = (int)ml[i][0] - 1;
-                        data.probe.ChannelMap[i].detectorindex = (int)ml[i][1] - 1;
-                        data.probe.ChannelMap[i].channelname = String.Format("Src{0}-Det{1}",
-                                                                             data.probe.ChannelMap[i].sourceindex + 1,
-                                                                             data.probe.ChannelMap[i].detectorindex + 1);
-                        data.probe.ChannelMap[i].wavelength = lambda[0][(int)ml[i][3] - 1];
-                        data.probe.ChannelMap[i].datasubtype = String.Format("{0}nm", data.probe.ChannelMap[i].wavelength);
+                        double[][] ml = mlMeasList.GetArray();
+                        data.probe.ChannelMap = new ChannelMap[ml.Length];
+                        for (int i = 0; i < ml.Length; i++)
+                        {
+                            data.probe.ChannelMap[i] = new ChannelMap();
+                            data.probe.ChannelMap[i].sourceindex = (int)ml[i][0] - 1;
+                            data.probe.ChannelMap[i].detectorindex = (int)ml[i][1] - 1;
+                            data.probe.ChannelMap[i].channelname = String.Format("Src{0}-Det{1}",
+                                                                                 data.probe.ChannelMap[i].sourceindex + 1,
+                                                                                 data.probe.ChannelMap[i].detectorindex + 1);
+                            data.probe.ChannelMap[i].wavelength = lambda[0][(int)ml[i][3] - 1];
+                            data.probe.ChannelMap[i].datasubtype = String.Format("{0}nm", data.probe.ChannelMap[i].wavelength);
+                        }
+                    }
+                }else if (SD.Keys.Contains("MeasList"))
+                {
+                    MLDouble mlMeasList = (SD["MeasList"] as MLDouble);
+                    if (mlMeasList != null)
+                    {
+                        double[][] ml = mlMeasList.GetArray();
+                        data.probe.ChannelMap = new ChannelMap[ml.Length];
+                        for (int i = 0; i < ml.Length; i++)
+                        {
+                            data.probe.ChannelMap[i] = new ChannelMap();
+                            data.probe.ChannelMap[i].sourceindex = (int)ml[i][0] - 1;
+                            data.probe.ChannelMap[i].detectorindex = (int)ml[i][1] - 1;
+                            data.probe.ChannelMap[i].channelname = String.Format("Src{0}-Det{1}",
+                                                                                 data.probe.ChannelMap[i].sourceindex + 1,
+                                                                                 data.probe.ChannelMap[i].detectorindex + 1);
+                            data.probe.ChannelMap[i].wavelength = lambda[0][(int)ml[i][3] - 1];
+                            data.probe.ChannelMap[i].datasubtype = String.Format("{0}nm", data.probe.ChannelMap[i].wavelength);
+                        }
                     }
                 }
             }

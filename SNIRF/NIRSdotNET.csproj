@@ -90,6 +90,9 @@
     </Compile>
     <Compile Include="io_SNIRF_info.cs" />
     <Compile Include="io_SNIRF_Validate.cs" />
+    <Compile Include="CSession.cs" />
+    <Compile Include="CPipeline.cs" />
+    <Compile Include="Cmodules.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
