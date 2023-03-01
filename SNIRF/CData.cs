@@ -22,6 +22,7 @@ namespace nirs
             public int numsamples;
             public Color[] stimcolor;
             public auxillary[] auxillaries;
+            public Guid UUID;
 
             public Data()
             {

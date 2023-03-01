@@ -42,6 +42,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="TestPlugIn.cs" />
+    <Compile Include="ExportData.cs" />
+    <Compile Include="ImportData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SNIRF\NIRSdotNET.csproj">

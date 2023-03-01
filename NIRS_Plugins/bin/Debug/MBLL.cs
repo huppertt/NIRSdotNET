@@ -101,7 +101,7 @@ namespace NIRS_Plugins
         // This is the actual code that is called by the plugin
         public object Run(object data)
         {
-            data = (nirs.core.Data)data;
+            data = ((nirs.core.Data)data).Clone();
 
 
 

@@ -1,22 +1,35 @@
 ﻿<Properties StartupConfiguration="{3E984478-3EAB-4513-A4DF-5CEF9ADB0271}|Default">
   <MonoDevelop.Ide.ItemProperties.NIRSrecorder PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.ItemProperties.SNIRFvalidator PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SNIRF/CSession.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../rtfNIRS/rtfNIRS/MainWindow.cs">
     <Files>
-      <File FileName="../rtfNIRS/rtfNIRS/MainWindow.cs" Line="394" Column="1" />
-      <File FileName="../rtfNIRS/rtfNIRS/PipelineManager.cs" />
+      <File FileName="../rtfNIRS/rtfNIRS/PipelineManager.cs" Line="362" Column="1" />
       <File FileName="../rtfNIRS/rtfNIRS/Program.cs" />
-      <File FileName="SNIRF/CSession.cs" Line="29" Column="14" />
+      <File FileName="SNIRF/CSession.cs" />
+      <File FileName="../rtfNIRS/rtfNIRS/MainWindow.cs" />
+      <File FileName="NIRS_Plugins/Generic.cs" />
+      <File FileName="NIRS_Plugins/MBLL.cs" />
+      <File FileName="NIRS_Plugins/TestPlugIn.cs" />
+      <File FileName="SNIRF/io_loadProbe.cs" />
+      <File FileName="NIRS_Plugins/ExportData.cs" />
+      <File FileName="NIRS_Plugins/ImportData.cs" />
+      <File FileName="SNIRF/CData.cs" />
+      <File FileName="SNIRF/Cmodules.cs" />
+      <File FileName="../rtfNIRS/rtfNIRS/gtk-gui/MainWindow.cs" />
+      <File FileName="../rtfNIRS/rtfNIRS/StimulusDesignGUI.cs" />
+      <File FileName="NIRSrecorder/MainWindow.cs" />
+      <File FileName="NIRSrecorder/RegisterSubjectDialog.cs" />
+      <File FileName="NIRSrecorder/MainWindow_Controls.cs" />
+      <File FileName="NIRSrecorder/MainWindow_Threading.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="NIRSdotNET" expanded="True">
-            <Node name="NIRS_Plugins" expanded="True" />
-            <Node name="NIRSdotNET" expanded="True">
-              <Node name="CSession.cs" selected="True" />
+            <Node name="NIRSrecorder" expanded="True" />
+            <Node name="rtfNIRS" expanded="True">
+              <Node name="MainWindow.cs" selected="True" />
             </Node>
-            <Node name="rtfNIRS" expanded="True" />
           </Node>
         </State>
       </Pad>
@@ -29,7 +42,9 @@
     <String>/Users/theodorehuppert/Library/Caches/VisualStudio/8.0/Symbols/mono/corefx/c4eeab9fc2faa0195a812e552cd73ee298d39386</String>
   </Debugger.DebugSourceFolders>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/theodorehuppert/Projects/rtfNIRS/rtfNIRS/MainWindow.cs" line="475" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.ItemProperties.rtfNIRS PreferredExecutionTarget="MonoDevelop.Default" />
