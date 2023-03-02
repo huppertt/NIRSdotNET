@@ -58,19 +58,19 @@
     <Compile Include="gtk-gui\rtfNIRS.StimulusDesignGUI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NIRSdotNET\myLSLlibrary\myLSLlibrary.csproj">
-      <Project>{F8D3FE64-31F7-4934-BD69-4942DE6F5850}</Project>
-      <Name>myLSLlibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\NIRSdotNET\HDF.PInvoke\HDF.PInvoke.csproj">
-      <Project>{4450F800-93E2-4D4A-B224-966E2338CDED}</Project>
-      <Name>HDF.PInvoke</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\NIRSdotNET\SNIRF\NIRSdotNET.csproj">
+    <ProjectReference Include="..\..\SNIRF\NIRSdotNET.csproj">
       <Project>{66CEE40B-4A70-4432-A819-AA5C63994685}</Project>
       <Name>NIRSdotNET</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\NIRSdotNET\NIRS_Plugins\NIRS_Plugins.csproj">
+    <ProjectReference Include="..\..\HDF.PInvoke\HDF.PInvoke.csproj">
+      <Project>{4450F800-93E2-4D4A-B224-966E2338CDED}</Project>
+      <Name>HDF.PInvoke</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\myLSLlibrary\myLSLlibrary.csproj">
+      <Project>{F8D3FE64-31F7-4934-BD69-4942DE6F5850}</Project>
+      <Name>myLSLlibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NIRS_Plugins\NIRS_Plugins.csproj">
       <Project>{C0667195-8286-4D48-93E3-9808E6A6444A}</Project>
       <Name>NIRS_Plugins</Name>
     </ProjectReference>

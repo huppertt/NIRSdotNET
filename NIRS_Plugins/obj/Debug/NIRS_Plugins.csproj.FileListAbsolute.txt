@@ -25,8 +25,8 @@
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRS_Plugins/bin/Debug/SNIRF.pdb
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRS_Plugins/bin/Debug/MathNet.Numerics.xml
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRS_Plugins/bin/Debug/HDF.PInvoke.dll.config
+/Users/theodorehuppert/Projects/NIRSdotNET/NIRS_Plugins/obj/Debug/NIRS_Plugins.csproj.AssemblyReference.cache
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRS_Plugins/obj/Debug/NIRS_Plugins.csproj.CoreCompileInputs.cache
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRS_Plugins/obj/Debug/NIRS_Plugins.csproj.CopyComplete
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRS_Plugins/obj/Debug/NIRS_Plugins.dll
 /Users/theodorehuppert/Projects/NIRSdotNET/NIRS_Plugins/obj/Debug/NIRS_Plugins.pdb
-/Users/theodorehuppert/Projects/NIRSdotNET/NIRS_Plugins/obj/Debug/NIRS_Plugins.csproj.AssemblyReference.cache

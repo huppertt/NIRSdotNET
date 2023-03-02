@@ -1,0 +1,16 @@
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/NIRSdataconverter/bin/Debug/pts1020.xml
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/NIRSdataconverter/bin/Debug/HemoglobinSpectrum.xml
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/NIRSdataconverter/bin/Debug/io_SNIRF.cs
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/NIRSdataconverter/bin/Debug/GetSpectrum.cs
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/NIRSdataconverter/bin/Debug/DefaultConfig.xml
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/NIRSdataconverter/bin/Debug/NIRSdataconverter.exe
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/NIRSdataconverter/bin/Debug/NIRSdataconverter.pdb
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/NIRSdataconverter/bin/Debug/SNIRF.dll
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/NIRSdataconverter/bin/Debug/csmatio.dll
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/NIRSdataconverter/bin/Debug/HDF.PInvoke.dll
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/NIRSdataconverter/bin/Debug/SNIRF.pdb
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/NIRSdataconverter/bin/Debug/HDF.PInvoke.dll.config
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/NIRSdataconverter/obj/Debug/NIRSdataconverter.csproj.CoreCompileInputs.cache
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/NIRSdataconverter/obj/Debug/NIRSdataconverter.csproj.CopyComplete
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/NIRSdataconverter/obj/Debug/NIRSdataconverter.exe
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/NIRSdataconverter/obj/Debug/NIRSdataconverter.pdb

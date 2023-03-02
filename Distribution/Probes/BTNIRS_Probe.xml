@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<probe>
+	<wavelength> 850 </wavelength>
+	<wavelength> 735 </wavelength>
+
+	<srcpos> <index> 1 </index><x> 80 </x> <y> -21.25 </y> </srcpos>
+	<srcpos> <index> 2 </index><x> 30 </x> <y> 28.75 </y> </srcpos>
+	<srcpos> <index> 3 </index><x> -80 </x> <y> -21.25 </y> </srcpos>
+	<srcpos> <index> 4 </index><x> -30 </x> <y> 28.75 </y> </srcpos>
+
+	<srcpos3D> <index> 1 </index> <x> 60.7226 </x> <y> 64.7282 </y> <z> 3.2168 </z> </srcpos3D>
+	<srcpos3D> <index> 2 </index> <x> 22.6589 </x> <y> 62.7189 </y> <z> 57.5756 </z> </srcpos3D>
+	<srcpos3D> <index> 3 </index> <x> -60.8507 </x> <y> 64.8654 </y> <z> 3.29659 </z> </srcpos3D>
+	<srcpos3D> <index> 4 </index> <x> -22.9341 </x> <y> 63.4655 </y> <z> 58.6842 </z> </srcpos3D>
+
+	<detpos> <index> 1 </index> <x> 60 </x> <y> 18.75 </y> </detpos>
+	<detpos> <index> 2 </index> <x> 40 </x> <y> -21.25 </y> </detpos>
+	<detpos> <index> 3 </index> <x> 50 </x> <y> -1.25 </y> </detpos>
+	<detpos> <index> 4 </index> <x> 20 </x> <y> -11.25 </y> </detpos>
+	<detpos> <index> 5 </index> <x> -60 </x> <y> 18.75 </y> </detpos>
+	<detpos> <index> 6 </index> <x> -40 </x> <y> -21.25 </y> </detpos>
+	<detpos> <index> 7 </index> <x> -50 </x> <y> -1.25 </y> </detpos>
+	<detpos> <index> 8 </index> <x> -20 </x> <y> -11.25 </y> </detpos>
+
+	<detpos3D> <index> 1 </index> <x> 46.4364 </x> <y> 55.2209 </y> <z> 43.0859 </z> </detpos3D>
+	<detpos3D> <index> 2 </index> <x> 32.9388 </x> <y> 85.9934 </y> <z> 14.1335 </z> </detpos3D>
+	<detpos3D> <index> 3 </index> <x> 40.1774 </x> <y> 72.0263 </y> <z> 29.1421 </z> </detpos3D>
+	<detpos3D> <index> 4 </index> <x> 16.7866 </x> <y> 87.6089 </y> <z> 25.716 </z> </detpos3D>
+	<detpos3D> <index> 5 </index> <x> -46.4549 </x> <y> 55.2425 </y> <z> 43.1166 </z> </detpos3D>
+	<detpos3D> <index> 6 </index> <x> -32.9716 </x> <y> 86.0781 </y> <z> 14.1813 </z> </detpos3D>
+	<detpos3D> <index> 7 </index> <x> -40.9685 </x> <y> 73.4202 </y> <z> 30.3797 </z> </detpos3D>
+	<detpos3D> <index> 8 </index> <x> -16.7946 </x> <y> 87.6501 </y> <z> 25.7443 </z> </detpos3D>
+
+	<ml> <src> 1 </src> <det> 1 </det> </ml>
+	<ml> <src> 1 </src> <det> 2 </det> </ml>
+	<ml> <src> 1 </src> <det> 3 </det> </ml>
+	<ml> <src> 1 </src> <det> 4 </det> </ml>
+	<ml> <src> 2 </src> <det> 1 </det> </ml>
+	<ml> <src> 2 </src> <det> 2 </det> </ml>
+	<ml> <src> 2 </src> <det> 3 </det> </ml>
+	<ml> <src> 2 </src> <det> 4 </det> </ml>
+	<ml> <src> 3 </src> <det> 5 </det> </ml>
+	<ml> <src> 3 </src> <det> 6 </det> </ml>
+	<ml> <src> 3 </src> <det> 7 </det> </ml>
+	<ml> <src> 3 </src> <det> 8 </det> </ml>
+	<ml> <src> 4 </src> <det> 5 </det> </ml>
+	<ml> <src> 4 </src> <det> 6 </det> </ml>
+	<ml> <src> 4 </src> <det> 7 </det> </ml>
+	<ml> <src> 4 </src> <det> 8 </det> </ml>
+</probe>

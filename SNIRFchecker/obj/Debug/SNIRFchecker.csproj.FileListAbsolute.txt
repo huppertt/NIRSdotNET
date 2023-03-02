@@ -1,0 +1,17 @@
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/SNIRFchecker/bin/Debug/pts1020.xml
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/SNIRFchecker/bin/Debug/HemoglobinSpectrum.xml
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/SNIRFchecker/bin/Debug/io_SNIRF.cs
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/SNIRFchecker/bin/Debug/GetSpectrum.cs
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/SNIRFchecker/bin/Debug/DefaultConfig.xml
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/SNIRFchecker/bin/Debug/SNIRFchecker.exe
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/SNIRFchecker/bin/Debug/SNIRFchecker.pdb
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/SNIRFchecker/bin/Debug/SNIRF.dll
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/SNIRFchecker/bin/Debug/csmatio.dll
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/SNIRFchecker/bin/Debug/HDF.PInvoke.dll
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/SNIRFchecker/bin/Debug/SNIRF.pdb
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/SNIRFchecker/bin/Debug/HDF.PInvoke.dll.config
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/SNIRFchecker/obj/Debug/SNIRFchecker.csproj.AssemblyReference.cache
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/SNIRFchecker/obj/Debug/SNIRFchecker.csproj.CoreCompileInputs.cache
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/SNIRFchecker/obj/Debug/SNIRFchecker.csproj.CopyComplete
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/SNIRFchecker/obj/Debug/SNIRFchecker.exe
+/Users/theodorehuppert/Desktop/NIRSdotNET.nosync/SNIRFchecker/obj/Debug/SNIRFchecker.pdb
