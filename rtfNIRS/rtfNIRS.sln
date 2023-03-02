@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.810.25
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rtfNIRS", "rtfNIRS\rtfNIRS.csproj", "{3E984478-3EAB-4513-A4DF-5CEF9ADB0271}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|anycpu = Debug|anycpu
+		Release|anycpu = Release|anycpu
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3E984478-3EAB-4513-A4DF-5CEF9ADB0271}.Debug|anycpu.ActiveCfg = Debug|anycpu
+		{3E984478-3EAB-4513-A4DF-5CEF9ADB0271}.Debug|anycpu.Build.0 = Debug|anycpu
+		{3E984478-3EAB-4513-A4DF-5CEF9ADB0271}.Release|anycpu.ActiveCfg = Release|anycpu
+		{3E984478-3EAB-4513-A4DF-5CEF9ADB0271}.Release|anycpu.Build.0 = Release|anycpu
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {49FD66D9-8033-4D15-97F8-31939A231EA3}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
+	EndGlobalSection
+EndGlobal

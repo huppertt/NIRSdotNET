@@ -6,7 +6,7 @@
       <File FileName="../rtfNIRS/rtfNIRS/PipelineManager.cs" Line="362" Column="1" />
       <File FileName="../rtfNIRS/rtfNIRS/Program.cs" />
       <File FileName="SNIRF/CSession.cs" />
-      <File FileName="../rtfNIRS/rtfNIRS/MainWindow.cs" />
+      <File FileName="../rtfNIRS/rtfNIRS/MainWindow.cs" Line="18" Column="46" />
       <File FileName="NIRS_Plugins/Generic.cs" />
       <File FileName="NIRS_Plugins/MBLL.cs" />
       <File FileName="NIRS_Plugins/TestPlugIn.cs" />

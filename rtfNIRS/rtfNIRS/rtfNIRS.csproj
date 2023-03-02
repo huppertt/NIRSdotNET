@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">anycpu</Platform>
+    <ProjectGuid>{3E984478-3EAB-4513-A4DF-5CEF9ADB0271}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>rtfNIRS</RootNamespace>
+    <AssemblyName>rtfNIRS</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <ReleaseVersion>1.0</ReleaseVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|anycpu' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <IntermediateOutputPath>obj\anycpu\Debug</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|anycpu' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <IntermediateOutputPath>obj\anycpu\Release</IntermediateOutputPath>
+    <ExternalConsole>false</ExternalConsole>
+    <RunWithWarnings>true</RunWithWarnings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Mono.Posix" />
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="gtk-gui\gui.stetic">
+      <LogicalName>gui.stetic</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="gtk-gui\generated.cs" />
+    <Compile Include="MainWindow.cs" />
+    <Compile Include="gtk-gui\MainWindow.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PipelineManager.cs" />
+    <Compile Include="gtk-gui\rtfNIRS.PipelineManager.cs" />
+    <Compile Include="StimulusDesignGUI.cs" />
+    <Compile Include="gtk-gui\rtfNIRS.StimulusDesignGUI.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\NIRSdotNET\myLSLlibrary\myLSLlibrary.csproj">
+      <Project>{F8D3FE64-31F7-4934-BD69-4942DE6F5850}</Project>
+      <Name>myLSLlibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NIRSdotNET\HDF.PInvoke\HDF.PInvoke.csproj">
+      <Project>{4450F800-93E2-4D4A-B224-966E2338CDED}</Project>
+      <Name>HDF.PInvoke</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NIRSdotNET\SNIRF\NIRSdotNET.csproj">
+      <Project>{66CEE40B-4A70-4432-A819-AA5C63994685}</Project>
+      <Name>NIRSdotNET</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NIRSdotNET\NIRS_Plugins\NIRS_Plugins.csproj">
+      <Project>{C0667195-8286-4D48-93E3-9808E6A6444A}</Project>
+      <Name>NIRS_Plugins</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <GtkDesignInfo generateGettext="False" />
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+</Project>
